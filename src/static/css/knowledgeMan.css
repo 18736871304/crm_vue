@@ -1,0 +1,271 @@
+.step-list {
+    padding: 0.2rem;
+    max-height: 700px;
+    overflow-y: scroll;
+}
+
+.step-list .item-section {
+    display: flex;
+}
+
+.step-list .item-section label {
+    width: 0.7rem;
+    margin-top: 0.06rem;
+    margin-right: 0.08rem;
+    font-size: 0.14rem;
+}
+
+.step-list .item-section .right-content {
+    flex: 1;
+    width: 0;
+}
+
+.step-list .item-section .el-select {
+    display: block;
+    width: 100%;
+}
+
+.answering-doubts .item-section .right-content .el-input__inner{
+  padding: 3px 15px !important;
+}
+
+.item-section {
+    margin-top: 0.08rem;
+}
+
+.item-section .el-input--mini .el-input__inner {
+    line-height: calc(0.3rem - 2px);
+    border-radius: 2px;
+    border: 1px solid rgba(216, 216, 216, 1);
+    font-size: 0.14rem;
+}
+
+.editor-box {
+    border-radius: 2px;
+    border: 1px solid rgba(216, 216, 216, 1);
+    font-size: 0.14rem;
+}
+
+.item-section .el-textarea__inner {
+    overflow: hidden;
+    border-radius: 2px;
+    font-size: 0.14rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.text {
+    min-height: 2rem;
+    height: auto;
+}
+
+.w-e-toolbar {
+    border-bottom: 1px solid rgba(216, 216, 216, 1);
+}
+
+.w-e-text {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    font-size: 0.14rem !important;
+}
+
+table .option {
+    display: inline-block;
+    margin: 0 0.15rem;
+}
+
+table .option.edit {
+    display: inline-block;
+    margin: 0 0.15rem;
+    color: #4985E5;
+}
+
+table .option.delete {
+    display: inline-block;
+    margin: 0 0.15rem;
+    color: #DC220D;
+}
+
+.tab-head {
+    background: rgba(249, 249, 249, 1);
+    border-radius: 0px 2px 0px 0px;
+    border: 1px solid rgba(216, 216, 216, 1);
+    border-bottom: 0;
+    font-size: 0;
+}
+
+.tab-head div {
+    display: inline-block;
+    font-size: 0.13rem;
+    width: 0.56rem;
+    line-height: 0.29rem;
+    color: #686868;
+    text-align: center;
+    cursor: pointer;
+}
+
+.tab-head div.actived {
+    background: #fff;
+    color: #DC240F;
+}
+
+.tab-head div:first-child {
+    border-right: 1px solid rgba(216, 216, 216, 1);
+}
+
+.add-item-wrap .btns {
+    display: flex;
+    align-items: center;
+}
+
+.add-item-wrap .btns .btn {
+    width: 0.84rem;
+    line-height: 0.3rem;
+    border-radius: 2px;
+    border: 1px solid rgba(221, 221, 221, 1);
+    text-align: center;
+    color: #DC220D;
+    font-size: 0.14rem;
+    margin-right: 0.06rem;
+    cursor: pointer;
+}
+
+.add-item-wrap .list {
+    border-radius: 2px;
+    border: 1px solid rgba(216, 216, 216, 1);
+    margin-top: 0.08rem;
+    padding: 0 0.17rem 0.12rem;
+}
+
+.add-item-wrap .list .item {
+    display: flex;
+    margin-top: 0.08rem
+}
+
+.add-item-wrap .list .item .el-radio__label {
+    font-size: 0.14rem;
+}
+
+.add-item-wrap .list .item .el-radio__input.is-checked+.el-radio__label {
+    color: #DC220D;
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+    border-color: #DC220D;
+    background: #DC220D;
+}
+
+.enclosure-list {
+    border-radius: 2px;
+    border: 1px solid rgba(216, 216, 216, 1);
+    font-size: 0.14rem;
+    position: relative;
+    padding: 0.1rem;
+    min-height: 0.5rem;
+}
+
+.enclosure-list .item {
+    display: flex;
+    align-items: center;
+    margin-top: 0.04rem;
+}
+
+.enclosure-list .item img {
+    margin-right: 0.08rem;
+}
+
+.enclosure-list .item:first-child {
+    margin-top: 0;
+}
+
+.enclosure-list .item .delete-btn {
+    color: #979797;
+    margin-left: 0.06rem;
+}
+
+.enclosure-list .item .download-btn {
+    color: #4985E5;
+    margin-left: 0.06rem;
+}
+
+.enclosure-list .upload-btn {
+    position: absolute;
+    right: 0.1rem;
+    top: 0.1rem;
+    color: #DC240F;
+    display: flex;
+    align-items: center;
+}
+
+.enclosure-list .upload-btn img {
+    margin-right: 0.08rem;
+}
+
+.enclosure-list .upload-btn input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    opacity: 0;
+    font-size: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.w-e-text p {
+    margin: 2px 0 !important;
+}
+
+.step-list-wei {
+    max-height: none;
+}
+
+.file-type {
+    display: inline-block;
+    width: 0.14rem;
+    height: 0.14rem;
+    background-size: 0.14rem;
+    transform: translateY(0.02rem)
+}
+
+.file-type-docx {
+    background: url("../images/icon-word.png") no-repeat;
+    background-size: 0.14rem;
+}
+.file-type-doc {
+    background: url("../images/icon-word.png") no-repeat;
+    background-size: 0.14rem;
+}
+
+.file-type-pdf {
+    background: url("../images/icon-pdf.png") no-repeat;
+    background-size: 0.14rem;
+}
+
+.file-type-xlsx {
+    background: url("../images/icon-xlsx.png") no-repeat;
+    background-size: 0.14rem;
+}
+
+.file-type-xls{
+    background: url("../images/icon-xlsx.png") no-repeat;
+    background-size: 0.14rem;
+}
+
+.file-type-file {
+    background: url("../images/file.png") no-repeat;
+    background-size: 0.14rem;
+}
+
+.file-type-img {
+    background: url("../images/icon-img.png") no-repeat;
+    background-size: 0.14rem;
+}
+
+.file-type-pptx {
+    background: url("../images/icon-ppt.png") no-repeat;
+    background-size: 0.14rem;
+}
+.file-type-ppt {
+    background: url("../images/icon-ppt.png") no-repeat;
+    background-size: 0.14rem;
+}

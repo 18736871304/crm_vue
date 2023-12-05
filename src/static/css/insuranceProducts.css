@@ -1,0 +1,683 @@
+.nav {
+  height: 0.58rem;
+  width: 40%;
+  padding-left: 0.4rem;
+  background-color: #fff;
+  float: left;
+}
+
+.nav .el-tabs__active-bar {
+  background-color: #DC240F;
+}
+
+.nav .el-tabs__item {
+  font-size: 0.14rem;
+  height: 0.58rem;
+  line-height: 0.62rem;
+  color: #979797;
+}
+
+.nav .el-tabs__item.is-active {
+  color: #DC240F;
+}
+
+.el-tabs__header,
+.el-tabs__nav-wrap {
+  margin-bottom: 0;
+  height: 100%;
+}
+
+.el-tabs__nav-wrap::after {
+  background-color: #fff;
+}
+ 
+.el-form-item {
+  margin-bottom: 0;
+}
+
+/* 列表 */
+.product-list {
+  background-color: #fff;
+  padding: 0.4rem 0.4rem 0.8rem;
+  overflow: auto;
+}
+
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.18rem;
+  background: #FFFFFF;
+  border-radius: 0.1rem;
+  border: 1px solid #DDDDDD;
+  padding: 0.24rem;
+}
+
+.product-item:first-child {
+  margin-top: 0;
+}
+
+.product-item-left {
+  float: left;
+}
+
+.product-item-right {
+  width: auto;
+  float: right;
+  position: relative;
+  text-align: right;
+  display: flex;
+  align-items: center;
+}
+
+.product-item-title {
+  font-size: 0.2rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 700;
+  color: #282828;
+  line-height: 0.28rem;
+  margin-bottom: 0.12rem;
+}
+
+.product-item-title .el-tag {
+  height: 0.24rem;
+  line-height: 0.2rem;
+  cursor: pointer;
+}
+
+.product-item-lightspot {
+
+  font-size: 0.13rem;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #979797;
+  line-height: 0.18rem;
+  margin-bottom: 0.27rem;
+}
+
+.product-item-left .el-button {
+  width: 1.3rem;
+  height: 0.38rem;
+  background: #FFFFFF;
+  border-radius: 0.03rem;
+  border: 1px solid #DDDDDD;
+  margin-right: 0.14rem;
+  color: #686868;
+  font-size: 0.14rem;
+  padding: 0 0.13rem
+}
+
+.el-icon-share,
+.el-icon-warning-outline,
+.el-icon-document,
+.el-icon-link {
+  color: #DC220D;
+  font-size: 0.15rem
+}
+
+.product-item-logo {
+  width: 1.56rem;
+  height: 100%;
+}
+
+.product-item-right .product-item-price {
+  display: inline-block;
+  margin-left: 0.6rem;
+  padding: 0.31rem 0.6rem 0.37rem 0.6rem;
+  border-left: 1px solid #CCCCCC;
+}
+
+.product-item-price p {
+  width: 2rem;
+  font-size: 0.3rem;
+  font-family: PingFang-SC-Bold, PingFang-SC;
+  font-weight: bold;
+  color: #DC220D;
+  line-height: 0.42rem;
+}
+
+.product-item-price p span {
+  font-size: 0.18rem;
+  color: #686868
+}
+
+.el-footer {
+  position: fixed;
+  right: 0;
+  bottom: 14px;
+  background: #fff;
+}
+
+/* 人工核保 */
+.paragraph {
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: #686868;
+  line-height: 0.2rem;
+  margin-left: 0.1rem
+}
+
+.paragraph .file-download {
+  font-weight: 500;
+  color: #878282;
+  margin-right: 10px;
+  position: relative;
+}
+
+.paragraph .file-download .size {
+  color: #686868;
+}
+
+.paragraph .file-download .download {
+  color: #979797;
+  cursor: pointer;
+  display: inline-block;
+  height: 0.2rem;
+  width: 0.4rem;
+  margin-left: 0.18rem;
+
+}
+
+.el-icon-paperclip {
+  color: #fff;
+}
+
+/* 基本资料 */
+.base-info-list {
+  height: auto;
+  overflow: auto
+}
+
+.el-table__empty-block {
+  border: none
+}
+
+/* .table-no-border {
+  border-left: none
+} */
+
+.table-no-border::after {
+  width: 0;
+}
+
+.table-no-border .el-table__header {
+  border-left: 1px solid #EBEEF5;
+}
+
+.file-item {
+  height: auto;
+  padding: 0.1rem 0.14rem;
+  color: #282828;
+  font-size: 0.14rem;
+  position: relative;
+  border-bottom: 1px solid #DDDDDD
+}
+
+.file-item .file-download {
+  width: 900px;
+  position: relative;
+}
+
+
+.file-item .size {
+  color: #979797
+}
+
+.file-item .download {
+  color: #979797;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 0.1rem;
+}
+
+.file-item.button-box {
+  margin-top: 0.2rem;
+  border: none;
+  margin-right: 0;
+}
+
+.file-item.button-box .search1 {
+  width: 0.76rem;
+  margin-left: 0.12rem;
+}
+
+.file-type {
+  display: inline-block;
+  width: 0.14rem;
+  height: 0.14rem;
+  background-size: 0.14rem;
+  margin-right: 3px;
+}
+
+.file-type-docx {
+  background: url("../images/icon-word.png") no-repeat;
+  background-size: 0.14rem;
+}
+.file-type-doc {
+  background: url("../images/icon-word.png") no-repeat;
+  background-size: 0.14rem;
+}
+.file-type-pdf {
+  background: url("../images/icon-pdf.png") no-repeat;
+  background-size: 0.14rem;
+}
+
+.file-type-xlsx {
+  background: url("../images/icon-xlsx.png") no-repeat;
+  background-size: 0.14rem;
+}
+
+.file-type-file {
+  background: url("../images/file.png") no-repeat;
+  background-size: 0.14rem;
+}
+
+.file-type-img {
+  background: url("../images/icon-img.png") no-repeat;
+  background-size: 0.14rem;
+}
+
+.file-type-pptx {
+  background: url("../images/icon-ppt.png") no-repeat;
+  background-size: 0.14rem;
+}
+.file-type-ppt {
+  background: url("../images/icon-ppt.png") no-repeat;
+  background-size: 0.14rem;
+}
+.file-type-zip {
+  background: url("../images/icon-zip.png") no-repeat;
+  background-size: 0.14rem;
+}
+.file-type-7z {
+  background: url("../images/icon-7z.png") no-repeat;
+  background-size: 0.14rem;
+}
+/* 投保地址 */
+
+.insure-url-form .el-form-item__label {
+  font-size: 0.14rem;
+  height: 40px;
+  line-height: 40px;
+  text-align: left;
+  color: #979797;
+  background: #fff;
+  border-radius: 2px 0px 0px 2px;
+  border: none;
+  width: 0.9rem;
+}
+
+.insure-url-form .el-input--mini .el-input__inner {
+  height: 0.3rem;
+  color: #DC220D;
+  border: none;
+  padding-left: 0;
+}
+
+/* 常见问题 */
+.question-item {
+  padding: 0.1rem 0.14rem;
+  border-bottom: 1px solid #DDD;
+  font-size: 0.14rem;
+}
+
+.hotQuestionBox .el-input__inner {
+  padding: 0 7px;
+}
+
+.hotQuestionBox .el-textarea__inner {
+  padding: 2px 7px;
+}
+
+.question-title {
+  color: #DC220D;
+  font-weight: 500;
+  margin-bottom: 0.03rem;
+}
+
+.question-title .num {
+  color: #686868;
+}
+
+.question-list .file-download {
+  margin-top: 0.08rem;
+  padding-left: 33px;
+  left: 0;
+  width: 100%;
+}
+
+.question-list .file-download .download {
+  color: #979797
+}
+
+.question-answer {
+  display: flex;
+}
+
+.question-answer-icon {
+  width: 0.43rem;
+  text-align: right;
+}
+
+.question-item .size {
+  color: #686868
+}
+
+
+
+.mind-map-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* opacity: 0; */
+}
+
+.mind-map-img img.el-image__inner {
+  opacity: 0;
+}
+
+.el-icon-circle-close {
+  color: #000
+}
+
+.baseInfoTable {
+  margin-top: 0.16rem;
+  ;
+}
+.baseInfoTable::after{
+  content: '';
+  width: 0;
+}
+.baseInfoTable .base-info-file-list .cell {
+  text-align: left !important
+}
+
+.baseInfoTable .el-table__body tr td {
+  padding: 5px 0 !important;
+}
+
+.baseInfoTable .el-table__body .el-table__row td:nth-child(1) {
+  background: none;
+}
+
+.base-info-botton-group button {
+  background-color: #fff;
+  color: #BDBDBD;
+  font-size: 0.14rem;
+  /* border-color: #BDBDBD; */
+  height: 0.25rem;
+  width: 0.25rem;
+  border: solid 1px #BDBDBD;
+  padding: 0;
+  margin-left: 0;
+}
+
+.el-button-group .el-button--primary:first-child {
+  border-right-color: #BDBDBD
+}
+
+.el-button-group>.el-button:not(:last-child) {
+  margin-right: 0;
+}
+
+.base-info-delete {
+  float: right;
+  cursor: pointer;
+  color: #979797;
+}
+
+.mind-map-box {
+  text-align: center;
+}
+
+.mind-map-add-file {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #BDBDBD;
+  border-radius: 3px;
+  background-color: #ECEEF6;
+  margin: 0.3rem auto;
+  color: #979797;
+  cursor: pointer;
+  position: relative;
+}
+
+.mind-map-add-file .el-icon-plus {
+  font-size: 0.3rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.mind-map-img-view {
+  width: 0;
+  height: 0
+}
+
+.mind-map-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* 常见问题 */
+.step-list {
+  padding: 0.2rem 0.1rem 0.2rem 0;
+  padding-left: 0;
+  max-height: 700px;
+  overflow-y: scroll;
+  padding-top: 0.1rem;
+  padding-left: 0.05rem;
+}
+
+.step-list .item-section {
+  display: flex;
+}
+
+.step-list .el-textarea__inner {
+  border-radius: 2px;
+  font-size: 0.14rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.question-answer .item-section label {
+  width: 0.4rem;
+  font-size: 0.14rem;
+  text-align: right;
+}
+
+.question-answer .el-textarea.is-disabled .el-textarea__inner {
+  border: none;
+  padding: 0;
+  resize: none;
+  font-family: 'Microsoft Yahei', 'simsun', 'arial', 'tahoma';
+}
+
+.hot-question-q {
+  color: #DC220D;
+}
+
+.hot-question-enter {
+  cursor: pointer;
+  text-align: center;
+  color: #DC220D
+}
+
+.hotQuestionBox .hotQuestionTable .cell {
+  text-align: center !important
+}
+
+
+.hot-question-delete {
+  margin-right: 13px;
+  margin-top: 10px
+}
+
+.hot-question-botton-group {
+  transform: scale(0.9)
+}
+
+.el-button-group>.el-button:hover,
+.el-button-group>.el-button:focus {
+  background: #fff;
+  color: #BDBDBD;
+  border-color: #BDBDBD
+}
+
+.item-section label {
+  width: 0.5rem;
+  text-align: right
+}
+
+/*定义滑块 内阴影+圆角*/
+.hotQuestionBox .hotQuestionTable .step-list::-webkit-scrollbar-track {
+  border-radius: 0px;
+  background-color: #fff;
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+.hotQuestionBox .hotQuestionTable .step-list::-webkit-scrollbar {
+  width: 0px;
+  height: 10px;
+  background-color: #F5F5F5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+.hotQuestionBox .hotQuestionTable .step-list::-webkit-scrollbar-track {
+  border-radius: 0px;
+  background-color: #efefef;
+}
+
+
+.hotQuestionBox .el-table::before {
+  background-color: transparent;
+}
+
+.step-list .item-section .right-content {
+  flex: 1;
+  width: 0;
+}
+
+.step-list .item-section .el-textarea .el-textarea__inner {
+  padding: 3px 7px !important;
+}
+
+.step-list .item-section .el-select {
+  display: block;
+  width: 100%;
+}
+
+
+.item-section {
+  margin-top: 0.08rem;
+}
+
+.item-section .el-input--mini .el-input__inner {
+  line-height: calc(0.3rem - 2px);
+  border-radius: 2px;
+  border: 1px solid rgba(216, 216, 216, 1);
+  font-size: 0.14rem;
+  margin-left: 0;
+}
+
+.editor-box {
+  border-radius: 2px;
+  border: 1px solid rgba(216, 216, 216, 1);
+  font-size: 0.14rem;
+}
+
+.item-section .el-textarea__inner {
+  border-radius: 2px;
+  font-size: 0.14rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.hotQuestionTable {
+  height: auto;
+  overflow: auto;
+  margin-top: 10px;
+}
+
+.hot-question-file,
+.el-textarea.is-disabled .el-textarea__inner {
+  border-radius: 2px;
+  border: 1px solid rgba(216, 216, 216, 1);
+  color: #282828;
+  background-color: #fff;
+  font-size: 0.14rem;
+  color: #606266
+}
+
+.hot-question-file {
+  padding: 0 7px;
+  position: relative;
+}
+
+.hot-question-file-left {
+  text-align: left
+}
+
+.hot-question-file-right {
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 0px;
+}
+
+.mind-map-warp {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #686868;
+  opacity: 0.7;
+  z-index: 10;
+  color: #fff;
+}
+
+.mind-map-botton-box {
+  position: absolute;
+  width: 100%;
+  top: calc(50% - 0.1rem);
+  left: 0;
+  color: #fff;
+  z-index: 11;
+}
+
+.mind-map-botton-box .oper {
+  display: inline-block;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  font-size: 0.2rem;
+  margin: 0 5px;
+  color: #fff;
+}
+
+.mind-map-botton-box .el-icon-circle-close {
+  font-size: 40px
+}
+
+body .el-table th.gutter {
+  display: table-cell !important;
+}
+
+.cang-jing-ge .el-dialog__body {
+  padding-top: 10px;
+}
+
+.hot-question-box {
+  width: 100%;
+}
+
+.hot-question-box .table-no-border {
+  border-right: 1px solid #EBEEF5;
+}

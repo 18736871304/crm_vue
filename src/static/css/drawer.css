@@ -1,0 +1,809 @@
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: #F5F5F5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #efefef;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #c0c0c0;
+}
+
+/*抽屉样式*/
+.el-dialog__wrapper .el-drawer__header {
+  display: none;
+}
+
+/*左边*/
+.customer-drawer .drawerLeft {
+  width: 60%;
+  height: 100%;
+  float: left;
+}
+
+.customer-drawer .drawerLeft.isDealed {
+  width: 46%;
+}
+
+.customer-drawer .drawerLeft .left_box {
+  width: 100%;
+  height: 100%;
+  padding: 0 0.16rem 0 0;
+}
+
+.customer-drawer .drawerLeft .header {
+  width: calc(100% - 0.51rem);
+  padding: 0 0 0 0.35rem;
+}
+
+.customer-drawer .drawerLeft .header_t {
+  height: 0.38rem;
+  line-height: 0.38rem;
+  width: 100%;
+}
+
+.customer-drawer .drawerLeft .header_t_l {
+  width: 50%;
+  height: 100%;
+  float: left;
+}
+
+.customer-drawer .drawerLeft .header_t_l span:nth-child(1) {
+  font-size: 0.16rem;
+  font-family: PingFang-SC-Bold, PingFang-SC;
+  font-weight: bold;
+  color: rgba(40, 40, 40, 1);
+  margin-right: 0.1rem;
+}
+
+.customer-drawer .drawerLeft .header_t_l span:nth-child(2) {
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(73, 133, 229, 1);
+  cursor: pointer;
+}
+
+.customer-drawer .drawerLeft .header_t_r {
+  width: 50%;
+  height: 100%;
+  float: left;
+  text-align: right;
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+}
+
+.customer-drawer .drawerLeft .header_b {
+  min-height: 0.38rem;
+  height: 0.38rem;
+  line-height: 0.38rem;
+  width: 100%;
+}
+
+.customer-drawer .drawerLeft .header_b .title {
+  width: 0.5rem;
+  height: 100%;
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+  line-height: 0.41rem;
+  float: left;
+}
+
+.customer-drawer .drawerLeft .header_b .checkBox {
+  float: left;
+  width: calc(100% - 0.5rem);
+  height: 100%;
+  overflow: auto;
+}
+
+.drawerLeft .header_b .checkBox .el-radio-button--mini .el-radio-button__inner {
+  font-size: 0.12rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: #979797;
+  border-radius: 0.1rem;
+  /* padding: 0.04rem 0.15rem; */
+  margin-right: 0.12rem;
+  box-shadow: 0 0 0 0 #DD2B16 !important;
+  border-left: 1px solid #DCDFE6;
+  width: 0.38rem;
+  height: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drawerLeft .header_b .checkBox .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+  border-color: #DD2B16 !important;
+  background-color: #fff !important;
+  color: #DD2B16;
+  box-shadow: 0 0 0 0 #DD2B16 !important;
+}
+
+.drawerLeft .header_b .checkBox .el-radio-button__inner:hover {
+  color: #DD2B16;
+}
+
+.customer-drawer .drawerLeft .title {
+  height: 0.4rem;
+  width: 100%;
+}
+
+.customer-drawer .drawerLeft .title span:nth-child(1) {
+  width: 2px;
+  height: 0.15rem;
+  background: rgba(220, 34, 13, 1);
+  float: left;
+  display: block;
+  margin: 0.14rem 0 0 0;
+}
+
+.customer-drawer .drawerLeft .title span:nth-child(2) {
+  font-size: 0.14rem;
+  line-height: 0.15rem;
+  height: 0.15rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+  display: block;
+  float: left;
+  margin: 0.14rem 0 0 0.06rem;
+}
+
+
+.drawerLeft .header_b .el-checkbox-button--mini .el-checkbox-button__inner {
+  font-size: 0.12rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: #979797;
+  border-radius: 0.5rem;
+  padding: 0.04rem 0.15rem;
+  margin-right: 0.1rem;
+}
+
+.drawerLeft .header_b .el-checkbox__input.is-checked+.el-checkbox__label {
+  color: #DC220D;
+}
+
+.drawerLeft .header_b .el-checkbox-button.is-focus .el-checkbox-button__inner {
+  border-color: #DCDFE6 !important;
+}
+
+.drawerLeft .header_b .el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #DC220D !important;
+  border-color: #DC220D !important;
+}
+
+.drawerLeft .header_b .el-checkbox-button.is-checked .el-checkbox-button__inner {
+  background-color: #fff !important;
+  border-color: #DC220D !important;
+  color: #DC220D;
+}
+
+.drawerLeft .header_b .el-checkbox-button.is-checked .el-checkbox-button__inner {
+  border: 1px solid #DC220D;
+  box-shadow: 0 0 0 0 #DC220D;
+}
+
+.drawerLeft .header_b .el-checkbox-button__inner {
+  box-shadow: 0 0 0 0 #DC220D !important;
+  border-left: 1px solid #DCDFE6;
+}
+
+
+.drawerLeft .editBox {
+  width: calc(100%);
+  padding: 0 0 0 0.35rem;
+  border-top: 1px solid #D8D8D8;
+  /* border-bottom: 1px solid #D8D8D8; */
+}
+
+.drawerLeft .editBox .editContent {
+  width: calc(100% - 0.16rem);
+}
+
+.drawerLeft .editBox .editContent .editContent_box {
+  width: calc(31%);
+  margin-right: 3%;
+  height: 0.49rem;
+  margin-bottom: 0.08rem;
+  border-bottom: 1px solid #DEDEDE;
+  padding-left: 0.1rem;
+  float: left;
+}
+
+.drawerLeft .editBox .editContent .editContent_box:nth-child(3n) {
+  margin-right: 0;
+}
+
+.drawerLeft .editBox .editContent .editContent_box .dd:nth-child(1) {
+  width: 100%;
+  height: 50%;
+  display: block;
+  color: rgba(151, 151, 151, 1);
+}
+
+.drawerLeft .editBox .editContent .editContent_box .dd {
+  width: 100%;
+  height: 50%;
+  display: block;
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  line-height: 0.245rem;
+}
+
+.drawerLeft .editBox .editContent .editContent_box .cityProvience .city {
+  display: block;
+  float: left;
+  height: 100%;
+  width: 50%;
+}
+
+.drawerLeft .editBox .editContent .editContent_box .cityProvience .city .el-input {
+  font-size: 0.14rem;
+}
+
+.drawerLeft .editBox .editContent .editContent_box .cityProvience .city .el-input__inner {
+  height: 100%;
+  border-radius: 1px;
+  border: none;
+  padding: 0 1px;
+  width: 70%;
+}
+
+.drawerLeft .editBox .editContent .editContent_box .cityProvience .city .el-input__icon {
+  line-height: 0.24rem;
+  width: 15px;
+}
+
+.drawerLeft .editBox .editContent .el-input--mini {
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+}
+
+.drawerLeft .editBox .editContent .el-input--mini .el-input__inner {
+  height: 0.22rem;
+  line-height: 0.24rem;
+  border: none;
+  padding: 0;
+  color: #282828 !important;
+}
+
+.editContent_box.editContent_date span .el-date-editor .el-input__suffix {
+  left: 1.7rem;
+  top: -0.06rem;
+}
+
+.editContent_box.editContent_date span .el-date-editor .el-input__prefix {
+  left: 1.3rem;
+  top: -0.03rem;
+}
+
+.drawerLeft .adInformation {
+  width: calc(100%);
+  padding: 0 0 0 0.35rem;
+  height:1.7rem;
+  border-bottom: 1px solid #D8D8D8;
+}
+
+.drawerLeft .adInformation_b {
+  width: 100%;
+  height: 0.74rem;
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+}
+
+.drawerLeft .adInformation_b .ct,
+.drawerLeft .adInformation_b .cc,
+.drawerLeft .adInformation_b .cb {
+  width: 100%;
+  height: 0.245rem;
+  line-height: 0.245rem;
+}
+
+.drawerLeft .adInformation_b span:nth-child(1) {
+  width: calc(50% - 0.18rem);
+  margin-left: 0.08rem;
+  margin-right: 11.5%;
+  display: block;
+  float: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.drawerLeft .adInformation_b span:nth-child(2) {
+  width: calc(40% - 0.08rem);
+  display: block;
+  float: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.drawerLeft .adInformation_b .cb span {
+  width: 100%;
+  margin-left: 0.08rem;
+  display: block;
+  float: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.drawerLeft .adInformation_b .insure-redio {
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.drawerLeft .adInformation_b .insure-redio li {
+  border: 0.01rem solid rgba(216, 216, 216, 1);
+  font-size: 0.14rem;
+  line-height: 0.26rem;
+  font-weight: 500;
+  color: rgba(151, 151, 151, 1);
+  box-sizing: border-box;
+  margin: 0 0.05rem 0.1rem 0;
+  padding: 0 0.05rem;
+  border-radius: 10px;
+  float: left;
+  cursor: pointer;
+}
+
+.drawerLeft .adInformation_b .insure-redio .insure-select{
+  border: 0.01rem solid #DC220D;
+  color: #DC220D;
+}
+
+.drawerLeft .userInformation {
+  width: calc(100% - 0.35rem);
+  padding: 0 0 0 0.35rem;
+  height: 1.06rem;
+  border-top: 1px solid #D8D8D8;
+  border-bottom: 01px solid #D8D8D8;
+}
+
+.drawerLeft .userInformation_b {
+  width: 100%;
+  height: 0.56rem;
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+}
+
+.drawerLeft .userInformation_b .ct,
+.drawerLeft .userInformation_b .cb {
+  width: 100%;
+  height: 0.28rem;
+  line-height: 0.28rem;
+}
+
+
+.drawerLeft .userInformation_b span:nth-child(1) {
+  width: calc(40% - 0.18rem);
+  margin-left: 0.08rem;
+  margin-right: 20%;
+  display: block;
+  float: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.drawerLeft .userInformation_b span:nth-child(2) {
+  width: calc(40% - 0.08rem);
+  display: block;
+  float: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+/* .drawerLeft .userInformation_b  span{
+	width: calc(50% - 0.08rem);
+	margin-left: 0.08rem;
+	display: block;
+	float: left;
+} */
+
+
+.drawerLeft .tableBox {
+  width: calc(100% - 0.16rem);
+  padding: 0 0 0 0.35rem;
+  height: calc(100vh - 7.3rem);
+}
+
+.drawerLeft .tableBox .tableContent {
+  width: 100%;
+  height: calc(100% - 0.5rem);
+  overflow-y: auto;
+  border-radius: 3px;
+}
+
+.tableContent .el-table th {
+  padding: 0;
+}
+
+.customer-drawer .drawerLeft .tableBox .title span:nth-child(3) {
+  font-size: 0.14rem;
+  line-height: 0.15rem;
+  height: 0.15rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(151, 151, 151, 1);
+  display: block;
+  float: right;
+  margin: 0.14rem 0 0 0.06rem;
+}
+
+.drawerLeft .condition {
+  padding: 0 0.16rem 0 0.35rem;
+  border-bottom: 1px solid #D8D8D8;
+  margin: auto;
+}
+
+.drawerLeft .condition .common-select{
+  width: 50%;
+  float: left;
+  margin-top: 0.1rem;
+}
+
+.condition .el-input.is-disabled .el-input__inner {
+  background-color: #fff;
+}
+
+.drawerLeft .condition-bottom {
+  margin: 0.08rem 0;
+  background: rgba(221, 43, 22, 1);
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: #fff;
+  line-height: 0.26rem;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.drawerLeft .el-table th,
+.el-table tr {
+  height: 0.32rem !important;
+}
+
+.tableContent .play-icon {
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/*右边*/
+.customer-drawer .drawerRight {
+  width: 40%;
+  height: 100%;
+  float: left;
+  border-left: 1px solid #DDDDDD;
+}
+
+.customer-drawer .drawerRight.isDealed {
+  width: 27%;
+  position: relative;
+}
+
+.customer-drawer .drawerRight .title {
+  height: 0.4rem;
+  width: 100%;
+}
+
+.customer-drawer .drawerRight .title span:nth-child(1) {
+  width: 2px;
+  height: 0.15rem;
+  background: rgba(220, 34, 13, 1);
+  float: left;
+  display: block;
+  margin: 0.14rem 0 0 0.28rem;
+}
+
+.customer-drawer .drawerRight .title span:nth-child(2) {
+  font-size: 0.14rem;
+  line-height: 0.15rem;
+  height: 0.15rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+  display: block;
+  float: left;
+  margin: 0.14rem 0 0 0.06rem;
+}
+
+.customer-drawer .drawerRight .inputBox {
+  margin-top: 0.2rem;
+  height: 0.75rem;
+  padding: 0 0.36rem;
+}
+
+.customer-drawer .drawerRight .inputBox .el-input {
+  font-size: 0.14rem;
+}
+
+.customer-drawer .drawerRight .inputBox .el-input__inner {
+  border-radius: 2px;
+  height: 0.32rem;
+  line-height: 0.32rem;
+}
+
+.customer-drawer .drawerRight .inputBox .el-textarea .el-textarea__inner  {
+  padding: 5px 7px;
+}
+
+.customer-drawer .drawerRight .inputBox .el-textarea .el-textarea__inner:focus  {
+  border-color: #DC220D;
+}
+
+.customer-drawer .drawerRight .numBox {
+  height: 0.4rem;
+  padding: 0 0.36rem;
+  line-height: 0.4rem;
+}
+
+.customer-drawer .drawerRight .numBox .num {
+  float: left;
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(151, 151, 151, 1);
+}
+
+.customer-drawer .drawerRight .numBox .button {
+  float: right;
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(151, 151, 151, 1);
+}
+
+.customer-drawer .drawerRight .numBox .button span {
+  cursor: pointer;
+}
+
+.customer-drawer .drawerRight .numBox .button span:nth-child(2) {
+  color: #DC220D;
+  margin-left: 0.18rem;
+}
+
+.customer-drawer .drawerRight .numBox .button span:nth-child(2):hover {
+  opacity: .8;
+}
+
+.customer-drawer .drawerRight .drawercontentBox {
+  height: calc(100vh - 2.3rem);
+  padding: 0 0.36rem;
+  color: #282828;
+}
+
+.customer-drawer .drawerRight .drawercontentBox ul {
+  width: 100%;
+  height: calc(100% - 5px);
+  overflow: auto;
+}
+
+.customer-drawer .drawerRight .drawercontentBox ul li {
+  width: 100%;
+  /* height: 1rem; */
+  background: rgba(249, 249, 249, 1);
+  border-radius: 4px;
+  margin-bottom: 0.1rem;
+}
+
+.customer-drawer .drawerRight .drawercontentBox ul li .li_t {
+  width: calc(100% - 0.24rem);
+  /* height: calc(0.58rem - 1px); */
+  border-bottom: 1px solid #DDDDDD;
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+  margin: 0.12rem 0.12rem 0 0.12rem;
+  overflow-y: auto;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.customer-drawer .drawerRight .drawercontentBox ul li .li_t div {
+  width: 100%;
+  /* height: 0.2rem; */
+  line-height: 0.2rem;
+  padding: 0.07rem 0;
+}
+
+.customer-drawer .drawerRight .drawercontentBox ul li .li_b {
+  width: 100%;
+  height: 0.3rem;
+  line-height: 0.3rem;
+  font-size: 0.12rem;
+}
+
+.customer-drawer .drawerRight .drawercontentBox ul li .li_b_l {
+  width: calc(30% - 0.12rem);
+  height: 100%;
+  padding-left: 0.12rem;
+  float: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.customer-drawer .drawerRight .drawercontentBox ul li .li_b_r {
+  width: calc(70% - 0.12rem);
+  padding-right: 0.12rem;
+  text-align: right;
+  height: 100%;
+  float: right;
+  color: #979797;
+}
+
+.drawerRight .cjg-search-section .el-input--suffix {
+  top: 0;
+  height: 100%;
+}
+
+.drawerRight .cjg-search-section {
+  margin-top: 0.2rem;
+  padding: 0 0.36rem;
+}
+
+.drawerRight .cjg-search-section .el-input__inner {
+  border: none;
+  margin: 0;
+  font-size: 12px;
+}
+
+.drawerRight .el-textarea .el-textarea__inner {
+  min-height: 0.32rem !important;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 0.72rem;
+  line-height: 0.2rem !important;
+  font-size: 0.14rem;
+  font-family: PingFang-SC-Medium, PingFang-SC;
+  font-weight: 500;
+  color: rgba(40, 40, 40, 1);
+}
+
+.drawerRight .el-textarea {
+  font-size: 0.14rem !important;
+}
+
+.drawerRight .order-list {
+  margin-top: 0.2rem;
+  position: absolute;
+  left: 0.36rem;
+  right: calc(0.36rem - 15px);
+  top: 0.4rem;
+  bottom: 0.2rem;
+  overflow: auto;
+  padding-bottom: 25px;
+}
+
+.drawerRight .order-list .item {
+  background: rgba(249, 249, 249, 1);
+  border-radius: 4px;
+  margin-top: 0.1rem;
+}
+
+.drawerRight .order-list .item:first-child {
+  margin-top: 0;
+}
+
+.drawerRight .order-list .item .head {
+  display: flex;
+  align-items: center;
+  padding: 0.1rem 0.12rem;
+  justify-content: space-between;
+  border-bottom: 1px solid #D8D8D8;
+}
+
+.drawerRight .order-list .item .head .txt {
+  width: 2.5rem;
+  display: flex;
+  font-size: 0.16rem;
+  font-family: PingFang-SC-Bold, PingFang-SC;
+  font-weight: bold;
+  color: rgba(40, 40, 40, 1);
+  align-items: center;
+}
+
+.drawerRight .order-list .item .head .status {
+  font-size: 0.15rem;
+  width: 0.7rem;
+  line-height: 0.26rem;
+  background: rgba(73, 133, 229, 1);
+  border-radius: 3px;
+  text-align: center;
+  color: #fff;
+}
+
+.drawerRight .order-list .item .head .status.processing {
+  background: #DD2B16;
+}
+
+.drawerRight .order-list .item .head .status.invalid,
+.drawerRight .order-list .item .head .status.cancel {
+  background: #686868;
+}
+
+.drawerRight .order-list .item .info-list {
+  padding: 0.1rem 0.12rem;
+
+}
+
+.drawerRight .order-list .item .info-list .info .l {
+  display: inline-block;
+  width: 0.8rem;
+  color: #686868;
+  font-size: 0.14rem;
+}
+
+.drawerRight .order-list .item .info-list .info span {
+  display: inline-block;
+  color: #686868;
+  font-size: 0.14rem;
+}
+
+.drawerRight .order-list .item .head .txt{
+  cursor: pointer;
+  }
+
+.el-date-table td.current:not(.disabled) span {
+  background: rgba(220, 34, 13, 1);
+}
+
+
+/* .el-input__icon{
+	display: none;
+} */
+.el-picker-panel .el-picker-panel__footer .el-button--text:nth-child(1) {
+  display: none;
+}
+
+.el-date-range-picker .el-picker-panel__footer .el-button--text:nth-child(1) {
+  display: inline-block;
+}
+
+.editContent_c .el-input__suffix {
+  margin-top: 3px;
+  margin-right: -10px;
+}
+
+.el-picker-panel__body .el-input--small .el-input__inner {
+  text-align: center;
+}
+
+.maxmain .el-input--mini .el-input__icon {
+  line-height: 0.06rem !important;
+  bottom: 0.05rem !important;
+  position: relative !important;
+}

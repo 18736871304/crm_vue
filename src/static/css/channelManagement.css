@@ -1,0 +1,179 @@
+.source-level span {
+  display: inline-block;
+  width: 0.17rem;
+  height: 0.17rem;
+  background: url(../images/biaozhu.png) no-repeat;
+  background-size: 100% 100%;
+  margin-left: 0.01rem;
+  vertical-align: middle;
+  margin-bottom: 0.03rem;
+}
+
+.el-tooltip__popper.qq {
+  width: auto !important;
+}
+
+.el-tooltip__popper.is-light {
+  background: #FFF;
+  border: 1px solid #303133;
+  color: #979797;
+  width: 3.8rem;
+  font-size: 0.13rem;
+}
+
+.el-tooltip__popper.is-light p {
+  margin-bottom: 5px;
+}
+
+.atooltip {
+  border: 1px solid #EBEEF5 !important;
+}
+
+.add-item-wrap .btns {
+  display: flex;
+  align-items: center;
+}
+
+.add-item-wrap .btns .btn {
+  width: 0.84rem;
+  line-height: 0.3rem;
+  border-radius: 2px;
+  border: 1px solid rgba(221, 221, 221, 1);
+  text-align: center;
+  color: #DC220D;
+  font-size: 0.14rem;
+  margin-right: 0.06rem;
+  cursor: pointer;
+}
+
+.add-item-wrap .list {
+  border-radius: 2px;
+  border: 1px solid rgba(216, 216, 216, 1);
+  margin-top: 0.08rem;
+  padding: 0 0.17rem 0.12rem;
+}
+
+.add-item-wrap .list .item {
+  display: flex;
+  margin-top: 0.08rem
+}
+
+.add-item-wrap .list .item .el-radio__label {
+  font-size: 0.14rem;
+}
+
+.add-item-wrap .list .item .el-radio__input.is-checked+.el-radio__label {
+  color: #DC220D;
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #DC220D;
+  background: #DC220D;
+}
+
+.enclosure-list {
+  border-radius: 2px;
+  border: 1px solid rgba(216, 216, 216, 1);
+  font-size: 0.14rem;
+  position: relative;
+  padding: 0.1rem;
+  min-height: 0.5rem;
+}
+
+.enclosure-list .item {
+  display: flex;
+  align-items: center;
+  margin-top: 0.04rem;
+}
+
+.enclosure-list .item img {
+  margin-right: 0.08rem;
+}
+
+.enclosure-list .item:first-child {
+  margin-top: 0;
+}
+
+.enclosure-list .item .delete-btn {
+  color: #979797;
+  margin-left: 0.06rem;
+}
+
+.enclosure-list .item .download-btn {
+  color: #4985E5;
+  margin-left: 0.06rem;
+}
+
+.enclosure-list .upload-btn {
+  position: absolute;
+  right: 0.1rem;
+  top: 0.1rem;
+  color: #DC240F;
+  display: flex;
+  align-items: center;
+}
+
+.enclosure-list .upload-btn img {
+  margin-right: 0.08rem;
+}
+
+.enclosure-list .upload-btn input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+  opacity: 0;
+  font-size: 0;
+  width: 100%;
+  height: 100%;
+}
+/* crm2.0 end*/
+
+/* .file-type {
+  display: inline-block;
+  width: 0.14rem;
+  height: 0.14rem;
+  background-size: 0.14rem;
+  transform: translateY(0.02rem)
+}
+
+.file-type-docx {
+  background: url("../knowledge/insuranceProducts/images/icon-word.png") no-repeat;
+  background-size: 0.14rem;
+}
+.file-type-doc {
+  background: url("../knowledge/insuranceProducts/images/icon-word.png") no-repeat;
+  background-size: 0.14rem;
+}
+.file-type-pdf {
+  background: url("../knowledge/insuranceProducts/images/icon-pdf.png") no-repeat;
+  background-size: 0.14rem;
+}
+
+.file-type-xlsx {
+  background: url("../knowledge/insuranceProducts/images/icon-xlsx.png") no-repeat;
+  background-size: 0.14rem;
+}
+
+.file-type-file {
+  background: url("../knowledge/insuranceProducts/images/file.png") no-repeat;
+  background-size: 0.14rem;
+}
+
+.file-type-img {
+  background: url("../knowledge/insuranceProducts/images/icon-img.png") no-repeat;
+  background-size: 0.14rem;
+}
+
+.file-type-pptx {
+  background: url("../knowledge/insuranceProducts/images/icon-ppt.png") no-repeat;
+  background-size: 0.14rem;
+}
+.file-type-ppt {
+  background: url("../knowledge/insuranceProducts/images/icon-ppt.png") no-repeat;
+  background-size: 0.14rem;
+} */
+
+.customer-channels .el-dialog__body{
+  padding: 15px 20px;
+}

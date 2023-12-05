@@ -1,0 +1,64 @@
+/* 按钮 */
+.el-button--mini,
+.el-button--mini.is-round {
+  padding: 7px 10px;
+}
+
+.el-button--default:hover {
+  background: #fff;
+  border: 1px solid #DCDFE6;
+}
+
+/* input */
+.el-form-item__label {
+  font-size: 0.14rem;
+  height: 0.3rem;
+  line-height: 0.28rem;
+  padding-left: 0.1rem;
+  text-align: left;
+  color: #979797;
+  background: #F7F7F7;
+  border-radius: 2px 0px 0px 2px;
+  border: 1px solid #D8D8D8;
+  border-right: none;
+}
+
+.el-input--mini .el-input__inner {
+  height: 0.3rem;
+  border-radius: 0px 2px 2px 0px;
+  border: 1px solid #D8D8D8;
+}
+
+.el-dialog__body {
+  padding-top: 0.1rem
+}
+
+.el-dialog__header {
+  padding: 0.2rem 0.26rem 0.15rem;
+  border-bottom: 1px solid #D8D8D8
+}
+
+.el-dialog__title {
+  font-size: 0.18rem;
+  color: #282828;
+
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: #F5F5F5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #efefef;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #c0c0c0;
+}

@@ -1,0 +1,548 @@
+.containerBox{
+    width: 100%;
+    height: 100%;
+	min-width: 1340px;
+}
+.menu-box{
+    height: 0.56rem;
+    width: 100%;
+    background: #333333;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+.menu-box .menu-ui>.el-submenu .el-submenu__title,.menu-box .menu-ui>.el-menu-item{
+    height: 0.56rem;
+    line-height: 0.53rem;
+    /* width: 1rem; */
+    text-align: center;
+}
+.contentBox{
+    width: 100%;
+    height: calc(100% - 0.56rem);
+    position:relative;
+    float: left;
+    background: #fff;
+}
+.extensionNumber {
+    display: flex;
+    align-items: center;
+    color: rgba(177, 177, 177, 1);
+    width: 1.4rem;
+    background: url(../images/shuxian.png) no-repeat 1.3rem center;
+    font-size: 0.14rem;
+    margin-left: 0.2rem;
+  }
+.content-box {
+    display: flex;
+    width: 100%;
+    padding-top: 0.56rem;
+}
+/* .menuCommon{
+    height:  calc(100% - 0.56rem);
+    float: left;
+    box-sizing: border-box;
+}
+.menuCommon .arrowBox{
+    position:absolute;
+    bottom: 5px;
+    height: calc(0.39rem - 1px);
+}
+.menuCommon .arrowBox img{
+    cursor: pointer;
+    float: right;    
+    margin-top: 0.13rem;
+} */
+
+
+
+
+.logo{
+    width: 2.1rem;
+    height: 0.56rem;
+    background: url(../images/logo.jpg) no-repeat ;
+    background-size: 100% 100%;
+}
+
+.menu-box .menu-ui {
+    list-style: none;
+    position: relative;
+    padding-left: 0;
+    background-color: #333333;
+    margin-left: 0.6rem;
+    border: none;
+}
+
+.menu-ui>.el-menu-item {
+    height: 60px;
+    line-height: 60px;
+    margin: 0;
+    border: none;
+    color: #909399;
+    font-size: 0.16rem;
+    padding: 0;
+    margin: 0 0.11rem !important;
+    cursor: pointer;
+    -webkit-transition: border-color .3s,background-color .3s,color .3s;
+    transition: border-color .3s,background-color .3s,color .3s;
+    box-sizing: border-box;
+    float: left;
+}
+
+.menu-ui .el-menu-item:not(.is-disabled):focus, .menu-ui .el-menu-item:not(.is-disabled):hover {
+    color: #ffffff;
+    border-bottom:3px solid rgba(220,34,13,1) !important;
+    background-color: #333333;
+}
+.el-menu--horizontal>.el-menu-item.is-active{
+    color: #fff;
+    border-bottom:3px solid rgba(220,34,13,1) !important;
+}
+.el-progress {
+    position: relative;
+    line-height: 0.56rem;
+    width: 0.5rem;
+    top: 0.24rem;
+}
+.jindu{
+    width: 1.14rem;
+    background: url(../images/shuxian.png) no-repeat 1.1rem center;
+}
+.jinduone{
+    width: 0.57rem;
+    margin-left: 0.3rem;
+    background: url(../images/shuxian.png) no-repeat 0.55rem center;
+    height: 0.56rem;
+    text-align: left;
+    position: relative;
+
+}
+.el-badge {
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    margin-top: 0.17rem;
+}
+.jindutwo{
+    width: 0.7rem;
+    background: url(../images/shuxian.png) no-repeat 0.68rem center;
+    height: 0.56rem;
+    margin-left: 0.2rem;
+    font-size: 0.12rem;
+    cursor: pointer;
+    text-align: left;
+}
+.jinduthree{
+    width: 0.89rem;
+    background: url(../images/shuxian.png) no-repeat 1.4rem center;
+    /* height: 0.56rem; */
+    margin-left: 0.16rem;
+}
+.jinduthree ul li{
+    float: left;
+    font-size: 0.14rem;
+    margin-right: 0.12rem;
+    color: #838383;
+    line-height: 0.56rem;
+    height: 0.56rem;
+    cursor: pointer;
+}
+.jinduthree .qiehuan{
+    color: #ffffff !important;
+}
+.jinduthree ul li:hover{
+    color: #ffffff;
+}
+.jindu p{
+    height: 0.56rem;
+    font-size: 0.12rem;
+    font-family: PingFang-SC-Medium,PingFang-SC;
+    font-weight: 500;
+    color: rgba(177,177,177,1);
+    line-height: 0.56rem;
+    float: left;
+    margin-right: 0.06rem;
+}
+.jindu .el-progress-bar__inner {
+    background-color:#D0021B;
+}
+.jinduone .el-button-nav{
+    width: 0.18rem;
+    background: url(../images/tishi.png) no-repeat;
+    height: 0.2rem;
+    background-size: 100% 100%;
+    padding: 0;
+    cursor: pointer;
+    margin-top: 0.07rem;
+}
+.el-badge__content {
+    background-color: #F56C6C;
+    border-radius: 10px;
+    color: #FFF;
+    display: inline-block;
+    font-size: 12px;
+    height: 18px;
+    line-height: 17px;
+    padding: 0 4px;
+    text-align: center;
+    white-space: nowrap;
+    border: none;
+}
+
+.jinduone .el-button-nav:focus, .el-button-nav:hover {
+    width: 0.18rem;
+    background: url(../images/tishi.png) no-repeat;
+    height: 0.2rem;
+    background-size: 100% 100%;
+    border: none;
+    padding: 0;
+}
+.jinduone .el-badge__content.is-dot {
+     height: 0.08rem;
+     width: 0.08rem;
+     padding: 0;
+     right: 0;
+     border-radius: 50%;
+ }
+ .jinduone .el-badge__content.is-fixed.is-dot {
+    right: 0px;
+    top: 5px;
+}
+
+.el-button--primary:focus, .el-button--primary:hover {
+    background: url(../images/tishi.png) no-repeat center center;
+    border: none;
+    color: #FFF;
+}
+
+/* 页面暂无匹配对应class */
+/* .el-icon--right {
+    margin-left: 0;
+    position: absolute;
+    top: 0.06rem;
+    left: 0.376rem;
+} */
+
+.jindufive{
+    height: 0.56rem;
+}
+.jindufive span{
+    display: block;
+    float: left;
+
+}
+.jindufive .spantwo{
+    height: 0.56rem;
+    display: inline-block;
+    text-align: center;
+    line-height: 0.56rem;
+    color: #FFFFFF;
+    font-size: 0.12rem;
+    cursor: pointer;
+}
+.jindufive .spanone{
+    margin: 0 0.1rem 0 0.09rem;
+    width: 0.24rem;
+    height: 0.24rem;
+    margin: 0.16rem;
+    overflow: hidden;
+    float: left;
+    border-radius: 50%;
+}
+.jindufive .spanone img{
+    width: 100%;
+}
+
+/* 页面暂无匹配对应class */
+/* .jindufour{
+    width: 1.9rem;
+    background: url(../images/shuxian.png) no-repeat 1.86rem center;
+    height: 0.56rem;
+    margin-left: 0.1rem;
+    text-align: center;
+}
+.jindufour .el-dropdown {
+    display: inline-block;
+    position: relative;
+    font-size: 0.14rem;
+    background: none;
+    padding: 0.016rem 0;
+    border-radius: 4px;
+    color: #ffffff;
+    vertical-align: middle;
+    margin-top: 0.16rem;
+    cursor: pointer;
+}
+.jindufour .el-icon--right {
+    margin-left: 0;
+    position: relative;
+    left: 0;
+    top: 0;
+
+} */
+.el-dropdown-menu__item:focus,.el-dropdown-menu__item:not(.is-disabled):hover {
+    background-color: #FFFFFF;
+}
+
+.jindutwo .el-dropdown-bg{
+    display: inline-block;
+    position: relative;
+    font-size: 0.12rem;
+    background: #a0c960;
+    padding: 0.016rem 0.056rem;
+    border-radius: 4px;
+    color: #ffffff;
+    vertical-align: middle;
+    margin-top: 0.17rem;
+}
+
+.jindutwo .changeColor{
+    background: #7d7d7d;
+}
+.changeColor1, .changeColor2{
+    color: #DC220D !important;
+    font-size: 12px !important;
+}
+
+.jindutwo .el-input__inner {
+    background-color: #333333;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #909399;
+    display: inline-block;
+    font-size: inherit;
+    height: 0.56rem;
+    line-height: 0.56rem;
+    outline: 0;
+    padding: 0;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    -webkit-appearance: none;
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width: 92%;
+    border: none;
+}
+.jindutwo>.el-dropdown .el-dropdown-link{
+    font-size: 0.12rem;
+    color: #fff;
+}
+
+.jindutwo>.el-dropdown .el-dropdown-link .el-icon-arrow-down{
+    transition: transform .5s;
+}
+
+.arrow-down-top {
+    transform: rotate(-180deg);
+}
+
+.jindutwo .el-input__icon {
+    height: 100%;
+    width: 0.15rem;
+    text-align: center;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    line-height: 0.56rem;
+}
+.jindutwo .el-input__suffix {
+    right: 0.18rem;
+    transition: all .3s;
+}
+.jindutwo .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+    background-color: #ffffff;
+}
+.jindutwo .el-dropdown-menu {
+    width: 2.58rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+     padding: 5px 0 0 0;
+    background-color: #FFF;
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+}
+
+.dianhua{
+    width: 1rem !important;
+    padding: 5px 0 !important;
+    text-align: center;
+}
+
+.el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
+    background-color: #ecf5ff;
+    color: #DC220D;
+}
+
+.el-dropdown-menu__item {
+      list-style: none;
+      line-height: 36px;
+      padding: 0 20px;
+      margin: 0;
+      font-size: 0.12rem;
+      color: #606266;
+      cursor: pointer;
+      outline: 0;
+  }
+
+/* 页面暂无未匹配对应class */
+/* .el-dialog__wrapper {
+    position: fixed;
+    top: -0.8rem;
+    right: -7rem;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    margin: 0;
+}
+.el-dialog__wrapper .el-dialog {
+    position: relative;
+    margin: 0 auto 50px;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    box-sizing: border-box;
+    height:3.25rem;
+    overflow-y: auto;
+}
+.el-dialog__wrapper .el-button {
+
+    cursor: pointer;
+    border: none;
+    color: #DC220D;
+    -webkit-transition: .1s;
+    transition: .1s;
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    height:100%;
+}
+.el-dialog__wrapper .el-dialog__footer{
+    padding: 0;
+    border-top: 1px solid #DDDDDD;
+    height: 0.47rem;
+}
+.el-dialog__wrapper .el-dialog__header {
+    padding: 0.16rem 0 0 0.24rem;
+    height: 0.24rem;
+}
+.el-dialog__wrapper .el-dialog__title{
+     line-height: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #282828;
+    margin-top: 0.16rem;
+}
+.el-dialog__wrapper .el-dialog--center {
+    text-align: left;
+}
+.el-dialog__wrapper .el-dialog__headerbtn {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    padding: 0;
+    background: 0 0;
+    border: none;
+    outline: 0;
+    cursor: pointer;
+    font-size: 16px;
+} */
+.xiaoxi{
+    width: 100%;
+    margin-bottom: 0.07rem;
+}
+.xiaoxi p{
+    width: 100%;
+}
+.xiaoxi_pone{
+    font-size: 0.14rem;
+    color: #282828;
+}
+.xiaoxi_ptwo{
+    font-size: 0.12rem;
+    color: #686868;
+    text-indent: 0.06rem;
+}
+.el-dialog__wrapper .el-dialog__body {
+    padding: 0.08rem 0 0 0.17rem;
+
+}
+
+
+
+.el-tooltip__popper .popper__arrow, .el-tooltip__popper .popper__arrow::after{
+    display: none !important;
+}
+
+
+.el-tooltip__popper.is-dark{
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1) !important;
+    background: #fff !important;
+    color: #303133 !important;
+}
+
+/* 2.0 */
+
+.msg-popover {
+    position: absolute;
+    right: 4rem;
+    top: 0.56rem;
+    width: 4.1rem;
+    z-index: 1;
+    background:rgba(255,255,255,1);
+    border-radius:4px;
+    border:1px solid rgba(216,216,216,1);
+}
+.msg-popover .list{
+    max-height: 3rem;
+    overflow: auto;
+}
+
+.msg-popover .item{
+    padding: 0.08rem 0.21rem;
+    border-bottom: 1px solid #DDDDDD;
+    display: flex;
+}
+
+.msg-popover .item:last-child{
+    padding: 0.08rem 0.21rem;
+    border-bottom: 0;
+}
+
+.msg-popover .item .l{
+    flex: 1;
+}
+
+.msg-popover .item .r{
+    width: 0.35rem;
+    height: 0.35rem;
+    margin-left: 0.05rem;
+}
+
+.msg-popover .item .h6{
+    font-size: 0.14rem;
+    line-height: 0.2rem;
+    color: #282828;
+}
+
+.msg-popover .item .time{
+    font-size: 0.12rem;
+    line-height: 0.14rem;
+    color: #979797;
+    margin-top: 0.03rem;
+}
+
+.msg-popover .close-btn{
+    font-size: 0.14rem;
+    line-height: 0.36rem;
+    color: #DC220D;
+    text-align: center;
+    cursor: pointer;
+    border-top: 1px solid #DDDDDD;
+}
+
+
+
+/* 2.0 end*/

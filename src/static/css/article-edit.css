@@ -1,0 +1,80 @@
+.text {
+    height: auto;
+}
+
+.w-e-text-container {
+    height: 5rem;
+}
+
+.article-box {
+    padding: 10px;
+}
+
+#container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.el-input {
+    display: block;
+}
+
+.content-section {
+    padding: 0.2rem;
+    box-sizing: border-box;
+}
+
+.content-section .item-section{
+    display: flex;
+}
+
+.content-section .item-section label{
+    width: 1rem;
+    margin-top: 0.06rem;
+    margin-right: 0.08rem;
+    font-size: 0.14rem;
+}
+
+.content-section .item-section .right-content{
+    flex:1;
+    width: 0;
+}
+
+.content-section .item-section .el-select,.el-input__inner{
+    display: block;
+    width: 100%;
+}
+
+.el-dialog__body {
+    padding: 0;
+}
+
+.item-section {
+    margin-top: 0.08rem;
+}
+
+.item-section .el-input--mini .el-input__inner {
+    line-height: calc(0.3rem - 2px);
+    border-radius: 2px;
+    border: 1px solid rgba(216,216,216,1);
+    font-size: 0.14rem;
+}
+
+.editor-box {
+    border-radius: 2px;
+    border: 1px solid rgba(216,216,216,1);
+    font-size: 0.14rem;
+}
+
+.html-content {
+    max-width: 1180px;
+    margin: auto;
+}
+
+.w-e-toolbar *, .w-e-text-container *, .w-e-menu-panel * {
+    padding: i;
+}
+
+.w-e-text-container {
+    padding: 20px 0!important;
+}
