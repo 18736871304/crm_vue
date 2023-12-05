@@ -988,7 +988,7 @@
             <div class="condition-bottom" @click="saveRecord">保存</div>
           </div>
 
-          <div class="adInformation">
+          <div class="adInformation"  style="height: 2.5rem">
             <div class="title clearfix">
               <span></span>
               <span>广告投放信息</span>
