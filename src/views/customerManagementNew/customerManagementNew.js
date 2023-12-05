@@ -6,7 +6,7 @@ import { formatDate, checkEmail, checkMobile} from '../../static/js/common.js';
 let editor4, editor5, editor6, editor7;
 export default {
   data() {
-    return {
+    return { 
       from: {
         recorddate: moment().format('YYYY-MM-DD 00:00:00'),
         hotlinecount: '',
