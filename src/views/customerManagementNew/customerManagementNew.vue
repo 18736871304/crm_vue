@@ -302,7 +302,7 @@
           <el-table-column key="4" align="center" label="电话号码" width="130" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span class="call-a" v-if="queryflagString == '02'">{{scope.row.mobile}}</span>
-              <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)" v-else>
+              <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)"   style="    color: #8f9198;" v-else>
                 {{scope.row.mobilestr}}
                 <img style="margin-left: 5px;" src="../../static/images/call-icon.png" /></span>
             </template>
