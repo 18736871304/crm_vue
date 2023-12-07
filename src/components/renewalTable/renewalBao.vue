@@ -11,7 +11,7 @@
       class="splice-header"
     >
       <el-table-column key="1" align="center" type="index" label="序号" width="60"> </el-table-column>
-      <el-table-column key="2" align="left" prop="contno" label="原保单号" width="150" :show-overflow-tooltip="true">
+      <el-table-column key="2" align="center" prop="contno" label="原保单号" width="150" :show-overflow-tooltip="true">
         <!-- <template slot-scope="scope">
           <el-tag type="success" v-if="scope.row.isxubao == '05'" size="mini">续</el-tag>
           {{ scope.row.contno }}
@@ -21,7 +21,7 @@
 
 
       <el-table-column key="3" align="center" prop="insorganname" label="保险公司" width="130" :show-overflow-tooltip="true"> </el-table-column>
-      <el-table-column key="4" align="left" prop="riskname" label="险种名称" width="200" :show-overflow-tooltip="true"> </el-table-column>
+      <el-table-column key="4" align="center" prop="riskname" label="险种名称" width="200" :show-overflow-tooltip="true"> </el-table-column>
 
       <el-table-column key="5" align="center" prop="prem" label="原保费" width="80" :show-overflow-tooltip="true"> </el-table-column>
 
@@ -43,14 +43,14 @@
          <div v-if='scope.row.xbcontno'>正常续保</div>
         </template>
       </el-table-column> -->
-      <el-table-column key="12" align="left" prop="xbcontno" label="续保保单号" width="150" :show-overflow-tooltip="true">
+      <el-table-column key="12" align="center" prop="xbcontno" label="续保保单号" width="150" :show-overflow-tooltip="true">
         <!-- <template slot-scope="scope">
           <el-tag type="success" v-if="scope.row.isxubao == '05'" size="mini">续</el-tag>
           {{ scope.row.xbcontno }}
         </template> -->
       </el-table-column>
       <el-table-column key="13" align="center" prop="" label="转保保单号" width="150"> </el-table-column>
-      <el-table-column key="14" align="left" prop="xbriskname" label="续保险种名称" width="200" :show-overflow-tooltip="true"> </el-table-column>
+      <el-table-column key="14" align="center" prop="xbriskname" label="续保险种名称" width="200" :show-overflow-tooltip="true"> </el-table-column>
       <el-table-column key="15" align="center" prop="actualprem" label="续保保费" width="80" :show-overflow-tooltip="true"> </el-table-column>
       <el-table-column key="16" align="center" prop="xbpolicyurl" label="电子保单" width="100" :show-overflow-tooltip="true">
         <template slot-scope="scope">

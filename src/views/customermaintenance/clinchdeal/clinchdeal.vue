@@ -258,18 +258,18 @@
         </el-table-column>
         <el-table-column
           key="9"
-          align="left"
+          align="center"
           prop="contno"
           label="保单号"
           width="150"
           :show-overflow-tooltip="true"
         >
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope">
             <el-tag type="success" v-if="scope.row.isxubao == '05'" size="mini"
               >续</el-tag
             >
             {{ scope.row.contno }}
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column
           key="10"
@@ -309,7 +309,7 @@
         </el-table-column>
         <el-table-column
           key="13"
-          align="left"
+          align="center"
           prop="riskname"
           label="险种名称"
           width="200"

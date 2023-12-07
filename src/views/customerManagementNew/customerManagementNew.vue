@@ -860,7 +860,7 @@
               <div class="editContent_box">
                 <span class="dd">电话号码</span>
                 <span class="dd">
-                  <el-popover placement="bottom" width="200" trigger="click" v-model="addMobliePopVisible">
+                  <el-popover placement="bottom" width="225" trigger="click" v-model="addMobliePopVisible">
                     <!-- <el-button slot="reference">hover 激活</el-button> -->
                     <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px"
                       @input="addMoblieChange">
@@ -1318,5 +1318,10 @@ export default {
 
 .ad-select-content .el-select-inners .el-input__icon {
   margin-left: 1rem;
+}
+.el-popover__reference-wrapper{
+  display: flex;
+  height: 100%;
+    align-items: center;
 }
 </style>

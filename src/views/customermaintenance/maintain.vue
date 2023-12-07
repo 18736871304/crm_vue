@@ -142,10 +142,10 @@
 
         <el-table-column key="18" align="center" prop="contno" label="保单号" width="150"
           :show-overflow-tooltip="true">
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope">
             <el-tag type="success" v-if="scope.row.isxubao == '05'" size="mini">续</el-tag>
             {{scope.row.contno}}
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column key="19" align="center" prop="statename" label="保单状态" width="80"
           :show-overflow-tooltip="true">
@@ -258,7 +258,7 @@
               <div class="editContent_box">
                 <span class="dd">电话号码</span>
                 <span class="dd">
-                  <el-popover placement="bottom" width="200" trigger="click" v-model="addMobliePopVisible">
+                  <el-popover placement="bottom" width="225" trigger="click" v-model="addMobliePopVisible">
                     <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px"
                       @input="addMoblieChange">
                     </el-input>

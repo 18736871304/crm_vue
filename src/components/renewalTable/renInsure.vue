@@ -28,17 +28,17 @@
 
       <el-table-column key="9" align="center" prop="reusername" label="出单业务员" width="100"> </el-table-column>
       <el-table-column key="10" align="center" prop="serviceusername" label="服务人员" width="100"> </el-table-column>
-      <el-table-column key="11" align="left" prop="contno" label="保单号" width="150" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
+      <el-table-column key="11" align="center" prop="contno" label="保单号" width="150" :show-overflow-tooltip="true">
+        <!-- <template slot-scope="scope">
           <el-tag type="success" v-if="scope.row.isxubao == '05'" size="mini">续</el-tag>
           {{ scope.row.contno }}
-        </template>
+        </template> -->
       </el-table-column>
 
       <el-table-column key="12" align="center" prop="statename" label="保单状态" width="80" :show-overflow-tooltip="true"> </el-table-column>
 
       <el-table-column key="13" align="center" prop="insorganname" label="保险公司" width="130" :show-overflow-tooltip="true"> </el-table-column>
-      <el-table-column key="14" align="left" prop="riskname" label="险种名称" width="200" :show-overflow-tooltip="true"> </el-table-column>
+      <el-table-column key="14" align="center" prop="riskname" label="险种名称" width="200" :show-overflow-tooltip="true"> </el-table-column>
       <el-table-column key="15" align="center" prop="appname" label="投保人姓名" width="100" :show-overflow-tooltip="true"> </el-table-column>
       <el-table-column key="16" align="center" label="投保人手机号" width="140" :show-overflow-tooltip="true">
         <template slot-scope="scope">

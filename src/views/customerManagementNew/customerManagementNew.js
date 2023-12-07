@@ -1211,7 +1211,9 @@ export default {
     },
     //点击成交单子，查看详情
     showEdit(item) {
-      this.detailObj = item;
+      var arr=[]
+      arr.push(item)
+      this.detailObj = arr;
       this.showEditPopupDialogVisible = true;
     },
 
