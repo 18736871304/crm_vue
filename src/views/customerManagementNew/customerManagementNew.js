@@ -2073,6 +2073,7 @@ export default {
     },
     getOrderData() {
       let _this = this;
+      _this.loading=true
       getData('post', my_url + '/crm/activity/getPolicyInfoByAppntMobile.do', function (data) {
         if (data.code == '0') {
           var arr = [];
@@ -2084,6 +2085,7 @@ export default {
             }
           })
           _this.policyList = arr;
+          _this.loading=false
         }
       }, {
         mobile: this.detailsInfo.mobilebak

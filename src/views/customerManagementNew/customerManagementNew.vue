@@ -1143,7 +1143,7 @@
           <span></span>
           <span>保障详情</span>
         </div>
-        <ul class="order-list">
+        <ul class="order-list"   v-loading="loading">
           <li class="item" v-for="item in policyList" :key="item.status">
             <div class="head">
               <div class="txt" @click="showEdit(item)">{{item.riskname}}</div>

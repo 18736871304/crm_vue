@@ -489,7 +489,7 @@
           <span></span>
           <span>保障详情</span>
         </div>
-        <ul class="order-list">
+        <ul class="order-list"     v-loading="loading">
           <li class="item" v-for="(item,index) in policyList" :key="index">
             <div class="head">
               <div class="txt" @click="showEditPopup(item)">{{item.riskname}}</div>
@@ -838,7 +838,8 @@ export default {
       
       this.ceMobile = item.mobile
       this.ceActivityserialno = item.activityserialno
-      console.log(item.birthday)
+      console.log(item)
+      
       this.ceBirthday = item.birthday
       this.getTableData()
       this.getOrderData()
@@ -896,7 +897,7 @@ export default {
         // mobilecountry: this.mobilecountry,
       };
 
-      console.log(params)
+      console.log(this.detailsInfo)
       getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) {
         _this.followrecord = '';
         if (data.code == 0) {
@@ -1142,6 +1143,7 @@ export default {
     // 保单详情
     getOrderData() {
       let _this = this;
+      _this.loading=true
       getData('post', my_url + '/crm/activity/getPolicyInfoByAppntMobile.do', function (data) {
         if (data.code == '0') {
           var arr = [];
@@ -1153,6 +1155,7 @@ export default {
             }
           })
           _this.policyList = arr;
+          _this.loading=false
         }
       }, {
         mobile: this.ceMobile
