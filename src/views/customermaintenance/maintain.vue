@@ -838,6 +838,7 @@ export default {
       
       this.ceMobile = item.mobile
       this.ceActivityserialno = item.activityserialno
+      console.log(item.birthday)
       this.ceBirthday = item.birthday
       this.getTableData()
       this.getOrderData()
@@ -894,6 +895,8 @@ export default {
         // mobilecity: this.mobilecity,
         // mobilecountry: this.mobilecountry,
       };
+
+      console.log(params)
       getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) {
         _this.followrecord = '';
         if (data.code == 0) {
