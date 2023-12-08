@@ -148,6 +148,7 @@ export default {
       pageSize: 20,
       pageNum: 1,
       loading: true,
+      detai_loading:false,
       queryflag: true,
       queryflagString: '01',
       menutype: '',
@@ -2073,7 +2074,7 @@ export default {
     },
     getOrderData() {
       let _this = this;
-      _this.loading=true
+      _this.detai_loading=true
       getData('post', my_url + '/crm/activity/getPolicyInfoByAppntMobile.do', function (data) {
         if (data.code == '0') {
           var arr = [];
@@ -2085,7 +2086,7 @@ export default {
             }
           })
           _this.policyList = arr;
-          _this.loading=false
+          _this.detai_loading=false
         }
       }, {
         mobile: this.detailsInfo.mobilebak

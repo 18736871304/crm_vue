@@ -57,6 +57,8 @@
       <el-table-column key="23" align="center" prop="prem" label="保费" width="80" :show-overflow-tooltip="true"> </el-table-column>
 
       <el-table-column key="24" align="center" prop="activitychannelname" label="渠道类型" width="80" :show-overflow-tooltip="true"> </el-table-column>
+      <el-table-column key="24" align="center" prop="reerrormsg" label="失败原因" width="80" :show-overflow-tooltip="true"> </el-table-column>
+
       <el-table-column key="25" align="center" prop="typename" label="电子保单" width="90px" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <a v-if="scope.row.policyurl" class="edit option" target="_blank" :href="scope.row.policyurl" style="color: #8f9198">下载</a>

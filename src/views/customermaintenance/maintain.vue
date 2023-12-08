@@ -489,7 +489,7 @@
           <span></span>
           <span>保障详情</span>
         </div>
-        <ul class="order-list"     v-loading="loading">
+        <ul class="order-list"     v-loading="detail_loading">
           <li class="item" v-for="(item,index) in policyList" :key="index">
             <div class="head">
               <div class="txt" @click="showEditPopup(item)">{{item.riskname}}</div>
@@ -573,6 +573,7 @@ export default {
       pageSize: 20,
       pageNum: 1,
       loading: false,
+      detail_loading:false,
       //筛选查询
       contno: '', //保单号
       cusmobile: '电话号码', //显示的电话号码
@@ -1143,7 +1144,7 @@ export default {
     // 保单详情
     getOrderData() {
       let _this = this;
-      _this.loading=true
+      _this.detail_loading=true
       getData('post', my_url + '/crm/activity/getPolicyInfoByAppntMobile.do', function (data) {
         if (data.code == '0') {
           var arr = [];
@@ -1155,7 +1156,7 @@ export default {
             }
           })
           _this.policyList = arr;
-          _this.loading=false
+          _this.detail_loading=false
         }
       }, {
         mobile: this.ceMobile
@@ -1366,5 +1367,10 @@ export default {
   margin-left: 0.01rem;
   vertical-align: middle;
   margin-bottom: 0.03rem;
+}
+.el-popover__reference-wrapper{
+  display: flex;
+  height: 100%;
+    align-items: center;
 }
 </style>
