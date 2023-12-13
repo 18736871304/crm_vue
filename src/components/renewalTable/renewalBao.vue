@@ -11,6 +11,12 @@
       class="splice-header"
     >
       <el-table-column key="1" align="center" type="index" label="序号" width="60"> </el-table-column>
+      <el-table-column key="6" align="center" prop="xbstatename" label="续保状态" width="100">
+        <template slot-scope="scope">
+          <el-tag type="success" class="greed" v-if="scope.row.xbstatename == '已续保'" size="mini">已续保</el-tag>
+          <el-tag type="success" class="yellow"  v-if="scope.row.xbstatename == '待续保'" size="mini">待续保</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column key="2" align="center" prop="contno" label="原保单号" width="150" :show-overflow-tooltip="true">
         <!-- <template slot-scope="scope">
           <el-tag type="success" v-if="scope.row.isxubao == '05'" size="mini">续</el-tag>
@@ -25,7 +31,7 @@
 
       <el-table-column key="5" align="center" prop="prem" label="原保费" width="80" :show-overflow-tooltip="true"> </el-table-column>
 
-      <el-table-column key="6" align="center" prop="xbstatename" label="续保状态" width="100"> </el-table-column>
+ 
       <el-table-column key="7" align="center" prop="accepttime" label="保单截至日" width="155" sortable> </el-table-column>
       <el-table-column key="8" align="center" prop="xbpaytime" label="续保成功日" width="155"> </el-table-column>
 
@@ -38,16 +44,7 @@
           </span>
         </template>
       </el-table-column>
-      <!-- <el-table-column key="11" align="center" prop="" label="续保类型" width="100"> 
-        <template slot-scope="scope">
-         <div v-if='scope.row.xbcontno'>正常续保</div>
-        </template>
-      </el-table-column> -->
       <el-table-column key="12" align="center" prop="xbcontno" label="续保保单号" width="150" :show-overflow-tooltip="true">
-        <!-- <template slot-scope="scope">
-          <el-tag type="success" v-if="scope.row.isxubao == '05'" size="mini">续</el-tag>
-          {{ scope.row.xbcontno }}
-        </template> -->
       </el-table-column>
       <el-table-column key="13" align="center" prop="" label="转保保单号" width="150"> </el-table-column>
       <el-table-column key="14" align="center" prop="xbriskname" label="续保险种名称" width="200" :show-overflow-tooltip="true"> </el-table-column>
@@ -107,4 +104,25 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.cell .greed{
+  width: 90%;
+    height: 100%;
+  background-color: #1aae1a;
+    border-color: #e1f3d8;
+    color: #fff;
+}
+.cell .yellow{
+  width: 90%;
+    height: 100%;
+  background-color: #fff440;
+    border-color: #e1f3d8;
+    color: #565656;
+}
+.cell .red{
+  width: 90%;
+    height: 100%;
+  background-color: #d92020;
+    border-color: #e1f3d8;
+    color: #fff;
+}</style>

@@ -253,7 +253,7 @@
           align="center"
           prop="serviceusername"
           label="服务人员"
-          width="80"
+          width="100"
         >
         </el-table-column>
         <el-table-column

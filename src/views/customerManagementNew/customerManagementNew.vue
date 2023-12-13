@@ -294,7 +294,7 @@
           </el-table-column> -->
           <el-table-column key="2" type="index" label="序号" align="center" width="60">
           </el-table-column>
-          <el-table-column key="3" label="客户姓名" width="80" align="center" :show-overflow-tooltip="true">
+          <el-table-column key="3" label="客户姓名" width="100" align="center" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span style="cursor: pointer;" type="text" size="small" @click="handle(scope.row)">{{scope.row.name||"空"}}</span>
             </template>
@@ -319,19 +319,19 @@
           <el-table-column key="5" prop="followupstepname" align="center" label="跟进步骤" width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="6" prop="username" align="center" label="所属业务员" width="90"
+          <el-table-column key="6" prop="username" align="center" label="所属业务员" width="100"
             :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="7" v-if="queryflagString === '03' " align="center" label="共享业务员" width="90"
+          <el-table-column key="7" v-if="queryflagString === '03' " align="center" label="共享业务员" width="100"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.shareusername}}</span>
               <img src="../../static/images/delete-icon.png" alt="" style="cursor: pointer;vertical-align: -0.02rem;margin-left: 0.03rem;" @click="cancelShare(scope.row)">
             </template>
           </el-table-column>
-          <el-table-column key="8" prop="sex" label="性别" align="center" width="60" :show-overflow-tooltip="true">
+          <el-table-column key="8" prop="sex" label="性别" align="center" width="80" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="9" prop="age" label="年龄" align="center" width="60" :show-overflow-tooltip="true">
+          <el-table-column key="9" prop="age" label="年龄" align="center" width="80" :show-overflow-tooltip="true">
           </el-table-column>
 
           <el-table-column key="20" prop="sourcelevel" label="" align="center" width="110" :show-overflow-tooltip="true">

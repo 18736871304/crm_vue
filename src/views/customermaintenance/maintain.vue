@@ -781,7 +781,7 @@ export default {
               "pageNumber": page,
               "pageSize": this.pageSize,
               "menutype": "75000000",
-              "followupstep": "'07'"
+              // "followupstep": "'07'"
             }
             if (_this.CJGselectValue == '生日保单') {
               tabData['isbirthdayquery'] = "Y"
