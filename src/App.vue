@@ -48,4 +48,9 @@ nav {
 #nprogress .bar {
   background: #DC220D !important;    //这里可以随便写颜色
 }
+
+.el-table tr {
+    height: 0.35rem!important;
+}
+
 </style>

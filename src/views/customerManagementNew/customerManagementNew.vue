@@ -299,7 +299,7 @@
               <span style="cursor: pointer;" type="text" size="small" @click="handle(scope.row)">{{scope.row.name||"空"}}</span>
             </template>
           </el-table-column>
-          <el-table-column key="4" align="center" label="电话号码" width="130" :show-overflow-tooltip="true">
+          <el-table-column key="4" align="center" label="电话号码" width="140" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span class="call-a" v-if="queryflagString == '02'">{{scope.row.mobile}}</span>
               <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)"   style="    color: #8f9198;" v-else>
@@ -307,7 +307,7 @@
                 <img style="margin-left: 5px;" src="../../static/images/call-icon.png" /></span>
             </template>
           </el-table-column>
-          <el-table-column key="15" align="center" label="微信号" width="120" :show-overflow-tooltip="true">
+          <el-table-column key="15" align="center" label="微信号" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span class="call-a" v-if="queryflagString == '02' && scope.row.wxno==null "></span>
               <span class="call-a" v-else-if="queryflagString == '02' && scope.row.wxno!='' ">****</span>
@@ -357,18 +357,18 @@
           </el-table-column>
 
           <el-table-column key="22" v-if="inputUserform1.includes('menudate')" prop="menudate" align="center"
-            label="线索入库时间" width="150" :show-overflow-tooltip="true">
+            label="线索入库时间" width="155" :show-overflow-tooltip="true">
           </el-table-column>
 
           <el-table-column key="10" v-if="inputUserform1.includes('makedate')" prop="makedate" align="center"
-            label="线索产生时间" width="150" :show-overflow-tooltip="true">
+            label="线索产生时间" width="155" :show-overflow-tooltip="true">
           </el-table-column>
 
           <el-table-column key="11" v-if="inputUserform1.includes('firstcalltime')" prop="firstcalltime" align="center"
-            label="首次拨打时间" width="150" :show-overflow-tooltip="true">
+            label="首次拨打时间" width="155" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="12" v-if="inputUserform1.includes('lastcalltime')" prop="lastcalltime" align="center"
-            label="最新拨打时间" width="150" :show-overflow-tooltip="true">
+            label="最新拨打时间" width="155" :show-overflow-tooltip="true">
           </el-table-column>
 
           <el-table-column key="13" v-if="dis_P4_up && inputUserform1.includes('callcount')" prop="callcount"
@@ -376,7 +376,7 @@
           </el-table-column>
 
           <el-table-column key="16" v-if="this.followupstep=='07' && inputUserform1.includes('cusdealtime')"
-            prop="cusdealtime" align="center" label="客户成交时间" width="150" :show-overflow-tooltip="true">
+            prop="cusdealtime" align="center" label="客户成交时间" width="155" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="17" v-if="this.followupstep=='07' && inputUserform1.includes('cusdealperiod')"
             prop="cusdealperiod" align="center" label="客户成交周期" width="100" :show-overflow-tooltip="true">
@@ -386,7 +386,7 @@
             width="140" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="14" prop="channelname" align="center" label="渠道类型" width="90"
+          <el-table-column key="14" prop="channelname" align="center" label="渠道类型" width="80"
             :show-overflow-tooltip="true">
           </el-table-column>
 
@@ -419,7 +419,7 @@
             align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="appname" key="28" v-if="inputUserform1.includes('appname')" align="center" label="流量来源"
-            width="150" :show-overflow-tooltip="true">
+            width="100" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="area" key="29" v-if="inputUserform1.includes('area')" align="center" label="自动定位城市"
             width="100" :show-overflow-tooltip="true">

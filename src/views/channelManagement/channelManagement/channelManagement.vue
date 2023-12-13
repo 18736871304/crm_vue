@@ -111,7 +111,7 @@
             </el-date-picker>
           </div>
         </div>
-        <div class="common-select" style="float: right;">
+        <div class="common-select" style="float: right;width: 11.5%;">
           <div class="search-btn" @click="search(1)">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
         </div>
@@ -182,43 +182,39 @@
           @selection-change="handleSelectionChange" @sort-change="sortChange">
           <el-table-column type="selection" width="40">
           </el-table-column>
-          <el-table-column key="2" type="index" label="序号" align="center" width="50">
+          <el-table-column key="2" type="index" label="序号" align="center" width="60">
           </el-table-column>
-          <el-table-column key="3" label="客户姓名" width="80" align="center" :show-overflow-tooltip="true">
+          <el-table-column key="3" label="客户姓名" width="100" align="center" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <a style="cursor: pointer;" type="text" size="small"
                 @click="handle(scope.row)">{{scope.row.name||"空"}}</a>
             </template>
           </el-table-column>
-
-
-          <el-table-column key="4" align="center" label="电话号码" width="120" :show-overflow-tooltip="true">
+          <el-table-column key="4" align="center" label="电话号码" width="140" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <a class="call-a" href="javascript:void(0);">
                 {{scope.row.mobile}}
               </a>
             </template>
           </el-table-column>
-          <el-table-column key="15" align="center" label="微信号" prop="wxno" width="120" :show-overflow-tooltip="true">
+          <el-table-column key="15" align="center" label="微信号" prop="wxno" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <a class="call-a" v-if="scope.row.wxno==''|| scope.row.wxno==undefined " href="javascript:void(0)"></a>
               <a class="call-a" v-else href="javascript:void(0)">***</a>
             </template>
           </el-table-column>
-
-
-          <el-table-column key="5" prop="followupstepname" align="center" label="跟进步骤" width="110"
+          <el-table-column key="5" prop="followupstepname" align="center" label="跟进步骤" width="90"
             :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="6" prop="username" align="center" label="所属业务员" width="90"
+          <el-table-column key="6" prop="username" align="center" label="所属业务员" width="100"
             :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="8" prop="sex" label="性别" align="center" width="50" :show-overflow-tooltip="true">
+          <el-table-column key="8" prop="sex" label="性别" align="center" width="80" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="9" prop="age" label="年龄" align="center" width="50" :show-overflow-tooltip="true">
+          <el-table-column key="9" prop="age" label="年龄" align="center" width="80" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="20" prop="sourcelevel" label="" align="center" width="90" :show-overflow-tooltip="true">
+          <el-table-column key="20" prop="sourcelevel" label="" align="center" width="110" :show-overflow-tooltip="true">
 
             <template slot="header" slot-scope="scope">
               <p class="source-level">资源等级
@@ -247,14 +243,14 @@
             :show-overflow-tooltip="true">
           </el-table-column> -->
 
-          <el-table-column key="10" prop="makedate" align="center" label="线索产生时间" width="150"
+          <el-table-column key="10" prop="makedate" align="center" label="线索产生时间" width="155"
             :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="11" prop="firstcalltime" align="center" label="首次拨打时间" width="150"
+          <el-table-column key="11" prop="firstcalltime" align="center" label="首次拨打时间" width="155"
             :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="12" prop="lastcalltime" align="center" label="最新拨打时间" width="150"
+          <el-table-column key="12" prop="lastcalltime" align="center" label="最新拨打时间" width="155"
             :show-overflow-tooltip="true">
           </el-table-column>
 
@@ -262,7 +258,7 @@
             :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column prop="cusdealtime" key="16" align="center" label="客户成交时间" width="150"
+          <el-table-column prop="cusdealtime" key="16" align="center" label="客户成交时间" width="155"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="cusdealperiod" key="17" align="center" label="客户成交周期" width="100"
@@ -272,7 +268,7 @@
           <!-- <el-table-column key="23" prop="batchno" align="center" label="批次号" width="110" :show-overflow-tooltip="true">
           </el-table-column> -->
 
-          <el-table-column key="14" prop="channeldetailname" align="center" label="渠道类型" width="90"
+          <el-table-column key="14" prop="channeldetailname" align="center" label="渠道类型" width="80"
             :show-overflow-tooltip="true">
           </el-table-column>
 
@@ -705,5 +701,10 @@ export default {
   font-size: 0.14rem;
   border-color: #DC220D;
   color: #DC220D;
+}
+.el-popover__reference-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
 }
 </style>

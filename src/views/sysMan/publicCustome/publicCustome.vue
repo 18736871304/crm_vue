@@ -4,7 +4,7 @@
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="资源调配管理" name="00000005">
           <div class="search-box clearfix">
-            <div class="common-select">
+            <!-- <div class="common-select">
               <div class="select-title" style="width: 1.28rem">资源等级</div>
               <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
                 <el-select class="el-select-inners" v-model="sourcelevel" placeholder="请选择资源等级" size="mini" clearable>
@@ -19,13 +19,13 @@
                   <el-option label="Z" value="Z"></el-option>
                 </el-select>
               </div>
-            </div>
+            </div> -->
             <div class="common-select">
               <div class="select-title" style="width: 1.28rem">
                 <!-- label选择框 -->
                 <el-select class="el-input-title-inners" v-model="planid" placeholder="请选择" size="mini">
-                  <el-option label="批次号" value="批次号"></el-option>
                   <el-option label="渠道类型" value="渠道类型"></el-option>
+                  <el-option label="批次号" value="批次号"></el-option>
                   <el-option label="广告计划ID" value="广告计划ID"></el-option>
                 </el-select>
               </div>
@@ -40,8 +40,8 @@
               </div>
             </div>
             <div class="common-select publiccustome-select">
-              <div class="select-title" style="width: 1.1rem">线索产生时间</div>
-              <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.1rem); border: none">
+              <div class="select-title" style="width: 1.65rem">线索产生时间</div>
+              <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
                 <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels
                   range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
                 </el-date-picker>
@@ -59,7 +59,7 @@
               </div>
             </div>
 
-            <div class="common-select" style="float: right;">
+            <div class="common-select" style="float: right;    width: 11.5%;">
               <div class="search-btn" @click="search(1)">搜索</div>
               <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
             </div>
@@ -67,7 +67,7 @@
         </el-tab-pane>
         <el-tab-pane label="封存客户管理" name="00000007">
           <div class="search-box clearfix">
-            <div class="common-select">
+            <!-- <div class="common-select">
               <div class="select-title" style="width: 1.28rem">资源等级</div>
               <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
                 <el-select class="el-select-inners" v-model="sourcelevel" placeholder="请选择资源等级" size="mini" clearable>
@@ -82,7 +82,7 @@
                   <el-option label="Z" value="Z"></el-option>
                 </el-select>
               </div>
-            </div>
+            </div> -->
             <div class="common-select">
               <div class="select-title" style="width: 1.28rem">
                 <!-- label选择框 -->
@@ -103,8 +103,8 @@
               </div>
             </div>
             <div class="common-select">
-              <div class="select-title" style="width: 1.1rem">线索产生时间</div>
-              <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.1rem); border: none">
+              <div class="select-title" style="width: 1.65rem">线索产生时间</div>
+              <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
                 <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels
                   range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
                 </el-date-picker>
@@ -323,10 +323,10 @@
           @selection-change="handleSelectionChange" @sort-change="sortChange" :empty-text="emptyText" header-cell-class-name="splice-header">
           <el-table-column type="selection" width="60">
           </el-table-column>
-          <el-table-column key="2" type="index" label="序号" align="center" width="60">
+          <el-table-column key="1" type="index" label="序号" align="center" width="60">
           </el-table-column>
           <template v-if="activeName != '00000005'&&activeName != '00000006'&&activeName != '00000007'">
-            <el-table-column key="99" type="index" label="状态" align="center" width="100">
+            <el-table-column key="2" type="index" label="状态" align="center" width="100">
               <template slot-scope="scope">
                 <el-tag v-if="scope.row.examstate == '02'" type="success" size="mini">审核通过</el-tag>
                 <el-tag style="color:#979797;background: #F6F7FA;border: 1px solid #ECEEF6;"
@@ -334,30 +334,30 @@
               </template>
             </el-table-column>
           </template>
-          <el-table-column key="3" label="客户姓名" align="center" width="90" :show-overflow-tooltip="true">
+          <el-table-column key="3" label="客户姓名" align="center" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <a style="cursor: pointer;" type="text" size="small"
                 @click="handle(scope.row)">{{scope.row.name||"空"}}</a>
             </template>
           </el-table-column>
-          <el-table-column key="4" prop="mobile" label="电话号码" align="center" width="120" :show-overflow-tooltip="true">
+          <el-table-column key="4" prop="mobile" label="电话号码" align="center" width="140" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="45" label="微信号" align="center" width="120" :show-overflow-tooltip="true">
+          <el-table-column key="5" label="微信号" align="center" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span v-if="scope.row.wxno==null||scope.row.wxno==''"></span>
               <span v-else>****</span>
             </template>
           </el-table-column>
           <template v-if="activeName != '00000005'&&activeName != '00000007'">
-            <el-table-column key="5" prop="followupstepname" align="center" label="跟进步骤" width="90"
+            <el-table-column key="6" prop="followupstepname" align="center" label="跟进步骤" width="90"
               :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column key="6" prop="username" align="center" label="所属业务员" width="100"
+            <el-table-column key="7" prop="username" align="center" label="所属业务员" width="100"
               :show-overflow-tooltip="true">
             </el-table-column>
           </template>
-          <el-table-column key="7" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100"
+          <el-table-column key="8" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.shareusername}}</span>
@@ -365,12 +365,12 @@
                 style="cursor: pointer;vertical-align: -0.02rem;margin-left: 0.03rem;" @click="cancelShare(scope.row)">
             </template>
           </el-table-column>
-          <el-table-column key="8" prop="sex" label="性别" align="center" width="60" :show-overflow-tooltip="true">
+          <el-table-column key="9" prop="sex" label="性别" align="center" width="80" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="9" prop="age" label="年龄" align="center" width="60" :show-overflow-tooltip="true">
+          <el-table-column key="10" prop="age" label="年龄" align="center" width="80" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="20" prop="sourcelevel" label="" align="center" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="11" prop="sourcelevel" label="" align="center" width="110" :show-overflow-tooltip="true">
             <template slot="header" slot-scope="scope">
               <p class="source-level">资源等级
                 <el-tooltip effect="light" placement="top">
@@ -390,46 +390,46 @@
               </p>
             </template>
           </el-table-column>
-          <el-table-column key="22"
+          <el-table-column key="12"
             v-if="activeName != '00000005'&&activeName != '00000007' && inputUserform1.includes('menudate')"
-            prop="menudate" align="center" label="线索入库时间" width="150" :show-overflow-tooltip="true" sortable="custom">
+            prop="menudate" align="center" label="线索入库时间" width="155" :show-overflow-tooltip="true" sortable="custom">
           </el-table-column>
 
-          <el-table-column key="10" v-if="inputUserform1.includes('makedate')" prop="makedate" align="center"
-            label="线索产生时间" width="150" :show-overflow-tooltip="true" sortable="custom">
+          <el-table-column key="13" v-if="inputUserform1.includes('makedate')" prop="makedate" align="center"
+            label="线索产生时间" width="155" :show-overflow-tooltip="true" sortable="custom">
           </el-table-column>
 
           <template
             v-if="activeName != '00000005' && activeName != '00000007' && inputUserform1.includes('firstcalltime')">
-            <el-table-column key="11" prop="firstcalltime" align="center" label="首次拨打时间" :show-overflow-tooltip="true"
-              width="150" sortable="custom">
+            <el-table-column key="14" prop="firstcalltime" align="center" label="首次拨打时间" :show-overflow-tooltip="true"
+              width="155" sortable="custom">
             </el-table-column>
           </template>
-          <el-table-column key="12" v-if="inputUserform1.includes('lastcalltime')" prop="lastcalltime" align="center"
-            label="最新拨打时间" :show-overflow-tooltip="true" width="150" sortable="custom">
+          <el-table-column key="15" v-if="inputUserform1.includes('lastcalltime')" prop="lastcalltime" align="center"
+            label="最新拨打时间" :show-overflow-tooltip="true" width="155" sortable="custom">
           </el-table-column>
 
 
-          <el-table-column v-if="activeName == '00000005'||activeName == '00000007'" key="31" prop="distributedate"
-            align="center" label="最新分配时间" :show-overflow-tooltip="true" sortable="custom" width="150">
+          <el-table-column key="16" v-if="activeName == '00000005'||activeName == '00000007'"  prop="distributedate"
+            align="center" label="最新分配时间" :show-overflow-tooltip="true" sortable="custom" width="155">
           </el-table-column>
 
 
-          <el-table-column key="13" v-if="inputUserform1.includes('batchno')" prop="callcount" align="center"
-            label="累计拨打次数" width="120" :show-overflow-tooltip="true">
+          <el-table-column key="17" v-if="inputUserform1.includes('batchno')" prop="callcount" align="center"
+            label="累计拨打次数" width="100" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column v-if="activeName == '00000006' && inputUserform1.includes('cusdealtime') " prop="cusdealtime"
-            key="16" align="center" label="客户成交时间" width="150" :show-overflow-tooltip="true" sortable="custom">
+          <el-table-column key="18" v-if="activeName == '00000006' && inputUserform1.includes('cusdealtime') " prop="cusdealtime"
+             align="center" label="客户成交时间" width="155" :show-overflow-tooltip="true" sortable="custom">
           </el-table-column>
-          <el-table-column v-if="activeName == '00000006' && inputUserform1.includes('cusdealperiod')"
-            prop="cusdealperiod" key="17" align="center" label="客户成交周期" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="19" v-if="activeName == '00000006' && inputUserform1.includes('cusdealperiod')"
+            prop="cusdealperiod"  align="center" label="客户成交周期" width="100" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="30" v-if="inputUserform1.includes('batchno')" prop="batchno" align="center" label="批次号"
+          <el-table-column key="20" v-if="inputUserform1.includes('batchno')" prop="batchno" align="center" label="批次号"
             width="140" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="14" prop="channelname" align="center" label="渠道类型" width="90"
+          <el-table-column key="21" prop="channelname" align="center" label="渠道类型" width="80"
             :show-overflow-tooltip="true">
           </el-table-column>
 
@@ -437,41 +437,41 @@
             align="center">
           </el-table-column> -->
 
-          <el-table-column prop="clueid" key="33" v-if="inputUserform1.includes('clueid')" align="center" label="线索ID"
+          <el-table-column prop="clueid" key="22" v-if="inputUserform1.includes('clueid')" align="center" label="线索ID"
             width="160" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="accountid" key="35" v-if="inputUserform1.includes('accountid')" align="center"
-            label="广告主ID" width="120" :show-overflow-tooltip="true">
+          <el-table-column prop="accountid" key="23" v-if="inputUserform1.includes('accountid')" align="center"
+            label="广告主ID" width="140" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="accountname" key="32" v-if="inputUserform1.includes('accountname')" align="center"
-            label="广告主名称" width="140" :show-overflow-tooltip="true">
+          <el-table-column prop="accountname" key="24" v-if="inputUserform1.includes('accountname')" align="center"
+            label="广告主名称" width="160" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="planid" key="34" v-if="inputUserform1.includes('planid')" align="center" label="广告计划ID"
-            width="160" :show-overflow-tooltip="true">
+          <el-table-column prop="planid" key="25" v-if="inputUserform1.includes('planid')" align="center" label="广告计划ID"
+            width="140" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="planname" key="24" v-if="inputUserform1.includes('planname')" align="center"
+          <el-table-column prop="planname" key="26" v-if="inputUserform1.includes('planname')" align="center"
             label="广告计划名称" width="220" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="module_id" key="25" v-if="inputUserform1.includes('module_id')" align="center"
+          <el-table-column prop="module_id" key="27" v-if="inputUserform1.includes('module_id')" align="center"
             label="组件ID" width="160" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="module_name" key="26" v-if="inputUserform1.includes('module_name')" align="center"
+          <el-table-column prop="module_name" key="28" v-if="inputUserform1.includes('module_name')" align="center"
             label="组件名称" width="180" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="clue_sourcename" key="27" v-if="inputUserform1.includes('clue_sourcename')"
+          <el-table-column prop="clue_sourcename" key="29" v-if="inputUserform1.includes('clue_sourcename')"
             align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="appname" key="28" v-if="inputUserform1.includes('appname')" align="center" label="流量来源"
-            width="90" :show-overflow-tooltip="true">
+          <el-table-column prop="appname" key="30" v-if="inputUserform1.includes('appname')" align="center" label="流量来源"
+            width="100" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="area" key="36" v-if="inputUserform1.includes('area')" align="center" label="自动定位城市"
+          <el-table-column prop="area" key="31" v-if="inputUserform1.includes('area')" align="center" label="自动定位城市"
             width="100" :show-overflow-tooltip="true">
           </el-table-column>
           <!-- <el-table-column prop="pagename" key="30" align="center" label="推广页面" width="100"
             :show-overflow-tooltip="true">
           </el-table-column> -->
 
-          <el-table-column key="19" v-if="inputUserform1.includes('pagename')" prop="pagename" label="推广页面" width="150"
+          <el-table-column key="32" v-if="inputUserform1.includes('pagename')" prop="pagename" label="推广页面" width="150"
             :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
               <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{scope.row.pagename}}</a>
@@ -485,13 +485,13 @@
             :show-overflow-tooltip="true" align="center">
           </el-table-column> -->
           <!-- v-if="activeName != '00000005'&&activeName != '00000007'" -->
-          <el-table-column key="19" prop="pagename" label="推广页面" min-width="150" width="auto"
+          <el-table-column key="33" prop="pagename" label="推广页面" min-width="150" width="auto"
             :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
               <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{scope.row.pagename}}</a>
             </template>
           </el-table-column>
-          <el-table-column v-if="activeName != '00000005' &&activeName != '00000006'&&activeName != '00000007'" key="29"
+          <el-table-column key="34" v-if="activeName != '00000005' &&activeName != '00000006'&&activeName != '00000007'" 
             prop="remark" align="center" label="备注" width="200" :show-overflow-tooltip="true">
           </el-table-column>
         </el-table>
@@ -542,7 +542,7 @@
               <div class="editContent_box">
                 <span class="dd">电话号码</span>
                 <span class="dd">
-                  <el-popover placement="bottom" width="200" trigger="click" v-model="addMobliePopVisible">
+                  <el-popover placement="bottom" width="230" trigger="click" v-model="addMobliePopVisible">
                     <!-- <el-button slot="reference">hover 激活</el-button> -->
                     <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px"
                       @input="addMoblieChange">
@@ -1106,5 +1106,12 @@ export default {
 
 .select-check .el-checkbox__label{
   font-size: 0.14rem;
+}
+
+
+.el-popover__reference-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
 }
 </style>

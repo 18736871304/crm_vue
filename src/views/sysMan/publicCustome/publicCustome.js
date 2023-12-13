@@ -1,8 +1,13 @@
-
 import $ from 'jquery';
 import moment from "../../../static/js/moment.js"
-import { getData, my_url, crm_url } from '../../../static/js/ajax.js';
-import { formatDate } from '../../../static/js/common.js';
+import {
+  getData,
+  my_url,
+  crm_url
+} from '../../../static/js/ajax.js';
+import {
+  formatDate
+} from '../../../static/js/common.js';
 export default {
   data() {
     return {
@@ -91,11 +96,12 @@ export default {
             const start = monthStartDate;
             var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
             const end = monthEndDate;
+
             function getMonthDays() {
-                var monthStartDate = new Date(nowYear, nowMonth, 1);
-                var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
-                var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
-                return days;
+              var monthStartDate = new Date(nowYear, nowMonth, 1);
+              var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
+              var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
+              return days;
             }
             picker.$emit('pick', [start, end]);
           }
@@ -266,7 +272,7 @@ export default {
       audioPaused: true,
       currentCallIndex: '',
       audioSrc: '',
-      
+
       //保单检视
       bdjsItem: {
         title: '',
@@ -1372,9 +1378,11 @@ export default {
       }
       getData('post', my_url + '/crm/activity/getCallList.do', function (data) {
         if (data.code == '0') {
-          let arr = data.callList.map((item)=>{
-            var calltimeType = item.calltime.replace(/-|:|_|\s/g,"");
-            return Object.assign({}, item, { calltimeType: calltimeType })
+          let arr = data.callList.map((item) => {
+            var calltimeType = item.calltime.replace(/-|:|_|\s/g, "");
+            return Object.assign({}, item, {
+              calltimeType: calltimeType
+            })
           })
           _this.callDataList = arr;
           _this.callSum = data.callSum;
@@ -1791,12 +1799,24 @@ export default {
       });
     },
     addMoblieChange(val) {
-      if (checkMobile(val)) {
+      if (this.checkMobile(val)) {
         this.mobileInputShow = true
       } else {
         this.mobileInputShow = false
       }
     },
+    checkMobile(mobile) {
+      var reg = /^1[3456789]\d{9}$/; //正则表达式
+
+      if (mobile == null || mobile == "") {
+        return false;
+      } else if (!reg.test(mobile)) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+
     mobileAdd() {
       var _this = this;
       var addMoblieStr = _this.addMoblie

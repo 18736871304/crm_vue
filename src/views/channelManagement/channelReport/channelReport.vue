@@ -13,7 +13,7 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.28rem">渠道类型</div>
           <div class="select-content" style="width: calc(100% - 1.28rem); border: none;">
-              <el-select class="el-select-inners" v-model="reschannelname" multiple filterable remote reserve-keyword placeholder="" :remote-method="remoteMethod" >
+              <el-select class="el-select-inners" v-model="reschannelname"   collapse-tags multiple filterable remote reserve-keyword placeholder="" :remote-method="remoteMethod" >
                 <el-option v-for="item in channelListType" :key="item.dd_key" :label="item.dd_value"
                     :value="item.dd_key" clearable>
                 </el-option>
@@ -38,9 +38,9 @@
       <el-table class="splice-header" :data="tableData" border style="width: 100%" v-loading="loading" @selection-change="handleSelectionChange" @sort-change="sortChange">
         <el-table-column align="center" key="2" type="index" label="序号">
         </el-table-column>
-        <el-table-column align="center" key="3" prop="channelname" label="渠道类型" width="120">
+        <el-table-column align="center" key="3" prop="channelname" label="渠道类型" width="80">
         </el-table-column>
-        <el-table-column align="center" key="4" prop="realname" label="业务员姓名" width="120">
+        <el-table-column align="center" key="4" prop="realname" label="业务员姓名" width="100">
         </el-table-column>
         <el-table-column align="center" key="5" prop="hotlinecount" label="总数量" width="90">
         </el-table-column>
@@ -50,7 +50,7 @@
         </el-table-column>
         <el-table-column align="center" key="8" prop="hotlineconnectrate" label="接通率" width="90">
         </el-table-column>
-        <el-table-column align="center" key="9" prop="follow01count" label="微信" width="120">
+        <el-table-column align="center" key="9" prop="follow01count" label="微信" width="90">
         </el-table-column>
         <el-table-column align="center" key="10" prop="follow01rate" label="微信率" width="90">
         </el-table-column>
@@ -60,7 +60,7 @@
         </el-table-column>
         <el-table-column align="center" key="13" prop="follow07count" label="已成交" width="90">
         </el-table-column>
-        <el-table-column align="center" key="14" prop="" label="成交金额" width="90">
+        <el-table-column align="center" key="14" prop="" label="成交金额" width="80">
         </el-table-column>
         <el-table-column align="center" key="15" prop="follow07rate" label="已成交率" width="90">
         </el-table-column>

@@ -57,8 +57,8 @@
           </div>
         </div>
         <div class="common-select" v-if="CJGselectValue === '解答疑义'">
-          <div class="select-title" style="width: 1rem">最后修改时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1rem); border: none">
+          <div class="select-title" style="width: 1.2rem">最后修改时间</div>
+          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.2rem); border: none">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini"
               value-format="yyyy-MM-dd HH:mm:ss" unlink-panels range-separator="-" start-placeholder="开始时间"
               end-placeholder="结束时间" :picker-options="pickerOptions">
@@ -66,8 +66,8 @@
           </div>
         </div>
         <div class="common-select" v-else style="width: 30%">
-          <div class="select-title" style="width: 1.54rem">最后修改时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.54rem); border: none">
+          <div class="select-title" style="width: 1.6rem">最后修改时间</div>
+          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.6rem); border: none">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini"
               value-format="yyyy-MM-dd HH:mm:ss" unlink-panels range-separator="-" start-placeholder="开始时间"
               end-placeholder="结束时间" :picker-options="pickerOptions">
@@ -78,7 +78,7 @@
           <div class="search-btn" @click="search">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
         </div>
-        <div class="common-select" style="float: right;" v-else-if="CJGselectValue === '解答疑义'">
+        <div class="common-select" style="float: right;width: 11.5%;" v-else-if="CJGselectValue === '解答疑义'"      >
           <div class="search-btn" @click="search">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
         </div>
@@ -90,25 +90,25 @@
     </div>
     <div class="table-box">
       <el-table :data="tableData" border style="width: 100%" :header-cell-class-name="headerClassName">
-        <el-table-column align="center" type="index" label="序号">
+        <el-table-column  key="1" align="center" type="index" label="序号">
         </el-table-column>
-        <el-table-column sortable align="center" prop="modifydate" label="最后修改时间" width="170px">
+        <el-table-column  key="2" sortable align="center" prop="modifydate" label="最后修改时间" width="170">
         </el-table-column>
-        <el-table-column v-if="CJGselectValue === '保单检视'" align="center" prop="insorganname" label="保险公司"
-          width='140px' :show-overflow-tooltip="true">
+        <el-table-column  key="3" v-if="CJGselectValue === '保单检视'" align="center" prop="insorganname" label="保险公司"
+          width='140' :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column v-if="CJGselectValue === '解答疑义'" align="left" prop="title" label="疑义问题"
+        <el-table-column  key="4" v-if="CJGselectValue === '解答疑义'" align="left" prop="title" label="疑义问题"
           :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column v-else align="left" prop="title" label="标题" width="auto" :show-overflow-tooltip="true">
+        <el-table-column  key="5"   v-else align="left" prop="title" label="标题"  width="auto" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column v-if="CJGselectValue === '解答疑义'" align="center" prop="askedtypedesc" label="所属分类"
-          width="180px" :show-overflow-tooltip="true">
+        <el-table-column  key="6" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedtypedesc" label="所属分类"
+          width="180" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column v-if="CJGselectValue === '解答疑义'" align="center" prop="askedflowdesc" label="跟进步骤"
-          width="180px" :show-overflow-tooltip="true">
+        <el-table-column  key="7" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedflowdesc" label="跟进步骤"
+          width="180" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column align="center" label="操作" width="140px">
+        <el-table-column  key="8" align="center" label="操作" width="140">
           <template slot-scope="scope">
             <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">查看</a>
           </template>
@@ -1032,3 +1032,10 @@ export default {
 }
 </script>
 <style src="../../static/css/knowledgeMan.css"></style>
+<style>
+
+
+.el-table tr {
+    height: 0.35rem !important;
+}
+</style>

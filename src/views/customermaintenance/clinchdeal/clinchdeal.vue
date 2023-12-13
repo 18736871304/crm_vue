@@ -165,7 +165,7 @@
           </div>
         </div>
 
-        <div class="common-select" style="float: right;width:10.5%">
+        <div class="common-select" style="float: right;width:11.5%">
           <div class="search-btn" @click="search(1)">搜索</div>
           <div
             class="search-btn"
@@ -1673,6 +1673,6 @@ export default {
   color: #979797;
 }
 .el-table tr {
-    height: 0.32rem !important;
+    height: 0.35rem !important;
 }
 </style>

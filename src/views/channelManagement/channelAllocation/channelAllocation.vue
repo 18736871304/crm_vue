@@ -19,16 +19,16 @@
     </div>
     <div class="table-box">
       <el-table class="splice-header" :data="tableData" border style="width: 100%" v-loading="loading">
-        <el-table-column align="center" type="index" label="序号">
+        <el-table-column key="1"  align="center" type="index" label="序号" width="60">
         </el-table-column>
-        <el-table-column align="center" prop="channelname" label="渠道类型" width="150">
+        <el-table-column key="2"  align="center" prop="channelname" label="渠道类型" width="80">
         </el-table-column>
 
-        <el-table-column align="center" prop="username" label="分配业务员" width="auto">
+        <el-table-column  key="3"  align="center" prop="username" label="分配业务员" width="auto">
         </el-table-column>
-        <el-table-column align="center" prop="state" label="分配状态" width="150">
+        <el-table-column  key="4"  align="center" prop="state" label="分配状态" width="80">
         </el-table-column>
-        <el-table-column align="center" label="操作" width="250px">
+        <el-table-column  key="5"  align="center" label="操作" width="140">
           <template slot-scope="scope">
             <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)" style="color: #4985E5;">编辑</a>
             <a class="delete option" href="javascript:void(0);" @click="deleteItem(scope.row)" style="color: #DC220D; margin-left: 0.15rem;">清空</a>

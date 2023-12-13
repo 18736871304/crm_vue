@@ -45,7 +45,7 @@
             </el-select>
           </div>
         </div>
-        <div class="common-select" style="float: right">
+        <div class="common-select" style="float: right;width: 11.5%;">
           <div class="search-btn" @click="search(1)">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
         </div>
@@ -55,21 +55,21 @@
         <el-table class="splice-header" :data="tableData" border style="width: 100%" v-loading="loading" @selection-change="handleSelectionChange" @sort-change="sortChange">
             <el-table-column align="center" key="2" type="index" label="序号">
             </el-table-column>
-            <el-table-column align="center" key="3" prop="makedate" label="创建时间" width="150">
+            <el-table-column align="center" key="3" prop="makedate" label="创建时间" width="155">
             </el-table-column>
-            <el-table-column align="center" key="4" prop="oprname" label="创建人" width="120">
+            <el-table-column align="center" key="4" prop="oprname" label="创建人" width="100">
             </el-table-column>
-            <el-table-column align="center" key="5" prop="channelname" label="渠道类型" width="auto">
+            <el-table-column align="center" key="5" prop="channelname" label="渠道类型" width="80">
             </el-table-column>
-            <el-table-column align="center" key="6" prop="sourcelevelname" label="资源等级" width="150">
+            <el-table-column align="center" key="6" prop="sourcelevelname" label="资源等级" width="110">
             </el-table-column>
-            <el-table-column align="center" key="7" prop="state" label="渠道状态" width="150">
+            <el-table-column align="center" key="7" prop="state" label="渠道状态" width="80">
             </el-table-column>
             <el-table-column align="center" key="8" prop="username" label="渠道负责人" width="100">
             </el-table-column>
-            <el-table-column align="center" key="9" prop="mobile" label="负责人电话" width="150">
+            <el-table-column align="center" key="9" prop="mobile" label="负责人电话" width="140">
             </el-table-column>
-            <el-table-column align="center" key="10" label="操作" width="250px">
+            <el-table-column align="center" key="10" label="操作" width="140">
                 <template slot-scope="scope">
                     <a class="edit option" href="javascript:void(0);" style="color: #4985E5;" @click="showEditPopup(scope.row)">编辑</a>
                     <a class="delete option" href="javascript:void(0);" v-show="scope.row.state == '停用' ? true : false" @click="deleteItem(scope.row)" style="color: #DC220D;margin-left: 0.15rem;">启用</a>

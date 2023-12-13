@@ -80,7 +80,7 @@
           <div class="search-btn" @click="search">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
         </div>
-        <div class="common-select" style="float: right;" v-else-if="CJGselectValue === '解答疑义'">
+        <div class="common-select" style="float: right; width :11.5%" v-else-if="CJGselectValue === '解答疑义'">
           <div class="search-btn" @click="search">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
         </div>
@@ -92,30 +92,30 @@
     </div>
     <div class="table-box">
       <el-table :data="tableData" border style="width: 100%" :header-cell-class-name="headerClassName">
-        <el-table-column align="center" type="index" label="序号">
+        <el-table-column key="1"  align="center" type="index" label="序号" width="60">
         </el-table-column>
-        <el-table-column sortable align="center" prop="makedate" label="新建时间" width="150">
+        <el-table-column key="2" sortable align="center" prop="makedate" label="新建时间" width="155">
         </el-table-column>
-        <el-table-column sortable align="center" prop="modifydate" label="最后修改时间" width="150">
+        <el-table-column  key="3" sortable align="center" prop="modifydate" label="最后修改时间" width="155">
         </el-table-column>
-        <el-table-column align="center" prop="oprname" label="最后修改人员" width="150">
+        <el-table-column  key="4" align="center" prop="oprname" label="最后修改人员" width="100">
         </el-table-column>
-        <el-table-column v-if="CJGselectValue === '保单检视'" align="center" prop="insorganname" label="保险公司"
-          width='140'>
+        <el-table-column key="5" v-if="CJGselectValue === '保单检视'" align="center" prop="insorganname" label="保险公司"
+          width='130'>
         </el-table-column>
-        <el-table-column v-if="CJGselectValue === '解答疑义'" align="left" prop="title" label="疑义问题"
+        <el-table-column key="6" v-if="CJGselectValue === '解答疑义'" align="left" prop="title" label="疑义问题"
           :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column v-else align="left" prop="title" label="标题" :show-overflow-tooltip="true">
+        <el-table-column key="7" v-else align="left" prop="title" label="标题" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column v-if="CJGselectValue === '解答疑义'" align="left" prop="askedtypedesc" label="所属分类"
+        <el-table-column key="8" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedtypedesc" label="所属分类"
           width="180" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column v-if="CJGselectValue === '解答疑义'" align="left" prop="askedflowdesc" label="跟进步骤"
+        <el-table-column key="9" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedflowdesc" label="跟进步骤"
           width="180" :show-overflow-tooltip="true">
         </el-table-column>
 
-        <el-table-column align="center" label="操作" width="140">
+        <el-table-column  key="10" align="center" label="操作" width="140">
           <template slot-scope="scope">
             <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>
             <a class="delete option" href="javascript:void(0);" @click="deleteItem(scope.row)">删除</a>
