@@ -1036,6 +1036,6 @@ export default {
 
 
 .el-table tr {
-    height: 0.35rem !important;
+    height: 0.3rem !important;
 }
 </style>

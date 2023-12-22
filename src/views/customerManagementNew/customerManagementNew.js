@@ -958,6 +958,8 @@ export default {
         cusdealStartDate = this.formatDate(this.selectTimeCusdeal[0], 'yyyy-MM-dd');
         cusdealEndDate = this.formatDate(this.selectTimeCusdeal[1], 'yyyy-MM-dd');
       };
+
+      console.log(this.overviewForm,that.Salesman)
       getData('post', my_url + '/crm/auth/getToken.do', function (data) {
         var params = {
           cluestartdate: hotlineStartDate, //线索开始时间
@@ -966,6 +968,10 @@ export default {
           isaddfriend: "Y",
           pageNumber: page,
           pageSize: that.pageSize,
+          teamid: that.overviewForm.teamid,
+          userid: that.overviewForm.userid, //业务员姓名
+          name: that.Salesman, //客户姓名
+          queryflag: that.queryflagString,
         }
         getData('post', crm_url + 'insure.meihualife.com/crm_web/getArticleClueList.do', function (data) {
           that.ArticleData = data.rows

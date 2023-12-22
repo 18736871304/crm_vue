@@ -30,19 +30,20 @@
 
         <div class="common-select">
           <div class="search-btn" @click="search(1)">搜索</div>
-          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="screenReset">重置</div>
+          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);"
+            @click="screenReset">重置</div>
         </div>
       </div>
     </div>
     <div class="table-box">
-      <el-table v-if="CJGselectValue == '服务客户'|| CJGselectValue == '生日保单'" :data="tableData" border v-loading="loading" style="width: 100%"
-        @selection-change="handleSelectionChange" @sort-change="sortChange" class="splice-header">
+      <el-table v-if="CJGselectValue == '服务客户' || CJGselectValue == '生日保单'" :data="tableData" border v-loading="loading"
+        style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange" class="splice-header">
         <el-table-column key="2" align="center" type="index" label="序号" width="60">
         </el-table-column>
-        <el-table-column key="3" label="客户姓名" width="100" align="center" :show-overflow-tooltip="true" >
+        <el-table-column key="3" label="客户姓名" width="100" align="center" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <a style="cursor: pointer; color: #8f9198" type="text" size="small" 
-              @click="handle(scope.row)">{{scope.row.name||"空"}}</a>
+            <a style="cursor: pointer; color: #8f9198" type="text" size="small" @click="handle(scope.row)">{{
+              scope.row.name || "空" }}</a>
           </template>
         </el-table-column>
         <!-- <el-table-column key="4" align="center" prop="mobile" label="电话号码" width="120">
@@ -52,7 +53,7 @@
           <template slot-scope="scope">
             <!-- <a class="call-a" href="javascript:void(0);" v-if="queryflagString == 02">{{scope.row.mobile}}</a> -->
             <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)">
-              {{scope.row.mobile}}
+              {{ scope.row.mobile }}
               <img style="margin-left: 5px;" src="../../static/images/call-icon.png" />
             </span>
           </template>
@@ -76,8 +77,9 @@
         <el-table-column key="7" align="center" prop="serusername[0]" label="服务人员" width="100">
           <template slot-scope="scope">
             <div class="edit option tan_seruser" style="display: flex;justify-content: center;color: #8f9198;">
-              <div v-if="scope.row.serusername.length > 1" style="margin-right:2px">{{scope.row.serusername[scope.row.serusername.length - 1]}}</div>
-              <div v-if="scope.row.serusername.length <= 1">{{scope.row.serusername[0]}}</div>
+              <div v-if="scope.row.serusername.length > 1" style="margin-right:2px">
+                {{ scope.row.serusername[scope.row.serusername.length - 1] }}</div>
+              <div v-if="scope.row.serusername.length <= 1">{{ scope.row.serusername[0] }}</div>
               <div class="top" v-if="scope.row.serusername.length > 1">
                 <el-tooltip class="item" effect="dark" content="此客户有多个服务人员，请联系业管进行修改" placement="top">
                   <p class="biaozhu"></p>
@@ -100,8 +102,7 @@
 
         <el-table-column key="8" align="center" prop="sex" label="性别" width="80">
         </el-table-column>
-        <el-table-column key="33" v-if="CJGselectValue == '生日保单'" align="center" prop="birthday" label="客户生日"
-          width="155">
+        <el-table-column key="33" v-if="CJGselectValue == '生日保单'" align="center" prop="birthday" label="客户生日" width="155">
         </el-table-column>
         <el-table-column key="9" v-if="CJGselectValue == '服务客户'" align="center" prop="age" label="年龄" width="80"
           :show-overflow-tooltip="true">
@@ -110,8 +111,7 @@
         </el-table-column>
         <el-table-column key="11" align="center" prop="sumpolicyprem" label="总保费" width="80">
         </el-table-column>
-        <el-table-column key="12" align="center" prop="makedate" label="线索产生时间" width="155"
-          :show-overflow-tooltip="true">
+        <el-table-column key="12" align="center" prop="makedate" label="线索产生时间" width="155" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="34" align="center" prop="cusdealtime" label="客户成交时间" width="155"
           :show-overflow-tooltip="true">
@@ -125,12 +125,12 @@
         </el-table-column>
 
       </el-table>
-      <el-table v-if="CJGselectValue == '失效保单' ||CJGselectValue == '终止保单'" :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%;"
-        @selection-change="handleSelectionChange" @sort-change="sortChange" class="splice-header">
+      <el-table v-if="CJGselectValue == '失效保单' || CJGselectValue == '终止保单'" :data="tableData" ref="multipleTable" border
+        v-loading="loading" style="width: 100%;" @selection-change="handleSelectionChange" @sort-change="sortChange"
+        class="splice-header">
         <el-table-column key="61" align="center" type="index" label="序号" width="60">
         </el-table-column>
-        <el-table-column key="15" align="center" prop="accepttime" label="出单日期" width="155"
-          :show-overflow-tooltip="true">
+        <el-table-column key="15" align="center" prop="accepttime" label="出单日期" width="155" :show-overflow-tooltip="true">
         </el-table-column>
 
         <el-table-column key="16" align="center" prop="reusername" label="出单业务员" width="100"
@@ -140,30 +140,26 @@
           :show-overflow-tooltip="true">
         </el-table-column>
 
-        <el-table-column key="18" align="center" prop="contno" label="保单号" width="150"
-          :show-overflow-tooltip="true">
+        <el-table-column key="18" align="center" prop="contno" label="保单号" width="150" :show-overflow-tooltip="true">
           <!-- <template slot-scope="scope">
             <el-tag type="success" v-if="scope.row.isxubao == '05'" size="mini">续</el-tag>
             {{scope.row.contno}}
           </template> -->
         </el-table-column>
-        <el-table-column key="19" align="center" prop="statename" label="保单状态" width="80"
-          :show-overflow-tooltip="true">
+        <el-table-column key="19" align="center" prop="statename" label="保单状态" width="80" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="20" align="center" prop="insorganname" label="保险公司" width="130"
           :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="21" align="center" prop="riskname" label="险种名称" width="200"
-          :show-overflow-tooltip="true">
+        <el-table-column key="21" align="center" prop="riskname" label="险种名称" width="200" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key=22 align="center" prop="appname" label="投保人姓名" width="100"
-          :show-overflow-tooltip="true">
+        <el-table-column key=22 align="center" prop="appname" label="投保人姓名" width="100" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="33" align="center" label="投保人手机号" width="140" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <!-- <a class="call-a" href="javascript:void(0);" v-if="queryflagString == 02">{{scope.row.appphone}}</a> -->
             <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)">
-              {{scope.row.appphone}}
+              {{ scope.row.appphone }}
               <img style="margin-left: 5px;" src="../../static/images/call-icon.png" />
             </span>
           </template>
@@ -175,8 +171,7 @@
         <el-table-column key="24" align="center" prop="appcityname" label="投保人所在市" width="120"
           :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="25" align="center" prop="insname" label="被保人姓名" width="100"
-          :show-overflow-tooltip="true">
+        <el-table-column key="25" align="center" prop="insname" label="被保人姓名" width="100" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="26" align="center" prop="payintvvalue" label="缴费方式" width="80"
           :show-overflow-tooltip="true">
@@ -192,8 +187,7 @@
         <el-table-column key="30" align="center" prop="activitychannelname" label="渠道类型" width="80"
           :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="31" align="center" prop="typename" label="电子保单" width="80"
-          :show-overflow-tooltip="true">
+        <el-table-column key="31" align="center" prop="typename" label="电子保单" width="80" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <a v-if='scope.row.policyurl' class="edit option" target="_blank" :href="scope.row.policyurl"
               style="color: #8F9198;">下载</a>
@@ -202,13 +196,14 @@
         </el-table-column>
         <el-table-column key="32" align="center" label="查看详情" width="100">
           <template slot-scope="scope">
-            <a class="edit option" href="javascript:void(0);" style="color: #4985E5;" @click="showEditPopup(scope.row)">查看详情</a>
+            <a class="edit option" href="javascript:void(0);" style="color: #4985E5;"
+              @click="showEditPopup(scope.row)">查看详情</a>
           </template>
         </el-table-column>
       </el-table>
       <div style="margin-top: 20px; ">
         <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize"
-          :current-page="pageNum" @current-change="pageClick">  
+          :current-page="pageNum" @current-change="pageClick">
         </el-pagination>
       </div>
     </div>
@@ -219,15 +214,15 @@
           <div class="header">
             <div class="header_t">
               <div class="header_t_l">
-                <span>{{detailsInfo.name}}</span>
+                <span>{{ detailsInfo.name }}</span>
                 <span @click="phonecall_page">
-                  <img src="../../static/images/call-icon.png" style="margin-right: 6px;"/>拨打电话
+                  <img src="../../static/images/call-icon.png" style="margin-right: 6px;" />拨打电话
                 </span>
               </div>
               <div class="header_t_r">
                 <span>所属业务员：</span>
-                <span>{{detailsInfo.username}}</span>
-                <span v-if="detailsInfo.otherusername">（{{detailsInfo.otherusername}}）</span>
+                <span>{{ detailsInfo.username }}</span>
+                <span v-if="detailsInfo.otherusername">（{{ detailsInfo.otherusername }}）</span>
               </div>
             </div>
             <div class="header_b">
@@ -235,7 +230,7 @@
               <div class="checkBox">
                 <el-checkbox-group size="mini" v-model="activitytag" v-show="false">
                   <el-checkbox-button v-for="customer in activitytags" :label="customer.dd_key" :key="customer.dd_key">
-                    {{customer.dd_value}}</el-checkbox-button>
+                    {{ customer.dd_value }}</el-checkbox-button>
                 </el-checkbox-group>
               </div>
             </div>
@@ -299,8 +294,8 @@
               <div class="editContent_c editContent_box editContent_date" style=" font-size: 0.13rem;">
                 <span class="dd">出生日期</span>
                 <span class="dd">
-                  <el-date-picker v-model="ceBirthday" type="date" size="mini" placeholder="请输入出生年月"
-                    class="difPicker" clearable style="width: 100%;" value-format="yyyy-MM-dd">
+                  <el-date-picker v-model="ceBirthday" type="date" size="mini" placeholder="请输入出生年月" class="difPicker"
+                    clearable style="width: 100%;" value-format="yyyy-MM-dd">
                   </el-date-picker>
                 </span>
               </div>
@@ -346,7 +341,7 @@
                 <div class="select-title" style="width: 0.8rem">共享客户</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0;">
                   <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false"
-                  :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
+                    :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
                 </div>
               </div>
               <div class="common-select">
@@ -360,9 +355,10 @@
               </div>
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">预约回访</div>
-                <div class="select-content" style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0; border: none">
-                  <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini" placeholder=""
-                    :picker-options="previstitimePickerOptions" clearable>
+                <div class="select-content"
+                  style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0; border: none">
+                  <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini"
+                    placeholder="" :picker-options="previstitimePickerOptions" clearable>
                   </el-date-picker>
                 </div>
               </div>
@@ -376,8 +372,8 @@
             </div>
             <div class="adInformation_b">
               <div class="cb">
-                <span :title="detailsInfo.makedate">线索产生时间：{{detailsInfo.makedate}}</span>
-                <span :title="detailsInfo.channelname">渠道类型：{{detailsInfo.channelname}}</span>
+                <span :title="detailsInfo.makedate">线索产生时间：{{ detailsInfo.makedate }}</span>
+                <span :title="detailsInfo.channelname">渠道类型：{{ detailsInfo.channelname }}</span>
               </div>
               <!-- <div class="cb">
                 <span :title="detailsInfo.planid">广告计划ID：{{detailsInfo.planid}}</span>
@@ -393,16 +389,16 @@
                 <span :title="detailsInfo.module_name">组件名称：{{detailsInfo.module_name}}</span>
               </div> -->
               <div class="cc">
-                <span :title="detailsInfo.clue_sourcename">线索来源：{{detailsInfo.clue_sourcename}}</span>
-                <span :title="detailsInfo.appname">流量来源：{{detailsInfo.appname}}</span>
+                <span :title="detailsInfo.clue_sourcename">线索来源：{{ detailsInfo.clue_sourcename }}</span>
+                <span :title="detailsInfo.appname">流量来源：{{ detailsInfo.appname }}</span>
               </div>
               <div class="cb">
-                <span :title="detailsInfo.area">自动定位城市：{{detailsInfo.area}}</span>
+                <span :title="detailsInfo.area">自动定位城市：{{ detailsInfo.area }}</span>
               </div>
               <div class="cb" style="width: 90%;">
                 <span :title="detailsInfo.pageurl">
-                  推广页面：<a style="cursor: pointer; color: #578EE7;" href="#"
-                    @click="disPageUrl(detailsInfo)">{{detailsInfo.pageurl}}</a>
+                  推广页面：<a style="cursor: pointer; color: #578EE7;" href="#" @click="disPageUrl(detailsInfo)">{{
+                    detailsInfo.pageurl }}</a>
                 </span>
               </div>
             </div>
@@ -412,7 +408,7 @@
             <div class="title">
               <span></span>
               <span>客户通话记录</span>
-              <span>累计通话时长{{callSum}}分钟</span>
+              <span>累计通话时长{{ callSum }}分钟</span>
             </div>
             <div class="tableContent">
               <el-table :data="callDataList" border style="width: 100%" height="250">
@@ -426,10 +422,12 @@
                 </el-table-column>
                 <el-table-column align="center" label="录音" width="70">
                   <template slot-scope="scope" v-if="scope.row.recordurl">
-                    <img class="play-icon" src="../../static/images/pause-icon.png" alt="" @click="audioPause(scope.$index)" v-if="!audioPaused && scope.$index === currentCallIndex">
-                    <img class="play-icon" src="../../static/images/play-icon.png" alt="" @click="audioPlay(scope.$index)" v-else>
-                    <a style="margin-left: 8px;font-size: 15px;vertical-align: middle;" :href="scope.row.recordurl" 
-                    :download="scope.row.username + '_' + detailsInfo.name + '_' + scope.row.calltimeType" title="下载">
+                    <img class="play-icon" src="../../static/images/pause-icon.png" alt=""
+                      @click="audioPause(scope.$index)" v-if="!audioPaused && scope.$index === currentCallIndex">
+                    <img class="play-icon" src="../../static/images/play-icon.png" alt="" @click="audioPlay(scope.$index)"
+                      v-else>
+                    <a style="margin-left: 8px;font-size: 15px;vertical-align: middle;" :href="scope.row.recordurl"
+                      :download="scope.row.username + '_' + detailsInfo.name + '_' + scope.row.calltimeType" title="下载">
                       <i class="el-icon-download"></i>
                     </a>
                   </template>
@@ -457,7 +455,7 @@
           <el-input v-model="followrecord" id="textarea" type="textarea" placeholder="添加跟进记录…"></el-input>
         </div>
         <div class="numBox">
-          <div class="num">共{{releaseNum}}条</div>
+          <div class="num">共{{ releaseNum }}条</div>
           <div class="button">
             <span @click="cancel">取消</span>
             <span @click="release">发布</span>
@@ -465,14 +463,14 @@
         </div>
         <div class="drawercontentBox">
           <ul>
-            <li v-for="(item,index) in records" :key="index">
+            <li v-for="(item, index) in records" :key="index">
               <div class="li_t">
                 <div v-html="item.remark">
                 </div>
               </div>
               <div class="li_b">
-                <div class="li_b_l" :title="item.name">{{item.oprname}}</div>
-                <div class="li_b_r">{{item.makedate}} 创建
+                <div class="li_b_l" :title="item.name">{{ item.oprname }}</div>
+                <div class="li_b_r">{{ item.makedate }} 创建
                   <span class="mobile-icon el-icon-delete" @click="deleteRemark(item.remarkserialno)"
                     style="color:#979797"></span>
                 </div>
@@ -489,11 +487,12 @@
           <span></span>
           <span>保障详情</span>
         </div>
-        <ul class="order-list"     v-loading="detail_loading">
-          <li class="item" v-for="(item,index) in policyList" :key="index">
+        <ul class="order-list" v-loading="detail_loading">
+          <li class="item" v-for="(item, index) in policyList" :key="index">
             <div class="head">
-              <div class="txt" @click="showEditPopup(item)">{{item.riskname}}</div>
-              <div class="status" :class="[item.status === 'processing' ? 'processing' : '',item.status === 'invalid' ? 'invalid' : '',item.status === 'cancel' ? 'cancel' : '']">
+              <div class="txt" @click="showEditPopup(item)">{{ item.riskname }}</div>
+              <div class="status"
+                :class="[item.status === 'processing' ? 'processing' : '', item.status === 'invalid' ? 'invalid' : '', item.status === 'cancel' ? 'cancel' : '']">
                 <template v-if="item.status === 'effective'">保障中</template>
                 <template v-if="item.status === 'processing'">待处理</template>
                 <template v-if="item.status === 'invalid'">已失效</template>
@@ -503,43 +502,43 @@
             <ul class="info-list">
               <div class="info">
                 <span class="l">投保日期:</span>
-                <span>{{item.accepttime}}</span>
+                <span>{{ item.accepttime }}</span>
               </div>
               <div class="info">
                 <span class="l">生效日期:</span>
-                <span>{{item.cvalidate}}</span>
+                <span>{{ item.cvalidate }}</span>
               </div>
               <div class="info">
                 <span class="l">保单号:</span>
-                <span>{{item.contno}}</span>
+                <span>{{ item.contno }}</span>
               </div>
               <div class="info">
                 <span class="l">投保人:</span>
-                <span>{{item.appname}}</span>
+                <span>{{ item.appname }}</span>
               </div>
               <div class="info">
                 <span class="l">被保人:</span>
-                <span>{{item.insname}}</span>
+                <span>{{ item.insname }}</span>
               </div>
               <div class="info">
                 <span class="l">保险金额:</span>
-                <span>{{item.amnt}}</span>
+                <span>{{ item.amnt }}</span>
               </div>
               <div class="info">
                 <span class="l">保障期限:</span>
-                <span>{{item.insuyearvalue}}</span>
+                <span>{{ item.insuyearvalue }}</span>
               </div>
               <div class="info">
                 <span class="l">保费:</span>
-                <span>{{item.prem}}</span>
+                <span>{{ item.prem }}</span>
               </div>
               <div class="info">
                 <span class="l">缴费方式:</span>
-                <span>{{item.payintvvalue}}</span>
+                <span>{{ item.payintvvalue }}</span>
               </div>
               <div class="info">
                 <span class="l">缴费年期:</span>
-                <span>{{item.payendyearvalue}}</span>
+                <span>{{ item.payendyearvalue }}</span>
               </div>
             </ul>
           </li>
@@ -549,7 +548,8 @@
     <!-- 录音播放器 -->
     <audio :src="audioSrc" ref="audio1"></audio>
     <!-- 查看详情弹窗 -->
-    <view-details :datas="detailObj" :showEditPopupDialogVisible.sync="showEditPopupDialogVisible" @updateVisible="updateVisibleId"></view-details>
+    <view-details :datas="detailObj" :showEditPopupDialogVisible.sync="showEditPopupDialogVisible"
+      @updateVisible="updateVisibleId"></view-details>
   </div>
 </template>
 <script>
@@ -573,7 +573,7 @@ export default {
       pageSize: 20,
       pageNum: 1,
       loading: false,
-      detail_loading:false,
+      detail_loading: false,
       //筛选查询
       contno: '', //保单号
       cusmobile: '电话号码', //显示的电话号码
@@ -660,7 +660,7 @@ export default {
       policyList: [],
       ceMobile: '',
       ceActivityserialno: '',
-      ceBirthday:'',
+      ceBirthday: '',
       iscall: 'N',
       // 录音
       audioPaused: true,
@@ -668,72 +668,72 @@ export default {
       audioSrc: '',
       pickerOptions: {
         shortcuts: [{
-            text: '今日',
-            onClick(picker) {
-              const end = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
-              const start = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
-              end.setTime(end.getTime() + 3600 * 1000 * 24);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '昨日',
-            onClick(picker) {
-              const end = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
-              const start = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
-              start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近7天',
-            onClick(picker) {
-              const end = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
-              const start = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近30天',
-            onClick(picker) {
-              const end = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
-              const start = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          },
-          {
-            text: '本周',
-            onClick(picker) {
-              var now = new Date(); // 当前日期
-              var nowDayOfWeek = now.getDay(); // 今天本周的第几天
-              var nowDay = now.getDate(); // 当前日
-              var nowMonth = now.getMonth(); // 当前月
-              var nowYear = now.getYear(); // 当前年
-              nowYear += (nowYear < 2000) ? 1900 : 0;
-              var day = nowDayOfWeek || 7;
-              const start = new Date(now.getFullYear(), nowMonth, nowDay - day);
-              const end = new Date(now.getFullYear(), nowMonth, nowDay + 6 - day);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '本月',
-            onClick(picker) {
-              var now = new Date(); // 当前日期
-              var nowMonth = now.getMonth(); // 当前月
-              var nowYear = now.getYear(); // 当前年
-              nowYear += (nowYear < 2000) ? 1900 : 0;
-              var monthStartDate = new Date(nowYear, nowMonth, 1);
-              const start = monthStartDate;
-              var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
-              const end = monthEndDate;
-              function getMonthDays() {
-                  var monthStartDate = new Date(nowYear, nowMonth, 1);
-                  var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
-                  var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
-                  return days;
-              }
-              picker.$emit('pick', [start, end]);
-            }
+          text: '今日',
+          onClick(picker) {
+            const end = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
+            const start = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
+            end.setTime(end.getTime() + 3600 * 1000 * 24);
+            picker.$emit('pick', [start, end]);
           }
+        }, {
+          text: '昨日',
+          onClick(picker) {
+            const end = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
+            const start = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
+            start.setTime(start.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近7天',
+          onClick(picker) {
+            const end = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
+            const start = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近30天',
+          onClick(picker) {
+            const end = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
+            const start = new Date(formatDate(new Date(), 'yyyy-MM-dd'));
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        },
+        {
+          text: '本周',
+          onClick(picker) {
+            var now = new Date(); // 当前日期
+            var nowDayOfWeek = now.getDay(); // 今天本周的第几天
+            var nowDay = now.getDate(); // 当前日
+            var nowMonth = now.getMonth(); // 当前月
+            var nowYear = now.getYear(); // 当前年
+            nowYear += (nowYear < 2000) ? 1900 : 0;
+            var day = nowDayOfWeek || 7;
+            const start = new Date(now.getFullYear(), nowMonth, nowDay - day);
+            const end = new Date(now.getFullYear(), nowMonth, nowDay + 6 - day);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '本月',
+          onClick(picker) {
+            var now = new Date(); // 当前日期
+            var nowMonth = now.getMonth(); // 当前月
+            var nowYear = now.getYear(); // 当前年
+            nowYear += (nowYear < 2000) ? 1900 : 0;
+            var monthStartDate = new Date(nowYear, nowMonth, 1);
+            const start = monthStartDate;
+            var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
+            const end = monthEndDate;
+            function getMonthDays() {
+              var monthStartDate = new Date(nowYear, nowMonth, 1);
+              var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
+              var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
+              return days;
+            }
+            picker.$emit('pick', [start, end]);
+          }
+        }
         ]
       },
     }
@@ -785,6 +785,8 @@ export default {
             }
             if (_this.CJGselectValue == '生日保单') {
               tabData['isbirthdayquery'] = "Y"
+            } else {
+              tabData['isidquery'] = "Y"
             }
             inteUrl = my_url + '/crm/activity/getClienServerList.do'
           } else if (_this.CJGselectValue == '失效保单' || _this.CJGselectValue == '终止保单') {
@@ -810,6 +812,8 @@ export default {
               rows,
               total
             } = data;
+            console.log(data)
+            const genderArr = ['男', '女']
             if (rows) {
               rows.forEach(res => {
                 if (res.channel == "8001") {
@@ -819,14 +823,38 @@ export default {
                   var birthday = res.birthday
                   res.birthday = birthday.split(" ")[0]
                 }
+
+                if (res.appidno) {
+                  res["sex"] = genderArr[res.appidno.substr(16, 1) % 2]
+                  res["sex"] = genderArr[res.appidno.substr(16, 1) % 2]
+                  res["chu"] = res.appidno.substr(6, 4) + '-' + res.appidno.substr(10, 2) + '-' + res.appidno.substr(12, 2)
+                  res["age"] = _this.getAgeByBirthday(res.appidno.substr(6, 4) + '-' + res.appidno.substr(10, 2) + '-' + res.appidno.substr(12, 2))
+                }
               })
             }
+            console.log(rows)
             _this.tableData = rows
             _this.pageTotal = total
           }, tabData);
         }
       });
     },
+
+
+    getAgeByBirthday(birth) {
+      let age = 0
+      const birthYear = birth.substr(0, 4)
+      const birthMonth = birth.substr(5, 2)
+      const birthDay = birth.substr(8, 2)
+      const nowDate = new Date()
+      const nowYear = nowDate.getFullYear()
+      const nowMonth = nowDate.getMonth() + 1
+      const nowDay = nowDate.getDate()
+      age = nowYear - birthYear
+      if (nowMonth < Number(birthMonth) || (nowMonth == Number(birthMonth) && nowDay < Number(birthDay))) age--
+      return age
+    },
+
     // 筛选项值为空
     screenReset() {
       this.contno = '';
@@ -835,13 +863,15 @@ export default {
       this.search(1)
     },
     handle(item) {
+      console.log(item)
       this.drawer = true;
-      
+
+      this.ceBirthday = item.chu
       this.ceMobile = item.mobile
       this.ceActivityserialno = item.activityserialno
       console.log(item)
-      
-      this.ceBirthday = item.birthday
+
+      // this.ceBirthday = item.birthday
       this.getTableData()
       this.getOrderData()
       this.getReleaseData()
@@ -850,7 +880,7 @@ export default {
     },
 
     //共享客户
-    querySearchId() {},
+    querySearchId() { },
     //保存
     saveRecord() { //保存记录
       let _this = this;
@@ -1132,8 +1162,8 @@ export default {
       }
       getData('post', my_url + '/crm/activity/getCallList.do', function (data) {
         if (data.code == '0') {
-          let arr = data.callList.map((item)=>{
-            var calltimeType = item.calltime.replace(/-|:|_|\s/g,"");
+          let arr = data.callList.map((item) => {
+            var calltimeType = item.calltime.replace(/-|:|_|\s/g, "");
             return Object.assign({}, item, { calltimeType: calltimeType })
           })
           _this.callDataList = arr;
@@ -1144,19 +1174,19 @@ export default {
     // 保单详情
     getOrderData() {
       let _this = this;
-      _this.detail_loading=true
+      _this.detail_loading = true
       getData('post', my_url + '/crm/activity/getPolicyInfoByAppntMobile.do', function (data) {
         if (data.code == '0') {
           var arr = [];
-          data.policyList.forEach((item)=> {
-            if(item.status === 'effective') {
+          data.policyList.forEach((item) => {
+            if (item.status === 'effective') {
               arr.unshift(item)
             } else {
               arr.push(item)
             }
           })
           _this.policyList = arr;
-          _this.detail_loading=false
+          _this.detail_loading = false
         }
       }, {
         mobile: this.ceMobile
@@ -1223,26 +1253,26 @@ export default {
         if (data.code == 0) {
           _this.steps = data.dictList;
         };
-      }, { dict_type: 'followupstep'});
+      }, { dict_type: 'followupstep' });
       getData('post', my_url + '/crm/common/getDictList.do', function (data) { //标签 
         if (data.code == 0) {
           _this.activitytags = data.dictList;
         }
-      }, { dict_type: 'activitytag'});
+      }, { dict_type: 'activitytag' });
       getData('post', my_url + '/crm/common/getDictList.do', function (data) { //其他库 
         if (data.code == 0) {
           _this.otherstores = data.dictList;
         }
-      }, { dict_type: 'otherstore'});
+      }, { dict_type: 'otherstore' });
     },
-     // 打电话
+    // 打电话
     phonecall_row(row) {
-      this.$parent.onSend({mobile: row.mobile, activityid: row.activityserialno});
+      this.$parent.onSend({ mobile: row.mobile, activityid: row.activityserialno });
       // this.phonecall(row.activityserialno, row.mobile);
     },
     // 拨打电话
     phonecall_page() {
-      this.$parent.onSend( {mobile:this.ceMobile, activityid: this.ceActivityserialno});
+      this.$parent.onSend({ mobile: this.ceMobile, activityid: this.ceActivityserialno });
       // this.phonecall(this.detailsInfo.activityserialno, this.ceMobile);
     },
 
@@ -1250,7 +1280,7 @@ export default {
       let _this = this;
       let params = { activityserialno: activityid, mobile: phoneStr };
       getData('post', my_url + '/crm/activity/activityCall.do', function (data) {
-        if(data.code == 0) {
+        if (data.code == 0) {
           _this.search();
           if (_this.iscall == 'Y') {
             let params = {
@@ -1273,7 +1303,7 @@ export default {
     },
     //查看详情
     showEditPopup(item) {
-      var arr=[]
+      var arr = []
       arr.push(item)
 
       getData('post', my_url + '/crm/auth/getToken.do', data => {
@@ -1284,12 +1314,12 @@ export default {
           }
           getData('post', crm_url + 'insure.meihualife.com/crm_web/getOnePolicy.do', data => {
             console.log(data.rows)
-            if(data.rows.length>1){
-                this.detailObj = data.rows;
-            }else{
-              this.detailObj=arr
+            if (data.rows.length > 1) {
+              this.detailObj = data.rows;
+            } else {
+              this.detailObj = arr
             }
-          
+
           }, body)
         }
       })
@@ -1358,7 +1388,8 @@ export default {
   max-width: 330px !important;
 }
 
-.source-level span, .top .biaozhu{
+.source-level span,
+.top .biaozhu {
   display: inline-block;
   width: 0.17rem;
   height: 0.17rem;
@@ -1368,9 +1399,10 @@ export default {
   vertical-align: middle;
   margin-bottom: 0.03rem;
 }
-.el-popover__reference-wrapper{
+
+.el-popover__reference-wrapper {
   display: flex;
   height: 100%;
-    align-items: center;
+  align-items: center;
 }
 </style>

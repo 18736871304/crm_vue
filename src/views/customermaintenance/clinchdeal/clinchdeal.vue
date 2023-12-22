@@ -1673,6 +1673,6 @@ export default {
   color: #979797;
 }
 .el-table tr {
-    height: 0.35rem !important;
+    height: 0.3rem !important;
 }
 </style>
