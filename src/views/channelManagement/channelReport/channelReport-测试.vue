@@ -119,18 +119,13 @@
       </div>
 
     </div>
-
-
-
-
-
   </div>
 </template>
 <script>
 import { api } from "../../../utils/api.js";
 import { getData, my_url } from "../../../static/js/ajax.js";
 import { formatDate } from "../../../static/js/common.js";
-// import InfiniteLoading from 'vue-infinite-loading'
+
 export default {
   data() {
     return {
@@ -165,12 +160,6 @@ export default {
     this.yewu();
     this.getTeamList();
     this.requestData('1')
-    // this.$nextTick(() => {
-    //   console.log(scrollview.scrollTop, scrollview.scrollHeight,scrollview.clientHeight)
-    //   scrollview.scrollTop = scrollview.scrollHeight;
-    //   // this.$refs['list'].scrollTop = 10000;
-    //   console.log(scrollview.scrollTop, scrollview.scrollHeight)
-    // })
   },
 
   activated() {
@@ -255,7 +244,7 @@ export default {
           _this.$nextTick(() => {
             console.log("当前滚动条位置:" + _this.$refs['list'].scrollTop);
             console.log("当前可滚动区域容器的高度:" + _this.$refs['list'].scrollHeight);
-            console.log("当前滚动条的高度:" + _this.$refs['list'].scrollHeight , _this.scrollHeight);
+            console.log("当前滚动条的高度:" + _this.$refs['list'].scrollHeight, _this.scrollHeight);
             console.log(_this.$refs['list'].scrollHeight - _this.scrollHeight);
             _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight - _this.scrollHeight;
           })
@@ -469,23 +458,19 @@ export default {
   width: 15%;
   height: calc(100vh - 1.2rem);
   border: 1px solid #909399;
-  /* overflow-y: scroll; */
   position: relative;
-  /* padding: 0.2rem; */
 }
 
 .custom {
   width: 15%;
   height: calc(100vh - 1.2rem);
   border: 1px solid #909399;
-  /* overflow-y: scroll; */
 }
 
 .ChatRecords {
   width: 70%;
   height: calc(100vh - 1.2rem);
   border: 1px solid #909399;
-  /* overflow-y: scroll; */
 }
 
 .teamList {
@@ -553,12 +538,9 @@ export default {
   border-left: 0.05rem solid transparent;
 }
 
-/* .staffName:first-child {
-  border-top: 1px solid #909399;
-} */
+
 
 .selectname {
-  /* color: #dc220d; */
   background: #effaff !important;
   border-left: 0.05rem solid #409eff;
 }
@@ -683,15 +665,12 @@ export default {
   width: 100%;
   margin-top: 0.8rem;
   height: calc(100vh - 1.9rem);
-  /* overflow-y: scroll;
-  overflow: hidden; */
 }
 
 
 .chat-window {
   display: flex;
   flex-direction: column;
-  /* height: 100%;  */
   overflow-x: hidden;
   overflow-y: auto;
 }

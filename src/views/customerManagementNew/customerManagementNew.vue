@@ -472,18 +472,19 @@
           </el-table-column>
           <el-table-column prop="cluetypename" label="渠道活码" :show-overflow-tooltip="true" width="120" align="center">
           </el-table-column>
-          <el-table-column prop="isaddfriend" label="是否添加好友" :show-overflow-tooltip="true" width="120" align="center">
+          <!-- <el-table-column prop="isaddfriend" label="是否添加好友" :show-overflow-tooltip="true" width="120" align="center">
+          </el-table-column> -->
+          <el-table-column prop="username" label="所属业务员" :show-overflow-tooltip="true" width="100" align="center">
           </el-table-column>
-
           <el-table-column prop="customername" label="客户微信昵称" :show-overflow-tooltip="true" width="180" align="center">
           </el-table-column>
           <el-table-column prop="customerremarkname" label="客户微信备注" :show-overflow-tooltip="true" width="180" align="center">
           </el-table-column>
           <el-table-column prop="customersex" label="客户性别" width="90" align="center">
           </el-table-column>
-          <el-table-column prop="channelname" label="渠道类型" width="120" align="center">
+          <el-table-column prop="channelname" label="渠道类型" width="80" align="center">
           </el-table-column>
-          <el-table-column prop="appname" label="流量来源" width="120" align="center">
+          <el-table-column prop="appname" label="流量来源" width="100" align="center">
           </el-table-column>
           <el-table-column prop="sourcetypename" label="来源属性" width="120" align="center">
           </el-table-column>
