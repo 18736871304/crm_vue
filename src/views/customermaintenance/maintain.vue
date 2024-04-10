@@ -28,7 +28,19 @@
           </div>
         </div>
 
-        <div class="common-select">
+        <div class="common-select"  v-if="CJGselectValue == '服务客户'" >
+          <div class="select-title" style="width: 1.38rem">
+            是否本公司单子
+          </div>
+          <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+            <el-select class="el-select-inners" v-model="istuoguan" size="mini" placeholder="">
+              <el-option v-for="(item, index) in istuoguanList" :key="index" :label="item.dd_value" :value="item.dd_key">
+              </el-option>
+            </el-select>
+          </div>
+
+        </div>
+        <div class="common-select"   style="float: right; width:11%">
           <div class="search-btn" @click="search(1)">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);"
             @click="screenReset">重置</div>
@@ -600,6 +612,14 @@ export default {
         dd_value: '女',
         dd_key: '1'
       }],
+      istuoguan:'',
+      istuoguanList:[{
+        dd_value: '是',
+        dd_key: 'N'
+      }, {
+        dd_value: '否',
+        dd_key: 'Y'
+      }],
       //修改被保人
       editRelatoapp: "",
       editinName: '',
@@ -787,6 +807,7 @@ export default {
               tabData['isbirthdayquery'] = "Y"
             } else {
               tabData['isidquery'] = "Y"
+              tabData['istuoguan'] = _this.istuoguan
             }
             inteUrl = my_url + '/crm/activity/getClienServerList.do'
           } else if (_this.CJGselectValue == '失效保单' || _this.CJGselectValue == '终止保单') {

@@ -13,6 +13,32 @@ import 'nprogress/nprogress.css' // progress bar style
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 
+// 放大图片
+import 'viewerjs/dist/viewer.css'
+import VueViewer from 'v-viewer'
+Vue.use(VueViewer, {
+  defaultOptions: {
+    // "inline": true,
+    "button": true,
+    "navbar": false,
+    "title": false,
+    // "toolbar": true,
+    "tooltip": true,
+    "movable": true,
+    // "zoomable": true,
+    "rotatable": true,
+    "scalable": true,
+    "transition": false,
+    // "fullscreen": true,
+    // "keyboard": true,
+    // "url": "data-source"
+  }
+})
+
+
+
+
+
 // 复制功能
 import VueClipBoard from 'vue-clipboard2'
 
@@ -23,10 +49,12 @@ Vue.use(VueClipBoard);
 Vue.config.productionTip = false
 axios.defaults.withCredentials = true;
 
-NProgress.configure({ showSpinner: false }) // 进度条右上角圆圈
+NProgress.configure({
+  showSpinner: false
+}) // 进度条右上角圆圈
 
 // 前置路由守卫判断是否要登录
-router.beforeEach((to, from, next)=>{
+router.beforeEach((to, from, next) => {
   NProgress.start();
   // let isLogin = localStorage.getItem('isLogin');
   // if(to.path == '/login'){
@@ -43,7 +71,7 @@ router.beforeEach((to, from, next)=>{
   next();
   NProgress.done()
 })
-router.afterEach(()=>{ 
+router.afterEach(() => {
   NProgress.done()
 })
 new Vue({

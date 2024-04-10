@@ -237,7 +237,7 @@
 }
 
 .viewer-toolbar {
-  width: 280px;
+  width: auto;
   margin: 0 auto 5px;
   padding: 3px 0
 }

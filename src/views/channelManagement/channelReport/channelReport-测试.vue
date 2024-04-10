@@ -31,10 +31,10 @@
 
       <div class="staffList">
         <div :class="isAllselect == item.userid ? 'selectname staffName' : 'staffName'
-          " v-for="item of teamNameList" :key="item.userid" :label="item.username" :value="item.userid"
+            " v-for="item of teamNameList" :key="item.userid" :label="item.username" :value="item.userid"
           @click="selectAllName(item.userid, item.username)">
           <div class="userbox">
-            <img src="../../../static/images/ceshi.jpg" alt="" />
+            <img src="../../../static/images/ceshi.jpg" alt="" class="avatar" />
             <div class="pBox">
               <p>{{ item.username }}</p>
               <p>别名：去</p>
@@ -50,7 +50,7 @@
         <header class="headfixed" style="padding:0">
           <div style="margin-bottom: 0.2rem;padding:0.2rem 0.2rem 0; ">
             <div class="userbox">
-              <img src="../../../static/images/ceshi.jpg" alt="" />
+              <img src="../../../static/images/ceshi.jpg" alt="" class="avatar" />
               <div class="pBox">
                 <p style="font-size: 0.18rem;">魏钦录</p>
                 <!-- <p>别名：去</p> -->
@@ -70,12 +70,12 @@
             <el-tab-pane label="同事" name="second">
               <div class="staffList" style="margin-top: 0;     height: calc(100vh - 3.6rem);">
                 <div :class="isAllselect == item.userid
-                  ? 'selectname staffName'
-                  : 'staffName'
-                  " v-for="item of nameAllList" :key="item.userid" :label="item.username" :value="item.userid"
+            ? 'selectname staffName'
+            : 'staffName'
+            " v-for="item of nameAllList" :key="item.userid" :label="item.username" :value="item.userid"
                   @click="selectAllName(item.userid, item.username)">
                   <div class="userbox">
-                    <img src="../../../static/images/ceshi.jpg" alt="" />
+                    <img src="../../../static/images/ceshi.jpg" alt="" class="avatar" />
                     <div class="pBox">
                       <p class='namedata'> <span>{{ item.username }}</span> <span>刚刚</span> </p>
                       <p>别名：去</p>
@@ -96,7 +96,7 @@
       <header class="headfixed   headRecords">
         <div style="padding:0.2rem 0.2rem 0; ">
           <div class="userbox">
-            <img src="../../../static/images/ceshi.jpg" alt="" />
+            <img src="../../../static/images/ceshi.jpg" alt="" class="avatar" />
             <div class="pBox">
               <p style="font-size: 0.18rem;">魏钦录</p>
               <p>备注名：信仰风声</p>
@@ -107,22 +107,57 @@
       <div class="chatHistory">
         <div class="staffList" ref="list" style="margin-top: 0;  height: calc(100vh - 2.4rem);">
 
-          <div :class="isAllselect == item.userid
-            ? 'selectname staffName'
-            : 'staffName'
-            " v-for="item of requestDataList" :key="item.userid" :label="item.username" :value="item.userid"
-            @click="selectAllName(item.userid, item.username)">
-            {{ item.username }}
+          <div class='staffName' style="margin-top: 0.2rem;" v-for="item of requestDataList" :key="item.userid"
+            :label="item.username" :value="item.userid" @click="selectAllName(item.userid, item.username)">
+
+
+            <!-- 聊天记录 开始 -->
+
+            <div class="userbox_left" v-if="item.userType == 'kehu'">
+              <img src="../../../static/images/ceshi.jpg" alt="" class="avatar" />
+
+              <div class="pBox boxhover chat_left">
+                <div class="timeLeft">2023年12月30日 11:43:03</div>
+                <p v-if="item.megType == 'text'" class="chatContent">{{ item.username }}</p>
+
+                <viewer v-if="item.megType == 'src'">
+                  <img :src="item.src" :key="item.src" alt="" />
+                </viewer>
+              </div>
+            </div>
+
+            <div class="userbox_middle" v-if="item.userType == 'time'">
+              <p>2023年12月30日 11:43:03</p>
+            </div>
+
+            <div class="userbox_right" v-if="item.userType == 'yuangong'">
+              <img src="../../../static/images/ceshi.jpg" alt="" class="avatar" />
+
+              <div class="pBox boxhover chat_right">
+                <div class=" timeRight ">2023年12月30日 11:43:03</div>
+                <p v-if="item.megType == 'text'" class="chatContent"> {{ item.username }}</p>
+                <viewer v-if="item.megType == 'src'">
+                  <img :src="item.src" :key="item.src" alt="" />
+                </viewer>
+
+              </div>
+            </div>
+
+            <!-- 聊天记录 结束 -->
           </div>
 
         </div>
       </div>
 
     </div>
+
+
+
+
   </div>
 </template>
 <script>
-import { api } from "../../../utils/api.js";
+import api from "../../../utils/api.js";
 import { getData, my_url } from "../../../static/js/ajax.js";
 import { formatDate } from "../../../static/js/common.js";
 
@@ -149,8 +184,9 @@ export default {
       teamDataList: [],
       teamid: "",
       scrollHeight: '',
-
     };
+
+
   },
 
   mounted: function () {
@@ -195,50 +231,29 @@ export default {
         function (data) {
           console.log(data.namelist)
 
-          var arr2 = [{
-            userid: "1",
-            username: "孙贝贝1"
-          }, {
-            userid: "2",
-            username: "孙贝贝2"
-          }, {
-            userid: "3",
-            username: "孙贝贝3"
-          }, {
-            userid: "4",
-            username: "孙贝贝4"
-          }, {
-            userid: "5",
-            username: "孙贝贝5"
-          }, {
-            userid: "6",
-            username: "孙贝贝6"
-          }, {
-            userid: "7",
-            username: "孙贝贝7"
-          }, {
-            userid: "8",
-            username: "孙贝贝8"
-          }, {
-            userid: "9",
-            username: "孙贝贝9"
-          }, {
-            userid: "10",
-            username: "孙贝贝10"
-          }, {
-            userid: "11",
-            username: "孙贝贝11"
-          }, {
-            userid: "12",
-            username: "孙贝贝12"
-          }, {
-            userid: "13",
-            username: "孙贝贝13"
-          }
+          var arr2 = [
+            { userid: '1', userType: "kehu", megType: 'text', username: '你好，请问有什么要咨询的' },
+            { userid: '2', userType: "yuangong", megType: 'text', username: '朱女士是上海本地人，在私营企业做药品销售工作，宝宝今年11岁，既往也是买了非常多的保单很多保费已经交完了，我花了3个小时整理了一份详尽的表格协助回忆全部的保障责任并给予专业的建议，这一次朱女士主要想要做自己的养老金规划和财富传承的求，分别选择了6万10年缴费的富多多1号，和10万10年缴费的增多多5号;父母之爱子，则为之计深远，为朱女士点赞，为无数爸爸妈妈点赞❤❤' },
+            { userid: '3', userType: "kehu", megType: 'text', username: '这个是一生中意分红险，分红产品要看保险公司背景；这家公司联系20多年都是分红率100%，最高收益；' },
+            { userid: '4', userType: "yuangong", megType: 'text', username: '这个是增多多5号增额寿险；' },
+            { userid: '5', userType: "kehu", megType: 'text', username: '好的' },
+            { userid: '14', userType: "time", megType: 'text', username: '好的' },
+            { userid: '6', userType: "yuangong", megType: 'text', username: '嗯嗯，我们这边有这款产品，您是确定了想买这款，还是还在比较' },
+            { userid: '7', userType: "kehu", megType: 'text', username: '你好，请问有什么要咨询的' },
+            { userid: '8', userType: "yuangong", megType: 'text', username: '你好，请问有什么要咨询的' },
+            { userid: '9', userType: "kehu", megType: 'text', username: '你好，请问有什么要咨询的' },
+            { userid: '10', userType: "yuangong", megType: 'src', src: 'https://insure.meihualife.com/ueditor/jsp/upload/image/20210204/1612424968368091752.png', username: '' },
+            { userid: '11', userType: "yuangong", megType: 'src', src: 'https://insure.meihualife.com/images/inslogo/MH000043.png', username: '' },
+            { userid: '12', userType: "yuangong", megType: 'src', src: 'https://insure.meihualife.com/images/inslogo/MH000095.png', username: '' },
+            { userid: '13', userType: "yuangong", megType: 'src', src: 'https://insure.meihualife.com/images/inslogo/xintai.png', username: '' },
           ];
 
           let allmsg = arr2.concat(_this.requestDataList);
           _this.requestDataList = allmsg
+
+          // _this.requestDataList = []
+          // _this.requestDataList = arr2
+
           _this.scrollHeight = _this.$refs['list'].scrollHeight
 
           _this.$nextTick(() => {
@@ -265,10 +280,19 @@ export default {
 
     getTeamList() {
       let _this = this;
+
+
+      // api.getTalkTeamList().then((data) => {
+      //   console.log(data)
+      //   if (data.code == 0) {
+      //     _this.teamDataList = data.teamList;
+      //     // _this.getHomeKnowledgeList()
+      //   }
+      // })
       //设置当前用户的团队列表参数
-      getData("post", my_url + "/crm/auth/getTeamList.do", function (data) {
-        _this.teamDataList = data.teamList;
-      });
+      // getData("post", my_url + "/crm/auth/getTeamList.do", function (data) {
+      //   _this.teamDataList = data.teamList;
+      // });
     },
     checkTeam(data, checked, indeterminate) {
       let teamListName = [];
@@ -334,26 +358,34 @@ export default {
     },
     yewu() {
       let _this = this;
+
+      api.getTalkTeamList().then((data) => {
+        console.log(data)
+        if (data.code == 0) {
+          _this.teamDataList = data.teamList;
+          // _this.getHomeKnowledgeList()
+        }
+      })
+
+
       getData("post", my_url + "/crm/auth/getTeamList.do", function (data) {
         console.log(data.teamList);
         _this.data = data.teamList;
       });
-      getData(
-        "post",
-        my_url + "/crm/auth/getUserIdNameList.do",
-        function (data) {
-          _this.nameAllList = data.namelist;
-          _this.teamNameList = data.namelist;
-          _this.SalesmanIdBox = [];
-          data.namelist.forEach((res) => {
-            _this.SalesmanIdBox.push({
-              value: res.username,
-              id: res.userid,
-            });
+      api.getQwUser().then((data) => {
+        console.log(data)
+        _this.nameAllList = data.namelist;
+        _this.teamNameList = data.namelist;
+        _this.SalesmanIdBox = [];
+        data.namelist.forEach((res) => {
+          _this.SalesmanIdBox.push({
+            value: res.username,
+            id: res.userid,
           });
 
-        }
-      );
+        });
+
+      });
     },
 
     filterNode(value, data) {
@@ -533,7 +565,7 @@ export default {
 }
 
 .staffName {
-  height: 0.8rem;
+  /* height: 0.8rem; */
   padding: 0.1rem 0.2rem;
   border-left: 0.05rem solid transparent;
 }
@@ -673,5 +705,120 @@ export default {
   flex-direction: column;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+
+
+.chat_left {
+  justify-content: flex-start;
+  width: auto;
+  height: auto;
+  color: #222;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 80%;
+  user-select: text;
+  margin-left: 0.1rem;
+  position: relative;
+}
+
+.chat_right {
+  justify-content: flex-start;
+  width: auto;
+  height: auto;
+  color: #fff;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 80%;
+  user-select: text;
+  margin-right: 0.1rem;
+  position: relative;
+}
+
+
+.chat_left .chatContent {
+  width: auto;
+  height: auto;
+  padding: 0.1rem;
+  border-radius: 0.1rem;
+  background: #f2f2f2;
+  font-size: 0.16rem !important;
+}
+
+
+.chat_right .chatContent {
+  width: auto;
+  height: auto;
+  padding: 0.1rem;
+  border-radius: 0.1rem;
+  background: #1992f9;
+  font-size: 0.16rem !important;
+}
+
+.userbox_left {
+  height: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+}
+
+.userbox_right {
+  height: 100%;
+  display: flex;
+
+  align-items: flex-start;
+  flex-direction: row-reverse;
+  justify-content: right;
+}
+
+
+.userbox_middle p {
+  margin: 0.1rem 0 0.3rem;
+  text-align: center;
+  display: block;
+  color: #777;
+  font-size: 0.14rem;
+}
+
+.avatar {
+  width: 0.4rem;
+  height: 0.4rem;
+}
+
+
+.timeLeft {
+  width: 3rem;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: -22px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(0, 0, 0, .45);
+  line-height: 18px;
+  text-align: left;
+}
+
+.timeRight {
+  width: 3rem;
+  display: none;
+  position: absolute;
+  right: 0;
+  top: -22px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(0, 0, 0, .45);
+  line-height: 18px;
+  text-align: right;
+}
+
+.boxhover:hover .timeLeft {
+  display: block;
+}
+
+.boxhover:hover .timeRight {
+  display: block;
 }
 </style>

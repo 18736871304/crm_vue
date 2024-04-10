@@ -13,14 +13,10 @@
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="
-                width: 1.38rem; ">
+          <div class="select-title" style=" width: 1.38rem; ">
             保单号
           </div>
-          <div class="select-content" style="
-                width: calc(100% - 1.38rem);
-               
-              ">
+          <div class="select-content" style=" width: calc(100% - 1.38rem);">
             <el-input class="el-input-inners" v-model="incontno" align="right" size="mini" placeholder="请输入正确的保单号"
               clearable></el-input>
           </div>
@@ -32,6 +28,9 @@
       <div class="search-box clearfix">
         <div class="common-select">
           <div class="select-title" style="width: 1.38rem">保险公司</div>
+          <!-- <div class="select-content" style="width: calc(100% - 1.38rem)" >
+            <el-input class="el-input-inners" v-model="insorganNamecode" align="right" size="mini" placeholder="请输入保险公司" clearable></el-input>
+          </div> -->
           <div class="select-content" style="width: calc(100% - 1.38rem)">
             <el-autocomplete class="el-input-inners" v-model="insorganNamecode" :trigger-on-focus="false"
               :fetch-suggestions="querySearch" size="mini" placeholder="请输入保险公司" @select="insorganNameSelect" clearable>
@@ -40,64 +39,58 @@
         </div>
         <div class="common-select" style="width: 48%">
           <div class="select-title" style="width: 1.3rem">险种名称</div>
-          <div class="select-content" style="width: calc(100% - 1.3rem); height: 0.3rem; border: none">
+
+
+          <div class="select-content" style="width: calc(100% - 1.38rem)" >
+            <el-input class="el-input-inners" v-model="inmainriskcode" align="right" size="mini" placeholder="请输入险种名称" clearable></el-input>
+          </div>
+          <!-- <div class="select-content" style="width: calc(100% - 1.3rem); height: 0.3rem; border: none">
             <el-select class="el-select-inners" v-model="inmainriskcode" size="mini" placeholder=""
               @change="inmainriskSelect" popper-class="xianSelect">
               <el-option v-for="(item, index) in productList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
             </el-select>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="search-box clearfix">
         <div class="common-select">
           <div class="select-title" style="width: 1.38rem">保险金额</div>
-          <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none" v-if="Amntselect">
-            <el-select class="el-select-inners" v-model="insuranceAmount" size="mini" placeholder="">
-              <el-option v-for="(item, index) in insuranceAmountList" :key="index" :label="item.dd_value"
-                :value="item.dd_key">
-              </el-option>
-            </el-select>
-          </div>
-          <div class="select-content" style="width: calc(100% - 1.38rem)" v-else>
-            <el-input class="el-input-inners" v-model="insuranceAmount" align="right" size="mini" clearable></el-input>
+ 
+          <div class="select-content" style="width: calc(100% - 1.38rem)" >
+            <el-input class="el-input-inners" v-model="insuranceAmount" align="right" size="mini" placeholder="请输入保险金额" clearable></el-input>
           </div>
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.38rem">缴费方式</div>
-          <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
-            <el-select class="el-select-inners" v-model="paymentMethod" size="mini" placeholder="">
-              <el-option v-for="(item, index) in paymentMethodList" :key="index" :label="item.dd_value"
-                :value="item.dd_key">
-              </el-option>
-            </el-select>
+
+          <div class="select-content" style="width: calc(100% - 1.38rem)" >
+            <el-input class="el-input-inners" v-model="paymentMethod" align="right" size="mini" placeholder="请输入缴费方式" clearable></el-input>
           </div>
+
         </div>
 
         <div class="common-select">
           <div class="select-title" style="width: 1.38rem">缴费年期</div>
-          <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
-            <el-select class="el-select-inners" v-model="paymentPeriod" size="mini" placeholder="">
-              <el-option v-for="(item, index) in paymentPeriodList" :key="index" :label="item.dd_value"
-                :value="item.dd_key">
-              </el-option>
-            </el-select>
+
+
+          <div class="select-content" style="width: calc(100% - 1.38rem)" >
+            <el-input class="el-input-inners" v-model="paymentPeriod" align="right" size="mini" placeholder="请输入缴费年期" clearable></el-input>
           </div>
+
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.38rem">保障期限</div>
-          <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
-            <el-select class="el-select-inners" v-model="guaranteePeriod" size="mini" placeholder="">
-              <el-option v-for="(item, index) in guaranteePeriodList" :key="index" :label="item.dd_value"
-                :value="item.dd_key">
-              </el-option>
-            </el-select>
+
+          <div class="select-content" style="width: calc(100% - 1.38rem)" >
+            <el-input class="el-input-inners" v-model="guaranteePeriod" align="right" size="mini" placeholder="请输入保障期限" clearable></el-input>
           </div>
+
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.38rem">保费</div>
           <div class="select-content" style="width: calc(100% - 1.38rem)">
-            <el-input class="el-input-inners" v-model="premium" align="right" size="mini" clearable></el-input>
+            <el-input class="el-input-inners" v-model="premium" align="right" size="mini" placeholder="请输入保费" clearable></el-input>
           </div>
         </div>
         <div class="common-select">
@@ -115,7 +108,7 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.38rem">投保人姓名</div>
           <div class="select-content" style="width: calc(100% - 1.38rem)">
-            <el-input class="el-input-inners" v-model="applicantName" align="right" size="mini" clearable></el-input>
+            <el-input class="el-input-inners" v-model="applicantName" align="right" size="mini" placeholder="请输入投保人姓名" clearable></el-input>
           </div>
         </div>
         <div class="common-select">
@@ -123,7 +116,7 @@
             投保人手机号码
           </div>
           <div class="select-content" style="width: calc(100% - 1.38rem)">
-            <el-input class="el-input-inners" v-model="applicantPhone" @blur="aapChangePhone" align="right" size="mini"
+            <el-input class="el-input-inners" v-model="applicantPhone" @blur="aapChangePhone" align="right" size="mini"  placeholder="请输入投保人手机号"
               clearable></el-input>
           </div>
         </div>
@@ -132,7 +125,7 @@
             投保人证件类型
           </div>
           <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
-            <el-select class="el-select-inners" v-model="applicantType" size="mini" placeholder="">
+            <el-select class="el-select-inners" v-model="applicantType" size="mini" placeholder="请输入投保人证件类型">
               <el-option v-for="(item, index) in idList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
             </el-select>
@@ -141,7 +134,7 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.38rem">投保人证件号</div>
           <div class="select-content" style="width: calc(100% - 1.38rem)">
-            <el-input class="el-input-inners" v-model="applicantIDCard" align="right" size="mini" clearable></el-input>
+            <el-input class="el-input-inners" v-model="applicantIDCard" align="right" size="mini" placeholder="请输入投保人证件号" clearable></el-input>
           </div>
         </div>
 
@@ -219,7 +212,7 @@
           <div class="common-select" v-if="ispeople">
             <div class="select-title" style="width: 1.38rem">被保人姓名</div>
             <div class="select-content" style="width: calc(100% - 1.38rem)">
-              <el-input class="el-input-inners" v-model="insuredName" align="right" size="mini" clearable></el-input>
+              <el-input class="el-input-inners" v-model="insuredName" align="right" size="mini" clearable placeholder="请输入被保人姓名"></el-input>
             </div>
           </div>
           <div class="common-select" v-if="ispeople">
@@ -227,7 +220,7 @@
               被保人手机号码
             </div>
             <div class="select-content" style="width: calc(100% - 1.38rem)">
-              <el-input class="el-input-inners" v-model="insuredPhone" align="right" size="mini" clearable></el-input>
+              <el-input class="el-input-inners" v-model="insuredPhone" align="right" size="mini" clearable  placeholder="请输入被保人手机号"></el-input>
             </div>
           </div>
           <div class="common-select" v-if="ispeople">
@@ -239,7 +232,7 @@
                   height: 0.3rem;
                   border: none;
                 ">
-              <el-select class="el-select-inners" v-model="insuredType" @change="changeType" size="mini" placeholder="">
+              <el-select class="el-select-inners" v-model="insuredType" @change="changeType" size="mini" placeholder="请输入被保人证件类型">
                 <el-option v-for="(item, index) in idList" :key="index" :label="item.dd_value" :value="item.dd_key">
                 </el-option>
               </el-select>
@@ -250,7 +243,7 @@
               被保人证件号
             </div>
             <div class="select-content" style="width: calc(100% - 1.38rem)">
-              <el-input class="el-input-inners" v-model="insuredIDCard" align="right" size="mini" clearable></el-input>
+              <el-input class="el-input-inners" v-model="insuredIDCard" align="right" size="mini" clearable placeholder="请输入被保人证件号"></el-input>
             </div>
           </div>
         </div>

@@ -14,11 +14,10 @@ import {
 export default {
   data() {
     return {
-      disabled:false,
+      disabled: false,
       token: '', //暂时存在
       Amntselect: true, //
       productList: [], //所有险种
-     
       // 保单录入//修改
       moreBaodan: [{}],
       orderid: '',
@@ -253,12 +252,8 @@ export default {
     }
   },
   mounted: function () {
-    // this.getTeamList(); //选择团队
-    // this.search(1); //搜索
     this.getcountry(); //省市区
     this.abpolisystate(); //保单状态
-    // this.yewu(); //所有业务员姓名
-    // this.insrevisitstate(); //回访状态
     this.getchannelNameList(); //渠道类型列表
     this.$nextTick(() => {
       //数据字典
@@ -267,7 +262,7 @@ export default {
     })
   },
   methods: {
-  
+
     //所有的省份 
     countrycreateFilter(queryString) {
       return (SalesmanBox) => {
@@ -363,18 +358,6 @@ export default {
         dict_type: 'abpolicystate'
       });
     },
-
-    // //当表格的排序条件发生变化的时候会触发该事件
-    // sortChange(val) {
-    //   this.order = val.order
-    //   this.prop = val.prop
-    //   this.search(1);
-    // },
-    //当选择项发生变化时会触发该事件
-    // handleSelectionChange(val) {
-    //   this.multipleSelection = val;
-    //   this.checkedAllNum = val.length;
-    // },
 
     //所有的保险公司  /crm/common/getAllRiskList.do
     createFilter(queryString) {
@@ -511,156 +494,7 @@ export default {
       });
     },
 
-    // 筛选查询保单
-    // search(page) {
-    //   this.loading = true
-    //   var cusmobile, cuswxno = ''
-    //   if (this.cusmobile == '电话号码') {
-    //     cusmobile = this.cusMobileWxno.trim()
-    //   } else {
-    //     cuswxno = this.cusMobileWxno
-    //   }
-    //   var planidValue, batchnoValue, channelValue = ''
-    //   if (this.cusplanid == '批次号') {
-    //     batchnoValue = this.cusplanidBatchno
-    //   } else if (this.cusplanid == '渠道类型') {
-    //     channelValue = this.cusplanidBatchno
-    //   } else {
-    //     planidValue = this.cusplanidBatchno
-    //   }
-    //   var fuName, yeName = ''
-    //   if (this.fuName == '业务员姓名') {
-    //     yeName = this.yefuName
-    //   } else {
-    //     fuName = this.yefuName
-    //   }
-    //   if (this.selectTime == null) {
-    //     this.selectTime = ['', '']
-    //   }
-    //   var policyStatus = ''
-    //   if (this.policyStatus == '40') {
-    //     policyStatus = "80','81','82','40"
-    //   } else {
-    //     policyStatus = this.policyStatus
-    //   }
-    //   getData('post', my_url + '/crm/auth/getToken.do', data => {
-    //     if (data.code == 0) {
-    //       var tabData = {
-    //         "token": data.token,
-    //         "acceptStartDate": this.selectTime[0],
-    //         "acceptEndDate": this.selectTime[1],
-    //         "contno": this.contno.trim(),
-    //         "state": policyStatus, //保单状态
-    //         "insorgancode": this.insorgancode,
-    //         "mainriskcode": this.riskcode,
-    //         "cusname": this.cusname,
-    //         "cusmobile": cusmobile.trim(),
-    //         "wxno": cuswxno,
-    //         "planserialno": planidValue,
-    //         "batchno": batchnoValue,
-    //         "channel": channelValue,
-    //         "teamid": this.overviewForm.teamid,
-    //         "serusername": fuName,
-    //         "reusername": yeName,
-    //         "pageNumber": page,
-    //         "pageSize": this.pageSize,
-    //         "isxubao": "NOTY",
-    //         "has_coefficient": "N"
-    //       }
-    //       var _this = this
-    //       // getData('post', crm_url + 'insure.meihualife.com/crm_web/getPolicyList.do', data => {
-    //       getData('post', crm_url + 'insure.meihualife.com/crm_web/getPolicyList_New.do', data => {
-    //         console.log(data)
-    //         _this.tableData = data.rows
-    //         _this.pageTotal = data.total
-    //         _this.loading = false
-    //       }, tabData);
-    //       getData('post', crm_url + 'insure.meihualife.com/crm_web/getPolicySum.do', data => {
-    //         if (data.code == "0") {
-    //           _this.policycount = data.sumData.policycount != undefined ? data.sumData.policycount :
-    //             '0'
-    //           _this.sumprem = data.sumData.sumprem != undefined ? data.sumData.sumprem : '0'
-    //           _this.sumfyp20 = data.sumData.sumfyp20 != undefined ? data.sumData.sumfyp20 : '0'
-    //           _this.coefficientsumfyp20 = data.sumData.coefficientsumfyp20 != undefined ? data.sumData
-    //             .coefficientsumfyp20 : '0'
-    //         }
-    //       }, tabData)
-    //     }
-    //   });
-    // },
-    // screenReset() {
-    //   this.insorganName = '';
-    //   this.insorgancode = '';
-    //   this.mainriskcode = '';
-    //   this.riskcode = '';
-    //   this.selectTime = '';
-    //   this.contno = '';
-    //   this.cusMobileWxno = '';
-    //   this.cusname = '';
-    //   this.cusplanidBatchno = '';
-    //   this.overviewForm.teamid = '';
-    //   this.overviewForm.userid = '';
-    //   this.policyStatus = ''
-    //   this.search(1)
-    // },
-    //选择团队和业务人员
-    // resourceDeployShow() {
-    //   this.getTeamList()
-    // },
-    // getTeamList() {
-    //   let _this = this;
-    //   getData('post', my_url + '/crm/auth/getTeamList.do', function (data) {
-    //     let tempData = [];
-    //     if (data.teamList == null || data.teamList == '') {
-    //       _this.disTeamAll = false;
-    //     } else {
-    //       _this.disTeamAll = true;
-    //     }
-    //     _this.teamDataList = data.teamList;
-    //   });
-    // },
-    // handleCheckChange2(data, checked, indeterminate) {
-    //   let teamListName = [];
-    //   checked.checkedNodes.forEach(function (item) {
-    //     teamListName.push(item.label)
-    //   })
-    //   this.my_list2 = teamListName.join(',');
-    //   this.teamList2 = (checked.checkedKeys).join(',');
-    //   this.overviewForm.teamid = this.teamList2;
-    // },
 
-    // my_sureOne2() {
-    //   this.$refs.disTeam2.hide();
-    //   this.my_list2 = '';
-    //   this.teamList2 = '';
-    //   this.teamNames2 = "团队选择";
-    //   this.overviewForm.teamid = '';
-    //   this.$refs.tree2.setCheckedKeys([]);
-    //   this.queryflag = true;
-    //   // this.refresh();
-    // },
-    // my_sure2() {
-    //   let _this = this;
-    //   this.$refs.disTeam2.hide();
-    //   if (this.my_list2 == null || this.my_list2 == '' || this.my_list2 == '1') {
-    //     this.queryflag = true;
-    //     this.queryflagString = "01"
-    //   } else {
-    //     this.teamNames2 = this.my_list2;
-    //     this.queryflag = false;
-    //     this.queryflagString = "02"
-    //   }
-    //   //获取业务员列表
-    //   getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
-    //     _this.userNameOptions = data.namelist
-    //   }, {
-    //     teamid: this.teamList2
-    //   });
-    // },
-    // userNameChange() {
-    //   this.queryflag = false;
-    //   this.queryflagString = "02"
-    // },
 
     //投保人证件类型为出生证
     changeType() {
@@ -675,12 +509,8 @@ export default {
 
 
 
-    //保单录入
-    //打开弹窗
-    // showAddNoticeDialogVisible() {
-    //   // this.itemReset()
-    //   this.addNoticeDialogVisible = true
-    // },
+
+
     //保单生效时间
     changeDate() {
       this.ineffectiveDate = moment(this.inSelectTime).add(1, "days").format('YYYY-MM-DD')
@@ -731,7 +561,7 @@ export default {
 
     },
 
- 
+
 
 
     // 投保人获取录单信息
@@ -766,389 +596,10 @@ export default {
       })
     },
 
-    // appChangeIDCard() {
-    //   var _this = this
-    //   getData('post', my_url + '/crm/auth/getToken.do', data => {
-    //     var body = {
-    //       token: data.token,
-    //       idno: _this.applicantIDCard.trim()
-    //     }
-    //     getData('post', crm_url + 'insure.meihualife.com/crm_web/getCusInfoByIdno.do', data => {
-    //       if (data.code == 0) {
-    //         if (data.code == 0) {
-    //           if (data.cusinfo.length != 0) {
-    //             _this.applicantName = data.cusinfo[0].name
-    //             _this.applicantIDCard = data.cusinfo[0].idno
-    //             _this.applicantPhone = data.cusinfo[0].mobile
-    //             _this.applicantType = data.cusinfo[0].idtype
-    //             _this.applicantProvince = data.cusinfo[0].provincename
-    //             var item = {
-    //               value: data.cusinfo[0].provincename,
-    //               key: data.cusinfo[0].province
-    //             }
-    //             _this.provinceSelect(item)
-    //             _this.applicantCity = data.cusinfo[0].city,
-    //               _this.citySelect()
-    //             _this.applicantRegion = data.cusinfo[0].country,
-    //               _this.applicantAddress = data.cusinfo[0].address
-    //           }
-    //         }
-    //       }
-    //     }, body)
-    //   })
-    // },
-    //被保人获取录单信息
-    // insChangePhone() {
-    //   var _this = this
-    //   getData('post', my_url + '/crm/auth/getToken.do', data => {
-    //     var body = {
-    //       token: data.token,
-    //       mobile: _this.insuredPhone.trim()
-    //     }
-    //     getData('post', crm_url + 'insure.meihualife.com/crm_web/getCusInfoByMobile.do', data => {
-    //       if (data.code == 0) {
-    //         if (data.cusinfo.length != 0) {
-    //           _this.insuredName = data.cusinfo[0].name
-    //           _this.insuredIDCard = data.cusinfo[0].idno
-    //           _this.insuredPhone = data.cusinfo[0].mobile
-    //           _this.insuredType = data.cusinfo[0].idtype
-    //           _this.insuredProvince = data.cusinfo[0].provincename
-    //           var item = {
-    //             value: data.cusinfo[0].provincename,
-    //             key: data.cusinfo[0].province
-    //           }
-    //           _this.inprovinceSelect(item)
-    //           _this.insuredCity = data.cusinfo[0].city,
-    //             _this.incitySelect()
-    //           _this.insuredRegion = data.cusinfo[0].country,
-    //             _this.insuredAddress = data.cusinfo[0].address
-    //         }
-    //       }
-
-    //     }, body)
-    //   })
-    // },
-    //被保人获取录单信息
-    // insChangeIDCard() {
-    //   var _this = this
-    //   getData('post', my_url + '/crm/auth/getToken.do', data => {
-    //     var body = {
-    //       token: data.token,
-    //       idno: _this.insuredIDCard.trim()
-    //     }
-    //     getData('post', crm_url + 'insure.meihualife.com/crm_web/getCusInfoByIdno.do', data => {
-    //       if (data.code == 0) {
-    //         if (data.cusinfo.length != 0) {
-    //           _this.insuredName = data.cusinfo[0].name
-    //           _this.insuredIDCard = data.cusinfo[0].idno
-    //           _this.insuredPhone = data.cusinfo[0].mobile
-    //           _this.insuredType = data.cusinfo[0].idtype
-    //           _this.insuredProvince = data.cusinfo[0].provincename
-    //           var item = {
-    //             value: data.cusinfo[0].provincename,
-    //             key: data.cusinfo[0].province
-    //           }
-    //           _this.inprovinceSelect(item)
-    //           _this.insuredCity = data.cusinfo[0].city,
-    //             _this.incitySelect()
-    //           _this.insuredRegion = data.cusinfo[0].country,
-    //             _this.insuredAddress = data.cusinfo[0].address
-    //         }
-    //       }
-    //     }, body)
-    //   })
-    // },
-
-    // jiaoyan() {
-    //   if (this.inSelectTime == '' || this.inSelectTime == null) {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "出单日期不能为空",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-    //   if (this.incontno == '' || this.incontno == null) {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "保单号不能为空",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-    //   if (this.premium == '' || this.premium == null || this.premium == '0') {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "保费不能为空",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-    //   if (this.applicantName == '' || this.applicantName == null) {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "投保人姓名不能为空",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-
-    //   if (this.applicantPhone == '' || this.applicantPhone == null) {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "投保人手机号不能为空",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-    //   if (!(/^(13|14|15|16|17|18|19)[0-9]{9}$/.test(this.applicantPhone))) {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "投保人手机号不符合规定",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-
-    //   if (this.applicantType == '' || this.applicantType == null) {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "投保人证件类型不能为空",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-
-    //   if (this.applicantIDCard == '' || this.applicantIDCard == null) {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "投保人证件号不能为空",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-    //   if (this.applicantType == '7') {
-    //     if (!(/^[a-zA-Z0-9]{5,21}$/.test(this.applicantIDCard))) {
-    //       this.$message({
-    //         showClose: true,
-    //         message: "投保人证件号不符合规定",
-    //         duration: 3000,
-    //         type: 'error'
-    //       });
-    //       return
-    //     }
-
-
-
-    //   } else {
-    //     if (!(/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(this.applicantIDCard)) || !(/^[a-zA-Z0-9]{5,21}$/.test(this.applicantIDCard))) {
-    //       this.$message({
-    //         showClose: true,
-    //         message: "投保人证件号不符合规定",
-    //         duration: 3000,
-    //         type: 'error'
-    //       });
-    //       return
-    //     }
-    //   }
-
-    //   if (this.inpeople == '' || this.inpeople == null) {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "投被保人是否是同一个人",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-
-    //   if (this.channelValue == '' || this.channelValue == null || this.channelValue == "undefined") {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "请选择渠道类型",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-
-    //   if (this.isSource && (this.sourceValue == '' || this.sourceValue == null)) {
-    //     this.$message({
-    //       showClose: true,
-    //       message: "请选择流量来源",
-    //       duration: 3000,
-    //       type: 'error'
-    //     });
-    //     return
-    //   }
-
-
-
-    //   if (this.inpeople == '否') {
-    //     if (this.applicantName == this.insuredName || this.applicantIDCard == this.insuredIDCard) {
-    //       this.$message({
-    //         showClose: true,
-    //         message: "投被保人不应该为同一个人",
-    //         duration: 3000,
-    //         type: 'error'
-    //       });
-    //       return
-    //     }
-
-    //     if (this.relatoapp == '' || this.relatoapp == null) {
-    //       this.$message({
-    //         showClose: true,
-    //         message: "请选择投保人和被保人的关系",
-    //         duration: 3000,
-    //         type: 'error'
-    //       });
-    //       return
-    //     }
-    //     if (this.insuredName == '' || this.insuredName == null) {
-    //       this.$message({
-    //         showClose: true,
-    //         message: "请填写被保人姓名",
-    //         duration: 3000,
-    //         type: 'error'
-    //       });
-    //       return
-    //     }
-    //     if (this.insuredPhone == '' || this.insuredPhone == null) {
-
-    //     } else {
-    //       if (!(/^(13|14|15|16|17|18|19)[0-9]{9}$/.test(this.insuredPhone))) {
-    //         this.$message({
-    //           showClose: true,
-    //           message: "被保人手机号不符合规定",
-    //           duration: 3000,
-    //           type: 'error'
-    //         });
-    //         return
-    //       }
-    //     }
-
-
-
-    //     if (this.insuredType == '' || this.insuredType == null) {
-    //       this.$message({
-    //         showClose: true,
-    //         message: "请选择被保人证件类型",
-    //         duration: 3000,
-    //         type: 'error'
-    //       });
-    //       return
-    //     }
-    //     if (this.insuredIDCard == '' || this.insuredIDCard == null) {
-    //       this.$message({
-    //         showClose: true,
-    //         message: "请填写被保人证件号",
-    //         duration: 3000,
-    //         type: 'error'
-    //       });
-    //       return
-    //     }
-    //     if (this.insuredType == '7') {
-    //       if (!(/^[a-zA-Z0-9]{5,21}$/.test(this.insuredIDCard))) {
-    //         this.$message({
-    //           showClose: true,
-    //           message: "被保人证件号不符合规定",
-    //           duration: 3000,
-    //           type: 'error'
-    //         });
-    //         return
-    //       }
-    //       if (this.birthData == '' || this.birthData == null) {
-    //         this.$message({
-    //           showClose: true,
-    //           message: "被保人出生日期不能为空",
-    //           duration: 3000,
-    //           type: 'error'
-    //         });
-    //         return
-    //       }
-    //       if (this.insex == '' || this.insex == null) {
-    //         this.$message({
-    //           showClose: true,
-    //           message: "被保人性别不能为空",
-    //           duration: 3000,
-    //           type: 'error'
-    //         });
-    //         return
-    //       }
-
-
-
-    //     } else {
-    //       if (!(/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(this.insuredIDCard))) {
-    //         this.$message({
-    //           showClose: true,
-    //           message: "被保人证件号不符合规定",
-    //           duration: 3000,
-    //           type: 'error'
-    //         });
-    //         return
-    //       }
-    //     }
-    //     var appage = getIdCardAge((this.applicantIDCard).trim());
-    //     var insage = getIdCardAge((this.insuredIDCard).trim());
-    //     if (this.relatoapp == '01' && this.insuredType == '0') {
-    //       if (appage <= insage) {
-    //         this.$message({
-    //           showClose: true,
-    //           message: "投被保人关系不正确",
-    //           duration: 3000,
-    //           type: 'error'
-    //         });
-    //         return
-    //       }
-    //     }
-    //     if (this.relatoapp == '03' && this.insuredType == '0') {
-    //       if (appage >= insage) {
-    //         this.$message({
-    //           showClose: true,
-    //           message: "投被保人关系不正确",
-    //           duration: 3000,
-    //           type: 'error'
-    //         });
-    //         return
-    //       }
-    //     }
-    //     if (this.relatoapp == '04' && this.insuredType == '0') {
-    //       if (appage <= insage) {
-    //         this.$message({
-    //           showClose: true,
-    //           message: "投被保人关系不正确",
-    //           duration: 3000,
-    //           type: 'error'
-    //         });
-    //         return
-    //       }
-    //     }
-
-    //   }
-
-
-
-
-    //   return true
-    // },
-
-
-
-
-
-
-    //添加数据
+    // 录入保单
     insertItem() {
       var _this = this
+      var jiaoyanTrue = this.jiaoyan()
 
       var appsex, appbirthday = ''
       var inssex, insbirthday = ''
@@ -1171,7 +622,7 @@ export default {
 
       //手动录入
 
-      if (this.orderid == '') {
+      if (jiaoyanTrue == true) {
         //   var jiaoyanTrue = this.jiaoyan()
         // if (jiaoyanTrue == true) {
         this.loading = true
@@ -1188,23 +639,22 @@ export default {
           if (data.code == 0) {
             var data = {
               "token": data.token,
-              //保单录入
               "startdate": this.inSelectTime,
               "contno": this.incontno.trim(), //保单号
-              "insorgancode": this.insorgancode, //保险公司
-              "riskcode": this.riskcode, //险种
+              "insorgancode": this.insorgancode != '' ? this.insorgancode : '0', //保险公司
+              "riskname": this.inmainriskcode != '' ? this.inmainriskcode : '0', //险种
               "cvalidate": this.ineffectiveDate, //保单生效时间
-              "amnt": this.insuranceAmount, //保险金额
-              "payintv": this.paymentMethod, //缴费方式
-              "payendyear": this.paymentPeriod, //缴费年期
-              "insuyear": this.guaranteePeriod, //保证期限
-              "prem": this.premium, //保费
+              "amnt": this.insuranceAmount != '' ? this.insuranceAmount : '0', //保险金额
+              "payintv": this.paymentMethod != '' ? this.paymentMethod : '0', //缴费方式
+              "payendyear": this.paymentPeriod != '' ? this.paymentPeriod + 'Y' : '-1Y', //缴费年期
+              "insuyear": this.guaranteePeriod != '' ? this.guaranteePeriod + 'Y' : '-1Y', //保证期限
+              "prem": this.premium != '' ? this.premium : '0', //保费
               //投保人
-              "appname": this.applicantName.trim(), //投保人姓名
-              "appmobile": this.applicantPhone.trim(), //投保人手机号
-              "appidnotype": this.applicantType, //投保人证件类型
-              "appidno": this.applicantIDCard.trim(), //投保人证件号
-              "appprovince": this.applicantProvinceCode, //投保人所在省
+              "appname": this.applicantName.trim() != '' ? this.applicantName.trim() : '0', //投保人姓名
+              "appmobile": this.applicantPhone.trim() != '' ? this.applicantPhone.trim() : '0', //投保人手机号
+              "appidnotype": this.applicantType, //投保人证件类型0
+              "appidno": this.applicantIDCard.trim() != '' ? this.applicantIDCard.trim() : '0', //投保人证件号
+              "appprovince": this.applicantProvinceCode != '' ? this.applicantProvinceCode : '0', //投保人所在省
               "appcity": this.applicantCity, //投保人所在市
               "appcountry": this.applicantRegion, //投保人所在区
               "appaddress": this.applicantAddress, //投保人所在地址
@@ -1212,10 +662,10 @@ export default {
               "appbirthday": appbirthday,
               //被保人
               "relatoapp": this.relatoapp, //父母子女配偶
-              "insname": this.insuredName.trim(), //被保人姓名
-              "insmobile": this.insuredPhone.trim(), //被保人手机号
+              "insname": this.insuredName.trim() != '' ? this.insuredName.trim() : '0', //被保人姓名
+              "insmobile": this.insuredPhone.trim() != '' ? this.insuredPhone.trim() : '0', //被保人手机号
               "insidnotype": this.insuredType, //被保人证件类型
-              "insidno": this.insuredIDCard.trim(), //被保人证件号
+              "insidno": this.insuredIDCard.trim() != '' ? this.insuredIDCard.trim() : '0', //被保人证件号
               "insprovince": this.insuredProvinceCode, //被保人所在省
               "inscity": this.insuredCity, //被保人所在市
               "inscountry": this.insuredRegion, //被保人所在区
@@ -1223,32 +673,35 @@ export default {
               "inssex": inssex,
               "insbirthday": insbirthday,
               "system": "crm",
-              "channel": this.channelValue,
-              "channelappname": this.sourceValue
+              "istuoguan": 'Y'
+              // "channel": this.channelValue,
+              // "channelappname": this.sourceValue
             }
 
             console.log(data)
-            // getData('post', crm_url + 'insure.meihualife.com/crm_web/lifePolicyInsert.do', data => {
-            //   if (data.code == 0) {
-            //     _this.hideaddNoticeDialogVisible();
-            //     _this.loading = false
-            //     this.$message({
-            //       showClose: true,
-            //       message: "保单已录入，请等待管理员进行审核",
-            //       duration: 3000,
-            //       type: 'success'
-            //     });
-            //     _this.search(1);
-            //   } else {
-            //     _this.loading = false
-            //     this.$message({
-            //       showClose: true,
-            //       message: data.msg,
-            //       duration: 3000,
-            //       type: 'error'
-            //     });
-            //   }
-            // }, data);
+            // getData('post', crm_url + 'insure.meihualife.com/life/common/lifePolicyInsert.do', data => {
+            getData('post', crm_url + 'insure.meihualife.com/crm_web/lifePolicyInsert.do', data => {
+              console.log(data)
+              if (data.code == 0) {
+                // _this.hideaddNoticeDialogVisible();
+                _this.loading = false
+                this.$message({
+                  showClose: true,
+                  message: "保单已录入，请等待管理员进行审核",
+                  duration: 3000,
+                  type: 'success'
+                });
+                // _this.search(1);
+              } else {
+                _this.loading = false
+                this.$message({
+                  showClose: true,
+                  message: data.msg,
+                  duration: 3000,
+                  type: 'error'
+                });
+              }
+            }, data);
           }
         });
 
@@ -1262,114 +715,212 @@ export default {
         // }
 
       } else {
-        //修改保单，
-        if (this.editPopupVisible == true) {
-          var jiaoyanTrue = this.jiaoyan()
-          if (jiaoyanTrue == true) {
-            _this.loading = true
-            if (_this.inpeople == '是') {
-              _this.inpeopleSelect()
-            }
-            _this.inSelectTime = (_this.inSelectTime).substr(0, 10);
-            if (this.insuredType == '7') {
-              inssex = this.insex
-              insbirthday = this.birthData
-            }
+       
+      }
+    
+    },
 
-            getData('post', my_url + '/crm/auth/getToken.do', data => {
-              if (data.code == 0) {
-                var data = {
-                  "token": data.token,
-                  //保单录入
-                  "startdate": this.inSelectTime,
-                  "oldpolicyno": this.oldpolicyno.trim(), //保单号
-                  "contno": this.incontno.trim(), //保单号
-                  "insorgancode": this.insorgancode, //保险公司
-                  "riskcode": this.riskcode, //险种
-                  "cvalidate": this.ineffectiveDate, //保单生效时间
-                  "amnt": this.insuranceAmount, //保险金额
-                  "payintv": this.paymentMethod, //缴费方式
-                  "payendyear": this.paymentPeriod, //缴费年期
-                  "insuyear": this.guaranteePeriod, //保证期限
-                  "prem": this.premium, //保费
-                  //投保人
-                  "appname": this.applicantName, //投保人姓名
-                  "appmobile": this.applicantPhone.trim(), //投保人手机号
-                  // "applicantType": this.applicantType, //投保人证件类型
-                  "appidnotype": this.applicantType, //投保人证件类型
-                  "appidno": this.applicantIDCard.trim(), //投保人证件号
-                  "appprovince": this.applicantProvinceCode, //投保人所在省
-                  "appcity": this.applicantCity, //投保人所在市
-                  "appcountry": this.applicantRegion, //投保人所在区
-                  "appaddress": this.applicantAddress, //投保人所在地址
-                  "appsex": appsex,
-                  "appbirthday": appbirthday,
-                  //被保人
-                  "relatoapp": this.relatoapp, //父母子女配偶
-                  "insname": this.insuredName, //被保人姓名
-                  "insmobile": this.insuredPhone.trim(), //被保人手机号
-                  // "insuredType": this.insuredType, //被保人证件类型
-                  "insidnotype": this.insuredType, //被保人证件类型
-                  "insidno": this.insuredIDCard.trim(), //被保人证件号
-                  "insprovince": this.insuredProvinceCode, //被保人所在省
-                  "inscity": this.insuredCity, //被保人所在市
-                  "inscountry": this.insuredRegion, //被保人所在区
-                  "insaddress": this.insuredAddress, //被保人所在地址
-                  "inssex": inssex,
-                  "insbirthday": insbirthday,
-                  "system": "crm",
-                  // 特殊唯一标识符
-                  "orderid": this.orderid, //唯一的保单ID 
-                  "oldstate": this.state,
-                  "contserialno": this.contserialno,
-                  "appntserialno": this.appntserialno,
-                  "insuredserialno": this.insuredserialno,
-                  "riskserialno": this.riskserialno,
-                  "oldismain": this.ismain,
-                  "oldmainriskcode": this.editmainriskcode,
-                  "channel": this.channelValue,
-                  "channelappname": this.sourceValue
-                }
-                console.log(data)
-                getData('post', crm_url + 'insure.meihualife.com/crm_web/lifePolicyUpdate.do', data => {
-                  if (data.code == 0) {
-                    this.editPopupVisible = false
-                    _this.orderid = '' //更新成功后清唯一标识
-                    _this.hideaddNoticeDialogVisible();
-                    _this.loading = false
-                    this.$message({
-                      showClose: true,
-                      message: "保单已修改，请等待管理员进行审核",
-                      duration: 3000,
-                      type: 'success'
-                    });
-                    // _this.search(1);
-                  } else {
-                    _this.loading = false
-                    this.$message({
-                      showClose: true,
-                      message: data.msg,
-                      duration: 3000,
-                      type: 'error'
-                    })
-                  }
-                }, data);
-              }
-            });
-          } else {
+    jiaoyan() {
+      if (this.applicantType == '' || this.applicantType == null) {
+        this.$message({
+          showClose: true,
+          message: "投保人证件类型不能为空",
+          duration: 3000,
+          type: 'error'
+        });
+        return
+      }
+
+      if (this.applicantIDCard == '' || this.applicantIDCard == null) {
+        this.$message({
+          showClose: true,
+          message: "投保人证件号不能为空",
+          duration: 3000,
+          type: 'error'
+        });
+        return
+      }
+      if (this.applicantType == '7') {
+        if (!(/^[a-zA-Z0-9]{5,21}$/.test(this.applicantIDCard))) {
+          this.$message({
+            showClose: true,
+            message: "投保人证件号不符合规定",
+            duration: 3000,
+            type: 'error'
+          });
+          return
+        }
+      } else {
+        if (!(/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(this.applicantIDCard)) || !(/^[a-zA-Z0-9]{5,21}$/.test(this.applicantIDCard))) {
+          this.$message({
+            showClose: true,
+            message: "投保人证件号不符合规定",
+            duration: 3000,
+            type: 'error'
+          });
+          return
+        }
+      }
+
+      if (this.inpeople == '' || this.inpeople == null) {
+        this.$message({
+          showClose: true,
+          message: "投被保人是否是同一个人",
+          duration: 3000,
+          type: 'error'
+        });
+        return
+      }
+
+
+      if (this.inpeople == '否') {
+        if (this.applicantName == this.insuredName || this.applicantIDCard == this.insuredIDCard) {
+          this.$message({
+            showClose: true,
+            message: "投被保人不应该为同一个人",
+            duration: 3000,
+            type: 'error'
+          });
+          return
+        }
+
+        if (this.relatoapp == '' || this.relatoapp == null) {
+          this.$message({
+            showClose: true,
+            message: "请选择投保人和被保人的关系",
+            duration: 3000,
+            type: 'error'
+          });
+          return
+        }
+        if (this.insuredName == '' || this.insuredName == null) {
+          this.$message({
+            showClose: true,
+            message: "请填写被保人姓名",
+            duration: 3000,
+            type: 'error'
+          });
+          return
+        }
+
+
+        if (this.insuredPhone == '' || this.insuredPhone == null) {
+
+        } else {
+          if (!(/^(13|14|15|16|17|18|19)[0-9]{9}$/.test(this.insuredPhone))) {
             this.$message({
               showClose: true,
-              message: '保单信息错误，请修改后再提交',
+              message: "被保人手机号不符合规定",
               duration: 3000,
               type: 'error'
             });
+            return
           }
         }
+
+
+
+        if (this.insuredType == '' || this.insuredType == null) {
+          this.$message({
+            showClose: true,
+            message: "请选择被保人证件类型",
+            duration: 3000,
+            type: 'error'
+          });
+          return
+        }
+        if (this.insuredIDCard == '' || this.insuredIDCard == null) {
+          this.$message({
+            showClose: true,
+            message: "请填写被保人证件号",
+            duration: 3000,
+            type: 'error'
+          });
+          return
+        }
+        if (this.insuredType == '7') {
+          if (!(/^[a-zA-Z0-9]{5,21}$/.test(this.insuredIDCard))) {
+            this.$message({
+              showClose: true,
+              message: "被保人证件号不符合规定",
+              duration: 3000,
+              type: 'error'
+            });
+            return
+          }
+          if (this.birthData == '' || this.birthData == null) {
+            this.$message({
+              showClose: true,
+              message: "被保人出生日期不能为空",
+              duration: 3000,
+              type: 'error'
+            });
+            return
+          }
+          if (this.insex == '' || this.insex == null) {
+            this.$message({
+              showClose: true,
+              message: "被保人性别不能为空",
+              duration: 3000,
+              type: 'error'
+            });
+            return
+          }
+
+
+
+        } else {
+          if (!(/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(this.insuredIDCard))) {
+            this.$message({
+              showClose: true,
+              message: "被保人证件号不符合规定",
+              duration: 3000,
+              type: 'error'
+            });
+            return
+          }
+        }
+        var appage = getIdCardAge((this.applicantIDCard).trim());
+        var insage = getIdCardAge((this.insuredIDCard).trim());
+        console.log(appage,insage)
+        if (this.relatoapp == '01' && this.insuredType == '0') {
+          if (appage <= insage) {
+            this.$message({
+              showClose: true,
+              message: "投被保人关系不正确",
+              duration: 3000,
+              type: 'error'
+            });
+            return
+          }
+        }
+        if (this.relatoapp == '03' && this.insuredType == '0') {
+          if (appage >= insage) {
+            this.$message({
+              showClose: true,
+              message: "投被保人关系不正确",
+              duration: 3000,
+              type: 'error'
+            });
+            return
+          }
+        }
+        if (this.relatoapp == '04' && this.insuredType == '0') {
+          if (appage <= insage) {
+            this.$message({
+              showClose: true,
+              message: "投被保人关系不正确",
+              duration: 3000,
+              type: 'error'
+            });
+            return
+          }
+        }
+
       }
-      // }
+
+      return true
     },
-
-
 
 
 
@@ -1584,114 +1135,114 @@ export default {
       this.sourceValue = '';
     },
     //打开编辑弹窗
-    EditPopup(item) {
-      var _this = this;
-      this.oldpolicyno = item.contno
-      getData('post', my_url + '/crm/auth/getToken.do', data => {
-        if (data.code == 0) {
-          var body = {
-            token: data.token,
-            contno: (this.oldpolicyno).trim()
-          }
-          getData('post', crm_url + 'insure.meihualife.com/crm_web/getOnePolicy.do', data => {
-            var item = data.rows[0]
-            if (data.total != 0) {
-              this.addNoticeDialogVisible = true
-              this.orderid = item.orderid; //唯一的保单id
-              // this.editPopupVisible = true
-              this.state = item.state
-              this.contserialno = item.contserialno
-              this.appntserialno = item.appntserialno
-              this.insuredserialno = item.insuredserialno
-              this.riskserialno = item.riskserialno
-              this.ismain = item.ismain
-              this.editmainriskcode = item.mainriskcode
-              var aa = {
-                value: item.insorganname,
-                key: item.insorgancode
-              }
-              this.insorganNameSelect(aa)
-              this.inmainriskSelect(item.riskcode)
+    // EditPopup(item) {
+    //   var _this = this;
+    //   this.oldpolicyno = item.contno
+    //   getData('post', my_url + '/crm/auth/getToken.do', data => {
+    //     if (data.code == 0) {
+    //       var body = {
+    //         token: data.token,
+    //         contno: (this.oldpolicyno).trim()
+    //       }
+    //       getData('post', crm_url + 'insure.meihualife.com/crm_web/getOnePolicy.do', data => {
+    //         var item = data.rows[0]
+    //         if (data.total != 0) {
+    //           this.addNoticeDialogVisible = true
+    //           this.orderid = item.orderid; //唯一的保单id
+    //           // this.editPopupVisible = true
+    //           this.state = item.state
+    //           this.contserialno = item.contserialno
+    //           this.appntserialno = item.appntserialno
+    //           this.insuredserialno = item.insuredserialno
+    //           this.riskserialno = item.riskserialno
+    //           this.ismain = item.ismain
+    //           this.editmainriskcode = item.mainriskcode
+    //           var aa = {
+    //             value: item.insorganname,
+    //             key: item.insorgancode
+    //           }
+    //           this.insorganNameSelect(aa)
+    //           this.inmainriskSelect(item.riskcode)
 
-              this.inSelectTime = item.accepttime; //出单日期
-              this.incontno = item.contno; //保单号
-              this.insorganNamecode = item.insorganname; //保险公司
-              this.insorgancode = item.insorgancode; //保险公司代号
-              // this.inmainriskcode = item.riskname; //险种名称
-              this.inmainriskcode = item.riskcode; //险种名称
-              this.riskcode = item.riskcode; //险种名称代号
-              this.insuranceAmount = item.amnt; //保险金额
-              // this.paymentMethod = item.payintvvalue; //缴费方式
-              this.paymentMethod = item.payintv; //缴费方式
-              // this.paymentPeriod = item.payendyearvalue; //缴费年期
-              this.paymentPeriod = item.payendyearkey; //缴费年期
-              // this.guaranteePeriod = item.insuyearvalue; //保障期限
-              this.guaranteePeriod = item.insuyearkey; //保障期限
-              this.premium = item.prem; //保费
-              this.applicantName = item.appname; //投保人姓名
-              this.applicantPhone = item.appphone; //投保人手机号
-              this.applicantType = item.appidnotype; //投保人证件类型
-              this.applicantIDCard = item.appidno; //投保人证件号
-              this.applicantProvince = item.appprovincename; //投保人所在省
-              this.applicantProvinceCode = item.appprovince; //投保人所在省
-              // this.applicantCity = item.in scityname; //投保人所在市
-              this.applicantCity = item.appcity; //投保人所在市
-              // this.applicantRegion = item.inscountryname; //投保人所在区
-              this.applicantRegion = item.appcountry; //投保人所在区
-              this.applicantAddress = item.insaddress; //投保人所在地址
-              var bb = {
-                value: item.appprovincename,
-                key: item.appprovince
-              }
-              this.provinceSelect(bb);
-              this.citySelect();
-              this.insuredName = item.insname; //被保人姓名
-              this.insuredPhone = item.insphone; //被保人手机号
-              this.insuredType = item.insidnotype; //被保人证件类型
-              this.insuredIDCard = item.insidno; //被保人证件号
-              this.insuredProvince = item.insprovincename; //被保人所在省
-              this.insuredProvinceCode = item.insprovince; //被保人所在省
-              // this.insuredCity = item.inscityname; //被保人所在市
-              this.insuredCity = item.inscity; //被保人所在市
-              // this.insuredRegion = item.inscountryname; //被保人所在区
-              this.insuredRegion = item.inscountry; //被保人所在区
-              this.insuredAddress = item.insaddress; //被保人所在地址
-              var cc = {
-                value: item.insprovincename,
-                key: item.insprovince
-              }
-              this.inprovinceSelect(cc);
-              this.incitySelect();
+    //           this.inSelectTime = item.accepttime; //出单日期
+    //           this.incontno = item.contno; //保单号
+    //           this.insorganNamecode = item.insorganname; //保险公司
+    //           this.insorgancode = item.insorgancode; //保险公司代号
+    //           // this.inmainriskcode = item.riskname; //险种名称
+    //           this.inmainriskcode = item.riskcode; //险种名称
+    //           this.riskcode = item.riskcode; //险种名称代号
+    //           this.insuranceAmount = item.amnt; //保险金额
+    //           // this.paymentMethod = item.payintvvalue; //缴费方式
+    //           this.paymentMethod = item.payintv; //缴费方式
+    //           // this.paymentPeriod = item.payendyearvalue; //缴费年期
+    //           this.paymentPeriod = item.payendyearkey; //缴费年期
+    //           // this.guaranteePeriod = item.insuyearvalue; //保障期限
+    //           this.guaranteePeriod = item.insuyearkey; //保障期限
+    //           this.premium = item.prem; //保费
+    //           this.applicantName = item.appname; //投保人姓名
+    //           this.applicantPhone = item.appphone; //投保人手机号
+    //           this.applicantType = item.appidnotype; //投保人证件类型
+    //           this.applicantIDCard = item.appidno; //投保人证件号
+    //           this.applicantProvince = item.appprovincename; //投保人所在省
+    //           this.applicantProvinceCode = item.appprovince; //投保人所在省
+    //           // this.applicantCity = item.in scityname; //投保人所在市
+    //           this.applicantCity = item.appcity; //投保人所在市
+    //           // this.applicantRegion = item.inscountryname; //投保人所在区
+    //           this.applicantRegion = item.appcountry; //投保人所在区
+    //           this.applicantAddress = item.insaddress; //投保人所在地址
+    //           var bb = {
+    //             value: item.appprovincename,
+    //             key: item.appprovince
+    //           }
+    //           this.provinceSelect(bb);
+    //           this.citySelect();
+    //           this.insuredName = item.insname; //被保人姓名
+    //           this.insuredPhone = item.insphone; //被保人手机号
+    //           this.insuredType = item.insidnotype; //被保人证件类型
+    //           this.insuredIDCard = item.insidno; //被保人证件号
+    //           this.insuredProvince = item.insprovincename; //被保人所在省
+    //           this.insuredProvinceCode = item.insprovince; //被保人所在省
+    //           // this.insuredCity = item.inscityname; //被保人所在市
+    //           this.insuredCity = item.inscity; //被保人所在市
+    //           // this.insuredRegion = item.inscountryname; //被保人所在区
+    //           this.insuredRegion = item.inscountry; //被保人所在区
+    //           this.insuredAddress = item.insaddress; //被保人所在地址
+    //           var cc = {
+    //             value: item.insprovincename,
+    //             key: item.insprovince
+    //           }
+    //           this.inprovinceSelect(cc);
+    //           this.incitySelect();
 
-              this.channelValue = item.activitychannel;
-              this.sourceValue = item.activityappname;
+    //           this.channelValue = item.activitychannel;
+    //           this.sourceValue = item.activityappname;
 
-              _this.channelSelect()
-              if (item.relatoapp == '00') {
-                this.inpeople = '是'
-                this.relatoapp = '00'
-                this.ispeople = false
-              } else {
-                this.inpeople = '否'
-                this.relatoapp = item.relatoapp //不是本人
-                this.ispeople = true
-              }
-              this.editPopupVisible = true
-            } else {
-      
-              this.$message({
-                showClose: true,
-                message: '此保单没有记录保单信息，需手动录入',
-                duration: 3000,
-                // type: 'error'
-              });
-              this.inSelectTime = moment().format('YYYY-MM-DD')
-              this.changeDate();
-            }
-          }, body);
-        }
-      })
-    },
+    //           _this.channelSelect()
+    //           if (item.relatoapp == '00') {
+    //             this.inpeople = '是'
+    //             this.relatoapp = '00'
+    //             this.ispeople = false
+    //           } else {
+    //             this.inpeople = '否'
+    //             this.relatoapp = item.relatoapp //不是本人
+    //             this.ispeople = true
+    //           }
+    //           this.editPopupVisible = true
+    //         } else {
+
+    //           this.$message({
+    //             showClose: true,
+    //             message: '此保单没有记录保单信息，需手动录入',
+    //             duration: 3000,
+    //             // type: 'error'
+    //           });
+    //           this.inSelectTime = moment().format('YYYY-MM-DD')
+    //           this.changeDate();
+    //         }
+    //       }, body);
+    //     }
+    //   })
+    // },
     //删除数据
     // deleteItem(item) {
     //   var _this = this

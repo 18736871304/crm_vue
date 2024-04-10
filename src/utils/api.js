@@ -197,7 +197,26 @@ function getLogonUserInfo(params) {
   return POST(params, '/crm/auth/getLogonUserInfo.do')
 }
 
-export default {
+
+//获取团队信息
+function getTalkTeamList(params) {
+  return POST(params, '/crm/auth/getTalkTeamList.do')
+}
+//获取团队中用户信息
+function getQwUser(params) {
+  return POST(params, '/crm/qwMan/getQwUser.do')
+}
+//获取用户的客户信息
+function getQwCustomerByUser(params) {
+  return POST(params, '/crm/qwMan/getQwCustomerByUser.do')
+}
+//获取用户和客户的聊天记录
+function getQwTalkData(params) {
+  return POST(params, '/crm/qwMan/getQwTalkData.do')
+}
+
+
+export default { 
   getTempToken,
   getPageHeaderInfo,
   getDictList,
@@ -236,7 +255,11 @@ export default {
   updatePrevistiTime,
   activityVisit,
   getActivitySumData,
-  getLogonUserInfo
+  getLogonUserInfo,
+  getTalkTeamList,
+  getQwUser,
+  getQwCustomerByUser,
+  getQwTalkData
 }
 
 

@@ -4,7 +4,7 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </nav> -->
-    <router-view/>
+    <router-view />
   </div>
 </template>
 <script>
@@ -16,7 +16,7 @@ export default {
     var _this = this;
     window.addEventListener("load", () => {
       //写入你想要执行的代码
-      _this.$router.push('/', () => {});
+      _this.$router.push('/', () => { });
     });
   },
   destroyed() {
@@ -46,11 +46,18 @@ nav {
 }
 
 #nprogress .bar {
-  background: #DC220D !important;    //这里可以随便写颜色
+  background: #DC220D !important; //这里可以随便写颜色
 }
 
 .el-table tr {
-    height: 0.3rem!important;
+  height: 0.3rem !important;
 }
 
+.confirmbb,
+.cancelaa {
+
+  width: 100px !important;
+    height: 40px !important;
+    font-size: 14px;
+}
 </style>

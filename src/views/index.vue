@@ -153,6 +153,8 @@
       @phoneLogon="phoneLogon"
       @extensionNumber="extensionNum"
     ></agent-bar>
+
+    <AssignClues></AssignClues>
   </div>
 </template>
 
@@ -165,6 +167,7 @@ import { getData, getPhoneData, my_url } from "../static/js/ajax.js";
 import SidebarItem from "../components/sidebar/index.vue";
 import SidebarChildren from "../components/sidebar1/index.vue";
 import AgentBar from "../components/tkyCall/index.vue";
+import AssignClues from "../components/assignClues/index.vue";
 import api from "../utils/api.js";
 var loading;
 export default {
@@ -173,6 +176,7 @@ export default {
     SidebarItem,
     SidebarChildren,
     AgentBar,
+    AssignClues,
   },
   data() {
     return {
