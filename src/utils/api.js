@@ -210,12 +210,25 @@ function getQwUser(params) {
 function getQwCustomerByUser(params) {
   return POST(params, '/crm/qwMan/getQwCustomerByUser.do')
 }
+
+//获取用户的同事信息
+function getQwColleagueByUser(params) {
+  return POST(params, '/crm/qwMan/getQwColleagueByUser.do')
+}
+
+//获取用户的群聊信息
+function getQunList(params) {
+  return POST(params, '/crm/qwMan/getQunList.do')
+}
 //获取用户和客户的聊天记录
 function getQwTalkData(params) {
   return POST(params, '/crm/qwMan/getQwTalkData.do')
 }
 
-
+//获取群的聊天记录
+function getQwQunTalkData(params) {
+  return POST(params, '/crm/qwMan/getQwQunTalkData.do')
+}
 export default { 
   getTempToken,
   getPageHeaderInfo,
@@ -259,7 +272,10 @@ export default {
   getTalkTeamList,
   getQwUser,
   getQwCustomerByUser,
-  getQwTalkData
+  getQwTalkData,
+  getQwColleagueByUser,
+  getQunList,
+  getQwQunTalkData
 }
 
 
