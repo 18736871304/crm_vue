@@ -60,11 +60,14 @@
           </div>
           <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 100%">
             <!-- 搜索框 -->
+
             <div class="select-content" style="margin-top: 0.2rem;    margin: 0.2rem 0.2rem;">
-              <el-autocomplete class="el-input-inners" v-model="activeValue" :fetch-suggestions="querySearchId"
-                placeholder="此功能暂未开发" :trigger-on-focus="false" clearable @select="activeselectId"
-                @clear="delSelectActiveId"></el-autocomplete>
+              <div class="searchName">
+                <el-input placeholder="请输入内容" @input="activeselectId" v-model="activeValue" clearable>
+                </el-input>
+              </div>
             </div>
+
             <el-tab-pane label="客户" name="first">
             </el-tab-pane>
             <el-tab-pane label="同事" name="second">
@@ -94,7 +97,10 @@
               </template>
               <template v-if="firstAllName == ''">
                 <div class="staffList" ref="first" style="margin-top: 0;  height: calc(100vh - 3.6rem);">
-                  <div>暂无客户</div>
+                  <div style="display: flex;flex-direction: column; align-items: center;">
+                    <img src="../../static/images/zanwu.png" alt="" style="width: 60%; margin:0.3rem auto">
+                    <p>暂无符合条件的人员</p>
+                  </div>
                 </div>
               </template>
             </div>
@@ -114,6 +120,13 @@
             <div class="pBox" style="width: auto;">
               <p style="font-size: 0.18rem;">{{ selectfirstName }}</p>
               <p>备注名：{{ selectfirstRemakeName }}</p>
+            </div>
+          </div>
+
+          <div class="select-content chatRightHead">
+            <div class="searchName" style="width: 100%;">
+              <el-input placeholder="搜索消息" @input="searchMsg" v-model="searchMsgValue" clearable  suffix-icon="el-icon-search">
+              </el-input>
             </div>
           </div>
         </div>
@@ -332,6 +345,7 @@ export default {
     return {
       loading: true,
       // data: [],
+      searchMsgValue:'',//消息检索
       teamAllid: '',//初始化获取团队所有ID
       nameList: [],
       isselect: "",
@@ -415,7 +429,7 @@ export default {
       var scrollHeight = e.target.scrollHeight;
       var windowHeight = e.target.clientHeight;
       if (scrollTop + 1 >= scrollHeight - windowHeight) {
-        this.getQwCustomer(this.isAllselect, this.pageNumber, this.pageSize, this.tablabel)
+        this.getQwCustomer(this.isAllselect, this.pageNumber, this.pageSize, this.tablabel, this.activeValue)
       }
     },
 
@@ -711,20 +725,25 @@ export default {
       this.pageNumber = 1
       // 更改最上面的固定头像
       if (this.tablabel == '群聊') {
-        this.getQwCustomer(item.qwuserid, this.pageNumber, this.pageSize, first)
+        this.getQwCustomer(item.qwuserid, this.pageNumber, this.pageSize, first, this.activeValue)
       } else {
-        this.getQwCustomer(item.userid, this.pageNumber, this.pageSize, first)
+        this.getQwCustomer(item.userid, this.pageNumber, this.pageSize, first, this.activeValue)
       }
     },
 
     // 获取员工对应客户的姓名
-    getQwCustomer(userid, pageNumber, pageSize, first) {
+    getQwCustomer(userid, pageNumber, pageSize, first, item) {
       var _this = this
       var params = {
         userid: userid,
         pageNumber: pageNumber,
         pageSize: pageSize,
+        queryname: item
       }
+
+      // if (item != '') {
+      //   _this.firstAllName = []
+      // }
 
       if (first == '客户') {
         api.getQwCustomerByUser(params).then((data) => {
@@ -737,7 +756,6 @@ export default {
             _this.pageNumber = _this.pageNumber + 1
           }
         });
-
       }
 
 
@@ -760,6 +778,7 @@ export default {
           qwuserid: userid,
           pageNumber: pageNumber,
           pageSize: pageSize,
+          queryname: item
         }
 
         api.getQunList(params).then((data) => {
@@ -853,12 +872,22 @@ export default {
     },
     // 选择模糊筛选出来的 客户姓名
     activeselectId(item) {
-      // let arr = [];
-      // item["userid"] = item.id;
-      // item["username"] = item.value;
+      console.log(item)
+      console.log(this.activeValue)
+      var _this = this
+      // if (item == '') {
+      this.firstAllName = []
+      this.pageNumber = 1,
+        this.pageSize = 20
+      // } 
+      if (this.tablabel == '群聊') {
+        this.getQwCustomer(this.isqwuserid, this.pageNumber, this.pageSize, this.tablabel, item)
+      } else {
+        this.getQwCustomer(this.isAllselect, this.pageNumber, this.pageSize, this.tablabel, item)
+      }
 
-      // arr.push(item);
-      // this.teamNameList = arr;
+
+
 
     },
 
@@ -881,23 +910,9 @@ export default {
 
 
 
-    delSelectActiveId() {
-      var _this = this;
-      //获取业务员列表
-      // if (this.teamid != "") {
-      //   getData(
-      //     "post",
-      //     my_url + "/crm/auth/getUserIdNameListByTeam.do",
-      //     function (data) {
-      //       _this.teamNameList = data.namelist;
-      //     },
-      //     {
-      //       teamid: this.teamid,
-      //     }
-      //   );
-      // } else {
-      //   _this.teamNameList = this.nameAllList;
-      // }
+    searchMsg(item) {
+     console.log(item)
+   
     },
     // JS将时间戳转换为刚刚、N分钟前、今天几点几分、昨天几点几分等表示法
     timestampFormat(timestamp) {
@@ -1219,6 +1234,10 @@ export default {
   padding: 0 15px !important;
 }
 
+::v-deep .el-tabs__nav-wrap::after {
+  background-color: #E4E7ED;
+}
+
 .cancel {
   background: #fff;
   color: #dc240f;
@@ -1231,6 +1250,18 @@ export default {
   width: 12.8%;
   padding: 0.2rem 0.2rem 0;
   height: 1.8rem;
+}
+
+::v-deep .searchName .el-input .el-input__inner {
+  border: 0px;
+  height: 0.34rem;
+  line-height: 0.34rem;
+  width: 100%;
+  margin-left: 0px;
+}
+
+::v-deep .searchName .el-input__icon {
+  line-height: 20px;
 }
 
 ::v-deep .el-tabs__nav-scroll {
@@ -1286,7 +1317,17 @@ export default {
 }
 
 .recordHead {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-left: 0.2rem;
+}
+
+.chatRightHead {
+  margin: 0.2rem;
+  margin-right: 2.6rem;
+  width: 2.5rem;
 }
 
 .chatHistory {

@@ -274,12 +274,15 @@ export default {
       mainName: 'wenzi',
       loading: false,
       dialogVisible: false,
+
+
       groupValue: "",
       titleCon: '',
+      quanxian: '',
       dataList: [
         {
           mainName: 'tuwen',
-          quanxian: '',
+
           wenzimain: '',
           img: {
             imgmain: '',
@@ -310,6 +313,9 @@ export default {
         },
 
       ],
+
+
+
       options: [{
         value: '选项1',
         label: '黄金糕'
@@ -513,7 +519,6 @@ export default {
         let videoUrl = file.url;//file的videoUrl储存视频
         // file.url = videoFirstimgsrc; // file的url储存封面图片
         // file.videoUrl = videoUrl; // 
-        console.log(videoUrl)
         that.dataList[index].video.dialogvideoimgUrl = videoFirstimgsrc
         that.dataList[index].video.dialogvideoUrl = videoUrl
         video.remove();
@@ -551,7 +556,7 @@ export default {
     addmain() {
       this.dataList.push({
         mainName: 'tuwen',
-        quanxian:"",
+        quanxian: "",
         wenzimain: '',
         img: {
           imgmain: '',
@@ -605,6 +610,9 @@ export default {
 
     sure() {
       console.log(this.dataList)
+      console.log(this.groupValue)
+      console.log(this.titleCon)
+      console.log(this.quanxian)
       // this.dialogVisible = false
     },
     handleClose(done) {
@@ -646,8 +654,8 @@ export default {
       this.$refs.tree.setCheckedKeys([]);
       this.queryflag = true;
       this.staffValue = "";
-  
-      this.dataList[index].quanxian =''
+
+      this.dataList[index].quanxian = ''
       // this.searchUser(this.teamAllid)
     },
 
@@ -666,10 +674,9 @@ export default {
       }
 
 
-      console.log(index)
       console.log(this.teamListId)
-      console.log(this.dataList[index].quanxian)
-      this.dataList[index].quanxian = this.teamListId
+      console.log(this.quanxian)
+      this.quanxian = this.teamListId
 
       // _this.searchUser(this.teamListId, this.staffValue)
     },
