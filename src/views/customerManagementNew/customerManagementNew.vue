@@ -1,5 +1,5 @@
 <template>
-  <div class="customerManagementNewContainer" style="height: 100%; background: rgb(242, 242, 242);padding: 0.1rem 0.4rem 0 0.4rem;">
+  <div class="customerManagementNew  Container"  >
     <div class="container-top">
       <!-- 数据概览 -->
       <div class="container-top-one">
@@ -11,7 +11,7 @@
               <div class="select-content">
                 <el-dropdown trigger="click" placement="bottom" ref="disTeam2">
                   <p class="el-dropdown-inners" clearable>
-                    <span>{{teamNames2}}</span>
+                    <span>{{ teamNames2 }}</span>
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </p>
                   <el-dropdown-menu class="" slot="dropdown">
@@ -20,7 +20,8 @@
                     </el-tree>
                     <div class="sure-footer">
                       <div class="my-sure" @click="my_sure2">确定</div>
-                      <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
+                      <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;"
+                        @click="my_sureOne2">取消</div>
                     </div>
                   </el-dropdown-menu>
                 </el-dropdown>
@@ -29,22 +30,25 @@
             <div class="common-select" v-show="dis_P4_up">
               <div class="select-title" style="width: 1.1rem">业务员姓名</div>
               <div class="select-content" style="width:1.68rem;border: none">
-                <el-select class="el-select-inners" placeholder="请选择" size="mini" v-model="overviewForm.userid" @change="userNameChange" clearable>
-                  <el-option v-for="item in userNameOptions" :key="item.userid" :label="item.username" :value="item.userid">
+                <el-select class="el-select-inners" placeholder="请选择" size="mini" v-model="overviewForm.userid"
+                  @change="userNameChange" clearable>
+                  <el-option v-for="item in userNameOptions" :key="item.userid" :label="item.username"
+                    :value="item.userid">
                   </el-option>
                 </el-select>
               </div>
             </div>
             <div class="common-select" style="width: 1.2rem;">
               <div class="select-content" style=" margin-right: 0.2rem;border: none;">
-                <el-select class="el-select-inners el-select-inners-splice" placeholder="请选择" size="mini" v-model="overviewFormTime" @change="dateChange">
+                <el-select class="el-select-inners el-select-inners-splice" placeholder="请选择" size="mini"
+                  v-model="overviewFormTime" @change="dateChange">
                   <el-option v-for="item in timeOption" :key="item.value" :label="item.key" :value="item.value">
                   </el-option>
                 </el-select>
               </div>
             </div>
             <div class="refresh" @click="refresh(true)">
-              <i class="el-icon-refresh" :class="[{'refresh-crile': isrefresh}]"></i>
+              <i class="el-icon-refresh" :class="[{ 'refresh-crile': isrefresh }]"></i>
               <span>刷新</span>
               <!-- <el-button icon="el-icon-refresh" size="mini" type="text" @click="refresh">刷新</el-button> -->
             </div>
@@ -72,7 +76,7 @@
             </el-table-column>
           </el-table>
         </div>
-        
+
       </div>
       <!-- 信息检索 -->
       <div class="container-top-two" style="overflow-x: auto;overflow-y: hidden;">
@@ -82,9 +86,10 @@
             <div class="common-select">
               <div class="select-title" style="width: 1.28rem">线索产生时间</div>
               <div class="select-content" style="height: 0.3rem; width: 3.2rem;  border: none">
-                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels
-                    range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
-                  </el-date-picker>
+                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right"
+                  size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间"
+                  :picker-options="pickerOptions">
+                </el-date-picker>
               </div>
             </div>
             <div class="common-select">
@@ -113,13 +118,15 @@
                 </el-select>
               </div>
               <div class="select-content" style="width: 3.2rem;">
-                <el-input class="el-input-inners" v-model="planidBatchno" align="right" size="mini" clearable></el-input>
+                <el-input class="el-input-inners" v-model="planidBatchno" align="right" size="mini"
+                  clearable></el-input>
               </div>
             </div>
             <div class="common-select">
               <div class="select-title" style="width: 1.28rem">客户姓名</div>
               <div class="select-content" style="width: 3.2rem;">
-                <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder="请输入客户姓名" clearable></el-input>
+                <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder="请输入客户姓名"
+                  clearable></el-input>
               </div>
             </div>
             <div class="common-select">
@@ -130,7 +137,8 @@
                 </el-select>
               </div>
               <div class="select-content" style="width: 3.2rem;">
-                <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
+                <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini"
+                  clearable></el-input>
               </div>
             </div>
           </div>
@@ -140,7 +148,9 @@
             </div>
             <div style="display: flex;">
               <div class="search-btn" @click="search(1)">搜索</div>
-              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+              <div class="search-btn"
+                style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置
+              </div>
             </div>
           </div>
         </div>
@@ -151,11 +161,11 @@
       <div class="container-middle-one">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane v-for="(item, index) in add_steps" :name="item.dd_key" :key="index">
-            <p slot="label" class="source-level">{{item.dd_value}}
+            <p slot="label" class="source-level">{{ item.dd_value }}
               <el-tooltip popper-class="atooltip qq" effect="light" placement="top">
                 <template slot="content">
-                  <p>{{item.roule}}</p>
-                  <p>{{item.bignum}}</p>
+                  <p>{{ item.roule }}</p>
+                  <p>{{ item.bignum }}</p>
                 </template>
                 <span></span>
               </el-tooltip>
@@ -165,8 +175,11 @@
       </div>
       <div class="container-middle-two">
         <div class="search-btn" @click="dataEntry" style="width:auto; padding: 0.03rem 0.08rem;">日数据录入</div>
-        <el-popover popper-class="entry-customer-popper" class="entry-customer" placement="bottom-start" width="3.31rem" trigger="click" v-model="inputUserVisable">
-          <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">客户录入</div>
+        <el-popover popper-class="entry-customer-popper" class="entry-customer" placement="bottom-start" width="3.31rem"
+          trigger="click" v-model="inputUserVisable">
+          <div class="search-btn" slot="reference"
+            style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">客户录入
+          </div>
           <div class="common-select">
             <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">资源等级</div>
             <div class="select-content" style="width:2rem;border: none">
@@ -193,32 +206,40 @@
           <div class="common-select">
             <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">客户姓名</div>
             <div class="select-content" style="width: 2rem;">
-              <el-input class="el-input-inners" v-model="inputUserform.name" size="mini" placeholder="请输入客户姓名" clearable></el-input>
+              <el-input class="el-input-inners" v-model="inputUserform.name" size="mini" placeholder="请输入客户姓名"
+                clearable></el-input>
             </div>
           </div>
           <div class="common-select">
             <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">电话号码</div>
             <div class="select-content" style="width: 2rem;">
-              <el-input class="el-input-inners" v-model="inputUserform.mobile" size="mini" placeholder="请输入电话号码" clearable></el-input>
+              <el-input class="el-input-inners" v-model="inputUserform.mobile" size="mini" placeholder="请输入电话号码"
+                clearable></el-input>
             </div>
           </div>
           <div class="common-select">
             <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">微信</div>
             <div class="select-content" style="width: 2rem;">
-              <el-input class="el-input-inners" v-model="inputUserform.wxno" size="mini" placeholder="请输入微信号" clearable></el-input>
+              <el-input class="el-input-inners" v-model="inputUserform.wxno" size="mini" placeholder="请输入微信号"
+                clearable></el-input>
             </div>
           </div>
           <div class="sure-footer" style="padding-bottom: 0;">
             <div class="my-sure" @click="inputUserSubmit">确定</div>
-            <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
+            <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;"
+              @click="inputUserCancel">取消</div>
           </div>
         </el-popover>
-        <el-popover  popper-class="entry-customer-popper" v-show="dis_P4_up" placement="bottom-start" width="3.31rem" trigger="click" v-model="resourceDeployVisable" @show="resourceDeployShow">
-          <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源调配</div>
+        <el-popover popper-class="entry-customer-popper" v-show="dis_P4_up" placement="bottom-start" width="3.31rem"
+          trigger="click" v-model="resourceDeployVisable" @show="resourceDeployShow">
+          <div class="search-btn" slot="reference"
+            style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源调配
+          </div>
           <div class="common-select">
             <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">新所属业务员</div>
             <div class="select-content" style="width: 2rem;">
-              <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :fetch-suggestions="querySearchId" placeholder="请输入新所属业务员" :trigger-on-focus="false"
+              <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername"
+                :fetch-suggestions="querySearchId" placeholder="请输入新所属业务员" :trigger-on-focus="false"
                 @select="handleSelectId"></el-autocomplete>
             </div>
           </div>
@@ -226,20 +247,26 @@
             <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">新跟进步骤</div>
             <div class="select-content" style="width:2rem;border: none;">
               <el-select class="el-select-inners" v-model="resourceDeployform.followupstep" placeholder="请选择新跟进步骤">
-                <el-option v-for="item in select_steps" :label="item.dd_value" :value="item.dd_key" :key="item.dd_key"></el-option>
+                <el-option v-for="item in select_steps" :label="item.dd_value" :value="item.dd_key"
+                  :key="item.dd_key"></el-option>
               </el-select>
             </div>
           </div>
           <div class="sure-footer" style="padding-bottom: 0;">
             <div class="my-sure" @click="resourceDeploySubmit">确定</div>
-            <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="resourceDeployCancel">取消</div>
+            <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;"
+              @click="resourceDeployCancel">取消</div>
           </div>
         </el-popover>
-        <el-popover  popper-class="entry-customer-popper" v-show="dis_Pz_up" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
-          <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源删除</div>
+        <el-popover popper-class="entry-customer-popper" v-show="dis_Pz_up" placement="bottom-start" width="3.31rem"
+          trigger="click" v-model="deleteSourceVisable">
+          <div class="search-btn" slot="reference"
+            style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源删除
+          </div>
           <div class="sure-footer" style="padding-bottom: 0;">
             <div class="my-sure" @click="deleteSourceSubmit">确定</div>
-            <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="deleteSourceCancel">取消</div>
+            <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;"
+              @click="deleteSourceCancel">取消</div>
           </div>
         </el-popover>
       </div>
@@ -248,8 +275,9 @@
     <div class="container-table">
       <div class="check-all-box" v-if="isArticle">
         <el-checkbox v-model="checkedAll">全选</el-checkbox>
-        {{checkedAllNum}}个客户
-        <el-popover popper-class="select-check" placement="bottom-start" trigger="click" v-model="sable" style="float: right;">
+        {{ checkedAllNum }}个客户
+        <el-popover popper-class="select-check" placement="bottom-start" trigger="click" v-model="sable"
+          style="float: right;">
           <el-button slot="reference" size="mini" plain>选择显示列表</el-button>
           <el-checkbox-group ref="inputUserform1" v-model="inputUserform1" class="main-left" style="width: 1.5rem;">
             <el-checkbox label="menudate">线索入库时间</el-checkbox>
@@ -275,7 +303,8 @@
             <!-- <el-checkbox label="previstitime">预约回访</el-checkbox> -->
             <div class="sure-footer" style="border-top: 1px solid rgba(221, 221, 221, 1); margin-top: 0.15rem;">
               <div class="my-sure" @click="checkedSure">确定</div>
-              <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
+              <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;"
+                @click="inputUserCancel">取消</div>
             </div>
           </el-checkbox-group>
         </el-popover>
@@ -296,22 +325,25 @@
           </el-table-column>
           <el-table-column key="3" label="客户姓名" width="100" align="center" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span style="cursor: pointer;" type="text" size="small" @click="handle(scope.row)">{{scope.row.name||"空"}}</span>
+              <span style="cursor: pointer;" type="text" size="small" @click="handle(scope.row)">{{ scope.row.name ||
+              "空" }}</span>
             </template>
           </el-table-column>
           <el-table-column key="4" align="center" label="电话号码" width="140" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span class="call-a" v-if="queryflagString == '02'">{{scope.row.mobile}}</span>
-              <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)"   style="    color: #8f9198;" v-else>
-                {{scope.row.mobilestr}}
+              <span class="call-a" v-if="queryflagString == '02'">{{ scope.row.mobile }}</span>
+              <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)"
+                style="    color: #8f9198;" v-else>
+                {{ scope.row.mobilestr }}
                 <img style="margin-left: 5px;" src="../../static/images/call-icon.png" /></span>
             </template>
           </el-table-column>
           <el-table-column key="15" align="center" label="微信号" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span class="call-a" v-if="queryflagString == '02' && scope.row.wxno==null "></span>
-              <span class="call-a" v-else-if="queryflagString == '02' && scope.row.wxno!='' ">****</span>
-              <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" v-else>{{scope.row.wxnostr}}</span>
+              <span class="call-a" v-if="queryflagString == '02' && scope.row.wxno == null"></span>
+              <span class="call-a" v-else-if="queryflagString == '02' && scope.row.wxno != ''">****</span>
+              <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" v-else>{{ scope.row.wxnostr
+                }}</span>
             </template>
           </el-table-column>
 
@@ -322,11 +354,12 @@
           <el-table-column key="6" prop="username" align="center" label="所属业务员" width="100"
             :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="7" v-if="queryflagString === '03' " align="center" label="共享业务员" width="100"
+          <el-table-column key="7" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100"
             :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span>{{scope.row.shareusername}}</span>
-              <img src="../../static/images/delete-icon.png" alt="" style="cursor: pointer;vertical-align: -0.02rem;margin-left: 0.03rem;" @click="cancelShare(scope.row)">
+              <span>{{ scope.row.shareusername }}</span>
+              <img src="../../static/images/delete-icon.png" alt=""
+                style="cursor: pointer;vertical-align: -0.02rem;margin-left: 0.03rem;" @click="cancelShare(scope.row)">
             </template>
           </el-table-column>
           <el-table-column key="8" prop="sex" label="性别" align="center" width="80" :show-overflow-tooltip="true">
@@ -334,7 +367,8 @@
           <el-table-column key="9" prop="age" label="年龄" align="center" width="80" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="20" prop="sourcelevel" label="" align="center" width="110" :show-overflow-tooltip="true">
+          <el-table-column key="20" prop="sourcelevel" label="" align="center" width="110"
+            :show-overflow-tooltip="true">
 
             <template slot="header" slot-scope="scope">
               <p class="source-level">资源等级
@@ -375,10 +409,10 @@
             align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="16" v-if="this.followupstep=='07' && inputUserform1.includes('cusdealtime')"
+          <el-table-column key="16" v-if="this.followupstep == '07' && inputUserform1.includes('cusdealtime')"
             prop="cusdealtime" align="center" label="客户成交时间" width="155" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="17" v-if="this.followupstep=='07' && inputUserform1.includes('cusdealperiod')"
+          <el-table-column key="17" v-if="this.followupstep == '07' && inputUserform1.includes('cusdealperiod')"
             prop="cusdealperiod" align="center" label="客户成交周期" width="100" :show-overflow-tooltip="true">
           </el-table-column>
 
@@ -431,16 +465,18 @@
           <el-table-column key="19" v-if="inputUserform1.includes('pageurl')" prop="pageurl" label="推广页面" width="150"
             :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
-              <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{scope.row.pageurl}}</a>
+              <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{ scope.row.pageurl }}</a>
             </template>
           </el-table-column>
           <el-table-column key="21" prop="previstitime" label="预约回访" min-width='200' width="auto"
             :show-overflow-tooltip="true" fixed="right" align="center" sortable="custom">
             <template slot-scope="scope" class="mobile_box_edit">
-              {{scope.row.previstitime? formatDate(new Date(scope.row.previstitime), 'yyyy-MM-dd HH:mm:ss'):''}}
+              {{ scope.row.previstitime ? formatDate(new Date(scope.row.previstitime), 'yyyy-MM-dd HH:mm:ss') : '' }}
 
-              <el-popover popper-class="modify-icon" v-if="scope.row.previstitime" placement="left" width="220" height="50" :class="scope.row.activityserialno">
-                <span slot="reference" class="mobile-icon el-icon-edit-outline" style="color:#DC240F;margin-left:5px"></span>
+              <el-popover popper-class="modify-icon" v-if="scope.row.previstitime" placement="left" width="220"
+                height="50" :class="scope.row.activityserialno">
+                <span slot="reference" class="mobile-icon el-icon-edit-outline"
+                  style="color:#DC240F;margin-left:5px"></span>
 
                 <el-date-picker v-model="editPrevistitime" type="datetime" placeholder="选择日期时间" size="mini"
                   :picker-options="previstitimePickerOptions">
@@ -478,7 +514,8 @@
           </el-table-column>
           <el-table-column prop="customername" label="客户微信昵称" :show-overflow-tooltip="true" width="180" align="center">
           </el-table-column>
-          <el-table-column prop="customerremarkname" label="客户微信备注" :show-overflow-tooltip="true" width="180" align="center">
+          <el-table-column prop="customerremarkname" label="客户微信备注" :show-overflow-tooltip="true" width="180"
+            align="center">
           </el-table-column>
           <el-table-column prop="customersex" label="客户性别" width="90" align="center">
           </el-table-column>
@@ -512,12 +549,14 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog custom-class="entry-data" title="日数据录入" :close-on-click-modal='false' :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
+    <el-dialog custom-class="entry-data" title="日数据录入" :close-on-click-modal='false' :visible.sync="dialogVisible"
+      width="70%" :before-close="handleClose">
       <div class="entry-data-box clearfix">
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">数据日期</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.6rem);  border: none">
-            <el-date-picker class="el-date-picker-sigle" v-model="from.recorddate" value-format="yyyy-MM-dd 00:00:00" @change='selectDate' type="date" align="right" size="mini">
+            <el-date-picker class="el-date-picker-sigle" v-model="from.recorddate" value-format="yyyy-MM-dd 00:00:00"
+              @change='selectDate' type="date" align="right" size="mini">
             </el-date-picker>
           </div>
           <em class="sign">可修改</em>
@@ -525,7 +564,8 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">热线新增量</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.hotlinecount" align="right" size="mini" :disabled="true" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.hotlinecount" align="right" size="mini" :disabled="true"
+              clearable></el-input>
           </div>
         </div>
       </div>
@@ -533,26 +573,30 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">电话外拨量</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.callcount" align="right" size="mini" :disabled="true" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.callcount" align="right" size="mini" :disabled="true"
+              clearable></el-input>
           </div>
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">电话接通量</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.connectcount" align="right" size="mini" :disabled="true" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.connectcount" align="right" size="mini" :disabled="true"
+              clearable></el-input>
           </div>
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">电话接通率</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.connectrate" align="right" size="mini" :disabled="true" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.connectrate" align="right" size="mini" :disabled="true"
+              clearable></el-input>
           </div>
         </div>
 
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">线索拨打量</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.cluecallcount" align="right" size="mini" :disabled="true" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.cluecallcount" align="right" size="mini" :disabled="true"
+              clearable></el-input>
           </div>
         </div>
       </div>
@@ -560,20 +604,23 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">话务时长(分钟)</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.callcentertime" align="right" size="mini" :disabled="true" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.callcentertime" align="right" size="mini" :disabled="true"
+              clearable></el-input>
           </div>
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">非话务时长(分钟)</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.nocallcentertime" align="right" size="mini" :disabled="true" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.nocallcentertime" align="right" size="mini" :disabled="true"
+              clearable></el-input>
           </div>
           <em class="sign">可修改</em>
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">总时长(分钟)</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.sumtime" align="right" size="mini" :disabled="true" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.sumtime" align="right" size="mini" :disabled="true"
+              clearable></el-input>
           </div>
         </div>
 
@@ -587,14 +634,16 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">配置方案</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.firstplancount" align="right" size="mini" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.firstplancount" align="right" size="mini"
+              clearable></el-input>
           </div>
           <em class="sign">可修改</em>
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">认清市场</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.secondplancount" align="right" size="mini" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.secondplancount" align="right" size="mini"
+              clearable></el-input>
           </div>
           <em class="sign">可修改</em>
         </div>
@@ -614,7 +663,7 @@
           <em class="sign">可修改</em>
         </div>
       </div>
-      <div style="margin-top: 0.18rem; font-size: 0.14rem;"> 
+      <div style="margin-top: 0.18rem; font-size: 0.14rem;">
         <span style="color: red;margin-right: 0.2rem;">*请仔细核对数据，一天只能提交一次日数据，如提交错误，请联系P5及以上人员进行冲正处理</span>
       </div>
       <div class="entry-data-box clearfix">
@@ -637,7 +686,8 @@
       </div>
       <div class="sure-footer">
         <div class="my-sure" @click="sureData">提交</div>
-        <div class="my-sure" style="background: #fff;border: 1px solid rgba(221, 221, 221, 1);color: #686868;" @click="dialogVisible = false">取消</div>
+        <div class="my-sure" style="background: #fff;border: 1px solid rgba(221, 221, 221, 1);color: #686868;"
+          @click="dialogVisible = false">取消</div>
       </div>
     </el-dialog>
     <el-dialog :title="CJGselectValue" :visible.sync="cjgdrawer" width="1100px" class="cjg-dialog">
@@ -682,8 +732,8 @@
           <label>附件</label>
           <div class="right-content">
             <ul class="enclosure-list" v-if="fileList.length">
-              <li class="item" v-for="(item,index) in fileList" :key="index">
-                <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
+              <li class="item" v-for="(item, index) in fileList" :key="index">
+                <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{ item.filename }}</div>
                 <a :href="crm_url + 'crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn"
                   :download="item.filename">下载</a>
               </li>
@@ -706,7 +756,7 @@
           <label>疾病描述</label>
           <div class="right-content">
             <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" :disabled="true" resize="none"
-              type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
+              type="textarea" :autosize="{ minRows: 5, maxRows: 30 }" :rows="7">
             </el-input>
           </div>
         </div>
@@ -719,11 +769,11 @@
               <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''"
                 @click="changeSuggestion('ylsuggestion')">医疗险</div>
             </div>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10"
+            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30 }" :rows="10"
               placeholder="请输入内容" :disabled="true" v-if="currentSuggestion === 'zjsuggestion'"
               v-model="jbhbItem.zjsuggestion">
             </el-input>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10"
+            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30 }" :rows="10"
               placeholder="请输入内容" v-else :disabled="true" v-model="jbhbItem.ylsuggestion">
             </el-input>
           </div>
@@ -732,7 +782,7 @@
           <label>可投产品</label>
           <div class="right-content">
             <div class="add-item-wrap">
-              <div class="list" v-for="(item,index) in jbhbItem.productJsonStr" :key="index">
+              <div class="list" v-for="(item, index) in jbhbItem.productJsonStr" :key="index">
                 <div class="item">
                   <label>保险公司</label>
                   <div class="right-content">
@@ -751,7 +801,7 @@
                   <label>承保说明</label>
                   <div class="right-content">
                     <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" :disabled="true" resize="none"
-                      type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
+                      type="textarea" :autosize="{ minRows: 5, maxRows: 30 }" :rows="7">
                     </el-input>
                   </div>
                 </div>
@@ -802,10 +852,10 @@
           <label>附件</label>
           <div class="right-content">
             <ul class="enclosure-list" v-if="fileList.length">
-              <li class="item" v-for="(item,index) in fileList" :key="index">
+              <li class="item" v-for="(item, index) in fileList" :key="index">
                 <!-- <img src="../../static/images/file-icon.png" alt=""> -->
-                <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
-                <a :href="crm_url+'crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn"
+                <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{ item.filename }}</div>
+                <a :href="crm_url + 'crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn"
                   :download="item.filename">下载</a>
               </li>
             </ul>
@@ -816,22 +866,23 @@
         </div>
       </div>
     </el-dialog>
-    <el-drawer title="我是标题" :size="isDealed ? '70%' : '50%'" custom-class="customer-drawer" :visible.sync="drawer" :with-header="false">
+    <el-drawer title="我是标题" :size="isDealed ? '70%' : '50%'" custom-class="customer-drawer" :visible.sync="drawer"
+      :with-header="false">
       <!-- <el-drawer title="我是标题" :size="drawerWidth" :visible.sync="drawer" :with-header="false"> -->
       <div class="drawerLeft" :class="isDealed ? 'isDealed' : ''">
         <div class="left_box">
           <div class="header">
             <div class="header_t clearfix">
               <div class="header_t_l">
-                <span>{{detailsInfo.name}}</span>
+                <span>{{ detailsInfo.name }}</span>
                 <span @click="phonecall_page">
-                  <img src="../../static/images/call-icon.png" style="margin-right: 6px;"/>拨打电话
+                  <img src="../../static/images/call-icon.png" style="margin-right: 6px;" />拨打电话
                 </span>
               </div>
               <div class="header_t_r">
                 <span>所属业务员：</span>
-                <span>{{detailsInfo.username}}</span>
-                <span v-if="detailsInfo.otherusername">（{{detailsInfo.otherusername}}）</span>
+                <span>{{ detailsInfo.username }}</span>
+                <span v-if="detailsInfo.otherusername">（{{ detailsInfo.otherusername }}）</span>
               </div>
             </div>
             <div class="header_b clearfix">
@@ -839,7 +890,7 @@
               <div class="checkBox">
                 <el-checkbox-group size="mini" v-model="activitytag" v-show="false">
                   <el-checkbox-button v-for="customer in activitytags" :label="customer.dd_key" :key="customer.dd_key">
-                    {{customer.dd_value}}</el-checkbox-button>
+                    {{ customer.dd_value }}</el-checkbox-button>
                 </el-checkbox-group>
               </div>
             </div>
@@ -850,7 +901,7 @@
               <span>客户基本信息</span>
             </div>
             <div class="editContent clearfix">
-              
+
               <div class="editContent_box">
                 <span class="dd">客户姓名</span>
                 <span class="dd">
@@ -955,7 +1006,8 @@
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">转其他库</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-select class="el-select-inners" v-model="editInfo.otherstore" size="mini" placeholder="" clearable>
+                  <el-select class="el-select-inners" v-model="editInfo.otherstore" size="mini" placeholder=""
+                    clearable>
                     <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value"
                       :value="item.dd_key"></el-option>
                   </el-select>
@@ -965,7 +1017,7 @@
                 <div class="select-title" style="width: 0.8rem">共享客户</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0;">
                   <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false"
-                  :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
+                    :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
                 </div>
               </div>
               <div class="common-select">
@@ -979,9 +1031,10 @@
               </div>
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">预约回访</div>
-                <div class="select-content" style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0; border: none">
-                  <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini" placeholder=""
-                    :picker-options="previstitimePickerOptions" clearable>
+                <div class="select-content"
+                  style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0; border: none">
+                  <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini"
+                    placeholder="" :picker-options="previstitimePickerOptions" clearable>
                   </el-date-picker>
                 </div>
               </div>
@@ -989,7 +1042,7 @@
             <div class="condition-bottom" @click="saveRecord">保存</div>
           </div>
 
-          <div class="adInformation"  style="height: 2.5rem">
+          <div class="adInformation" style="height: 2.5rem">
             <div class="title clearfix">
               <span></span>
               <span>广告投放信息</span>
@@ -998,21 +1051,33 @@
               <!-- <div class="cb">
                 <span :title="detailsInfo.clueid">线索ID：{{detailsInfo.clueid}}</span>
               </div> -->
-              
+
               <div class="cb insure-redio">
                 <div style="width: 1rem; color: #282828;font-size: 0.14rem;padding-left: 0.08rem;">意向标签：</div>
                 <ul class="clearfix">
-                  <li :class="[{'insure-select': adLabelselect == '01'}]" @click="activitytagClick(adLabelselect = '01')">高意向保障</li>
-                  <li :class="[{'insure-select': adLabelselect == '02'}]" @click="activitytagClick(adLabelselect = '02')">高意向理财</li>
-                  <li :class="[{'insure-select': adLabelselect == '03'}]" @click="activitytagClick(adLabelselect = '03')">保单置换规划</li>
-                  <li :class="[{'insure-select': adLabelselect == '04'}]" @click="activitytagClick(adLabelselect = '04')">仅意外医疗</li>
-                  <li :class="[{'insure-select': adLabelselect == '05'}]" @click="activitytagClick(adLabelselect = '05')">其它需求</li>
-                  <li :class="[{'insure-select': adLabelselect == '06'}]" @click="activitytagClick(adLabelselect = '06')">未取得有效沟通</li>
+                  <li :class="[{ 'insure-select': adLabelselect == '01' }]"
+                    @click="activitytagClick(adLabelselect = '01')">
+                    高意向保障</li>
+                  <li :class="[{ 'insure-select': adLabelselect == '02' }]"
+                    @click="activitytagClick(adLabelselect = '02')">
+                    高意向理财</li>
+                  <li :class="[{ 'insure-select': adLabelselect == '03' }]"
+                    @click="activitytagClick(adLabelselect = '03')">
+                    保单置换规划</li>
+                  <li :class="[{ 'insure-select': adLabelselect == '04' }]"
+                    @click="activitytagClick(adLabelselect = '04')">
+                    仅意外医疗</li>
+                  <li :class="[{ 'insure-select': adLabelselect == '05' }]"
+                    @click="activitytagClick(adLabelselect = '05')">
+                    其它需求</li>
+                  <li :class="[{ 'insure-select': adLabelselect == '06' }]"
+                    @click="activitytagClick(adLabelselect = '06')">
+                    未取得有效沟通</li>
                 </ul>
               </div>
               <div class="cb">
-                <span :title="detailsInfo.makedate">线索产生时间：{{detailsInfo.makedate}}</span>
-                <span :title="detailsInfo.channelname">渠道类型：{{detailsInfo.channelname}}</span>
+                <span :title="detailsInfo.makedate">线索产生时间：{{ detailsInfo.makedate }}</span>
+                <span :title="detailsInfo.channelname">渠道类型：{{ detailsInfo.channelname }}</span>
               </div>
 
               <!-- <div class="cc">
@@ -1037,17 +1102,18 @@
               </div> -->
 
               <div class="cc">
-                <span :title="detailsInfo.clue_sourcename">线索来源：{{detailsInfo.clue_sourcename}}</span>
-                <span :title="detailsInfo.appname">流量来源：{{detailsInfo.appname}}</span>
+                <span :title="detailsInfo.clue_sourcename">线索来源：{{ detailsInfo.clue_sourcename }}</span>
+                <span :title="detailsInfo.appname">流量来源：{{ detailsInfo.appname }}</span>
               </div>
 
               <div class="cb">
-                <span :title="detailsInfo.area">自动定位城市：{{detailsInfo.area}}</span>
+                <span :title="detailsInfo.area">自动定位城市：{{ detailsInfo.area }}</span>
               </div>
 
               <div class="cb" style="width: 90%;">
                 <span :title="detailsInfo.pageurl"> 推广页面：
-                  <a style="cursor: pointer; color: #578EE7;" href="#" @click="disPageUrl(detailsInfo)">{{detailsInfo.pageurl}}</a>
+                  <a style="cursor: pointer; color: #578EE7;" href="#" @click="disPageUrl(detailsInfo)">{{
+              detailsInfo.pageurl }}</a>
                 </span>
               </div>
             </div>
@@ -1059,11 +1125,11 @@
             </div>
             <div class="userInformation_b">
               <div class="ct">
-                <span :title="detailsInfo.dwelltime">用户停留时长：{{detailsInfo.dwelltime}}</span>
-                <span :title="detailsInfo.interactcount">用户互动次数：{{detailsInfo.interactcount}}</span>
+                <span :title="detailsInfo.dwelltime">用户停留时长：{{ detailsInfo.dwelltime }}</span>
+                <span :title="detailsInfo.interactcount">用户互动次数：{{ detailsInfo.interactcount }}</span>
               </div>
               <div class="cb">
-                <span :title="detailsInfo.readingpercentage">用户页面阅读百分比：{{detailsInfo.readingpercentage}}</span>
+                <span :title="detailsInfo.readingpercentage">用户页面阅读百分比：{{ detailsInfo.readingpercentage }}</span>
               </div>
             </div>
           </div>
@@ -1071,7 +1137,7 @@
             <div class="title">
               <span></span>
               <span>客户通话记录</span>
-              <span>累计通话时长{{callSum}}分钟</span>
+              <span>累计通话时长{{ callSum }}分钟</span>
             </div>
             <div class="tableContent">
               <el-table :data="callDataList" border style="width: 100%">
@@ -1085,10 +1151,12 @@
                 </el-table-column>
                 <el-table-column align="center" label="录音" width="70">
                   <template slot-scope="scope" v-if="scope.row.recordurl">
-                    <img class="play-icon" src="../../static/images/pause-icon.png" title="暂停" @click="audioPause(scope.$index)" v-if="!audioPaused && scope.$index === currentCallIndex">
-                    <img class="play-icon" src="../../static/images/play-icon.png" title="播放" @click="audioPlay(scope.$index)" v-else>
-                    <a style="margin-left: 8px;font-size: 15px;vertical-align: middle;" :href="scope.row.recordurl" 
-                    :download="scope.row.username + '_' + detailsInfo.name + '_' + scope.row.calltimeType" title="下载">
+                    <img class="play-icon" src="../../static/images/pause-icon.png" title="暂停"
+                      @click="audioPause(scope.$index)" v-if="!audioPaused && scope.$index === currentCallIndex">
+                    <img class="play-icon" src="../../static/images/play-icon.png" title="播放"
+                      @click="audioPlay(scope.$index)" v-else>
+                    <a style="margin-left: 8px;font-size: 15px;vertical-align: middle;" :href="scope.row.recordurl"
+                      :download="scope.row.username + '_' + detailsInfo.name + '_' + scope.row.calltimeType" title="下载">
                       <i class="el-icon-download"></i>
                     </a>
                   </template>
@@ -1114,7 +1182,7 @@
           <el-input v-model="followrecord" id="textarea" type="textarea" placeholder="添加跟进记录…"></el-input>
         </div>
         <div class="numBox">
-          <div class="num">共{{releaseNum}}条</div>
+          <div class="num">共{{ releaseNum }}条</div>
           <div class="button">
             <span @click="cancel">取消</span>
             <span @click="release" v-show="dis_save">发布</span>
@@ -1122,14 +1190,14 @@
         </div>
         <div class="drawercontentBox">
           <ul>
-            <li v-for="(item,index) in records" :key="index">
+            <li v-for="(item, index) in records" :key="index">
               <div class="li_t">
                 <div v-html="item.remark">
                 </div>
               </div>
               <div class="li_b">
-                <div class="li_b_l" :title="item.name">{{item.oprname}}</div>
-                <div class="li_b_r">{{item.makedate}} 创建
+                <div class="li_b_l" :title="item.name">{{ item.oprname }}</div>
+                <div class="li_b_r">{{ item.makedate }} 创建
                   <span v-show='delRemark' class="mobile-icon el-icon-delete" @click="deleteRemark(item.remarkserialno)"
                     style="color:#979797"></span>
                 </div>
@@ -1144,12 +1212,12 @@
           <span></span>
           <span>保障详情</span>
         </div>
-        <ul class="order-list"   v-loading="detai_loading">
+        <ul class="order-list" v-loading="detai_loading">
           <li class="item" v-for="item in policyList" :key="item.status">
             <div class="head">
-              <div class="txt" @click="showEdit(item)">{{item.riskname}}</div>
+              <div class="txt" @click="showEdit(item)">{{ item.riskname }}</div>
               <div class="status"
-                :class="[item.status === 'processing' ? 'processing' : '',item.status === 'invalid' ? 'invalid' : '',item.status === 'cancel' ? 'cancel' : '']">
+                :class="[item.status === 'processing' ? 'processing' : '', item.status === 'invalid' ? 'invalid' : '', item.status === 'cancel' ? 'cancel' : '']">
                 <template v-if="item.status === 'effective'">保障中</template>
                 <template v-if="item.status === 'processing'">待处理</template>
                 <template v-if="item.status === 'invalid'">已失效</template>
@@ -1159,43 +1227,43 @@
             <ul class="info-list">
               <div class="info">
                 <span class="l">投保日期:</span>
-                <span>{{item.accepttime}}</span>
+                <span>{{ item.accepttime }}</span>
               </div>
               <div class="info">
                 <span class="l">生效日期:</span>
-                <span>{{item.cvalidate}}</span>
+                <span>{{ item.cvalidate }}</span>
               </div>
               <div class="info">
                 <span class="l">保单号:</span>
-                <span>{{item.contno}}</span>
+                <span>{{ item.contno }}</span>
               </div>
               <div class="info">
                 <span class="l">投保人:</span>
-                <span>{{item.appname}}</span>
+                <span>{{ item.appname }}</span>
               </div>
               <div class="info">
                 <span class="l">被保人:</span>
-                <span>{{item.insname}}</span>
+                <span>{{ item.insname }}</span>
               </div>
               <div class="info">
                 <span class="l">保险金额:</span>
-                <span>{{item.amnt}}</span>
+                <span>{{ item.amnt }}</span>
               </div>
               <div class="info">
                 <span class="l">保障期限:</span>
-                <span>{{item.insuyearvalue}}</span>
+                <span>{{ item.insuyearvalue }}</span>
               </div>
               <div class="info">
                 <span class="l">保费:</span>
-                <span>{{item.prem}}</span>
+                <span>{{ item.prem }}</span>
               </div>
               <div class="info">
                 <span class="l">缴费方式:</span>
-                <span>{{item.payintvvalue}}</span>
+                <span>{{ item.payintvvalue }}</span>
               </div>
               <div class="info">
                 <span class="l">缴费年期:</span>
-                <span>{{item.payendyearvalue}}</span>
+                <span>{{ item.payendyearvalue }}</span>
               </div>
 
             </ul>
@@ -1230,7 +1298,8 @@
       </el-dialog>
     </el-drawer>
     <!-- 查看详情弹窗 -->
-    <view-details :datas="detailObj" :showEditPopupDialogVisible.sync="showEditPopupDialogVisible" @updateVisible="updateVisibleId"></view-details>
+    <view-details :datas="detailObj" :showEditPopupDialogVisible.sync="showEditPopupDialogVisible"
+      @updateVisible="updateVisibleId"></view-details>
     <!-- 录音播放器 -->
     <audio :src="audioSrc" ref="audio" controls="controls" id="audio" v-show="audioShow"></audio>
   </div>
@@ -1255,7 +1324,7 @@ export default {
 <style src="../../static/css/customerManagementNew.css"></style>
 <style>
 .entry-data .el-dialog__body {
-  padding: 0  0 0 0.3rem;
+  padding: 0 0 0 0.3rem;
 }
 
 .entry-data-box .common-select {
@@ -1281,7 +1350,7 @@ export default {
   width: auto !important;
   font-size: 0.14rem;
   padding-top: 0.2rem;
-  
+
 }
 
 .entry-customer-popper .common-select {
@@ -1305,7 +1374,7 @@ export default {
   padding: 0 0.4rem !important;
 }
 
-.top-row .el-table__cell{
+.top-row .el-table__cell {
   background: rgba(245, 220, 217, 0.5);
 }
 
@@ -1320,9 +1389,17 @@ export default {
 .ad-select-content .el-select-inners .el-input__icon {
   margin-left: 1rem;
 }
-.el-popover__reference-wrapper{
+
+.el-popover__reference-wrapper {
   display: flex;
   height: 100%;
-    align-items: center;
+  align-items: center;
+}
+
+.customerManagementNew {
+  height: 100%;
+  background: rgb(242, 242, 242);
+  padding: 0.1rem 0.4rem 0 0.4rem;
+  width: 19.26rem
 }
 </style>

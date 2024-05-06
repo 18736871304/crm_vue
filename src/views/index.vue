@@ -739,6 +739,7 @@ export default {
 #contentBox{
    position: absolute;
    right: 0;
+   /* overflow: hidden; */
 }
 .menu-common{
    position: fixed;

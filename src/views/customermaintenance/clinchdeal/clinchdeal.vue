@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:17.1rem">
     <div class="search-header">
       <div class="add-btn" @click="showAddNoticeDialogVisible">+ 保单录入</div>
       <div class="search-box clearfix">

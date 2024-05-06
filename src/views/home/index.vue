@@ -1,5 +1,5 @@
 <template>
-  <div class="container clearfix" id="homeContainer" style="display: flex;"  v-cloak>
+  <div class="container clearfix" id="homeContainer" style="display: flex; width :19.26rem"  v-cloak>
     <div class="container_left fl">
       <div class="container_left_one mt clearfix">
         <div class="fl">
