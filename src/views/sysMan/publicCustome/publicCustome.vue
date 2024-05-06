@@ -1,5 +1,5 @@
 <template>
-  <div v-cloak>
+  <div v-cloak style=" width: 17.1rem;">
     <div style="padding: 0.05rem 0.3rem;">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="资源调配管理" name="00000005">

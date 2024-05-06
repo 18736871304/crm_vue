@@ -1,5 +1,5 @@
 <template>
-  <div v-cloak>
+  <div v-cloak style=" width: 17.1rem;">
     <div class="search-header">
       <div class="add-btn" @click="showAddNoticeDialogVisible">+ 新建</div>
       <div class="search-box clearfix">

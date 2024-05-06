@@ -1,5 +1,5 @@
 <template>
-  <div class="customerManagement" id="container" v-cloak>
+  <div class="customerManagement" id="container" v-cloak style=" width: 17.1rem;">
     <div class="search-header">
       <div class="add-btn" @click="showAddCJGDetailDialog($event)"> + 新建</div>
       <div class="search-box clearfix">

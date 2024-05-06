@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style=" width: 17.1rem;">
       <div class="search-header">
         <div class="search-box clearfix">
           <div class="common-select">
