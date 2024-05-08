@@ -1366,6 +1366,7 @@ export default {
   display: flex;
   padding: 0.3rem;
   overflow: hidden;
+ 
 }
 
 .team {

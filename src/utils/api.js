@@ -1,4 +1,8 @@
 import { GET, POST, http } from './request.js';
+import axios from "axios";
+
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
 
 // 获取token
 function getTempToken(params) {
@@ -222,12 +226,16 @@ function getQunList(params) {
 }
 //获取用户和客户的聊天记录
 function getQwTalkData(params) {
-  return POST(params, '/crm/qwMan/getQwTalkData.do')
+  return POST(params, '/crm/qwMan/getQwTalkData.do',{
+    cancelToken: source.token
+})
 }
 
 //获取群的聊天记录
 function getQwQunTalkData(params) {
-  return POST(params, '/crm/qwMan/getQwQunTalkData.do')
+  return POST(params, '/crm/qwMan/getQwQunTalkData.do', {
+    cancelToken: source.token
+})
 }
 export default { 
   getTempToken,
@@ -275,7 +283,8 @@ export default {
   getQwTalkData,
   getQwColleagueByUser,
   getQunList,
-  getQwQunTalkData
+  getQwQunTalkData,
+  source//quxiao
 }
 
 

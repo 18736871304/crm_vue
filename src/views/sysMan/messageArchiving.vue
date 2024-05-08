@@ -1,11 +1,13 @@
 <template>
-  <div class="template containerWidth" style="width: 17.3rem;">
+
+
+  <div class="template containerWidth" style="width: 17.15rem;">
     <div class="staff">
       <header class="headfixed">
-        <div style="margin-bottom: 0.2rem">
-          员工({{ this.teamNameList.length }})
+        <div style="margin-bottom: 0.1rem">
+          员工-{{ this.teamNameList.length }}
         </div>
-        <div class="select-content" style="margin-bottom: 0.2rem;">
+        <div class="select-content" style="margin-bottom: 0.1rem;">
           <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
             <p class="el-dropdown-inners" clearable>
               <span>{{ teamNames }}</span>
@@ -43,9 +45,6 @@
         </div>
       </div>
     </div>
-
-
-
     <!-- 中间 客户 同事  群聊 -->
     <div class="custom">
       <div style="display: flex">
@@ -63,7 +62,7 @@
 
             <div class="select-content" style="margin-top: 0.2rem;    margin: 0.2rem 0.2rem;">
               <div class="searchName">
-                <el-input placeholder="请输入内容" @input="activeselectId" v-model="activeValue" clearable>
+                <el-input placeholder="请输入名称" @input="activeselectId" v-model="activeValue" clearable>
                 </el-input>
               </div>
             </div>
@@ -109,8 +108,6 @@
       </div>
     </div>
 
-
-
     <!-- 聊天记录 -->
     <div class="ChatRecords">
       <header class="headfixed   headRecords">
@@ -119,7 +116,7 @@
             <img :src="selectfirstPhoto" alt="" class="avatar" />
             <div class="pBox" style="width: auto;">
               <p style="font-size: 0.18rem;">{{ selectfirstName }}</p>
-              <p>备注名：{{ selectfirstRemakeName }}</p>
+              <p v-if="tablabel=='客户'" >备注名：{{ selectfirstRemakeName }}</p>
             </div>
           </div>
 
@@ -428,18 +425,19 @@
 
     </div>
 
-
-
-
   </div>
+
+
+
 </template>
 <script>
-
+import axios from "axios";
 import api from "../../utils/api.js";
 import { getData, my_url } from "../../static/js/ajax.js";
 import { formatDate } from "../../static/js/common.js";
 import BenzAMRRecorder from 'benz-amr-recorder';
 import _ from 'lodash';
+const controller = new AbortController();
 export default {
   data() {
     return {
@@ -500,6 +498,7 @@ export default {
       nexAmrtItem: '',
       amr: null,
       voiceId: '',//判断播放的是哪个录音
+      // source: null,//取消重复请求
       pickerOptions: {
         shortcuts: [{
           text: '今日',
@@ -620,8 +619,6 @@ export default {
       var scrollTop = e.target.scrollTop;
       var scrollHeight = e.target.scrollHeight;
       var windowHeight = e.target.clientHeight;
-      console.log(scrollTop, scrollHeight, windowHeight)
-
       if (scrollTop + 1 >= scrollHeight - windowHeight) {
         this.getQwCustomer(this.isAllselect, this.pageNumber, this.pageSize, this.tablabel, this.activeValue)
       }
@@ -637,28 +634,26 @@ export default {
       var windowHeight = e.target.clientHeight;
       //变量scrollHeight是滚动条的总高度
       var scrollHeight = e.target.scrollHeight;
-      console.log(scrollTop <= 0)
-
       if (scrollTop <= 0 && this.noChathistory || scrollTop <= 0 && this.funhuiValue) {
-
-        console.log(scrollTop <= 0 && this.funhuiValue)
         // || this.funhuiValue
-
         if (this.seq == '' && this.selectTime != '' || this.seq == '' && this.searchMsgValue != '') {
           return
         } else {
           this.requestData(this.isqwuserid, this.isfirstselect, this.seq, this.searchMsgValue, this.selectTime)
         }
-
       }
       // console.log("距顶部" + scrollTop + "可视区高度" + windowHeight + "滚动条总高度" + scrollHeight);
     },
 
     requestData(user1, user2, seq, searchmsg, selecttime, lookupdown) {
+
+
+
+      // 取消请求
+      controller.abort()
+
       var _this = this
       this.loading = true;
-
-
       if (this.activeName == 'third') {
         var params = {
           qunid: user2,
@@ -676,7 +671,7 @@ export default {
         }
 
 
-        var getTalkData = api.getQwQunTalkData(params)
+        var getTalkData = api.getQwQunTalkData(params, this)
       } else {
         var params = {
           user1: user1,
@@ -694,20 +689,15 @@ export default {
           params['direction'] = 'front'
         }
 
-        var getTalkData = api.getQwTalkData(params)
+        var getTalkData = api.getQwTalkData(params, this)
       }
 
       getTalkData.then((data) => {
-        console.log(data)
         if (data.length > 0) {
           _this.seq = data[data.length - 1].seq
-
-
           if (_this.funhuiValue && lookupdown && lookupdown != '') {
             data.push(lookupdown)
           }
-
-
 
           for (var i = 0; i < data.length; i++) {
             var aa = i;
@@ -783,8 +773,6 @@ export default {
             if (searchmsg && searchmsg != '' && !_this.funhuiValue) {
               _this.requestSearchList.unshift(data[i])
             } else if (_this.funhuiValue) {
-              console.log('2131312')
-              console.log(_this.requestDataList)
               _this.requestDataList.unshift(data[i])//push 数据到数组中
             } else {
               _this.requestDataList.unshift(data[i])//push 数据到数组中
@@ -823,10 +811,15 @@ export default {
         _this.loading = false;
       }).catch((err) => {
         _this.loading = false;
+        console.log(err)
         alert('访问超时了,请刷新后重新查看')
       })
 
     },
+
+
+
+
 
     playAudio(item) {
       this.voiceId = item.seq
@@ -1093,16 +1086,6 @@ export default {
     },
 
 
-    // // 选择同事
-    // selectSecondName(item) {
-    //   console.log(item)
-    // },
-
-    // // 选择群
-    // selectThirdName(item) {
-    //   console.log(item)
-
-    // },
 
 
 
@@ -1143,8 +1126,6 @@ export default {
     },
     // 选择模糊筛选出来的 客户姓名
     activeselectId(item) {
-      console.log(item)
-      console.log(this.activeValue)
       var _this = this
       // if (item == '') {
       this.firstAllName = []
@@ -1184,7 +1165,6 @@ export default {
     // 代码在1秒内只执行一次
     searchMsg: _.debounce(function (item) {
       // 这里的代码只会在一秒内执行一次
-      console.log('Input value changed:', this.inputValue);
       this.requestDataList = []
       this.seq = ''
       this.noChathistory = true
@@ -1206,8 +1186,6 @@ export default {
     }, 1000),
 
     searchDate: _.debounce(function (item) {
-      console.log(this.selectTime)
-
       this.requestDataList = []
       this.seq = ''
       this.noChathistory = true
@@ -1278,7 +1256,6 @@ export default {
 
     // 处理客户， 同事， 群聊姓名等数据
     dataHandle(data) {
-      console.log(data)
       var qwCustomerList = data
       for (var i = 0; i < qwCustomerList.length; i++) {
         // 同事
@@ -1309,7 +1286,6 @@ export default {
         // 群聊   
         if (qwCustomerList[i].name == '') {
           qwCustomerList.splice(i, 1);
-          console.log(qwCustomerList)
         }
         if (qwCustomerList[i].qunid) {
           qwCustomerList[i]['customerid'] = qwCustomerList[i].qunid
@@ -1366,6 +1342,7 @@ export default {
   display: flex;
   padding: 0.3rem;
   overflow: hidden;
+  background: #f5f5f5;
 }
 
 .team {
@@ -1378,20 +1355,25 @@ export default {
 .staff {
   width: 15%;
   height: calc(100vh - 1.2rem);
-  border: 1px solid #909399;
+  /* border: 1px solid #909399; */
   position: relative;
+  background: #fff;
+  margin-right: 0.2rem;
 }
 
 .custom {
   width: 15%;
   height: calc(100vh - 1.2rem);
-  border: 1px solid #909399;
+  /* border: 1px solid #909399; */
+  background: #fff;
 }
 
 .ChatRecords {
   width: 70%;
   height: calc(100vh - 1.2rem);
-  border: 1px solid #909399;
+  border-left: 1px solid #E4E7ED;
+  background: #fff;
+  margin-left: 3px;
 }
 
 .teamList {
@@ -1447,15 +1429,15 @@ export default {
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
-  margin-top: 1.8rem;
+  margin-top: 1.6rem;
   overflow: hidden;
   overflow-y: scroll;
-  height: calc(100vh - 3.4rem);
+  height: calc(100vh - 3.05rem);
 }
 
 .staffName {
   /* height: 0.8rem; */
-  padding: 0.15rem 0.1rem;
+  padding: 0.1rem 0.1rem;
   border-left: 0.05rem solid transparent;
   cursor: pointer;
 
@@ -1478,8 +1460,9 @@ export default {
 }
 
 .userbox img {
-  width: 0.55rem;
-  height: 0.55rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 0.05rem;
 }
 
 .pBox {
@@ -1562,7 +1545,7 @@ export default {
   background: #fff;
   width: 12.8%;
   padding: 0.2rem 0.2rem 0;
-  height: 1.8rem;
+  height: 1.6rem;
 }
 
 ::v-deep .searchName .el-input .el-input__inner {
@@ -1621,7 +1604,7 @@ export default {
 .headRecords {
   height: 0.7rem;
   padding: 0;
-  width: 60%;
+  width: 59%;
   border-bottom: 1px solid #E4E7ED;
   /* padding:0.2rem 0.2rem 0; */
   display: flex;
@@ -2078,5 +2061,12 @@ export default {
   color: #383838;
   align-self: flex-end;
   /* width: 0.5rem; */
+}
+.staff .staffList .staffName{
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.chatHistory  .staffList .staffName{
+  margin-bottom: 0.2rem;
 }
 </style>

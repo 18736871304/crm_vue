@@ -1,6 +1,9 @@
 import axios from "axios";
 import qs from "qs";
-import { MessageBox, Message } from 'element-ui'
+import {
+  MessageBox,
+  Message
+} from 'element-ui'
 import store from "@/store";
 import router from "@/router";
 
@@ -24,14 +27,14 @@ service.interceptors.request.use(
   }
 )
 service.interceptors.response.use(
-  response =>{
+  response => {
     // NProgress.done()
     return response;
   },
   error => {
-    if(error.response) {
+    if (error.response) {
       switch (error.response.status) {
-        case 401: 
+        case 401:
           Message({
             message: res.message || 'Error',
             type: 'error',
@@ -43,7 +46,7 @@ service.interceptors.response.use(
           })
       }
     }
-    return Promise.reject(error);    
+    return Promise.reject(error);
   }
 )
 
@@ -55,20 +58,28 @@ service.interceptors.response.use(
 //   'OPTIONSAccess-Control-Allow-Origin': '*',
 //   'Access-Control-Allow-Origin': '*'
 // }
+const controller = new AbortController();
+
 export function POST(params = {}, url, headers = {}) {
   return new Promise((resolve, reject) => {
     axios({
       method: 'POST',
       url: url,
       data: qs.stringify(params),
-      headers: Object.assign({'Content-Type':'application/x-www-form-urlencoded;charset=utf-8'}, headers)
+      headers: Object.assign({
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+      }, headers),
+      signal: controller.signal
     }).then((res) => {
       resolve(res.data)
-    }).catch((error)=>{
+    }).catch((error) => {
       reject(error)
     })
   })
+
 }
+
+
 export function GET(params = {}, url, headers = {}) {
   return new Promise((resolve, reject) => {
     axios({
@@ -77,11 +88,26 @@ export function GET(params = {}, url, headers = {}) {
       // data: params,
     }).then((res) => {
       resolve(res.data)
-    }).catch((error)=>{
+    }).catch((error) => {
       reject(error)
     })
   })
 }
+
+
+
+
+//获取取消函数和取消令牌
+export function createCancelToken() {
+  const cancelToken = axios.CancelToken;
+  const source = cancelToken.source();
+
+  return {
+    token: source.token,
+    cancel: source.cancel
+  };
+}
+
 // export default {
 //   POST,
 //   GET,
