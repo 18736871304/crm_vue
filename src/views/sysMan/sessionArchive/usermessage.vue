@@ -4,7 +4,7 @@
         <div class="staff">
             <header class="headfixed">
                 <div style="margin-bottom: 0.1rem">
-                    员工-{{ parentData.zzcount }}-{{ parentData.lzcount}}
+                    员工-{{ parentData.zzcount }}-{{ parentData.lzcount }}
                 </div>
                 <div class="select-content" style="margin-bottom: 0.1rem;">
                     <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
@@ -59,14 +59,12 @@
                     </div>
                     <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 100%">
                         <!-- 搜索框 -->
-
                         <div class="select-content" style="margin-top: 0.2rem;    margin: 0.2rem 0.2rem;">
                             <div class="searchName">
                                 <el-input placeholder="请输入名称" @input="activeselectId" v-model="activeValue" clearable>
                                 </el-input>
                             </div>
                         </div>
-
                         <el-tab-pane label="客户" name="first">
                         </el-tab-pane>
                         <el-tab-pane label="同事" name="second">
@@ -77,7 +75,6 @@
                             <template v-if="firstAllName != ''">
                                 <div class="staffList staffListBottom" ref="first"
                                     style="margin-top: 0;     height: calc(100vh - 3.85rem);">
-
                                     <div :class="isfirstselect == item.customerid ? 'selectname staffName' : 'staffName'"
                                         v-for="(item, index) of firstAllName" :key="index" :label="item.customername"
                                         :value="item.customerid" @click="selectFirstName(item)">
@@ -85,10 +82,9 @@
                                         <div class="userbox">
                                             <img :src="item.avatar" alt="" class="avatar" />
                                             <div class="pBox">
-                                                <!-- {{ item.lastmsgtime }} -->
-                                                <p class='namedata'> <span>{{ item.customername }}</span> <span>{{
-                        item.lastmsgtimeValue
-                    }}</span> </p>
+                                                <p class='namedata'>
+                                                    <span>{{ item.customername + item.lastmsgtimeValue }}</span>
+                                                </p>
                                                 <p class="lastText">{{ item.lastmsgtypeValue }}</p>
                                             </div>
                                         </div>
@@ -121,7 +117,6 @@
                             <p style="font-size: 0.18rem;">{{ selectfirstName }}</p>
                             <p v-if="tablabel == '客户'">备注名：{{ selectfirstRemakeName }}</p>
                         </div>
-
                         <i v-if="tablabel == '群聊' && firstAllName.length > 0" class="el-icon-user qunUser"
                             @click="qunDetail"></i>
                     </div>
@@ -143,32 +138,19 @@
                             </el-date-picker>
                         </div>
                     </div>
-
-
                 </div>
-
             </header>
-
             <div class="chatHistory" v-loading="loading">
-
                 <header @click="fanhui" v-if='funhuiValue' class="fanValue">
-                    <!-- <a> -->
                     <span class="el-icon-arrow-left "></span>
                     <span>返回</span>
-                    <!-- </a> -->
                 </header>
 
-
-
                 <div class="staffList" ref="list" style="margin-top: 0;  height: calc(100vh - 2.7rem);">
-
-
                     <template v-if="requestDataList.length > 0 && searchText">
                         <div class='staffName' style="margin-top: 0.2rem;" v-for="item of requestDataList"
                             :key="item.seq" :label="item.username" :value="item.userid">
                             <div>
-
-
                                 <!-- 聊天记录 开始 -->
                                 <div class="userbox_middle" v-if="item.addtime">
                                     <p>{{ item.addtime }}</p>
@@ -185,17 +167,13 @@
                                     <img v-else :src="selectfirstPhoto" alt="" class="avatar" />
 
                                     <div class="pBox boxhover chat_left">
-                                        <div v-if="activeName == 'third' && item.username" class="timeLeft">{{
-                        item.username }}{{
-                        item.msgtime
-                    }}
+                                        <div v-if="activeName == 'third' && item.username" class="timeLeft">
+                                            {{ item.username + item.msgtime }}
                                         </div>
-                                        <div v-else-if="activeName == 'third' && item.cusname" class="timeLeft">{{
-                        item.cusname }}{{
-                        item.msgtime
-                    }}</div>
+                                        <div v-else-if="activeName == 'third' && item.cusname" class="timeLeft">
+                                            {{ item.cusname + item.msgtime }}
+                                        </div>
                                         <div v-else class="timeLeft">{{ item.msgtime }}</div>
-
 
                                         <div style="display: flex;" v-if="item.msgtype == 'text'">
                                             <p class="chatContent">{{ item.text }} </p>
@@ -219,7 +197,6 @@
                                                         class="chatVoiceImg">
                                                     <p>{{ item.play_length }}</p>
                                                 </div>
-
                                             </div>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
@@ -237,14 +214,15 @@
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
 
+
                                         <!-- 视频 -->
                                         <div v-if="item.msgtype == 'video'" class="chatContent chatContentVideo">
                                             <video id="myVideo" controls style="width: 30%;min-width: 300px;">
-                                                <source :src="'https://talk.meihualife.com' + item.text"
-                                                    type="video/mp4">
+                                                <source :src="'https://talk.meihualife.com' + item.text" type="video/mp4">
                                             </video>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
+
 
                                         <!-- 文件 -->
                                         <div v-if="item.msgtype == 'file'" class="chatContent colorfff">
@@ -295,16 +273,12 @@
                                 <!-- 员工 -->
                                 <div class="userbox_right" v-if="item.from == isqwuserid">
                                     <img :src="selectStaffPhoto" alt="" class="avatar" />
-
                                     <div class="pBox boxhover chat_right">
                                         <div class=" timeRight ">{{ item.msgtime }}</div>
-                                        <!-- 文字 v-if="item.state == 'revoke'"-->
                                         <div style="display: flex;" v-if="item.msgtype == 'text'">
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                             <p class="chatContent"> {{ item.text }} </p>
                                         </div>
-
-
                                         <!-- 图片 -->
                                         <div>
                                             <viewer v-if="item.msgtype == 'image' || item.msgtype == 'emotion'"
@@ -314,8 +288,6 @@
                                                     class="chatRightImg" alt="" />
                                             </viewer>
                                         </div>
-
-
                                         <!--语音 -->
                                         <div v-if="item.msgtype == 'voice'" class="chatContent">
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
@@ -326,7 +298,6 @@
                                                     class="chatVoiceImg">
                                             </div>
                                         </div>
-
                                         <!-- 视频通话 -->
                                         <div v-if="item.msgtype == 'voiptext'" class="chatContent">
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
@@ -337,7 +308,6 @@
 
                                             </div>
                                         </div>
-
                                         <!--视频 -->
                                         <div v-if="item.msgtype == 'video'" class="chatContent chatContentVideo">
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
@@ -346,7 +316,6 @@
                                                     type="video/mp4">
                                             </video>
                                         </div>
-
                                         <!-- 文件 -->
                                         <div v-if="item.msgtype == 'file'" class="chatContent colorfff">
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
@@ -357,7 +326,6 @@
                                                         <span class="FileTitle">{{ item.filename }}</span>
                                                         <span class="FileSize FileSizeleft">{{ item.fileSize }}M</span>
                                                     </div>
-                                                    <!-- <img src="../../../../../../images/activity/chatRecord/file.jpg" alt=""> -->
                                                     <img src="../../../static/images/file.jpg" alt="">
                                                 </a>
                                             </div>
@@ -404,31 +372,21 @@
                         <div class='staffName' style="margin-top: 0.2rem;" v-for="item of requestSearchList"
                             :key="item.seq" :label="item.username" :value="item.userid">
                             <div class="userbox_left">
-
                                 <img v-if="item.from == isqwuserid" :src="selectStaffPhoto" alt="" class="avatar" />
                                 <img v-if="item.from == isfirstselect" :src="selectfirstPhoto" alt="" class="avatar" />
-
                                 <div class='searchTextBox'>
-
                                     <div class="pBox boxhover chat_left">
                                         <div class="">{{ item.name }}</div>
                                         <p class="chatContent"> {{ item.text }}</p>
                                     </div>
-
                                     <div class="lookText">
                                         <div class="">{{ item.msgtime }}</div>
                                         <div class="lookupdown" @click="lookupdown(item)">查看上下文</div>
                                     </div>
-
                                 </div>
-
-
-
-
                             </div>
                         </div>
                     </template>
-
 
                     <template v-else>
                         <div style="display: flex;flex-direction: column; align-items: center;">
@@ -436,13 +394,9 @@
                             <p>暂无符合条件的记录</p>
                         </div>
                     </template>
-
-
                 </div>
             </div>
-
         </div>
-
 
         <el-drawer title="群详情" :show-close="false" :visible.sync="drawer" :before-close="handleClose" size=20%>
             <div style="padding:0 0.2rem;">
@@ -450,61 +404,38 @@
                     <diV class="titleBox">
                         <img src="../../../static/images/qunavatar.png" alt="">
                         <p style="height: 0.5rem;">{{ selectfirstName }}</p>
-
                     </diV>
-
                     <div>
                         <p style="font-size: 0.14rem; margin-left: 0.7rem"> 群主：{{ qunLeader.name }}</p>
-                        <!-- <p class="ext-tips">经外部联系人同意后才会保存联系人发送的会话内容</p> -->
                     </div>
-
-
                 </div>
 
                 <div class="drawerbigbox">
                     <div class="usersmallbox">
                         <p>群成员-{{ this.inqunList.length + this.exqunList.length }}</p>
                     </div>
-
                     <div class="userList">
-
-
                         <div class="userItem" v-for=" (item, index) of inqunList" :key="item.name">
                             <img :src="item.qwuserurl" alt="">
                             <p class="userItemName">{{ item.name }}</p>
                             <p class="userItemState" v-if="item.manage">{{ item.manage }}</p>
 
                         </div>
-
-
-                        <p v-if="exqunList.length>0" class="exUser">外部联系人</p>
-                        <p v-if="exqunList.length>0" class="ext-tips">经外部联系人同意后才会保存联系人发送的会话内容</p>
-
-                        <div class="userItem" v-for=" (item,index)  of exqunList" :key="item.name">
+                        <p v-if="exqunList.length > 0" class="exUser">外部联系人</p>
+                        <p v-if="exqunList.length > 0" class="ext-tips">经外部联系人同意后才会保存联系人发送的会话内容</p>
+                        <div class="userItem" v-for=" (item, index)  of exqunList" :key="item.name">
                             <img v-if='item.customerurl' :src="item.customerurl" alt="">
                             <img v-else src="../../../static/images/qunavatar.png" alt="">
-                            <p>{{item.name}}</p>
+                            <p>{{ item.name }}</p>
                         </div>
-                        <!-- <div class="userItem">
-                            <img :src="selectfirstPhoto" alt="">
-                            <p>魏钦录</p>
-                        </div> -->
                     </div>
-
-
                 </div>
             </div>
         </el-drawer>
-
-
-
-
     </div>
 </template>
 <script>
-import axios from "axios";
 import api from "../../../utils/api.js";
-import { getData, my_url } from "../../../static/js/ajax.js";
 import { formatDate } from "../../../static/js/common.js";
 import BenzAMRRecorder from 'benz-amr-recorder';
 import _ from 'lodash';
@@ -515,7 +446,6 @@ export default {
             inqunList: [],
             exqunList: [],
             qwQunList: [],
-            // drawerName: '群聊标题',
             qunLeader: '',
             drawer: false,
 
@@ -654,23 +584,16 @@ export default {
                 }
             },
         };
-
-
     },
     props: {
-        parentData: { }
+        parentData: {}
     },
     mounted: function () {
-        // const scrollview = this.$refs['list'];
-        // scrollview.addEventListener('scroll', this.handleScroll, true)
         const scrollFirst = this.$refs['first'];
         scrollFirst.addEventListener('scroll', this.firstScroll, true)
         this.yewu();
     },
 
-    activated() {
-
-    },
     watch: {
 
         searchMsgValue(data) {
@@ -679,25 +602,17 @@ export default {
             } else {
                 this.dateVale = false
             }
-
         },
-        // requestDataList() {
-        //   // console.log(this.$refs['list'].scrollHeight)
-        // },
+
         staffValue(newValue) {
-            // 这里可以编写处理逻辑
             if (newValue == '') {
                 this.delSelectUserId()
             }
-
         }
     },
 
 
     methods: {
-
-
-
         handleClose(done) {
             this.drawer = false
         },
@@ -708,12 +623,10 @@ export default {
             this.exqunList = []
             var params = {
                 qunid: this.isfirstselect
-                // qunid: "wrchVgCgAAGIWhCEnHOwYLVRANSHXMPg"
             }
             api.getAllqunUser(params).then((data) => {
                 console.log(data)
                 var allqunList = data.qwQunMemberList
-
                 for (var i = 0; i < allqunList.length; i++) {
                     if (allqunList[i].isowner == 'Y') {
                         allqunList[i]['manage'] = '群主'
@@ -741,8 +654,6 @@ export default {
             }
         },
 
-
-
         handleScroll(e) {
             const winHeight = e.target.scrollTop || document.documentElement.scrollTop
             //变量scrollTop是滚动条滚动时，距离顶部的距离
@@ -763,12 +674,8 @@ export default {
         },
 
         requestData(user1, user2, seq, searchmsg, selecttime, lookupdown) {
-
-
-
             // 取消请求
             controller.abort()
-
             var _this = this
             this.loading = true;
             if (this.activeName == 'third') {
@@ -786,8 +693,6 @@ export default {
                 if (lookupdown && lookupdown != '') {
                     params['direction'] = 'front'
                 }
-
-
                 var getTalkData = api.getQwQunTalkData(params, this)
             } else {
                 var params = {
@@ -805,17 +710,14 @@ export default {
                 if (lookupdown && lookupdown != '') {
                     params['direction'] = 'front'
                 }
-
                 var getTalkData = api.getQwTalkData(params, this)
             }
-
             getTalkData.then((data) => {
                 if (data.length > 0) {
                     _this.seq = data[data.length - 1].seq
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
                         data.push(lookupdown)
                     }
-
                     for (var i = 0; i < data.length; i++) {
                         var aa = i;
                         var upaa = i - 1
@@ -826,8 +728,6 @@ export default {
                         var upTime = Date.parse(data[upaa].msgtime)
                         var nowTime = Date.parse(new Date())
                         var timestampValue = Math.abs(firstTime - upTime)
-
-
                         // 首次
                         if (data.length < 20 && aa == 0) {
                             data[data.length - 1]['addtime'] = data[data.length - 1].msgtime
@@ -836,12 +736,9 @@ export default {
                         if (86400 > timestampValue > 300 || 604800 > timestampValue > 86400 || timestampValue > 604800) {
                             data[upaa]['addtime'] = data[upaa].msgtime
                         }
-
                         if (data[i].msgtype == "revoke") {
                             data.splice(i, 1)
                         }
-
-
                         if (data[i].msgtype == "link") {
                             var fileData = JSON.parse(data[i].text)
                             data[i]["link_url"] = fileData.link_url
@@ -881,7 +778,6 @@ export default {
 
                         if (data[i].msgtype == "chatrecord") {
                             var chatrecordData = JSON.parse(data[i].text)
-
                             data[i]['title'] = chatrecordData.title
                             data[i]['play_length'] = chatrecordData.item.length
                         }
@@ -895,29 +791,14 @@ export default {
                             _this.requestDataList.unshift(data[i])//push 数据到数组中
                         }
                     }
-
-
-
-                    // let allmsg = data.concat(_this.requestDataList);
-                    // _this.requestDataList = allmsg
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
-
                     } else {
                         _this.scrollHeight = _this.$refs['list'].scrollHeight
                         _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight;
                         _this.$nextTick(() => {
-                            // console.log("当前滚动条位置:" + _this.$refs['list'].scrollTop);
-                            // console.log("当前可滚动区域容器的高度:" + _this.$refs['list'].scrollHeight);
-                            // console.log("当前滚动条的高度:" + _this.$refs['list'].scrollHeight, _this.scrollHeight);
-                            // console.log(_this.$refs['list'].scrollHeight, _this.scrollHeight);
                             _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight - _this.scrollHeight;
                         })
                     }
-
-
-
-
-
 
                     const scrollview = _this.$refs['list'];
                     scrollview.addEventListener('scroll', _this.handleScroll, true)
@@ -982,11 +863,9 @@ export default {
             this.teamListId = "";
             this.teamNames = "团队选择";
             this.teamid = "";
-
             this.$refs.tree.setCheckedKeys([]);
             this.queryflag = true;
             this.staffValue = "";
-
             this.searchUser(this.teamAllid)
         },
 
@@ -1056,12 +935,7 @@ export default {
                         qwuserurl: res.qwuserurl,
                     });
                 });
-
-
-
                 _this.selectOneName(data.userList[0], this.tablabel)
-
-
             });
         },
 
@@ -1115,10 +989,6 @@ export default {
                 queryname: item
             }
 
-            // if (item != '') {
-            //   _this.firstAllName = []
-            // }
-
             if (first == '客户') {
                 api.getQwCustomerByUser(params).then((data) => {
                     if (data.qwCustomerList != []) {
@@ -1131,8 +1001,6 @@ export default {
                     }
                 });
             }
-
-
             if (first == '同事') {
                 api.getQwColleagueByUser(params).then((data) => {
                     if (data.qwColleagueList != []) {
@@ -1145,8 +1013,6 @@ export default {
                     }
                 });
             }
-
-
             if (first == '群聊') {
                 var params = {
                     qwuserid: userid,
@@ -1154,7 +1020,6 @@ export default {
                     pageSize: pageSize,
                     queryname: item
                 }
-
                 api.getQunList(params).then((data) => {
                     if (data.qwQunList != []) {
                         var qwColleagueList = _this.dataHandle(data.qwQunList)
@@ -1163,19 +1028,14 @@ export default {
                             _this.selectFirstName(_this.firstAllName[0])
                         }
                         _this.pageNumber = _this.pageNumber + 1
-
                     }
                 });
-
             }
             this.paneloading = false
         },
 
         // 选择客户, 同事， 群聊人员
         selectFirstName(item) {
-
-            console.log('这是群数据')
-            console.log(item)
             if (item.qunid) {
                 this.isfirstselect = item.qunid
             } else {
@@ -1194,7 +1054,6 @@ export default {
             this.searchText = true
             this.funhuiValue = false
             this.noChathistory = true
-
 
             // 关闭监听滚动条
             // this.$refs.scrollView.removeEventListener('scroll', this.handleScroll, true);
@@ -1288,21 +1147,15 @@ export default {
             this.requestDataList = []
             this.seq = ''
             this.noChathistory = true
-
             this.requestDataList = []
-            // this.requestSearchList = []
-
             if (item == '') {
                 this.searchText = true
                 this.funhuiValue = false
             } else {
                 this.searchText = false
             }
-
             this.searchMsgValue = item
-
             this.requestData(this.isqwuserid, this.isfirstselect, '', item)
-
         }, 1000),
 
         searchDate: _.debounce(function (item) {
@@ -1310,17 +1163,11 @@ export default {
             this.seq = ''
             this.noChathistory = true
             this.requestData(this.isqwuserid, this.isfirstselect, '', this.searchMsgValue, this.selectTime)
-
-            // const scrollview = this.$refs['list'];
-            // scrollview.removeEventListener('scroll', this.handleScroll, true)
-
         }, 1000),
 
 
         lookupdown: _.debounce(function (item) {
             this.requestDataList = []
-            // this.requestSearchList = []
-
             this.requestData(this.isqwuserid, this.isfirstselect, item.seq, '', '', item)
             this.searchText = true
             this.funhuiValue = true
@@ -1447,13 +1294,6 @@ export default {
             return qwCustomerList
         },
 
-
-
-        // allowDrop() { },
-        // allowDrag() { },
-        // handleDragStart() { },
-        // handleDragEnd() { },
-        // handleDrop() { },
     },
 };
 </script>

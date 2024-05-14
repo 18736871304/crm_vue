@@ -1,8 +1,5 @@
 <template>
     <div class="template containerWidth">
-
-
-
         <div class="staff">
             <header class="headfixed">
                 <div style="margin-bottom: 0.1rem">
@@ -15,26 +12,19 @@
                     </div>
                 </div>
             </header>
-
-
-
-
             <div v-loading="paneloading" style="    margin-top: 1.2rem;">
                 <template v-if="qwQunList != ''">
                     <div class="staffList staffListBottom" ref="first">
-
                         <div :class="isfirstselect == item.qunid ? 'selectname staffName' : 'staffName'"
                             v-for="(item, index) of qwQunList" :key="index" :label="item.name" :value="item.qunid"
                             @click="selectFirstName(item)">
-
                             <div class="userbox">
-                                <!-- <img src="https://crm.meihualife.com/images/qunavatar.png" alt="" class="avatar" /> -->
                                 <img src="../../../static/images/qunavatar.png" alt="" class="avatar" />
                                 <div class="pBox">
-                                    <!-- {{ item.lastmsgtime }} -->
-                                    <p class='namedata'> <span>{{ item.name }}</span> <span>{{
-                        item.lastmsgtimeValue
-                    }}</span> </p>
+                                    <p class='namedata'>
+                                        <span>{{ item.name }}</span>
+                                        <span>{{ item.lastmsgtimeValue }}</span>
+                                    </p>
                                     <p class="lastText">{{ item.lastmsgtypeValue }}</p>
                                 </div>
                             </div>
@@ -61,12 +51,9 @@
                         <img src="../../../static/images/qunavatar.png" alt="" class="avatar" />
                         <div class="pBox" style="width: auto;">
                             <p style="font-size: 0.18rem;">{{ selectfirstName }}</p>
-
-
                         </div>
                         <i class="el-icon-user qunUser" @click="qunDetail"></i>
                     </div>
-
                     <div class="select-content chatRightHead" style="width:25%">
                         <div class="searchName" style="width: 100%;">
                             <el-input placeholder="搜索消息" @input="searchMsg" v-model="searchMsgValue" clearable
@@ -74,7 +61,6 @@
                             </el-input>
                         </div>
                     </div>
-
                     <div class="common-select" style="width:30%">
                         <div class="select-content" style="height: 0.34rem; width: 3.2rem;  border: none">
                             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange"
@@ -84,13 +70,8 @@
                             </el-date-picker>
                         </div>
                     </div>
-
-
                 </div>
-
             </header>
-
-
             <div class="chatHistory" v-loading="loading">
                 <header @click="fanhui" v-if='funhuiValue' class="fanValue">
                     <span class="el-icon-arrow-left "></span>
@@ -108,10 +89,6 @@
                                 </div>
                                 <!-- 客户 -->
                                 <div class="userbox_left">
-
-                                    <!-- 
-                                    v-if="(item.from == isqwuserid || activeName == 'third' && item.from.length >= 20)"-->
-
                                     <img v-if="activeName == 'third' && item.userurl" :src="item.userurl" alt=""
                                         class="avatar" />
                                     <img v-else-if="activeName == 'third' && item.cusurl" :src="item.cusurl" alt=""
@@ -119,31 +96,23 @@
                                     <img v-else :src="selectStaffPhoto" alt="" class="avatar" />
 
                                     <div class="pBox boxhover chat_left">
-                                        <div v-if="activeName == 'third' && item.username" class="timeLeft">{{
-                        item.username }}{{
-                        item.msgtime
-                    }}
+                                        <div v-if="activeName == 'third' && item.username" class="timeLeft">
+                                            {{ item.username + item.msgtime }}
                                         </div>
-                                        <div v-else-if="activeName == 'third' && item.cusname" class="timeLeft">{{
-                        item.cusname }}{{
-                        item.msgtime
-                    }}</div>
+                                        <div v-else-if="activeName == 'third' && item.cusname" class="timeLeft">
+                                            {{ item.cusname + item.msgtime }}
+                                        </div>
                                         <div v-else class="timeLeft">{{ item.msgtime }}</div>
-
-
                                         <div style="display: flex;" v-if="item.msgtype == 'text'">
                                             <p class="chatContent">{{ item.text }}</p>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
-
                                         <!-- 图片 -->
                                         <viewer v-if="item.msgtype == 'image' || item.msgtype == 'emotion'">
                                             <img :src="'https://talk.meihualife.com' + item.text" :key="item.text"
                                                 class="chatLeftImg" alt="" />
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </viewer>
-
-
                                         <!--语音 -->
                                         <div v-if="item.msgtype == 'voice'" style="display: flex;">
                                             <div class="chatContent">
@@ -153,13 +122,10 @@
                                                         class="chatVoiceImg">
                                                     <p>{{ item.play_length }}</p>
                                                 </div>
-
                                             </div>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
-
                                         <!-- 视频通话 -->
-
                                         <div v-if="item.msgtype == 'voiptext'" style="display: flex;">
                                             <div class="chatContent">
                                                 <div class="chatContent  chatVoice">
@@ -170,7 +136,6 @@
                                             </div>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
-
                                         <!-- 视频 -->
                                         <div v-if="item.msgtype == 'video'" class="chatContent chatContentVideo">
                                             <video id="myVideo" controls style="width: 30%;min-width: 300px;">
@@ -179,7 +144,6 @@
                                             </video>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
-
                                         <!-- 文件 -->
                                         <div v-if="item.msgtype == 'file'" class="chatContent colorfff">
                                             <div class="recordFile">
@@ -194,7 +158,6 @@
                                             </div>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
-
 
                                         <!-- 投保链接 -->
                                         <div v-if="item.msgtype == 'link'" class="chatContent  colorfff">
@@ -216,7 +179,6 @@
                                                 <p class='chatRecord_title1'>{{ item.title }}的聊天记录</p>
                                                 <p class='chatRecord_title2'>{{ item.play_length }}条聊天，点击查看聊天记录内容</p>
                                                 <p class='chatRecord_title3'>聊天记录</p>
-
                                             </div>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
@@ -225,113 +187,6 @@
                                         <p v-if="item.msgtype == 'card'" class="chatContent">【名片】</p>
                                     </div>
                                 </div>
-
-                                <!-- 员工 -->
-                                <!-- <div class="userbox_right"
-                                    v-if="(item.from == isfirstselect || item.from != isfirstselect && item.from.length < 20)">
-                                  
-                                    <img :src="selectfirstPhoto" alt="" class="avatar" />
-
-
-                                   
-
-                                    <div class="pBox boxhover chat_right">
-                                        <div class=" timeRight ">{{ item.msgtime }}</div>
-                                      
-                                        <div style="display: flex;" v-if="item.msgtype == 'text'">
-                                            <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
-                                            <p class="chatContent"> {{ item.text }} </p>
-                                        </div>
-
-
-                                        
-                                        <div>
-                                            <viewer v-if="item.msgtype == 'image' || item.msgtype == 'emotion'"
-                                                class="chatPright">
-                                                <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
-                                                <img :src="'https://talk.meihualife.com' + item.text" :key="item.text"
-                                                    class="chatRightImg" alt="" />
-                                            </viewer>
-                                        </div>
-
-
-                                
-                                        <div v-if="item.msgtype == 'voice'" class="chatContent">
-                                            <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
-                                            <div :class="voiceId == item.seq ? 'chatContent  chatVoice playAudioVoice' : 'chatContent  chatVoice'"
-                                                @click="playAudio(item)">
-                                                <p>{{ item.play_length }}</p>
-                                                <img src="../../../static/images/voice_right.png" alt=""
-                                                    class="chatVoiceImg">
-                                            </div>
-                                        </div>
-
-                                 
-                                        <div v-if="item.msgtype == 'voiptext'" class="chatContent">
-                                            <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
-                                            <div class="chatContent  chatVoice">
-                                                <p>通话时长{{ item.play_length }}</p>
-                                                <img src="../../../static/images/voice_phone1.png" alt=""
-                                                    class="chatVoiceImg" style="width: 35px;">
-
-                                            </div>
-                                        </div>
-
-                             
-                                        <div v-if="item.msgtype == 'video'" class="chatContent chatContentVideo">
-                                            <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
-                                            <video id="myVideo" controls style="width: 30%;min-width: 300px;">
-                                                <source :src="'https://talk.meihualife.com' + item.text"
-                                                    type="video/mp4">
-                                            </video>
-                                        </div>
-
-                                
-                                        <div v-if="item.msgtype == 'file'" class="chatContent colorfff">
-                                            <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
-                                            <div class="recordFile">
-                                                <a :href="'https://talk.meihualife.com' + item.filepath" alt=""
-                                                    target="_blank">
-                                                    <div class="fileMain">
-                                                        <span class="FileTitle">{{ item.filename }}</span>
-                                                        <span class="FileSize FileSizeleft">{{ item.fileSize }}M</span>
-                                                    </div>
-                                                  
-                                                    <img src="../../../static/images/file.jpg" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
-                                   
-                                        <div v-if="item.msgtype == 'link'" class="chatContent colorfff">
-                                            <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
-                                            <div class="recordFile">
-                                                <a :href="item.link_url" alt="" target="_blank">
-                                                    <div class="fileMain">
-                                                        <span class="FileTitle">{{ item.title }}</span>
-                                                        <span class="FileSize FileSizeleft">{{ item.description
-                                                            }}</span>
-                                                    </div>
-                                                    <img :src="item.image_url" alt="">
-                                                </a>
-                                            </div>
-
-                                        </div>
-
-
-                                        <div v-if="item.msgtype == 'chatrecord'" style="display: flex;">
-                                            <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
-                                            <div class="chatContent chatContent_left" style="display: revert;">
-                                                <p class='chatRecord_title1'>{{ item.title }}的聊天记录</p>
-                                                <p class='chatRecord_title2'>{{ item.play_length }}条聊天，点击查看聊天记录内容</p>
-                                                <p class='chatRecord_title3'>聊天记录</p>
-                                            </div>
-                                        </div>
-                                        <p v-if="item.msgtype == 'sphfeed'" class="chatContent">【视频号转发】</p>
-                                        <p v-if="item.msgtype == 'mixed'" class="chatContent">【引用数据】</p>
-                                        <p v-if="item.msgtype == 'card'" class="chatContent">【名片】</p>
-
-                                    </div>
-                                </div> -->
 
                             </div>
                             <!-- 聊天记录 结束 -->
@@ -382,39 +237,29 @@
                         <p style="height: 0.5rem;">{{ oneitem.name }}</p>
 
                     </diV>
-
                     <div>
                         <p style="font-size: 0.14rem; margin-left: 0.7rem"> 群主：{{ qunLeader.name }}</p>
-                        <!-- <p class="ext-tips">经外部联系人同意后才会保存联系人发送的会话内容</p> -->
                     </div>
-
-
                 </div>
 
                 <div class="drawerbigbox">
                     <div class="usersmallbox">
                         <p>群成员-{{ inqunList.length + exqunList.length }}</p>
                     </div>
-
                     <div class="userList">
                         <div class="userItem" v-for=" item of inqunList" :key="item.name">
                             <img :src="item.qwuserurl" alt="">
                             <p class="userItemName">{{ item.name }}</p>
                             <p class="userItemState" v-if="item.manage">{{ item.manage }}</p>
-
                         </div>
-
-                        <p v-if="exqunList.length>0" class="exUser">外部联系人</p>
-                        <p v-if="exqunList.length>0" class="ext-tips">经外部联系人同意后才会保存联系人发送的会话内容</p>
-
+                        <p v-if="exqunList.length > 0" class="exUser">外部联系人</p>
+                        <p v-if="exqunList.length > 0" class="ext-tips">经外部联系人同意后才会保存联系人发送的会话内容</p>
                         <div class="userItem" v-for=" item  of exqunList" :key="item.name">
                             <img v-if='item.customerurl' :src="item.customerurl" alt="">
                             <img v-else src="../../../static/images/qunavatar.png" alt="">
-                            <p>{{item.name}}</p>
+                            <p>{{ item.name }}</p>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </el-drawer>
@@ -581,17 +426,12 @@ export default {
     },
 
     mounted: function () {
-        // const scrollview = this.$refs['list'];
-        // scrollview.addEventListener('scroll', this.handleScroll, true)
         const scrollFirst = this.$refs['first'];
         scrollFirst.addEventListener('scroll', this.firstScroll, true)
-        // this.yewu();
         this.allqun(1, 20, '')
     },
 
-    activated() {
 
-    },
     watch: {
 
         searchMsgValue(data) {
@@ -600,9 +440,7 @@ export default {
             } else {
                 this.dateVale = false
             }
-
         },
-
     },
 
 
@@ -612,17 +450,13 @@ export default {
         },
         qunDetail() {
             this.drawer = true
-            console.log(this.oneitem)
             this.inqunList = []
             this.exqunList = []
             var params = {
                 qunid: this.oneitem.qunid
-                // qunid: "wrchVgCgAAGIWhCEnHOwYLVRANSHXMPg"
             }
             api.getAllqunUser(params).then((data) => {
-                console.log(data)
                 var allqunList = data.qwQunMemberList
-
                 for (var i = 0; i < allqunList.length; i++) {
                     if (allqunList[i].isowner == 'Y') {
                         allqunList[i]['manage'] = '群主'
@@ -637,51 +471,33 @@ export default {
                     } else {
                         this.exqunList.push(allqunList[i])
                     }
-
                 }
-
-
-
             })
-
-
-
         },
         // 获取企业所有群   getAllqun, getAllqunUser,
         allqun(pageNum, pageSize, keyword) {
             var _this = this
             _this.paneloading = true;
-
             var params = {
                 pageNumber: pageNum,
                 pageSize: pageSize,
                 queryname: keyword
             }
             api.getAllqun(params).then((data) => {
-               
                 var arr = data.qwQunList
                 const filteredArr = arr.filter((obj) => {
-                    return !(Object.prototype.hasOwnProperty.call(obj, 'name') && (obj.name =='' || obj.name === null || obj.name === undefined));
+                    return !(Object.prototype.hasOwnProperty.call(obj, 'name') && (obj.name == '' || obj.name === null || obj.name === undefined));
                 });
-                console.log('nihao ')
-                console.log(filteredArr)
-
                 this.qwQunList = this.qwQunList.concat(filteredArr);
-                // this.qwQunList = data.qwCustomerList
-
                 if (pageNum == 1) {
                     this.selectFirstName(data.qwQunList[0])
                 }
-
-
                 this.pageNumber = this.pageNumber + 1
             }).catch((err) => {
                 _this.paneloading = false;
                 console.log(err)
-
             })
             _this.paneloading = false;
-
         },
 
 
@@ -702,9 +518,7 @@ export default {
             this.searchText = true
             this.funhuiValue = false
             this.noChathistory = true
-
             // 关闭监听滚动条
-            // this.$refs.scrollView.removeEventListener('scroll', this.handleScroll, true);
             const scrollview = this.$refs['list'];
             scrollview.removeEventListener('scroll', this.handleScroll, true)
             // 请求聊天记录
@@ -717,8 +531,6 @@ export default {
             var scrollTop = e.target.scrollTop;
             var scrollHeight = e.target.scrollHeight;
             var windowHeight = e.target.clientHeight;
-
-            console.log(scrollTop, scrollHeight, windowHeight)
             if (scrollTop + 1 >= scrollHeight - windowHeight) {
                 this.allqun(this.pageNumber, this.pageSize, this.activeValue)
             }
@@ -740,7 +552,6 @@ export default {
                     this.requestData(this.isqwuserid, this.isfirstselect, this.seq, this.searchMsgValue, this.selectTime)
                 }
             }
-            // console.log("距顶部" + scrollTop + "可视区高度" + windowHeight + "滚动条总高度" + scrollHeight);
         },
 
         requestData(user1, user2, seq, searchmsg, selecttime, lookupdown) {
@@ -772,7 +583,6 @@ export default {
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
                         data.push(lookupdown)
                     }
-
                     for (var i = 0; i < data.length; i++) {
                         var aa = i;
                         var upaa = i - 1
@@ -783,8 +593,6 @@ export default {
                         var upTime = Date.parse(data[upaa].msgtime)
                         var nowTime = Date.parse(new Date())
                         var timestampValue = Math.abs(firstTime - upTime)
-
-
                         // 首次
                         if (data.length < 20 && aa == 0) {
                             data[data.length - 1]['addtime'] = data[data.length - 1].msgtime
@@ -793,12 +601,9 @@ export default {
                         if (86400 > timestampValue > 300 || 604800 > timestampValue > 86400 || timestampValue > 604800) {
                             data[upaa]['addtime'] = data[upaa].msgtime
                         }
-
                         if (data[i].msgtype == "revoke") {
                             data.splice(i, 1)
                         }
-
-
                         if (data[i].msgtype == "link") {
                             var fileData = JSON.parse(data[i].text)
                             data[i]["link_url"] = fileData.link_url
@@ -835,15 +640,11 @@ export default {
                             var voiceData = JSON.parse(data[i].text)
                             data[i]['play_length'] = _this.format(voiceData.callduration)
                         }
-
                         if (data[i].msgtype == "chatrecord") {
                             var chatrecordData = JSON.parse(data[i].text)
-
                             data[i]['title'] = chatrecordData.title
                             data[i]['play_length'] = chatrecordData.item.length
                         }
-
-
                         if (searchmsg && searchmsg != '' && !_this.funhuiValue) {
                             _this.requestSearchList.unshift(data[i])
                         } else if (_this.funhuiValue) {
@@ -853,29 +654,15 @@ export default {
                         }
                     }
 
-
-
-                    // let allmsg = data.concat(_this.requestDataList);
-                    // _this.requestDataList = allmsg
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
 
                     } else {
                         _this.scrollHeight = _this.$refs['list'].scrollHeight
                         _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight;
                         _this.$nextTick(() => {
-                            // console.log("当前滚动条位置:" + _this.$refs['list'].scrollTop);
-                            // console.log("当前可滚动区域容器的高度:" + _this.$refs['list'].scrollHeight);
-                            // console.log("当前滚动条的高度:" + _this.$refs['list'].scrollHeight, _this.scrollHeight);
-                            // console.log(_this.$refs['list'].scrollHeight, _this.scrollHeight);
                             _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight - _this.scrollHeight;
                         })
                     }
-
-
-
-
-
-
                     const scrollview = _this.$refs['list'];
                     scrollview.addEventListener('scroll', _this.handleScroll, true)
 
@@ -916,45 +703,13 @@ export default {
         },
 
 
-
-
-        // querySearchId(queryString, cb) {
-        //     var SalesmanIdBox = this.SalesmanIdBox;
-        //     var results = queryString
-        //         ? SalesmanIdBox.filter(this.createFilterId(queryString))
-        //         : SalesmanIdBox;
-        //     // 调用 callback 返回建议列表的数据
-        //     if (results == 0) {
-        //         this.teamNameList = "";
-        //     }
-        //     cb(results);
-        // },
-
-        // createFilterId(queryString) {
-        //     return (SalesmanIdBox) => {
-        //         return (
-        //             SalesmanIdBox.value
-        //                 .toLowerCase()
-        //                 .indexOf(queryString.toLowerCase()) === 0
-        //         );
-        //     };
-        // },
-
-
-
         // 选择模糊筛选出来的 客户姓名
         activeselectId(item) {
-            var _this = this
-            // if (item == '') {
             this.qwQunList = []
             this.pageNumber = 1
             this.pageSize = 20
             this.allqun(1, 20, item)
         },
-
-
-
-
 
         // 代码在1秒内只执行一次
         searchMsg: _.debounce(function (item) {
@@ -962,21 +717,15 @@ export default {
             this.requestDataList = []
             this.seq = ''
             this.noChathistory = true
-
             this.requestDataList = []
-            // this.requestSearchList = []
-
             if (item == '') {
                 this.searchText = true
                 this.funhuiValue = false
             } else {
                 this.searchText = false
             }
-
             this.searchMsgValue = item
-
             this.requestData(this.isqwuserid, this.isfirstselect, '', item)
-
         }, 1000),
 
         searchDate: _.debounce(function (item) {
@@ -984,21 +733,18 @@ export default {
             this.seq = ''
             this.noChathistory = true
             this.requestData(this.isqwuserid, this.isfirstselect, '', this.searchMsgValue, this.selectTime)
-
-            // const scrollview = this.$refs['list'];
-            // scrollview.removeEventListener('scroll', this.handleScroll, true)
-
         }, 1000),
 
 
         lookupdown: _.debounce(function (item) {
             this.requestDataList = []
-            // this.requestSearchList = []
-
             this.requestData(this.isqwuserid, this.isfirstselect, item.seq, '', '', item)
             this.searchText = true
             this.funhuiValue = true
         }, 1000),
+
+
+
         fanhui() {
             this.funhuiValue = false
             this.searchText = false

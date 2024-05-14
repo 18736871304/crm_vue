@@ -40,7 +40,6 @@ export default {
   methods: {
     init() {
       api.getQwTj().then((data) => {
-        console.log(data.qwTj);
         this.countList = data.qwTj
       });
     },

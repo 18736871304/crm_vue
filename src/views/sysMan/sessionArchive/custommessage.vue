@@ -489,9 +489,6 @@ export default {
     },
     data() {
         return {
-
-
-
             inqunList: [],
             exqunList: [],
             qwQunList: [],
@@ -643,12 +640,8 @@ export default {
     },
 
     mounted: function () {
-        // const scrollview = this.$refs['list'];
-        // scrollview.addEventListener('scroll', this.handleScroll, true)
         const scrollFirst = this.$refs['first'];
         scrollFirst.addEventListener('scroll', this.firstScroll, true)
-        // this.yewu();
-
         this.allcustom(1, 20, '')
     },
 
@@ -656,7 +649,6 @@ export default {
 
     },
     watch: {
-
         searchMsgValue(data) {
             if (data != '') {
                 this.dateVale = true
@@ -665,9 +657,6 @@ export default {
             }
 
         },
-        // requestDataList() {
-        //   // console.log(this.$refs['list'].scrollHeight)
-        // },
         staffValue(newValue) {
             // 这里可以编写处理逻辑
             if (newValue == '') {
@@ -686,17 +675,13 @@ export default {
         },
         qunDetail() {
             this.drawer = true
-            console.log(this.oneitem)
             this.inqunList = []
             this.exqunList = []
             var params = {
                 qunid: this.isfirstselect
-                // qunid: "wrchVgCgAAGIWhCEnHOwYLVRANSHXMPg"
             }
             api.getAllqunUser(params).then((data) => {
-                console.log(data)
                 var allqunList = data.qwQunMemberList
-
                 for (var i = 0; i < allqunList.length; i++) {
                     if (allqunList[i].isowner == 'Y') {
                         allqunList[i]['manage'] = '群主'
@@ -705,32 +690,19 @@ export default {
                     if (allqunList[i].isadmin == 'Y') {
                         allqunList[i]['manage'] = '管理员'
                     }
-
                     if (allqunList[i].qwuserurl) {
                         this.inqunList.push(allqunList[i])
                     } else {
                         this.exqunList.push(allqunList[i])
                     }
-
                 }
-
-
-
             })
-
-
-
         },
-
-
-
-
 
         // 获取企业所有客户  getAllcustom,  getcustomTouser,
         allcustom(pageNum, pageSize, keyword) {
             var _this = this
             _this.loading = true;
-
             var params = {
                 pageNumber: pageNum,
                 pageSize: pageSize,
@@ -738,25 +710,16 @@ export default {
             }
             api.getAllcustom(params).then((data) => {
                 this.allCustomList = this.allCustomList.concat(data.qwCustomerList);
-                // this.allCustomList = data.qwCustomerList
-
                 if (pageNum == 1) {
                     this.selectOneName(data.qwCustomerList[0], this.tablabel)
                 }
-
-
                 this.pageNumber = this.pageNumber + 1
             }).catch((err) => {
                 _this.loading = false;
                 console.log(err)
-
             })
-
+            _this.loading = false;
         },
-
-
-
-
 
 
         firstScroll(e) {
@@ -764,14 +727,10 @@ export default {
             var scrollTop = e.target.scrollTop;
             var scrollHeight = e.target.scrollHeight;
             var windowHeight = e.target.clientHeight;
-
             if (scrollTop + 1 >= scrollHeight - windowHeight) {
-
                 this.allcustom(this.pageNumber, this.pageSize, this.activeValue)
-                // this.getQwCustomer(this.isAllselect, this.pageNumber, this.pageSize, this.tablabel, this.activeValue)
             }
         },
-
 
 
         handleScroll(e) {
@@ -783,7 +742,6 @@ export default {
             //变量scrollHeight是滚动条的总高度
             var scrollHeight = e.target.scrollHeight;
             if (scrollTop <= 0 && this.noChathistory || scrollTop <= 0 && this.funhuiValue) {
-                // || this.funhuiValue
                 if (this.seq == '' && this.selectTime != '' || this.seq == '' && this.searchMsgValue != '') {
                     return
                 } else {
@@ -794,7 +752,6 @@ export default {
         },
 
         requestData(user1, user2, seq, searchmsg, selecttime, lookupdown) {
-
             // 取消请求
             controller.abort()
             var _this = this
@@ -814,8 +771,6 @@ export default {
                 if (lookupdown && lookupdown != '') {
                     params['direction'] = 'front'
                 }
-
-
                 var getTalkData = api.getQwQunTalkData(params, this)
             } else {
                 var params = {
@@ -833,7 +788,6 @@ export default {
                 if (lookupdown && lookupdown != '') {
                     params['direction'] = 'front'
                 }
-
                 var getTalkData = api.getQwTalkData(params, this)
             }
 
@@ -843,7 +797,6 @@ export default {
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
                         data.push(lookupdown)
                     }
-
                     for (var i = 0; i < data.length; i++) {
                         var aa = i;
                         var upaa = i - 1
@@ -854,8 +807,6 @@ export default {
                         var upTime = Date.parse(data[upaa].msgtime)
                         var nowTime = Date.parse(new Date())
                         var timestampValue = Math.abs(firstTime - upTime)
-
-
                         // 首次
                         if (data.length < 20 && aa == 0) {
                             data[data.length - 1]['addtime'] = data[data.length - 1].msgtime
@@ -864,12 +815,9 @@ export default {
                         if (86400 > timestampValue > 300 || 604800 > timestampValue > 86400 || timestampValue > 604800) {
                             data[upaa]['addtime'] = data[upaa].msgtime
                         }
-
                         if (data[i].msgtype == "revoke") {
                             data.splice(i, 1)
                         }
-
-
                         if (data[i].msgtype == "link") {
                             var fileData = JSON.parse(data[i].text)
                             data[i]["link_url"] = fileData.link_url
@@ -881,15 +829,12 @@ export default {
                                 data[i]["image_url"] = '../../../static/images/file.jpg'
                             }
                         }
-
                         if (data[i].msgtype == "file") {
                             var fileData = JSON.parse(data[i].text)
                             data[i]["filepath"] = fileData.filepath
                             data[i]["filename"] = fileData.filename
-
                             let fileSize = (fileData.filesize / 1048576).toFixed(2)
                             data[i]["fileSize"] = fileSize
-
                             if (fileData.image_url != '') {
                                 data[i]["image_url"] = fileData.image_url
                             } else {
@@ -923,33 +868,17 @@ export default {
                             _this.requestDataList.unshift(data[i])//push 数据到数组中
                         }
                     }
-
-
-
-                    // let allmsg = data.concat(_this.requestDataList);
-                    // _this.requestDataList = allmsg
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
 
                     } else {
                         _this.scrollHeight = _this.$refs['list'].scrollHeight
                         _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight;
                         _this.$nextTick(() => {
-                            // console.log("当前滚动条位置:" + _this.$refs['list'].scrollTop);
-                            // console.log("当前可滚动区域容器的高度:" + _this.$refs['list'].scrollHeight);
-                            // console.log("当前滚动条的高度:" + _this.$refs['list'].scrollHeight, _this.scrollHeight);
-                            // console.log(_this.$refs['list'].scrollHeight, _this.scrollHeight);
                             _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight - _this.scrollHeight;
                         })
                     }
-
-
-
-
-
-
                     const scrollview = _this.$refs['list'];
                     scrollview.addEventListener('scroll', _this.handleScroll, true)
-
                 } else {
                     _this.noChathistory = false
                 }
@@ -959,12 +888,7 @@ export default {
                 console.log(err)
                 alert('访问超时了,请刷新后重新查看')
             })
-
         },
-
-
-
-
 
         playAudio(item) {
             this.voiceId = item.seq
@@ -992,117 +916,6 @@ export default {
 
 
 
-
-        // 勾选团队时，统计团队ID
-        // checkTeam(data, checked, indeterminate) {
-        //     let teamListName = [];
-        //     checked.checkedNodes.forEach(function (item) {
-        //         teamListName.push(item.label);
-        //     });
-        //     this.myList = teamListName.join(",");
-        //     this.teamListId = checked.checkedKeys.join(",");
-        //     this.teamid = this.teamListId;
-        // },
-        // 取消所选团队
-        // team_cancel() {
-        //     this.$refs.disTeam.hide();
-        //     this.myList = "";
-        //     this.teamListId = "";
-        //     this.teamNames = "团队选择";
-        //     this.teamid = "";
-
-        //     this.$refs.tree.setCheckedKeys([]);
-        //     this.queryflag = true;
-        //     this.staffValue = "";
-
-        //     this.searchUser(this.teamAllid)
-        // },
-
-        // // 确认所选团队
-        // team_sure() {
-        //     let _this = this;
-        //     this.$refs.disTeam.hide();
-        //     // this.staffValue = "";
-        //     if (this.myList == null || this.myList == "" || this.myList == "1") {
-        //         this.queryflag = true;
-        //         this.queryflagString = "01";
-        //     } else {
-        //         this.teamNames = this.myList;
-        //         this.queryflag = false;
-        //         this.queryflagString = "02";
-        //     }
-        //     _this.searchUser(this.teamListId, this.staffValue)
-        // },
-
-        // 获取该团队权限下的员工
-        yewu() {
-            let _this = this;
-            var idStr = ''
-            api.getTalkTeamList().then((data) => {
-                if (data.code == 0) {
-                    _this.teamDataList = data.teamList;
-                    for (var i = 0; i < _this.teamDataList.length; i++) {
-                        idStr += _this.teamDataList[i].id + ','
-                        if (_this.teamDataList[i].children) {
-                            for (var j = 0; j < this.teamDataList[i].children.length; j++) {
-                                idStr += _this.teamDataList[i].children[j].id + ','
-                                if (this.teamDataList[i].children[j].children) {
-                                    for (var s = 0; s < this.teamDataList[i].children[j].children.length; s++) {
-                                        idStr += _this.teamDataList[i].children[j].children[s].id + ','
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (idStr != '') {
-                        idStr = idStr.slice(0, -1);
-                    }
-                    // 权限内的所有人员
-                    _this.teamAllid = idStr
-                    _this.searchUser(idStr)
-                }
-            })
-
-        },
-
-        // 模糊查询员工
-        searchUser(teamid, keyword) {
-            var _this = this
-            var params = {
-                teamid: teamid,
-                realname: keyword ? keyword : '',
-            }
-
-
-            api.getQwUser(params).then((data) => {
-                _this.teamNameList = data.userList;
-                _this.SalesmanIdBox = [];
-                data.userList.forEach((res) => {
-                    _this.SalesmanIdBox.push({
-                        value: res.realname,
-                        id: res.userid,
-                        qwalias: res.qwalias,
-                        qwuserid: res.qwuserid,
-                        qwuserurl: res.qwuserurl,
-                    });
-                });
-
-
-
-                // _this.selectOneName(data.userList[0], this.tablabel)
-
-
-            });
-        },
-
-        filterNode(value, data) {
-            if (!value) return true;
-            return data.organizationName.indexOf(value) !== -1;
-        },
-
-
-
-
         // 选择  客户， 同事， 群聊
         handleClick(tab, event) {
             let _this = this;
@@ -1115,11 +928,8 @@ export default {
         },
 
 
-
         // 选择客户--带出来对应的员工
         selectOneName(item, first) {
-            console.log('对应员工的Id： ' + item)
-            console.log(item)
             // 储存客户信息
             this.oneitem = item
             this.isAllselect = item.customerid;
@@ -1155,29 +965,20 @@ export default {
         getQwCustomer(userid, pageNumber, pageSize, first, item) {
             var _this = this
             this.paneloading = true
-
-            console.log(this.activeName == 'first')
             if (this.activeName == 'first') {
                 var params = {
                     customerid: userid,
                     pageNumber: 1,
                     pageSize: 20,
                 }
-
                 api.getcustomTouser(params).then((data) => {
-
                     if (data.qwUserList != []) {
                         var qwCustomerList = _this.dataHandle(data.qwUserList)
                         _this.firstAllName = _this.firstAllName.concat(qwCustomerList);
-
-
                         if (_this.firstAllName[0]) {
                             _this.selectFirstName(_this.firstAllName[0])
                         }
                         _this.pageNumber = _this.pageNumber + 1
-
-
-
                         _this.SalesmanIdBox = [];
                         data.qwUserList.forEach((res) => {
                             _this.SalesmanIdBox.push({
@@ -1188,19 +989,11 @@ export default {
                                 qwuserurl: res.qwuserurl,
                             });
                         });
-
-
-
-
-
-
                     }
                 });
             }
 
-
             if (this.activeName == 'third') {
-
                 var params = {
                     qwuserid: userid,
                     pageNumber: 1,
@@ -1209,7 +1002,6 @@ export default {
                     // queryname: item
                 }
                 api.getQunList(params).then((data) => {
-
                     if (data.qwQunList != []) {
                         var qwColleagueList = _this.dataHandle(data.qwQunList)
                         _this.firstAllName = _this.firstAllName.concat(qwColleagueList);
@@ -1220,23 +1012,16 @@ export default {
                     }
                 });
             }
-
             this.paneloading = false
         },
 
         // 选择客户, 同事， 群聊人员
         selectFirstName(item) {
-            console.log(item)
             if (item.qunid) {
                 this.isfirstselect = item.qunid
-                // this.isqwuserid = item.owner_qwuserid;
             } else {
                 this.isfirstselect = item.customerid;
-                // this.isqwuserid = item.customerid;
             }
-
-
-
             this.selectfirstPhoto = item.avatar;
             this.selectfirstName = item.customername;
             this.selectfirstRemakeName = item.customer_remark_name;
@@ -1255,16 +1040,12 @@ export default {
 
 
             // 关闭监听滚动条
-            // this.$refs.scrollView.removeEventListener('scroll', this.handleScroll, true);
             const scrollview = this.$refs['list'];
             scrollview.removeEventListener('scroll', this.handleScroll, true)
             // 请求聊天记录
             this.requestData(this.isqwuserid, this.isfirstselect, '')
 
         },
-
-
-
 
 
         querySearchId(queryString, cb) {
@@ -1304,24 +1085,11 @@ export default {
         },
         // 选择模糊筛选出来的 客户姓名
         activeselectId: _.debounce(function (item) {
-            var _this = this
-            // if (item == '') {
             this.firstAllName = []
             this.pageNumber = 1
             this.pageSize = 20
             this.allCustomList = []
-
             this.allcustom(this.pageNumber, this.pageSize, this.activeValue)
-            // } 
-            // if (this.tablabel == '群聊') {
-            //     this.getQwCustomer(this.isqwuserid, this.pageNumber, this.pageSize, this.tablabel, item)
-            // } else {
-            //     this.getQwCustomer(this.isAllselect, this.pageNumber, this.pageSize, this.tablabel, item)
-            // }
-
-
-
-
         }, 1000),
 
 
@@ -1349,21 +1117,15 @@ export default {
             this.requestDataList = []
             this.seq = ''
             this.noChathistory = true
-
             this.requestDataList = []
-            // this.requestSearchList = []
-
             if (item == '') {
                 this.searchText = true
                 this.funhuiValue = false
             } else {
                 this.searchText = false
             }
-
             this.searchMsgValue = item
-
             this.requestData(this.isqwuserid, this.isfirstselect, '', item)
-
         }, 1000),
 
         searchDate: _.debounce(function (item) {
@@ -1371,36 +1133,30 @@ export default {
             this.seq = ''
             this.noChathistory = true
             this.requestData(this.isqwuserid, this.isfirstselect, '', this.searchMsgValue, this.selectTime)
-
-            // const scrollview = this.$refs['list'];
-            // scrollview.removeEventListener('scroll', this.handleScroll, true)
-
         }, 1000),
 
 
         lookupdown: _.debounce(function (item) {
             this.requestDataList = []
-            // this.requestSearchList = []
-
             this.requestData(this.isqwuserid, this.isfirstselect, item.seq, '', '', item)
             this.searchText = true
             this.funhuiValue = true
         }, 1000),
+
+
         fanhui() {
             this.funhuiValue = false
             this.searchText = false
         },
+
         // JS将时间戳转换为刚刚、N分钟前、今天几点几分、昨天几点几分等表示法
         timestampFormat(timestamp) {
             var curTimestamp = parseInt(new Date().getTime() / 1000); //当前时间戳
             var timestampDiff = curTimestamp - timestamp; // 参数时间戳与当前时间戳相差秒数
-
             var curDate = new Date(curTimestamp * 1000); // 当前时间日期对象
             var tmDate = new Date(timestamp * 1000);  // 参数时间戳转换成的日期对象
-
             var Y = tmDate.getFullYear(), m = tmDate.getMonth() + 1, d = tmDate.getDate();
             var H = tmDate.getHours(), i = tmDate.getMinutes(), s = tmDate.getSeconds();
-
             if (timestampDiff < 60) { // 一分钟以内
                 return "刚刚";
             } else if (timestampDiff < 3600) { // 一小时前之内
@@ -1508,13 +1264,6 @@ export default {
             return qwCustomerList
         },
 
-
-
-        // allowDrop() { },
-        // allowDrag() { },
-        // handleDragStart() { },
-        // handleDragEnd() { },
-        // handleDrop() { },
     },
 };
 </script>
