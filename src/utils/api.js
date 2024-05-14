@@ -1,4 +1,8 @@
-import { GET, POST, http } from './request.js';
+import {
+  GET,
+  POST,
+  http
+} from './request.js';
 import axios from "axios";
 
 const CancelToken = axios.CancelToken;
@@ -226,18 +230,42 @@ function getQunList(params) {
 }
 //获取用户和客户的聊天记录
 function getQwTalkData(params) {
-  return POST(params, '/crm/qwMan/getQwTalkData.do',{
+  return POST(params, '/crm/qwMan/getQwTalkData.do', {
     cancelToken: source.token
-})
+  })
 }
 
 //获取群的聊天记录
 function getQwQunTalkData(params) {
   return POST(params, '/crm/qwMan/getQwQunTalkData.do', {
     cancelToken: source.token
-})
+  })
 }
-export default { 
+// 获取企业所有的客户
+function getAllcustom(params){
+  return POST(params, '/crm/qwMan/getQwCustomer.do')
+}
+// 获取客户所对应的员工
+function getcustomTouser(params){
+  return POST(params, '/crm/qwMan/getQwUserByCustomer.do')
+}
+
+// 获取所有的群
+function getAllqun(params){
+  return POST(params, '/crm/qwMan/getQunList.do')
+}
+// 获取群中所有的员工
+function getAllqunUser(params){
+  return POST(params, '/crm/qwMan/getQunMemberList.do')
+}
+
+// 会话消息存档员工 群 统计
+function getQwTj(params){
+  return POST(params, '/crm/qwMan/getQwTj.do')
+}
+
+
+export default {
   getTempToken,
   getPageHeaderInfo,
   getDictList,
@@ -284,8 +312,10 @@ export default {
   getQwColleagueByUser,
   getQunList,
   getQwQunTalkData,
-  source//quxiao
+  getAllcustom,
+  getcustomTouser,
+  getAllqun,
+  getAllqunUser,
+  getQwTj,
+  source //quxiao
 }
-
-
-
