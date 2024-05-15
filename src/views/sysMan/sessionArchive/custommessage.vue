@@ -102,10 +102,10 @@
             <header class="headfixed   headRecords">
                 <div class="recordHead">
                     <div class="userbox" style="width:35%">
-                        <img :src="selectfirstPhoto" alt="" class="avatar" />
+                        <img :src="selectStaffPhoto" alt="" class="avatar" />
                         <div class="pBox" style="width: auto;">
-                            <p style="font-size: 0.18rem;">{{ selectfirstName }}</p>
-                            <p v-if="tablabel == '客户'">备注名：{{ selectfirstRemakeName }}</p>
+                            <p style="font-size: 0.18rem;">{{ selectStaffName }}</p>
+                            <p v-if="tablabel == '员工'">备注名：{{ selectfirstRemakeName }}</p>
                         </div>
                         <i v-if="tablabel == '群聊' && firstAllName.length > 0" class="el-icon-user qunUser"
                             @click="qunDetail"></i>
@@ -152,9 +152,6 @@
                                 <!-- 客户 -->
                                 <div class="userbox_left"
                                     v-if="(item.from == isqwuserid || activeName == 'third' && item.from.length >= 20)">
-
-                                    <!-- <img :src="selectStaffPhoto" alt="" class="avatar" /> -->
-
                                     <img v-if="activeName == 'third' && item.userurl" :src="item.userurl" alt=""
                                         class="avatar" />
                                     <img v-else-if="activeName == 'third' && item.cusurl" :src="item.cusurl" alt=""
@@ -1017,6 +1014,7 @@ export default {
 
         // 选择客户, 同事， 群聊人员
         selectFirstName(item) {
+            console.log(item)
             if (item.qunid) {
                 this.isfirstselect = item.qunid
             } else {
