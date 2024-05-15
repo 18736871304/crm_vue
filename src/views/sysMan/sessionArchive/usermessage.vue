@@ -83,7 +83,8 @@
                                             <img :src="item.avatar" alt="" class="avatar" />
                                             <div class="pBox">
                                                 <p class='namedata'>
-                                                    <span>{{ item.customername + item.lastmsgtimeValue }}</span>
+                                                    <span>{{ item.customername  }}</span>
+                                                    <span>{{ item.lastmsgtimeValue }}</span>    
                                                 </p>
                                                 <p class="lastText">{{ item.lastmsgtypeValue }}</p>
                                             </div>
@@ -1308,7 +1309,6 @@ export default {
 .staff {
     width: 15%;
     height: calc(100vh - 1.6rem);
-    /* border: 1px solid #909399; */
     position: relative;
     background: #fff;
     margin-right: 0.2rem;
@@ -1317,7 +1317,6 @@ export default {
 .custom {
     width: 15%;
     height: calc(100vh - 1.6rem);
-    /* border: 1px solid #909399; */
     background: #fff;
 }
 
@@ -1574,8 +1573,6 @@ export default {
 }
 
 .chatRightHead {
-    /* margin: 0.2rem;
-  margin-right: 2.6rem; */
     width: 2.5rem;
 }
 
@@ -1706,7 +1703,6 @@ export default {
 
 .timeLeft {
     width: 5rem;
-    /* display: none; */
     position: absolute;
     left: 0;
     top: -22px;
@@ -1720,7 +1716,6 @@ export default {
 
 .timeRight {
     width: 5rem;
-    /* display: none; */
     position: absolute;
     right: 0;
     top: -22px;
@@ -1826,7 +1821,6 @@ export default {
 
 .chat_left .chatVoice {
     height: 28px;
-    /* width: 100px; */
     width: auto;
     line-height: 30px;
     display: flex;
@@ -1839,7 +1833,6 @@ export default {
 
 .chat_right .chatVoice {
     height: 28px;
-    /* width: 100px; */
     width: auto;
     line-height: 30px;
     display: flex;
@@ -1890,10 +1883,6 @@ export default {
     -webkit-animation: anim-flash 1s infinite;
     animation: anim-flash 1s infinite;
 }
-
-
-
-
 
 
 .chat_left .chatContent_right,
@@ -2013,7 +2002,6 @@ export default {
     background: #e6f7ff;
     color: #383838;
     align-self: flex-end;
-    /* width: 0.5rem; */
 }
 
 .staff .staffList .staffName {
@@ -2071,7 +2059,6 @@ export default {
     line-height: 0.2rem;
 }
 
-/*  */
 .userList .userItem img {
     width: 0.4rem;
     height: 0.4rem;
