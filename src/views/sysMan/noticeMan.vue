@@ -3,7 +3,7 @@
     <div class="search-header">
       <div class="add-btn" @click="showAddNoticeDialogVisible">+ 新建</div>
       <div class="search-box clearfix">
-        <div class="common-select">
+        <div class="common-select" style="width: 30%;">
           <div class="select-title" style="width: 1.28rem">创建时间</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.28rem); border: none">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini"
@@ -31,7 +31,7 @@
           </div>
         </div>
 
-        <div class="common-select" style="float: right;">
+        <div class="common-select" style="float: right;  width: 18%;">
           <div class="search-btn" @click="search">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
         </div>

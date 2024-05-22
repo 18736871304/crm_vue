@@ -1,12 +1,21 @@
 import $ from 'jquery';
 import moment from "../../static/js/moment.js";
 import wangEditor from '@/components/wangEditor/release/wangEditor.min.js';
-import { getData, getPhoneData, my_url, crm_url } from '../../static/js/ajax.js';
-import { formatDate, checkEmail, checkMobile} from '../../static/js/common.js';
+import {
+  getData,
+  getPhoneData,
+  my_url,
+  crm_url
+} from '../../static/js/ajax.js';
+import {
+  formatDate,
+  checkEmail,
+  checkMobile
+} from '../../static/js/common.js';
 let editor4, editor5, editor6, editor7;
 export default {
   data() {
-    return { 
+    return {
       from: {
         recorddate: moment().format('YYYY-MM-DD 00:00:00'),
         hotlinecount: '',
@@ -117,11 +126,12 @@ export default {
             const start = monthStartDate;
             var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
             const end = monthEndDate;
+
             function getMonthDays() {
-                var monthStartDate = new Date(nowYear, nowMonth, 1);
-                var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
-                var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
-                return days;
+              var monthStartDate = new Date(nowYear, nowMonth, 1);
+              var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
+              var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
+              return days;
             }
             picker.$emit('pick', [start, end]);
           }
@@ -148,7 +158,7 @@ export default {
       pageSize: 20,
       pageNum: 1,
       loading: true,
-      detai_loading:false,
+      detai_loading: false,
       queryflag: true,
       queryflagString: '01',
       menutype: '',
@@ -237,29 +247,29 @@ export default {
       teamData: [],
       teamDataList: [],
       timeOption: [{
-        key: "今日",
-        value: "1"
-      },
-      {
-        key: "昨日",
-        value: "2"
-      },
-      {
-        key: "最近7天",
-        value: "3"
-      },
-      {
-        key: "最近30天",
-        value: "4"
-      },
-      {
-        key: "本周",
-        value: "5"
-      },
-      {
-        key: "本月",
-        value: "6"
-      },
+          key: "今日",
+          value: "1"
+        },
+        {
+          key: "昨日",
+          value: "2"
+        },
+        {
+          key: "最近7天",
+          value: "3"
+        },
+        {
+          key: "最近30天",
+          value: "4"
+        },
+        {
+          key: "本周",
+          value: "5"
+        },
+        {
+          key: "本月",
+          value: "6"
+        },
       ],
       defaultProps: {
         children: 'children',
@@ -373,7 +383,7 @@ export default {
     this.overviewForm.startDate = formatDate(new Date(start), 'yyyy-MM-dd 00:00:00').substring(0, 10);
     this.overviewForm.endDate = formatDate(new Date(end), 'yyyy-MM-dd 00:00:00').substring(0, 10);
     this.refresh();
-    audio.addEventListener('ended', function(e){
+    audio.addEventListener('ended', function (e) {
       _this.audioPaused = true;
       _this.audioShow = false;
     }, false)
@@ -400,6 +410,16 @@ export default {
 
   },
   methods: {
+    remarktop(data) {
+      console.log(data)
+      getData('post', my_url + '/crm/activity/getOneDayData.do', function (data) {
+        console.log(data)
+        this.getReleaseData()
+      }, {
+        activityid: data
+      })
+
+    },
     selectDate() {
       this.dataEntry(1)
     },
@@ -882,7 +902,7 @@ export default {
             }
             if (add_dictList[_thisindex].dd_key == "10" || add_dictList[_thisindex].dd_key == "01" || add_dictList[_thisindex].dd_key == "02" || add_dictList[_thisindex].dd_key == "03" || add_dictList[_thisindex].dd_key == "04" || add_dictList[_thisindex].dd_key == "05") {
               add_dictList[_thisindex].roule = "回收规则：不回收"
-              add_dictList[_thisindex].bignum = "最大容量：200条"
+              add_dictList[_thisindex].bignum = "最大容量：无上限"
             }
             if (add_dictList[_thisindex].dd_key == "07") {
               add_dictList[_thisindex].roule = "回收规则：不回收"
@@ -925,7 +945,7 @@ export default {
       }, {
         dict_type: 'otherstore'
       });
-      getData('post', my_url + '/crm/auth/getManagePermission.do', function (data) { //其他库 
+      getData('post', my_url + '/crm/auth/getManagePermission.do', function (data) { //查看客户的权限
         if (data.code == 0) {
           _this.dis_P4_up = true;
         } else {
@@ -954,12 +974,12 @@ export default {
         hotlineEndDate = this.formatDate(this.selectTime[1], 'yyyy-MM-dd');
       };
 
-      if ( this.selectTimeCusdeal && this.selectTimeCusdeal.length > 0) {
+      if (this.selectTimeCusdeal && this.selectTimeCusdeal.length > 0) {
         cusdealStartDate = this.formatDate(this.selectTimeCusdeal[0], 'yyyy-MM-dd');
         cusdealEndDate = this.formatDate(this.selectTimeCusdeal[1], 'yyyy-MM-dd');
       };
 
-      console.log(this.overviewForm,that.Salesman)
+      console.log(this.overviewForm, that.Salesman)
       getData('post', my_url + '/crm/auth/getToken.do', function (data) {
         var params = {
           cluestartdate: hotlineStartDate, //线索开始时间
@@ -1055,7 +1075,7 @@ export default {
           _this.isTop = false
         }
         _this.loading = false;
-        _this.$nextTick(function() {
+        _this.$nextTick(function () {
           _this.scrollHieght();
         })
       }, params);
@@ -1069,7 +1089,10 @@ export default {
         this.search(page)
       }
     },
-    tableRowClassName({row, rowIndex}) {
+    tableRowClassName({
+      row,
+      rowIndex
+    }) {
       if (row.toporderid) {
         return 'top-row';
       }
@@ -1093,7 +1116,7 @@ export default {
       }
       return theRequest;
     },
-    handleChange(value) { },
+    handleChange(value) {},
     formatDate: function (date, format) { //格式化时间
       if (!date) return;
       if (!format || typeof (format) != "string") format = "yyyy-MM-dd";
@@ -1193,7 +1216,7 @@ export default {
         this.detailsInfo.mobilestr = row.mobilestr;
         this.detailsInfo.wxnostr = row.wxnostr;
       }
-      if(!row.activitytag) {
+      if (!row.activitytag) {
         this.sendActivitytag()
       }
       //已成交处理
@@ -1206,8 +1229,8 @@ export default {
         activityserialno: this.detailsInfo.activityserialno
       }
       getData('post', my_url + '/crm/activity/updateActivityTag.do', function (data) {
-        if(data.code == 0) {
-          _this.tableData.forEach((item, index)=> {
+        if (data.code == 0) {
+          _this.tableData.forEach((item, index) => {
             _this.$set(_this.tableData[index], 'activitytag', _this.adLabelselect)
           })
         }
@@ -1218,19 +1241,25 @@ export default {
     },
     //点击成交单子，查看详情
     showEdit(item) {
-      var arr=[]
+      var arr = []
       arr.push(item)
       this.detailObj = arr;
       this.showEditPopupDialogVisible = true;
     },
 
     phonecall_row(row) {
-      this.$parent.onSend({mobile: row.mobilestr, activityid: row.activityserialno});
+      this.$parent.onSend({
+        mobile: row.mobilestr,
+        activityid: row.activityserialno
+      });
       // this.phonecall(row.activityserialno, row.mobilestr);
     },
     phonecall_page() {
       if (this.dis_save == true) {
-        this.$parent.onSend({mobile:this.detailsInfo.mobilestr, activityid: this.detailsInfo.activityserialno});
+        this.$parent.onSend({
+          mobile: this.detailsInfo.mobilestr,
+          activityid: this.detailsInfo.activityserialno
+        });
         // this.phonecall(this.detailsInfo.activityserialno, this.detailsInfo.mobilestr);
       }
     },
@@ -1241,7 +1270,7 @@ export default {
         mobile: phoneStr
       }
       getData('post', my_url + '/crm/activity/activityCall.do', function (data) {
-        if(data.code == 0) {
+        if (data.code == 0) {
           _this.search();
           if (_this.iscall == 'Y') {
             let params = {
@@ -1250,7 +1279,7 @@ export default {
               anis: data.phoneprefix + phoneStr,
               cltid: data.callid
             };
-            getPhoneData('post', 'http://' + data.phoneurl + '/CRM2CTI/', function (data) { }, params);
+            getPhoneData('post', 'http://' + data.phoneurl + '/CRM2CTI/', function (data) {}, params);
           }
         } else {
           _this.$message({
@@ -1596,8 +1625,8 @@ export default {
     },
     getItem(item) {
       let body = {
-        baseid: item.baseid
-      },
+          baseid: item.baseid
+        },
         url
       if (item.type === '01') {
         url = '/crm/knowledge/getOnePolicyRead.do'
@@ -1664,10 +1693,10 @@ export default {
           res.name = _this.detailsInfo.name;
           // res.makedate = _this.formatDate(res.makedate, 'yyyy-MM-dd HH:ss:mm');
           res.remark = res.remark.replace(/:/g, '：');
-          if(res.remark.indexOf('{') > -1 && res.remark.indexOf('}') > -1) {
+          if (res.remark.indexOf('{') > -1 && res.remark.indexOf('}') > -1) {
             let str = '';
             let remark = JSON.parse(res.remark);
-            for(let key in remark) {
+            for (let key in remark) {
               str += key + '：' + remark[key] + '<br/>';
             }
             res.remark = str
@@ -1713,9 +1742,11 @@ export default {
       }
       getData('post', my_url + '/crm/activity/getCallList.do', function (data) {
         if (data.code == '0') {
-          let arr = data.callList.map((item)=>{
-            var calltimeType = item.calltime.replace(/-|:|_|\s/g,"");
-            return Object.assign({}, item, { calltimeType: calltimeType })
+          let arr = data.callList.map((item) => {
+            var calltimeType = item.calltime.replace(/-|:|_|\s/g, "");
+            return Object.assign({}, item, {
+              calltimeType: calltimeType
+            })
           })
           _this.callDataList = arr;
           _this.callSum = data.callSum;
@@ -2054,7 +2085,7 @@ export default {
     refresh(flag) {
       var _this = this;
       var tableDataOverview = []
-      if(flag) {
+      if (flag) {
         this.isrefresh = true;
         setTimeout(() => {
           _this.isrefresh = false;
@@ -2080,19 +2111,19 @@ export default {
     },
     getOrderData() {
       let _this = this;
-      _this.detai_loading=true
+      _this.detai_loading = true
       getData('post', my_url + '/crm/activity/getPolicyInfoByAppntMobile.do', function (data) {
         if (data.code == '0') {
           var arr = [];
-          data.policyList.forEach((item)=> {
-            if(item.status === 'effective') {
+          data.policyList.forEach((item) => {
+            if (item.status === 'effective') {
               arr.unshift(item)
             } else {
               arr.push(item)
             }
           })
           _this.policyList = arr;
-          _this.detai_loading=false
+          _this.detai_loading = false
         }
       }, {
         mobile: this.detailsInfo.mobilebak
@@ -2337,7 +2368,7 @@ export default {
       // 页面总高度
       let s3 = document.documentElement.scrollHeight;
       let s4 = s3 - s2;
-      if(s4 > 0) {
+      if (s4 > 0) {
         document.documentElement.scrollTop = s4;
       }
     },
@@ -2345,7 +2376,7 @@ export default {
       let _this = this;
       // getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) { //渠道类型
       //   if (data.code == 0) {
-          
+
       //   }
       // }, {type:'activitytag', activitytag: e });
     },

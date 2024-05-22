@@ -325,7 +325,8 @@ export default {
       var end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
       // this.overviewForm.startDate = ;
       // this.overviewForm.endDate = ;
-      this.selectTime = [start, end]
+      // this.selectTime = [start, end]
+      this.selectTime = ['','' ]
       this.hotlineStartDate = start; //线索开始时间
       this.hotlineEndDate = end;
       this.search(1); //table数据	

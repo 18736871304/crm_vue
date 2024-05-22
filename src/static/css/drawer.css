@@ -440,7 +440,7 @@
 
 .drawerLeft .tableBox .tableContent {
   width: 100%;
-  height: calc(100% - 0.5rem);
+  height: calc(100% - 0.1rem);
   overflow-y: auto;
   border-radius: 3px;
 }

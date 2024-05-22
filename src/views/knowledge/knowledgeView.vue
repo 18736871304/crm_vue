@@ -56,7 +56,7 @@
             </el-dropdown>
           </div>
         </div>
-        <div class="common-select" v-if="CJGselectValue === '解答疑义'">
+        <div class="common-select" v-if="CJGselectValue === '解答疑义'" style="width: 28%">
           <div class="select-title" style="width: 1.2rem">最后修改时间</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.2rem); border: none">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini"

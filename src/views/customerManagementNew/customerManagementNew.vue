@@ -62,11 +62,11 @@
             </el-table-column>
             <el-table-column align="center" prop="follow01count" label="微信">
             </el-table-column>
-            <el-table-column align="center" prop="follow02count" label="配置方案">
+            <el-table-column align="center" prop="follow02count" label="保单检视">
             </el-table-column>
-            <el-table-column align="center" prop="follow03count" label="认清市场">
+            <el-table-column align="center" prop="follow03count" label="计划书">
             </el-table-column>
-            <el-table-column align="center" prop="follow04count" label="渠道服务">
+            <el-table-column align="center" prop="follow04count" label="理赔服务">
             </el-table-column>
             <el-table-column align="center" prop="follow05count" label="促销T单">
             </el-table-column>
@@ -143,7 +143,7 @@
             </div>
           </div>
           <div class="search-box-right">
-            <div class="my-customers" v-show="ismyUse">
+            <div class="my-customers" v-show="ismyUse && dis_P4_up">
               <el-checkbox size="mini" v-model="queryflag">我的客户</el-checkbox>
             </div>
             <div style="display: flex;">
@@ -230,7 +230,8 @@
               @click="inputUserCancel">取消</div>
           </div>
         </el-popover>
-        <el-popover popper-class="entry-customer-popper" v-show="dis_P4_up" placement="bottom-start" width="3.31rem"
+        <!-- v-show="dis_P4_up" -->
+        <el-popover popper-class="entry-customer-popper"  placement="bottom-start" width="3.31rem"
           trigger="click" v-model="resourceDeployVisable" @show="resourceDeployShow">
           <div class="search-btn" slot="reference"
             style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源调配
@@ -469,7 +470,7 @@
             </template>
           </el-table-column>
           <el-table-column key="21" prop="previstitime" label="预约回访" min-width='200' width="auto"
-            :show-overflow-tooltip="true" fixed="right" align="center" sortable="custom">
+            :show-overflow-tooltip="true" fixed="right" align="center" sortable="custom" class-name="yuyue">
             <template slot-scope="scope" class="mobile_box_edit">
               {{ scope.row.previstitime ? formatDate(new Date(scope.row.previstitime), 'yyyy-MM-dd HH:mm:ss') : '' }}
 
@@ -495,7 +496,7 @@
               </el-popover> -->
 
               <span v-if="scope.row.previstitime" class="mobile-icon el-icon-circle-check" @click="toggerIsVist(scope)"
-                style="color:#DC240F"></span>
+                style="color:#DC240F;  line-height: 20px;"></span>
             </template>
           </el-table-column>
         </el-table>
@@ -632,7 +633,7 @@
           <em class="sign">可修改</em>
         </div>
         <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">配置方案</div>
+          <div class="select-title" style="width: 1.6rem">保单检视</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
             <el-input class="el-input-inners" v-model="from.firstplancount" align="right" size="mini"
               clearable></el-input>
@@ -640,7 +641,7 @@
           <em class="sign">可修改</em>
         </div>
         <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">认清市场</div>
+          <div class="select-title" style="width: 1.6rem">计划书</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
             <el-input class="el-input-inners" v-model="from.secondplancount" align="right" size="mini"
               clearable></el-input>
@@ -1031,7 +1032,7 @@
               </div>
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">预约回访</div>
-                <div class="select-content"
+                <div class="select-content boxpad"
                   style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0; border: none">
                   <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini"
                     placeholder="" :picker-options="previstitimePickerOptions" clearable>
@@ -1063,7 +1064,7 @@
                     高意向理财</li>
                   <li :class="[{ 'insure-select': adLabelselect == '03' }]"
                     @click="activitytagClick(adLabelselect = '03')">
-                    保单置换规划</li>
+                    保单检视</li>
                   <li :class="[{ 'insure-select': adLabelselect == '04' }]"
                     @click="activitytagClick(adLabelselect = '04')">
                     仅意外医疗</li>
@@ -1191,12 +1192,13 @@
         <div class="drawercontentBox">
           <ul>
             <li v-for="(item, index) in records" :key="index">
-              <div class="li_t">
+              <div class="li_t" style="display: flex; justify-content: space-between;">
                 <div v-html="item.remark">
                 </div>
+                <div  v-show='delRemark' class="gjg_topping mobile-icon el-icon-upload2" @click="remarktop(item.remarkserialno)"></div>
               </div>
               <div class="li_b">
-                <div class="li_b_l" :title="item.name">{{ item.oprname }}</div>
+                <div class="li_b_l" :title="item.name">{{ item.oprname }}  </div>
                 <div class="li_b_r">{{ item.makedate }} 创建
                   <span v-show='delRemark' class="mobile-icon el-icon-delete" @click="deleteRemark(item.remarkserialno)"
                     style="color:#979797"></span>
@@ -1401,5 +1403,24 @@ export default {
   background: rgb(242, 242, 242);
   padding: 0.1rem 0.4rem 0 0.4rem;
   width: 19.26rem
+}
+
+.yuyue .el-tooltip{
+   display: flex;
+}
+
+.boxpad .el-date-editor .el-input__inner{
+  padding-left: 0.35rem !important;
+    padding-right: 0rem !important;
+}
+
+.gjg_topping{
+  display: none;
+  color:#979797;
+  width:15% !important;
+  cursor: pointer;
+}
+.customer-drawer .drawerRight .drawercontentBox ul li:hover .gjg_topping{
+   display: block;
 }
 </style>

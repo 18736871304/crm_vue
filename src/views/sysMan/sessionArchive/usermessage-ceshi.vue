@@ -3,29 +3,44 @@
 
         <div class="staff">
             <header class="headfixed">
-                <div style="margin-bottom: 0.1rem ;font-size: 0.16rem;">
-                    客户-{{ parentData.cuscount }}
+                <div style="margin-bottom: 0.1rem;font-size: 0.16rem;">
+                    <!-- 员工-{{ parentData.zzcount }}-{{ parentData.lzcount }} -->
+                    员工 ({{ zaizhiNum.length }} - {{ lizhiNum.length }})
                 </div>
-                <div class="select-content" style="margin-top: 0.1rem; ">
-                    <div class="searchName" style="width: 100%;">
-                        <el-input placeholder="请输入客户名称" @input="activeselectId" v-model="activeValue" clearable>
-                        </el-input>
-                    </div>
+                <div class="select-content" style="margin-bottom: 0.1rem;">
+                    <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
+                        <p class="el-dropdown-inners" clearable>
+                            <span>{{ teamNames }}</span>
+                            <i class="el-icon-arrow-down el-icon--right"></i>
+                        </p>
+                        <el-dropdown-menu class="" slot="dropdown">
+                            <el-tree @check="checkTeam" :data="teamDataList" ref="tree" show-checkbox node-key="id"
+                                :default-checked-keys="[1]" :props="defaultProps">
+                            </el-tree>
+                            <div class="sure-footer">
+                                <div class="my-sure" @click="team_sure">确定</div>
+                                <div class="my-sure cancel" @click="team_cancel">取消</div>
+                            </div>
+                        </el-dropdown-menu>
+                    </el-dropdown>
                 </div>
-
-
+                <div class="select-content">
+                    <el-autocomplete class="el-input-inners" v-model="staffValue" :fetch-suggestions="querySearchId"
+                        placeholder="请输入员工姓名" :trigger-on-focus="false" clearable
+                        @select="selectUserId"></el-autocomplete>
+                </div>
             </header>
 
-            <div class="staffList" ref="first">
-                <div :class="isAllselect == item.customerid ? 'selectname staffName' : 'staffName'
-                        " v-for="item of allCustomList" :key="item.customerid" :label="item.customername"
-                    :value="item.customerid" @click="selectOneName(item, tablabel)">
+            <div class="staffList">
+                <div :class="isAllselect == item.userid ? 'selectname staffName' : 'staffName'
+                        " v-for="item of teamNameList" :key="item.userid" :label="item.realname" :value="item.userid"
+                    @click="selectOneName(item, tablabel)">
                     <div class="userbox">
-                        <img :src="item.avatar" alt="" class="avatar" />
+                        <img :src="item.qwuserurl" alt="" class="avatar" />
                         <div class="pBox">
-                            <p style="font-size: 0.15rem;">{{ item.customername }} </p>
-                            <!-- <p v-if="item.qwalias" class="lastText">别名：{{ item.qwalias }}</p>
-                            <p v-else></p> -->
+                            <p>{{ item.realname }} <span v-if="item.usertype == '04'" class="depart">已离职</span> </p>
+                            <p v-if="item.qwalias" class="lastText">别名：{{ item.qwalias }}</p>
+                            <p v-else></p>
                         </div>
                     </div>
                 </div>
@@ -39,31 +54,35 @@
                         <div class="userbox">
                             <img :src="selectStaffPhoto" alt="" class="avatar" />
                             <div class="pBox">
-                                <p style="font-size:0.15rem;">{{ selectStaffName }}</p>
+                                <p style="font-size: 0.15rem;">{{ selectStaffName }}</p>
+                                <p class="lastText" style=" margin-top: 5px;">别名：{{ oneitem.qwalias }}</p>
                             </div>
+
+
                         </div>
+                    </div>
+
+                    <div v-if="oneitem.usertype == '04' && oneitem.jjusername" class="headDepart">
+                        <p>该员工已离职，客户已交接给{{ oneitem.jjusername }}</p>
                     </div>
                     <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 100%">
                         <!-- 搜索框 -->
-
-                        <div class="select-content" style="  width: 87%; margin: 10px auto;">
-                            <el-autocomplete class="el-input-inners" v-model="staffValue"
-                                :fetch-suggestions="querySearchId" placeholder="请输入名称" :trigger-on-focus="false"
-                                clearable @select="selectUserId"></el-autocomplete>
+                        <div class="select-content" style="margin-top: 0.2rem;    margin: 0.2rem 0.2rem;">
+                            <div class="searchName">
+                                <el-input placeholder="请输入名称" @input="activeselectId" v-model="activeValue" clearable>
+                                </el-input>
+                            </div>
                         </div>
-
-
-                        <!-- <el-tab-pane label="客户" name="first second">
-                        </el-tab-pane> -->
-                        <el-tab-pane label="员工" name="first">
+                        <el-tab-pane label="客户" name="first">
+                        </el-tab-pane>
+                        <el-tab-pane label="同事" name="second">
                         </el-tab-pane>
                         <el-tab-pane label="群聊" name="third"> </el-tab-pane>
                         <!-- 同事 ，客户， 群聊人员 -->
                         <div v-loading="paneloading">
                             <template v-if="firstAllName != ''">
-                                <div class="staffList staffListBottom"
-                                    style="margin-top: 0;     height: calc(100vh - 3.85rem);">
-
+                                <div class="staffList staffListBottom" ref="first"
+                                    style="margin-top: 0;     height: calc(100vh - 4.2rem);">
                                     <div :class="isfirstselect == item.customerid ? 'selectname staffName' : 'staffName'"
                                         v-for="(item, index) of firstAllName" :key="index" :label="item.customername"
                                         :value="item.customerid" @click="selectFirstName(item)">
@@ -71,7 +90,6 @@
                                         <div class="userbox">
                                             <img :src="item.avatar" alt="" class="avatar" />
                                             <div class="pBox">
-                                                <!-- {{ item.lastmsgtime }} -->
                                                 <p class='namedata'>
                                                     <span>{{ item.customername }}</span>
                                                     <span>{{ item.lastmsgtimeValue }}</span>
@@ -83,7 +101,8 @@
                                 </div>
                             </template>
                             <template v-if="firstAllName == ''">
-                                <div class="staffList" style="margin-top: 0;  height: calc(100vh - 3.6rem);">
+                                <div class="staffList" ref="first"
+                                    style="margin-top: 0;  height: calc(100vh - 4.2rem);">
                                     <div style="display: flex;flex-direction: column; align-items: center;">
                                         <img src="../../../static/images/zanwu.png" alt=""
                                             style="width: 60%; margin:0.3rem auto">
@@ -102,10 +121,10 @@
             <header class="headfixed   headRecords">
                 <div class="recordHead">
                     <div class="userbox" style="width:35%">
-                        <img :src="selectStaffPhoto" alt="" class="avatar" />
+                        <img :src="selectfirstPhoto" alt="" class="avatar" />
                         <div class="pBox" style="width: auto;">
-                            <p style="font-size: 0.15rem;">{{ selectStaffName }}</p>
-                            <p v-if="tablabel == '员工'">备注名：{{ selectfirstRemakeName }}</p>
+                            <p style="font-size: 0.15rem">{{ selectfirstName }}</p>
+                            <p v-if="tablabel == '客户'" style=" color: #bababa;">备注名：{{ selectfirstRemakeName }}</p>
                         </div>
                         <i v-if="tablabel == '群聊' && firstAllName.length > 0" class="el-icon-user qunUser"
                             @click="qunDetail"></i>
@@ -128,12 +147,8 @@
                             </el-date-picker>
                         </div>
                     </div>
-
-
                 </div>
-
             </header>
-
             <div class="chatHistory" v-loading="loading">
                 <header @click="fanhui" v-if='funhuiValue' class="fanValue">
                     <span class="el-icon-arrow-left "></span>
@@ -143,36 +158,34 @@
                 <div class="staffList" ref="list" style="margin-top: 0;  height: calc(100vh - 2.7rem);">
                     <template v-if="requestDataList.length > 0 && searchText">
                         <div class='staffName' style="margin-top: 0.2rem;" v-for="item of requestDataList"
-                            :key="item.userid" :label="item.username" :value="item.userid">
+                            :key="item.seq" :label="item.username" :value="item.userid">
                             <div>
                                 <!-- 聊天记录 开始 -->
                                 <div class="userbox_middle" v-if="item.addtime">
                                     <p>{{ item.addtime }}</p>
                                 </div>
+
                                 <!-- 客户 -->
                                 <div class="userbox_left"
-                                    v-if="(item.from == isqwuserid || activeName == 'third' && item.from.length >= 20)">
+                                    v-if="(item.from == isfirstselect || activeName == 'third' && item.from != isqwuserid)">
+
                                     <img v-if="activeName == 'third' && item.userurl" :src="item.userurl" alt=""
                                         class="avatar" />
                                     <img v-else-if="activeName == 'third' && item.cusurl" :src="item.cusurl" alt=""
                                         class="avatar" />
-                                    <img v-else :src="selectStaffPhoto" alt="" class="avatar" />
+                                    <img v-else :src="selectfirstPhoto" alt="" class="avatar" />
 
                                     <div class="pBox boxhover chat_left">
-                                        <div v-if="activeName == 'third' && item.username" class="timeLeft">{{
-                        item.username }}{{
-                        item.msgtime
-                    }}
+                                        <div v-if="activeName == 'third' && item.username" class="timeLeft">
+                                            {{ item.username + item.msgtime }}
                                         </div>
-                                        <div v-else-if="activeName == 'third' && item.cusname" class="timeLeft">{{
-                        item.cusname }}{{
-                        item.msgtime
-                    }}</div>
+                                        <div v-else-if="activeName == 'third' && item.cusname" class="timeLeft">
+                                            {{ item.cusname + item.msgtime }}
+                                        </div>
                                         <div v-else class="timeLeft">{{ item.msgtime }}</div>
 
-
                                         <div style="display: flex;" v-if="item.msgtype == 'text'">
-                                            <p class="chatContent">{{ item.text }}</p>
+                                            <p class="chatContent">{{ item.text }} </p>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
 
@@ -193,7 +206,6 @@
                                                         class="chatVoiceImg">
                                                     <p>{{ item.play_length }}</p>
                                                 </div>
-
                                             </div>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
@@ -211,6 +223,7 @@
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
 
+
                                         <!-- 视频 -->
                                         <div v-if="item.msgtype == 'video'" class="chatContent chatContentVideo">
                                             <video id="myVideo" controls style="width: 30%;min-width: 300px;">
@@ -219,6 +232,7 @@
                                             </video>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
+
 
                                         <!-- 文件 -->
                                         <div v-if="item.msgtype == 'file'" class="chatContent colorfff">
@@ -267,23 +281,14 @@
                                 </div>
 
                                 <!-- 员工 -->
-                                <div class="userbox_right"
-                                    v-if="(item.from == isfirstselect || item.from != isfirstselect && item.from.length < 20)">
-                                    <!-- <img :src="selectStaffPhoto" alt="" class="avatar" /> -->
-                                    <img :src="selectfirstPhoto" alt="" class="avatar" />
-
-
-
-
+                                <div class="userbox_right" v-if="item.from == isqwuserid">
+                                    <img :src="selectStaffPhoto" alt="" class="avatar" />
                                     <div class="pBox boxhover chat_right">
                                         <div class=" timeRight ">{{ item.msgtime }}</div>
-                                        <!-- 文字 v-if="item.state == 'revoke'"-->
                                         <div style="display: flex;" v-if="item.msgtype == 'text'">
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                             <p class="chatContent"> {{ item.text }} </p>
                                         </div>
-
-
                                         <!-- 图片 -->
                                         <div>
                                             <viewer v-if="item.msgtype == 'image' || item.msgtype == 'emotion'"
@@ -293,8 +298,6 @@
                                                     class="chatRightImg" alt="" />
                                             </viewer>
                                         </div>
-
-
                                         <!--语音 -->
                                         <div v-if="item.msgtype == 'voice'" class="chatContent">
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
@@ -305,7 +308,6 @@
                                                     class="chatVoiceImg">
                                             </div>
                                         </div>
-
                                         <!-- 视频通话 -->
                                         <div v-if="item.msgtype == 'voiptext'" class="chatContent">
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
@@ -316,7 +318,6 @@
 
                                             </div>
                                         </div>
-
                                         <!--视频 -->
                                         <div v-if="item.msgtype == 'video'" class="chatContent chatContentVideo">
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
@@ -325,7 +326,6 @@
                                                     type="video/mp4">
                                             </video>
                                         </div>
-
                                         <!-- 文件 -->
                                         <div v-if="item.msgtype == 'file'" class="chatContent colorfff">
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
@@ -336,7 +336,6 @@
                                                         <span class="FileTitle">{{ item.filename }}</span>
                                                         <span class="FileSize FileSizeleft">{{ item.fileSize }}M</span>
                                                     </div>
-                                                    <!-- <img src="../../../../../../images/activity/chatRecord/file.jpg" alt=""> -->
                                                     <img src="../../../static/images/file.jpg" alt="">
                                                 </a>
                                             </div>
@@ -381,7 +380,7 @@
                     <!-- 搜索内容 -->
                     <template v-else-if="!searchText">
                         <div class='staffName' style="margin-top: 0.2rem;" v-for="item of requestSearchList"
-                            :key="item.userid" :label="item.username" :value="item.userid">
+                            :key="item.seq" :label="item.username" :value="item.userid">
                             <div class="userbox_left">
                                 <img v-if="item.from == isqwuserid" :src="selectStaffPhoto" alt="" class="avatar" />
                                 <img v-if="item.from == isfirstselect" :src="selectfirstPhoto" alt="" class="avatar" />
@@ -399,20 +398,15 @@
                         </div>
                     </template>
 
-
                     <template v-else>
                         <div style="display: flex;flex-direction: column; align-items: center;">
                             <img src="../../../static/images/Nomain.png" alt="" style="margin:0.3rem auto">
                             <p>暂无符合条件的记录</p>
                         </div>
                     </template>
-
-
                 </div>
             </div>
-
         </div>
-
 
         <el-drawer title="群详情" :show-close="false" :visible.sync="drawer" :before-close="handleClose" size=20%>
             <div style="padding:0 0.2rem;">
@@ -420,76 +414,48 @@
                     <diV class="titleBox">
                         <img src="../../../static/images/qunavatar.png" alt="">
                         <p style="height: 0.5rem;">{{ selectfirstName }}</p>
-
                     </diV>
-
                     <div>
                         <p style="font-size: 0.14rem; margin-left: 0.7rem"> 群主：{{ qunLeader.name }}</p>
-                        <!-- <p class="ext-tips">经外部联系人同意后才会保存联系人发送的会话内容</p> -->
                     </div>
-
-
                 </div>
 
                 <div class="drawerbigbox">
                     <div class="usersmallbox">
                         <p>群成员-{{ this.inqunList.length + this.exqunList.length }}</p>
                     </div>
-
                     <div class="userList">
-
-
                         <div class="userItem" v-for=" (item, index) of inqunList" :key="item.name">
                             <img :src="item.qwuserurl" alt="">
                             <p class="userItemName">{{ item.name }}</p>
                             <p class="userItemState" v-if="item.manage">{{ item.manage }}</p>
 
                         </div>
-
-
                         <p v-if="exqunList.length > 0" class="exUser">外部联系人</p>
                         <p v-if="exqunList.length > 0" class="ext-tips">经外部联系人同意后才会保存联系人发送的会话内容</p>
-
-                        <div class="userItem" v-for=" (item,index)  of exqunList" :key="item.name">
+                        <div class="userItem" v-for=" (item, index)  of exqunList" :key="item.name">
                             <img v-if='item.customerurl' :src="item.customerurl" alt="">
                             <img v-else src="../../../static/images/qunavatar.png" alt="">
-                            <p>{{item.name}}</p>
+                            <p>{{ item.name }}</p>
                         </div>
-                        <!-- <div class="userItem">
-                            <img :src="selectfirstPhoto" alt="">
-                            <p>魏钦录</p>
-                        </div> -->
                     </div>
-
-
                 </div>
             </div>
         </el-drawer>
-
-
-
-
-
     </div>
 </template>
 <script>
-import axios from "axios";
 import api from "../../../utils/api.js";
-import { getData, my_url } from "../../../static/js/ajax.js";
 import { formatDate } from "../../../static/js/common.js";
 import BenzAMRRecorder from 'benz-amr-recorder';
 import _ from 'lodash';
 const controller = new AbortController();
 export default {
-    props: {
-        parentData: {}
-    },
     data() {
         return {
             inqunList: [],
             exqunList: [],
             qwQunList: [],
-            // drawerName: '群聊标题',
             qunLeader: '',
             drawer: false,
 
@@ -505,19 +471,15 @@ export default {
             dateVale: false,//是否有月份
 
 
-
-            // 获取所有客户
-            allCustomList: [],
-
             teamAllid: '',//初始化获取团队所有ID
             nameList: [],
             isselect: "",
-            isAllselect: "",//选中后的客户ID
+            isAllselect: "",//选中后的员工ID
             isqwuserid: '',//选中后的员工的企微ID
             isfirstselect: "",//选中后的客户ID
             activeName: "first",
             activeValue: "",
-            firstAllName: [],//所有员工名字
+            firstAllName: [],//所有客户名字
             secondAllName: [],//所有同事名字
             thirdAllName: [],//所有群聊名字
             requestDataList: [],//聊天记录
@@ -539,7 +501,7 @@ export default {
             pageNumber: 1,
             pageSize: 20,
             // 当前选中的是客户，同事,群聊 tablabel
-            tablabel: "员工",
+            tablabel: "客户",
             // 当前选中的员工
             oneitem: '',
             selectStaffName: '',
@@ -631,53 +593,68 @@ export default {
                     return time.getTime() > Date.now();
                 }
             },
+
+            zaizhiNum:[],
+            lizhiNum: [],
+
         };
-
-
     },
-
+    props: {
+        parentData: {}
+    },
     mounted: function () {
         const scrollFirst = this.$refs['first'];
         scrollFirst.addEventListener('scroll', this.firstScroll, true)
-        this.allcustom(1, 20, '')
+        this.yewu();
     },
 
-    activated() {
-
-    },
     watch: {
+
+        teamNameList(data) {
+            this.lizhiNum=[]
+            this.zaizhiNum=[]
+            console.log(data)
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].usertype == '04') {
+                        this.lizhiNum.push(data[i])
+                    } else {
+                        this.zaizhiNum.push(data[i])
+                    }
+                }
+            }
+        },
+
         searchMsgValue(data) {
             if (data != '') {
                 this.dateVale = true
             } else {
                 this.dateVale = false
             }
-
         },
+
         staffValue(newValue) {
-            // 这里可以编写处理逻辑
             if (newValue == '') {
                 this.delSelectUserId()
             }
-
         }
     },
 
 
     methods: {
-
-
         handleClose(done) {
             this.drawer = false
         },
         qunDetail() {
             this.drawer = true
+            console.log(this.oneitem)
             this.inqunList = []
             this.exqunList = []
             var params = {
                 qunid: this.isfirstselect
             }
             api.getAllqunUser(params).then((data) => {
+                console.log(data)
                 var allqunList = data.qwQunMemberList
                 for (var i = 0; i < allqunList.length; i++) {
                     if (allqunList[i].isowner == 'Y') {
@@ -687,6 +664,7 @@ export default {
                     if (allqunList[i].isadmin == 'Y') {
                         allqunList[i]['manage'] = '管理员'
                     }
+
                     if (allqunList[i].qwuserurl) {
                         this.inqunList.push(allqunList[i])
                     } else {
@@ -695,40 +673,15 @@ export default {
                 }
             })
         },
-
-        // 获取企业所有客户  getAllcustom,  getcustomTouser,
-        allcustom(pageNum, pageSize, keyword) {
-            var _this = this
-            _this.loading = true;
-            var params = {
-                pageNumber: pageNum,
-                pageSize: pageSize,
-                queryname: keyword
-            }
-            api.getAllcustom(params).then((data) => {
-                this.allCustomList = this.allCustomList.concat(data.qwCustomerList);
-                if (pageNum == 1) {
-                    this.selectOneName(data.qwCustomerList[0], this.tablabel)
-                }
-                this.pageNumber = this.pageNumber + 1
-            }).catch((err) => {
-                _this.loading = false;
-                console.log(err)
-            })
-            _this.loading = false;
-        },
-
-
         firstScroll(e) {
             const winHeight = e.target.scrollTop || document.documentElement.scrollTop
             var scrollTop = e.target.scrollTop;
             var scrollHeight = e.target.scrollHeight;
             var windowHeight = e.target.clientHeight;
             if (scrollTop + 1 >= scrollHeight - windowHeight) {
-                this.allcustom(this.pageNumber, this.pageSize, this.activeValue)
+                this.getQwCustomer(this.isAllselect, this.pageNumber, this.pageSize, this.tablabel, this.activeValue)
             }
         },
-
 
         handleScroll(e) {
             const winHeight = e.target.scrollTop || document.documentElement.scrollTop
@@ -739,6 +692,7 @@ export default {
             //变量scrollHeight是滚动条的总高度
             var scrollHeight = e.target.scrollHeight;
             if (scrollTop <= 0 && this.noChathistory || scrollTop <= 0 && this.funhuiValue) {
+                // || this.funhuiValue
                 if (this.seq == '' && this.selectTime != '' || this.seq == '' && this.searchMsgValue != '') {
                     return
                 } else {
@@ -752,7 +706,6 @@ export default {
             // 取消请求
             controller.abort()
             var _this = this
-            var jiekouUrl = ''
             this.loading = true;
             if (this.activeName == 'third') {
                 var params = {
@@ -769,8 +722,7 @@ export default {
                 if (lookupdown && lookupdown != '') {
                     params['direction'] = 'front'
                 }
-                // var getTalkData = api.getQwQunTalkData(params, this)
-                jiekouUrl = "/crm/qwMan/getQwQunTalkData.do"
+                var getTalkData = api.getQwQunTalkData(params, this)
             } else {
                 var params = {
                     user1: user1,
@@ -787,109 +739,9 @@ export default {
                 if (lookupdown && lookupdown != '') {
                     params['direction'] = 'front'
                 }
-                // var getTalkData = api.getQwTalkData(params, this)
-                jiekouUrl = "/crm/qwMan/getQwTalkData.do"
+                var getTalkData = api.getQwTalkData(params, this)
             }
-
-            // getTalkData.then((data) => {
-            //     if (data.length > 0) {
-            //         _this.seq = data[data.length - 1].seq
-            //         if (_this.funhuiValue && lookupdown && lookupdown != '') {
-            //             data.push(lookupdown)
-            //         }
-            //         for (var i = 0; i < data.length; i++) {
-            //             var aa = i;
-            //             var upaa = i - 1
-            //             if (upaa < 0 || upaa == 0) {
-            //                 upaa = 0
-            //             }
-            //             var firstTime = Date.parse(data[aa].msgtime)
-            //             var upTime = Date.parse(data[upaa].msgtime)
-            //             var nowTime = Date.parse(new Date())
-            //             var timestampValue = Math.abs(firstTime - upTime)
-            //             // 首次
-            //             if (data.length < 20 && aa == 0) {
-            //                 data[data.length - 1]['addtime'] = data[data.length - 1].msgtime
-            //             }
-            //             // 大于5分钟小于1天   大于1天小于10周      大于1周
-            //             if (86400 > timestampValue > 300 || 604800 > timestampValue > 86400 || timestampValue > 604800) {
-            //                 data[upaa]['addtime'] = data[upaa].msgtime
-            //             }
-            //             if (data[i].msgtype == "revoke") {
-            //                 data.splice(i, 1)
-            //             }
-            //             if (data[i].msgtype == "link") {
-            //                 var fileData = JSON.parse(data[i].text)
-            //                 data[i]["link_url"] = fileData.link_url
-            //                 data[i]["title"] = fileData.title
-            //                 data[i]["description"] = fileData.description
-            //                 if (fileData.image_url != '') {
-            //                     data[i]["image_url"] = fileData.image_url
-            //                 } else {
-            //                     data[i]["image_url"] = '../../../static/images/file.jpg'
-            //                 }
-            //             }
-            //             if (data[i].msgtype == "file") {
-            //                 var fileData = JSON.parse(data[i].text)
-            //                 data[i]["filepath"] = fileData.filepath
-            //                 data[i]["filename"] = fileData.filename
-            //                 let fileSize = (fileData.filesize / 1048576).toFixed(2)
-            //                 data[i]["fileSize"] = fileSize
-            //                 if (fileData.image_url != '') {
-            //                     data[i]["image_url"] = fileData.image_url
-            //                 } else {
-            //                     data[i]["image_url"] = '../../../static/images/file.jpg'
-            //                 }
-            //             }
-
-            //             if (data[i].msgtype == "voice") {
-            //                 var voiceData = JSON.parse(data[i].text)
-            //                 data[i]['play_length'] = _this.format(voiceData.play_length)
-            //                 data[i]['filepath'] = voiceData.filepath
-            //             }
-            //             if (data[i].msgtype == "voiptext") {
-            //                 var voiceData = JSON.parse(data[i].text)
-            //                 data[i]['play_length'] = _this.format(voiceData.callduration)
-            //             }
-
-            //             if (data[i].msgtype == "chatrecord") {
-            //                 var chatrecordData = JSON.parse(data[i].text)
-
-            //                 data[i]['title'] = chatrecordData.title
-            //                 data[i]['play_length'] = chatrecordData.item.length
-            //             }
-
-
-            //             if (searchmsg && searchmsg != '' && !_this.funhuiValue) {
-            //                 _this.requestSearchList.unshift(data[i])
-            //             } else if (_this.funhuiValue) {
-            //                 _this.requestDataList.unshift(data[i])//push 数据到数组中
-            //             } else {
-            //                 _this.requestDataList.unshift(data[i])//push 数据到数组中
-            //             }
-            //         }
-            //         if (_this.funhuiValue && lookupdown && lookupdown != '') {
-
-            //         } else {
-            //             _this.scrollHeight = _this.$refs['list'].scrollHeight
-            //             _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight;
-            //             _this.$nextTick(() => {
-            //                 _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight - _this.scrollHeight;
-            //             })
-            //         }
-            //         const scrollview = _this.$refs['list'];
-            //         scrollview.addEventListener('scroll', _this.handleScroll, true)
-            //     } else {
-            //         _this.noChathistory = false
-            //     }
-            //     _this.loading = false;
-            // }).catch((err) => {
-            //     _this.loading = false;
-            //     console.log(err)
-            //     // alert('访问超时了,请刷新后重新查看')
-            // })
-
-            getData("post", my_url + jiekouUrl, function (data) {
+            getTalkData.then((data) => {
                 if (data.length > 0) {
                     _this.seq = data[data.length - 1].seq
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
@@ -927,12 +779,15 @@ export default {
                                 data[i]["image_url"] = '../../../static/images/file.jpg'
                             }
                         }
+
                         if (data[i].msgtype == "file") {
                             var fileData = JSON.parse(data[i].text)
                             data[i]["filepath"] = fileData.filepath
                             data[i]["filename"] = fileData.filename
+
                             let fileSize = (fileData.filesize / 1048576).toFixed(2)
                             data[i]["fileSize"] = fileSize
+
                             if (fileData.image_url != '') {
                                 data[i]["image_url"] = fileData.image_url
                             } else {
@@ -952,7 +807,6 @@ export default {
 
                         if (data[i].msgtype == "chatrecord") {
                             var chatrecordData = JSON.parse(data[i].text)
-
                             data[i]['title'] = chatrecordData.title
                             data[i]['play_length'] = chatrecordData.item.length
                         }
@@ -967,7 +821,6 @@ export default {
                         }
                     }
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
-
                     } else {
                         _this.scrollHeight = _this.$refs['list'].scrollHeight
                         _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight;
@@ -975,17 +828,25 @@ export default {
                             _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight - _this.scrollHeight;
                         })
                     }
+
                     const scrollview = _this.$refs['list'];
                     scrollview.addEventListener('scroll', _this.handleScroll, true)
+
                 } else {
                     _this.noChathistory = false
                 }
                 _this.loading = false;
-            }, params)
-
-
+            }).catch((err) => {
+                _this.loading = false;
+                console.log(err)
+                // alert('访问超时了,请刷新后重新查看')
+            })
 
         },
+
+
+
+
 
         playAudio(item) {
             this.voiceId = item.seq
@@ -1013,6 +874,108 @@ export default {
 
 
 
+
+        // 勾选团队时，统计团队ID
+        checkTeam(data, checked, indeterminate) {
+            let teamListName = [];
+            checked.checkedNodes.forEach(function (item) {
+                teamListName.push(item.label);
+            });
+            this.myList = teamListName.join(",");
+            this.teamListId = checked.checkedKeys.join(",");
+            this.teamid = this.teamListId;
+        },
+        // 取消所选团队
+        team_cancel() {
+            this.$refs.disTeam.hide();
+            this.myList = "";
+            this.teamListId = "";
+            this.teamNames = "团队选择";
+            this.teamid = "";
+            this.$refs.tree.setCheckedKeys([]);
+            this.queryflag = true;
+            this.staffValue = "";
+            this.searchUser(this.teamAllid)
+        },
+
+        // 确认所选团队
+        team_sure() {
+            let _this = this;
+            this.$refs.disTeam.hide();
+            // this.staffValue = "";
+            if (this.myList == null || this.myList == "" || this.myList == "1") {
+                this.queryflag = true;
+                this.queryflagString = "01";
+            } else {
+                this.teamNames = this.myList;
+                this.queryflag = false;
+                this.queryflagString = "02";
+            }
+            _this.searchUser(this.teamListId, this.staffValue)
+        },
+
+        // 获取该团队权限下的员工
+        yewu() {
+            let _this = this;
+            var idStr = ''
+            api.getTalkTeamList().then((data) => {
+                if (data.code == 0) {
+                    _this.teamDataList = data.teamList;
+                    for (var i = 0; i < _this.teamDataList.length; i++) {
+                        idStr += _this.teamDataList[i].id + ','
+                        if (_this.teamDataList[i].children) {
+                            for (var j = 0; j < this.teamDataList[i].children.length; j++) {
+                                idStr += _this.teamDataList[i].children[j].id + ','
+                                if (this.teamDataList[i].children[j].children) {
+                                    for (var s = 0; s < this.teamDataList[i].children[j].children.length; s++) {
+                                        idStr += _this.teamDataList[i].children[j].children[s].id + ','
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (idStr != '') {
+                        idStr = idStr.slice(0, -1);
+                    }
+                    // 权限内的所有人员
+                    _this.teamAllid = idStr
+                    _this.searchUser(idStr)
+                }
+            })
+
+        },
+
+        // 模糊查询员工
+        searchUser(teamid, keyword) {
+            var _this = this
+            var params = {
+                teamid: teamid,
+                realname: keyword ? keyword : '',
+            }
+            api.getQwUser(params).then((data) => {
+                _this.teamNameList = data.userList;
+                _this.SalesmanIdBox = [];
+                data.userList.forEach((res) => {
+                    _this.SalesmanIdBox.push({
+                        value: res.realname,
+                        id: res.userid,
+                        qwalias: res.qwalias,
+                        qwuserid: res.qwuserid,
+                        qwuserurl: res.qwuserurl,
+                    });
+                });
+                _this.selectOneName(data.userList[0], this.tablabel)
+            });
+        },
+
+        filterNode(value, data) {
+            if (!value) return true;
+            return data.organizationName.indexOf(value) !== -1;
+        },
+
+
+
+
         // 选择  客户， 同事， 群聊
         handleClick(tab, event) {
             let _this = this;
@@ -1020,83 +983,71 @@ export default {
             // 重置页数
             this.pageNumber = 1;
             this.pageSize = 20
-            this.firstAllName = []
             this.selectOneName(this.oneitem, tab.$props.label)
         },
-
-
-        // 选择客户--带出来对应的员工
+        // 选择员工--带出来对应的客户
         selectOneName(item, first) {
-            // 储存客户信息
+            // 储存员工信息
             this.oneitem = item
-            this.isAllselect = item.customerid;
-            this.isqwuserid = item.customerid;
-            this.selectStaffName = item.customername;
-            this.selectStaffPhoto = item.avatar;
-            // 使原来的员工列表为空
+            this.isAllselect = item.userid;
+            this.isqwuserid = item.qwuserid;
+            this.selectStaffName = item.realname;
+            this.selectStaffPhoto = item.qwuserurl;
+            // 使原来的客户列表为空
             this.firstAllName = []
             this.pageNumber = 1
             // 搜索内容也要为空
             this.searchMsgValue = ''
             this.selectTime = ''
-            this.staffValue = ''
-
             // 更改最上面的固定头像
             if (this.tablabel == '群聊') {
-                this.getQwCustomer(item.customerid, this.pageNumber, this.pageSize, first, this.activeValue)
+                this.getQwCustomer(item.qwuserid, this.pageNumber, this.pageSize, first, this.activeValue)
             } else {
-                this.getQwCustomer(item.customerid, this.pageNumber, this.pageSize, first, this.activeValue)
+                this.getQwCustomer(item.userid, this.pageNumber, this.pageSize, first, this.activeValue)
             }
         },
 
-
-
-
-
-
-
-
-
-        //获取客户对应的群聊
-        // 获取客户对应员工的姓名
+        // 获取员工对应客户的姓名
         getQwCustomer(userid, pageNumber, pageSize, first, item) {
             var _this = this
             this.paneloading = true
-            if (this.activeName == 'first') {
-                var params = {
-                    customerid: userid,
-                    pageNumber: 1,
-                    pageSize: 20,
-                }
-                api.getcustomTouser(params).then((data) => {
-                    if (data.qwUserList != []) {
-                        var qwCustomerList = _this.dataHandle(data.qwUserList)
+            var params = {
+                userid: userid,
+                pageNumber: pageNumber,
+                pageSize: pageSize,
+                queryname: item
+            }
+
+            if (first == '客户') {
+                api.getQwCustomerByUser(params).then((data) => {
+                    if (data.qwCustomerList != []) {
+                        var qwCustomerList = _this.dataHandle(data.qwCustomerList)
                         _this.firstAllName = _this.firstAllName.concat(qwCustomerList);
-                        if (_this.firstAllName[0]) {
+                        if (_this.pageNumber == '1' && _this.firstAllName[0]) {
                             _this.selectFirstName(_this.firstAllName[0])
                         }
                         _this.pageNumber = _this.pageNumber + 1
-                        _this.SalesmanIdBox = [];
-                        data.qwUserList.forEach((res) => {
-                            _this.SalesmanIdBox.push({
-                                value: res.realname,
-                                id: res.userid,
-                                qwalias: res.qwalias,
-                                qwuserid: res.qwuserid,
-                                qwuserurl: res.qwuserurl,
-                            });
-                        });
                     }
                 });
             }
-
-            if (this.activeName == 'third') {
+            if (first == '同事') {
+                api.getQwColleagueByUser(params).then((data) => {
+                    if (data.qwColleagueList != []) {
+                        var qwColleagueList = _this.dataHandle(data.qwColleagueList)
+                        _this.firstAllName = _this.firstAllName.concat(qwColleagueList);
+                        if (_this.pageNumber == '1' && _this.firstAllName[0]) {
+                            _this.selectFirstName(_this.firstAllName[0])
+                        }
+                        _this.pageNumber = _this.pageNumber + 1
+                    }
+                });
+            }
+            if (first == '群聊') {
                 var params = {
                     qwuserid: userid,
-                    pageNumber: 1,
-                    pageSize: 20,
-                    queryname: ""
-                    // queryname: item
+                    pageNumber: pageNumber,
+                    pageSize: pageSize,
+                    queryname: item
                 }
                 api.getQunList(params).then((data) => {
                     if (data.qwQunList != []) {
@@ -1114,7 +1065,6 @@ export default {
 
         // 选择客户, 同事， 群聊人员
         selectFirstName(item) {
-            console.log(item)
             if (item.qunid) {
                 this.isfirstselect = item.qunid
             } else {
@@ -1127,8 +1077,6 @@ export default {
             // this.pageNumber = 1
             this.requestSearchList = []
             this.requestDataList = []
-
-
             this.seq = ''
             this.searchMsgValue = ''
             this.selectTime = ''
@@ -1136,14 +1084,17 @@ export default {
             this.funhuiValue = false
             this.noChathistory = true
 
-
             // 关闭监听滚动条
+            // this.$refs.scrollView.removeEventListener('scroll', this.handleScroll, true);
             const scrollview = this.$refs['list'];
             scrollview.removeEventListener('scroll', this.handleScroll, true)
             // 请求聊天记录
             this.requestData(this.isqwuserid, this.isfirstselect, '')
 
         },
+
+
+
 
 
         querySearchId(queryString, cb) {
@@ -1182,13 +1133,23 @@ export default {
             this.teamNameList = arr;
         },
         // 选择模糊筛选出来的 客户姓名
-        activeselectId: _.debounce(function (item) {
+        activeselectId(item) {
+            var _this = this
+            // if (item == '') {
             this.firstAllName = []
-            this.pageNumber = 1
-            this.pageSize = 20
-            this.allCustomList = []
-            this.allcustom(this.pageNumber, this.pageSize, this.activeValue)
-        }, 1000),
+            this.pageNumber = 1,
+                this.pageSize = 20
+            // } 
+            if (this.tablabel == '群聊') {
+                this.getQwCustomer(this.isqwuserid, this.pageNumber, this.pageSize, this.tablabel, item)
+            } else {
+                this.getQwCustomer(this.isAllselect, this.pageNumber, this.pageSize, this.tablabel, item)
+            }
+
+
+
+
+        },
 
 
         // 取消模糊搜索
@@ -1240,21 +1201,21 @@ export default {
             this.searchText = true
             this.funhuiValue = true
         }, 1000),
-
-
         fanhui() {
             this.funhuiValue = false
             this.searchText = false
         },
-
         // JS将时间戳转换为刚刚、N分钟前、今天几点几分、昨天几点几分等表示法
         timestampFormat(timestamp) {
             var curTimestamp = parseInt(new Date().getTime() / 1000); //当前时间戳
             var timestampDiff = curTimestamp - timestamp; // 参数时间戳与当前时间戳相差秒数
+
             var curDate = new Date(curTimestamp * 1000); // 当前时间日期对象
             var tmDate = new Date(timestamp * 1000);  // 参数时间戳转换成的日期对象
+
             var Y = tmDate.getFullYear(), m = tmDate.getMonth() + 1, d = tmDate.getDate();
             var H = tmDate.getHours(), i = tmDate.getMinutes(), s = tmDate.getSeconds();
+
             if (timestampDiff < 60) { // 一分钟以内
                 return "刚刚";
             } else if (timestampDiff < 3600) { // 一小时前之内
@@ -1376,7 +1337,6 @@ export default {
 .staff {
     width: 15%;
     height: calc(100vh - 1.6rem);
-    /* border: 1px solid #909399; */
     position: relative;
     background: #fff;
     margin-right: 0.2rem;
@@ -1385,7 +1345,6 @@ export default {
 .custom {
     width: 15%;
     height: calc(100vh - 1.6rem);
-    /* border: 1px solid #909399; */
     background: #fff;
 }
 
@@ -1450,10 +1409,10 @@ export default {
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
-    margin-top: 1.2rem;
+    margin-top: 1.6rem;
     overflow: hidden;
     overflow-y: scroll;
-    height: calc(100vh - 3rem);
+    height: calc(100vh - 3.35rem);
 }
 
 .staffName {
@@ -1491,7 +1450,7 @@ export default {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     margin-left: 0.1rem;
 }
 
@@ -1556,13 +1515,6 @@ export default {
     background-color: #E4E7ED;
 }
 
-::v-deep .el-tabs__nav {
-    height: 0.6rem;
-    line-height: 0.6rem;
-    margin-left: 0.3rem;
-    margin-right: 0.3rem;
-}
-
 .cancel {
     background: #fff;
     color: #dc240f;
@@ -1574,7 +1526,7 @@ export default {
     background: #fff;
     width: 12.8%;
     padding: 0.2rem 0.2rem 0;
-    height: 1rem;
+    height: 1.6rem;
 }
 
 ::v-deep .searchName .el-input .el-input__inner {
@@ -1628,7 +1580,7 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-
+    color: #bababa;
 }
 
 .headRecords {
@@ -1651,8 +1603,6 @@ export default {
 }
 
 .chatRightHead {
-    /* margin: 0.2rem;
-  margin-right: 2.6rem; */
     width: 2.5rem;
 }
 
@@ -1783,7 +1733,6 @@ export default {
 
 .timeLeft {
     width: 5rem;
-    /* display: none; */
     position: absolute;
     left: 0;
     top: -22px;
@@ -1797,7 +1746,6 @@ export default {
 
 .timeRight {
     width: 5rem;
-    /* display: none; */
     position: absolute;
     right: 0;
     top: -22px;
@@ -1903,7 +1851,6 @@ export default {
 
 .chat_left .chatVoice {
     height: 28px;
-    /* width: 100px; */
     width: auto;
     line-height: 30px;
     display: flex;
@@ -1916,7 +1863,6 @@ export default {
 
 .chat_right .chatVoice {
     height: 28px;
-    /* width: 100px; */
     width: auto;
     line-height: 30px;
     display: flex;
@@ -1967,10 +1913,6 @@ export default {
     -webkit-animation: anim-flash 1s infinite;
     animation: anim-flash 1s infinite;
 }
-
-
-
-
 
 
 .chat_left .chatContent_right,
@@ -2090,7 +2032,6 @@ export default {
     background: #e6f7ff;
     color: #383838;
     align-self: flex-end;
-    /* width: 0.5rem; */
 }
 
 .staff .staffList .staffName {
@@ -2148,7 +2089,6 @@ export default {
     line-height: 0.2rem;
 }
 
-/*  */
 .userList .userItem img {
     width: 0.4rem;
     height: 0.4rem;
@@ -2197,7 +2137,33 @@ export default {
     border: 1px solid #1890ff;
 }
 
-::v-deep .el-date-editor .el-range__icon {
+.staffListBottom .staffName .userbox .pBox .lastText {
+    color: #807e7e;
+}
+
+.depart {
+    font-size: 0.13rem;
+    margin-left: 2px;
+    padding: 0 4px;
+    background: #f8f8f8;
+    margin-bottom: 4px;
+    border-radius: 3px;
+    border: 1px solid #e8e8e8;
+}
+
+.headDepart {
+    background: #f6f6f6;
+    font-size: 0.13rem;
+    padding: 4px 8px;
+    border-radius: 2px;
+    margin-top: 0.1rem;
+    width: 95%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+::v-deep .el-date-editor .el-range__icon{
     margin-left: 0px;
 }
 </style>

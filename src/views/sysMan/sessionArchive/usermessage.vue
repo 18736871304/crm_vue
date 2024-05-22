@@ -3,8 +3,9 @@
 
         <div class="staff">
             <header class="headfixed">
-                <div style="margin-bottom: 0.1rem">
-                    员工-{{ parentData.zzcount }}-{{ parentData.lzcount }}
+                <div style="margin-bottom: 0.1rem;font-size: 0.16rem;">
+                    <!-- 员工-{{ parentData.zzcount }}-{{ parentData.lzcount }} -->
+                    员工 ({{ zaizhiNum.length }} - {{ lizhiNum.length }})
                 </div>
                 <div class="select-content" style="margin-bottom: 0.1rem;">
                     <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
@@ -37,7 +38,7 @@
                     <div class="userbox">
                         <img :src="item.qwuserurl" alt="" class="avatar" />
                         <div class="pBox">
-                            <p>{{ item.realname }}</p>
+                            <p>{{ item.realname }} <span v-if="item.usertype == '04'" class="depart">已离职</span> </p>
                             <p v-if="item.qwalias" class="lastText">别名：{{ item.qwalias }}</p>
                             <p v-else></p>
                         </div>
@@ -53,9 +54,16 @@
                         <div class="userbox">
                             <img :src="selectStaffPhoto" alt="" class="avatar" />
                             <div class="pBox">
-                                <p style="font-size: 0.18rem;">{{ selectStaffName }}</p>
+                                <p style="font-size: 0.15rem;">{{ selectStaffName }}</p>
+                                <p class="lastText" style=" margin-top: 5px;">别名：{{ oneitem.qwalias }}</p>
                             </div>
+
+
                         </div>
+                    </div>
+
+                    <div v-if="oneitem.usertype == '04' && oneitem.jjusername" class="headDepart">
+                        <p>该员工已离职，客户已交接给{{ oneitem.jjusername }}</p>
                     </div>
                     <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 100%">
                         <!-- 搜索框 -->
@@ -74,7 +82,7 @@
                         <div v-loading="paneloading">
                             <template v-if="firstAllName != ''">
                                 <div class="staffList staffListBottom" ref="first"
-                                    style="margin-top: 0;     height: calc(100vh - 3.85rem);">
+                                    style="margin-top: 0;     height: calc(100vh - 4.2rem);">
                                     <div :class="isfirstselect == item.customerid ? 'selectname staffName' : 'staffName'"
                                         v-for="(item, index) of firstAllName" :key="index" :label="item.customername"
                                         :value="item.customerid" @click="selectFirstName(item)">
@@ -83,8 +91,8 @@
                                             <img :src="item.avatar" alt="" class="avatar" />
                                             <div class="pBox">
                                                 <p class='namedata'>
-                                                    <span>{{ item.customername  }}</span>
-                                                    <span>{{ item.lastmsgtimeValue }}</span>    
+                                                    <span>{{ item.customername }}</span>
+                                                    <span>{{ item.lastmsgtimeValue }}</span>
                                                 </p>
                                                 <p class="lastText">{{ item.lastmsgtypeValue }}</p>
                                             </div>
@@ -94,7 +102,7 @@
                             </template>
                             <template v-if="firstAllName == ''">
                                 <div class="staffList" ref="first"
-                                    style="margin-top: 0;  height: calc(100vh - 3.6rem);">
+                                    style="margin-top: 0;  height: calc(100vh - 4.2rem);">
                                     <div style="display: flex;flex-direction: column; align-items: center;">
                                         <img src="../../../static/images/zanwu.png" alt=""
                                             style="width: 60%; margin:0.3rem auto">
@@ -115,8 +123,8 @@
                     <div class="userbox" style="width:35%">
                         <img :src="selectfirstPhoto" alt="" class="avatar" />
                         <div class="pBox" style="width: auto;">
-                            <p style="font-size: 0.18rem;">{{ selectfirstName }}</p>
-                            <p v-if="tablabel == '客户'">备注名：{{ selectfirstRemakeName }}</p>
+                            <p style="font-size: 0.15rem">{{ selectfirstName }}</p>
+                            <p v-if="tablabel == '客户'" style=" color: #bababa;">备注名：{{ selectfirstRemakeName }}</p>
                         </div>
                         <i v-if="tablabel == '群聊' && firstAllName.length > 0" class="el-icon-user qunUser"
                             @click="qunDetail"></i>
@@ -219,7 +227,8 @@
                                         <!-- 视频 -->
                                         <div v-if="item.msgtype == 'video'" class="chatContent chatContentVideo">
                                             <video id="myVideo" controls style="width: 30%;min-width: 300px;">
-                                                <source :src="'https://talk.meihualife.com' + item.text" type="video/mp4">
+                                                <source :src="'https://talk.meihualife.com' + item.text"
+                                                    type="video/mp4">
                                             </video>
                                             <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                                         </div>
@@ -436,6 +445,7 @@
     </div>
 </template>
 <script>
+import { getData, my_url } from "../../../static/js/ajax.js";
 import api from "../../../utils/api.js";
 import { formatDate } from "../../../static/js/common.js";
 import BenzAMRRecorder from 'benz-amr-recorder';
@@ -584,6 +594,10 @@ export default {
                     return time.getTime() > Date.now();
                 }
             },
+
+            zaizhiNum: [],
+            lizhiNum: [],
+
         };
     },
     props: {
@@ -596,6 +610,21 @@ export default {
     },
 
     watch: {
+
+        teamNameList(data) {
+            this.lizhiNum = []
+            this.zaizhiNum = []
+            console.log(data)
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].usertype == '04') {
+                        this.lizhiNum.push(data[i])
+                    } else {
+                        this.zaizhiNum.push(data[i])
+                    }
+                }
+            }
+        },
 
         searchMsgValue(data) {
             if (data != '') {
@@ -678,6 +707,7 @@ export default {
             // 取消请求
             controller.abort()
             var _this = this
+            var jiekouUrl = ''
             this.loading = true;
             if (this.activeName == 'third') {
                 var params = {
@@ -694,7 +724,8 @@ export default {
                 if (lookupdown && lookupdown != '') {
                     params['direction'] = 'front'
                 }
-                var getTalkData = api.getQwQunTalkData(params, this)
+                // var getTalkData = api.getQwQunTalkData(params, this)
+                jiekouUrl = "/crm/qwMan/getQwQunTalkData.do"
             } else {
                 var params = {
                     user1: user1,
@@ -711,15 +742,125 @@ export default {
                 if (lookupdown && lookupdown != '') {
                     params['direction'] = 'front'
                 }
-                var getTalkData = api.getQwTalkData(params, this)
+                // var getTalkData = api.getQwTalkData(params, this)
+                jiekouUrl = "/crm/qwMan/getQwTalkData.do"
             }
-            getTalkData.then((data) => {
+
+            // /crm/qwMan/getQwQunTalkData.do  群的聊天记录  /crm/qwMan/getQwTalkData.do
+
+
+            // getTalkData.then((data) => {
+            //     if (data.length > 0) {
+            //         _this.seq = data[data.length - 1].seq
+            //         if (_this.funhuiValue && lookupdown && lookupdown != '') {
+            //             data.push(lookupdown)
+            //         }
+            //         for (var i = 0; i < data.length; i++) {
+            //             var aa = i;
+            //             var upaa = i - 1
+            //             if (upaa < 0 || upaa == 0) {
+            //                 upaa = 0
+            //             }
+            //             var firstTime = Date.parse(data[aa].msgtime)
+            //             var upTime = Date.parse(data[upaa].msgtime)
+            //             var nowTime = Date.parse(new Date())
+            //             var timestampValue = Math.abs(firstTime - upTime)
+            //             // 首次
+            //             if (data.length < 20 && aa == 0) {
+            //                 data[data.length - 1]['addtime'] = data[data.length - 1].msgtime
+            //             }
+            //             // 大于5分钟小于1天   大于1天小于10周      大于1周
+            //             if (86400 > timestampValue > 300 || 604800 > timestampValue > 86400 || timestampValue > 604800) {
+            //                 data[upaa]['addtime'] = data[upaa].msgtime
+            //             }
+            //             if (data[i].msgtype == "revoke") {
+            //                 data.splice(i, 1)
+            //             }
+            //             if (data[i].msgtype == "link") {
+            //                 var fileData = JSON.parse(data[i].text)
+            //                 data[i]["link_url"] = fileData.link_url
+            //                 data[i]["title"] = fileData.title
+            //                 data[i]["description"] = fileData.description
+            //                 if (fileData.image_url != '') {
+            //                     data[i]["image_url"] = fileData.image_url
+            //                 } else {
+            //                     data[i]["image_url"] = '../../../static/images/file.jpg'
+            //                 }
+            //             }
+
+            //             if (data[i].msgtype == "file") {
+            //                 var fileData = JSON.parse(data[i].text)
+            //                 data[i]["filepath"] = fileData.filepath
+            //                 data[i]["filename"] = fileData.filename
+
+            //                 let fileSize = (fileData.filesize / 1048576).toFixed(2)
+            //                 data[i]["fileSize"] = fileSize
+
+            //                 if (fileData.image_url != '') {
+            //                     data[i]["image_url"] = fileData.image_url
+            //                 } else {
+            //                     data[i]["image_url"] = '../../../static/images/file.jpg'
+            //                 }
+            //             }
+
+            //             if (data[i].msgtype == "voice") {
+            //                 var voiceData = JSON.parse(data[i].text)
+            //                 data[i]['play_length'] = _this.format(voiceData.play_length)
+            //                 data[i]['filepath'] = voiceData.filepath
+            //             }
+            //             if (data[i].msgtype == "voiptext") {
+            //                 var voiceData = JSON.parse(data[i].text)
+            //                 data[i]['play_length'] = _this.format(voiceData.callduration)
+            //             }
+
+            //             if (data[i].msgtype == "chatrecord") {
+            //                 var chatrecordData = JSON.parse(data[i].text)
+            //                 data[i]['title'] = chatrecordData.title
+            //                 data[i]['play_length'] = chatrecordData.item.length
+            //             }
+
+
+            //             if (searchmsg && searchmsg != '' && !_this.funhuiValue) {
+            //                 _this.requestSearchList.unshift(data[i])
+            //             } else if (_this.funhuiValue) {
+            //                 _this.requestDataList.unshift(data[i])//push 数据到数组中
+            //             } else {
+            //                 _this.requestDataList.unshift(data[i])//push 数据到数组中
+            //             }
+            //         }
+            //         if (_this.funhuiValue && lookupdown && lookupdown != '') {
+            //         } else {
+            //             _this.scrollHeight = _this.$refs['list'].scrollHeight
+            //             _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight;
+            //             _this.$nextTick(() => {
+            //                 _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight - _this.scrollHeight;
+            //             })
+            //         }
+
+            //         const scrollview = _this.$refs['list'];
+            //         scrollview.addEventListener('scroll', _this.handleScroll, true)
+
+            //     } else {
+            //         _this.noChathistory = false
+            //     }
+            //     _this.loading = false;
+            // }).catch((err) => {
+            //     _this.loading = false;
+            //     console.log(err)
+            //     // alert('访问超时了,请刷新后重新查看')
+            // })
+
+
+
+            getData("post", my_url + jiekouUrl, function (data) {
                 if (data.length > 0) {
                     _this.seq = data[data.length - 1].seq
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
                         data.push(lookupdown)
                     }
                     for (var i = 0; i < data.length; i++) {
+
+                        _this.loading = false;
                         var aa = i;
                         var upaa = i - 1
                         if (upaa < 0 || upaa == 0) {
@@ -740,6 +881,7 @@ export default {
                         if (data[i].msgtype == "revoke") {
                             data.splice(i, 1)
                         }
+                    console.log(data[i].msgtype == "link")
                         if (data[i].msgtype == "link") {
                             var fileData = JSON.parse(data[i].text)
                             data[i]["link_url"] = fileData.link_url
@@ -808,11 +950,18 @@ export default {
                     _this.noChathistory = false
                 }
                 _this.loading = false;
-            }).catch((err) => {
-                _this.loading = false;
-                console.log(err)
-                alert('访问超时了,请刷新后重新查看')
-            })
+            }, params)
+
+
+
+
+
+
+
+
+
+
+
 
         },
 
@@ -1422,16 +1571,17 @@ export default {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     margin-left: 0.1rem;
 }
 
 .pBox p:first-child {
-    font-size: 0.16rem;
+    font-size: 0.15rem;
 }
 
 .pBox p:last-child {
-    font-size: 0.12rem;
+    font-size: 0.13rem;
+    margin-top: 5px;
 }
 
 ::v-deep .el-tree-node__content {
@@ -1545,12 +1695,13 @@ export default {
 }
 
 .lastText {
-    width: 1.5rem;
+    width: 1.2rem;
     display: block;
     position: relative;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: #bababa;
 }
 
 .headRecords {
@@ -2105,5 +2256,35 @@ export default {
     text-align: center;
     color: #1890ff;
     border: 1px solid #1890ff;
+}
+
+.staffListBottom .staffName .userbox .pBox .lastText {
+    color: #807e7e;
+}
+
+.depart {
+    font-size: 0.13rem;
+    margin-left: 2px;
+    padding: 0 4px;
+    background: #f8f8f8;
+    margin-bottom: 4px;
+    border-radius: 3px;
+    border: 1px solid #e8e8e8;
+}
+
+.headDepart {
+    background: #f6f6f6;
+    font-size: 0.13rem;
+    padding: 4px 8px;
+    border-radius: 2px;
+    margin-top: 0.1rem;
+    width: 95%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+::v-deep .el-date-editor .el-range__icon {
+    margin-left: 0px;
 }
 </style>

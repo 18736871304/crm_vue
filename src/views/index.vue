@@ -2,71 +2,30 @@
   <div id="containerBox" class="containerBox" v-cloak>
     <div class="menu-box clearfix">
       <div class="logo fl"></div>
-      <el-menu
-        :default-active="activeIndex"
-        background-color="transparent"
-        text-color="#909399"
-        active-text-color="white"
-        mode="horizontal"
-        class="menu-ui fl"
-        @select="handleSelect"
-      >
-        <el-menu-item
-          v-for="item in tabMenus"
-          :key="item.menucode"
-          :index="item.memuname"
-        >
+      <el-menu :default-active="activeIndex" background-color="transparent" text-color="#909399"
+        active-text-color="white" mode="horizontal" class="menu-ui fl" @select="handleSelect">
+        <el-menu-item v-for="item in tabMenus" :key="item.menucode" :index="item.memuname">
           <sidebar-item :item="item" :base-path="item.path"></sidebar-item>
         </el-menu-item>
       </el-menu>
-      <div
-        class="fr"
-        style="display: flex; align-items: center; margin-right: 0.5rem"
-      >
+      <div class="fr" style="display: flex; align-items: center; margin-right: 0.5rem">
         <div class="jindu">
           <p>战斗力</p>
-          <el-progress
-            :percentage="percentage"
-            :show-text="false"
-            :color="customColorMethod"
-            class="fl"
-          ></el-progress>
+          <el-progress :percentage="percentage" :show-text="false" :color="customColorMethod" class="fl"></el-progress>
         </div>
         <div class="jinduone">
           <el-badge :value="promptSize" :max="99" class="item">
-            <div
-              class="el-button-nav"
-              @click="centerDialogVisible = true"
-            ></div>
+            <div class="el-button-nav" @click="centerDialogVisible = true"></div>
           </el-badge>
         </div>
         <div class="jindutwo">
-          <el-dropdown
-            trigger="click"
-            @command="handleCommand"
-            @visible-change="visibleChange"
-            class="el-dropdown-bg"
-            :class="{ changeColor }"
-            placement="top"
-          >
-            <span class="el-dropdown-link"
-              >{{ Online
-              }}<i
-                class="el-icon-arrow-down el-icon--right"
-                :class="[{ 'arrow-down-top': isDown }]"
-              ></i
-            ></span>
+          <el-dropdown trigger="click" @command="handleCommand" @visible-change="visibleChange" class="el-dropdown-bg"
+            :class="{ changeColor }" placement="bottom">
+            <span class="el-dropdown-link">{{ Online
+              }}<i class="el-icon-arrow-down el-icon--right" :class="[{ 'arrow-down-top': isDown }]"></i></span>
             <el-dropdown-menu slot="dropdown" class="dianhua">
-              <el-dropdown-item
-                :class="{ changeColor1: Online == '在线' }"
-                command="在线"
-                >在线</el-dropdown-item
-              >
-              <el-dropdown-item
-                :class="{ changeColor2: Online == '离线' }"
-                command="离线"
-                >离线</el-dropdown-item
-              >
+              <el-dropdown-item :class="{ changeColor1: Online == '在线' }" command="在线">在线</el-dropdown-item>
+              <el-dropdown-item :class="{ changeColor2: Online == '离线' }" command="离线">离线</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -87,19 +46,38 @@
             </li>
           </ul> -->
           <span style="color: #b1b1b1; font-size: 0.14rem">回扫外呼：</span>
-          <el-switch
-            v-model="isPhoneLogin"
-            active-color="#13ce66"
-            inactive-color="#909399"
-            @change="activeFun(isPhoneLogin)"
-          >
+          <el-switch v-model="isPhoneLogin" active-color="#13ce66" inactive-color="#909399"
+            @change="activeFun(isPhoneLogin)">
           </el-switch>
         </div>
-        <div class="jindufive">
+
+        <!-- <div class="jindufive">
           <span class="spanone"><img :src="userphoto" /></span>
           <span class="spantwo">{{ username }}，</span>
           <span class="spantwo" @click="SignOut()">退出</span>
+        </div> -->
+
+
+        <div class="jindufive" style="cursor: pointer;">
+          <el-dropdown trigger="click" placement="bottom" @command="handleuser">
+            <span class="el-dropdown-link">
+              <img :src="userphoto" class="avtarimg" />
+              <span style="color: #b1b1b1;">
+                {{ username }}
+              </span><i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown" class="dianhua" style="margin-top:0px">
+              <el-dropdown-item command="a">更改密码</el-dropdown-item>
+              <el-dropdown-item command="b">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
+
+
+
+
+
+
       </div>
     </div>
     <div class="msg-popover" v-if="centerDialogVisible">
@@ -109,37 +87,16 @@
             <div class="h6">{{ my_data.prompt_msg }}</div>
             <div class="time">{{ my_data.prompt_time }}</div>
           </div>
-          <img
-            :src="my_data.wximgurl"
-            alt=""
-            class="r"
-            v-if="my_data.wximgurl"
-          />
+          <img :src="my_data.wximgurl" alt="" class="r" v-if="my_data.wximgurl" />
         </li>
       </ul>
       <div class="close-btn" @click="handleClose">收回</div>
     </div>
     <div class="content-box">
-      <div
-        class="menu-common"
-        v-if="conditionMenu"
-        :style="{ width: menuWidth }"
-        style=""
-      >
-        <el-menu
-          :default-active="activeIndexLeft"
-          class="el-menu-vertical-demo"
-          :collapse="isCollapse"
-        >
-          <el-menu-item
-            v-for="item in leftMenus"
-            :key="item.menucode"
-            :index="item.menucode"
-          >
-            <sidebar-children
-              :item="item"
-              :base-path="item.path"
-            ></sidebar-children>
+      <div class="menu-common" v-if="conditionMenu" :style="{ width: menuWidth }" style="">
+        <el-menu :default-active="activeIndexLeft" class="el-menu-vertical-demo" :collapse="isCollapse">
+          <el-menu-item v-for="item in leftMenus" :key="item.menucode" :index="item.menucode">
+            <sidebar-children :item="item" :base-path="item.path"></sidebar-children>
           </el-menu-item>
         </el-menu>
       </div>
@@ -147,14 +104,40 @@
         <router-view :key="keyValue" @onSend="onSend"></router-view>
       </div>
     </div>
-    <agent-bar
-      id="call"
-      ref="agentbar"
-      @phoneLogon="phoneLogon"
-      @extensionNumber="extensionNum"
-    ></agent-bar>
+    <agent-bar id="call" ref="agentbar" @phoneLogon="phoneLogon" @extensionNumber="extensionNum"></agent-bar>
 
     <AssignClues></AssignClues>
+
+
+
+    <el-dialog title="修改密码" :visible.sync="iseditDialog" width="30%" center :close-on-click-modal="false">
+
+      <div class="editPassword">
+        <div class="demo-input-suffix">
+          账号：
+          <el-input placeholder="请输入账号" prefix-icon="el-icon-user-solid" v-model="zhanghu">
+          </el-input>
+        </div>
+        <div class="demo-input-suffix">
+          原密码：
+          <el-input placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="oldPassword" show-password>
+          </el-input>
+        </div>
+        <div class="demo-input-suffix">
+          新密码确认：
+          <el-input placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="newPassword" show-password>
+          </el-input>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="iseditDialog = false">取 消</el-button>
+        <el-button type="primary" @click="editDialog">确 定</el-button>
+      </span>
+    </el-dialog>
+
+
+
+
   </div>
 </template>
 
@@ -180,6 +163,10 @@ export default {
   },
   data() {
     return {
+      oldPassword: '',
+      newPassword: '',
+      zhanghu: '',
+      iseditDialog: false,
       isPhoneLogin: false, //是否登录电话
       extensionNumber: "", //分机号码
       url_version: "",
@@ -309,7 +296,7 @@ export default {
             if (_this.Version && _this.Version != res[0].dictList[0].dd_key) {
               _this.$router.push(
                 { path: "/", query: { v: res[0].dictList[0].dd_key } },
-                () => {}
+                () => { }
               );
             }
             _this.$store.commit("DICT_LIST", res[0].dictList[0].dd_key);
@@ -346,17 +333,51 @@ export default {
           });
         } else {
           loading.close();
-          _this.$router.push({ path: "/login" }, () => {});
+          _this.$router.push({ path: "/login" }, () => { });
         }
       })
       .catch((error) => {
         loading.close();
-        _this.$router.push({ path: "/login" }, () => {});
+        _this.$router.push({ path: "/login" }, () => { });
       });
 
     this.mainInit();
   },
   methods: {
+
+    //确认修改密码
+    editDialog() {
+      var _this = this
+      var params = {
+        usercode: this.zhanghu,
+        yuanpassword: this.oldPassword,
+        password: this.newPassword
+      }
+      console.log(params)
+
+      getData("post", my_url + "/crm/auth/psdUpdate.do", function (data) {
+        console.log(data)
+        if (data.code == 0) {
+          _this.$message({
+            duration: 3000,
+            showClose: true,
+            message: "修改成功，退出后请重新登录",
+            type: "error",
+            center: true,
+          });
+        } else {
+          // data.msg
+          _this.$message({
+            duration: 3000,
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            center: true,
+          });
+        }
+      }, params);
+
+    },
     //获取登录用户信息
     getPageHeaderInfo(data) {
       var _this = this;
@@ -413,6 +434,19 @@ export default {
         }
       });
     },
+
+    handleuser(command) {
+      if (command == 'b') {
+        this.SignOut()
+      }
+      if (command == 'a') {
+        this.oldPassword = ''
+        this.newPassword = ''
+        this.zhanghu = ''
+        this.iseditDialog = true
+      }
+    },
+
     SignOut() {
       let _this = this;
       api.logOut().then((data) => {
@@ -425,11 +459,11 @@ export default {
             center: true,
           });
           localStorage.removeItem("isLogin");
-          _this.$router.push("/login", () => {});
+          _this.$router.push("/login", () => { });
         }
         if (data.code == 0) {
           localStorage.removeItem("isLogin");
-          _this.$router.push("/login", () => {});
+          _this.$router.push("/login", () => { });
         }
       });
     },
@@ -478,7 +512,7 @@ export default {
         $(".menu-ui").find("li:first").css({ color: "#fff" });
         _this.$router.push(
           { path: "/", query: { v: _this.$store.state.dictList } },
-          () => {}
+          () => { }
         );
       });
     },
@@ -552,7 +586,7 @@ export default {
         this.isPhoneLogin = false;
         this.extensionNumber = "";
         // this.handleCommand('离线')
-      }else{
+      } else {
         // this.handleCommand('在线')
       }
     },
@@ -603,28 +637,34 @@ export default {
 [v-cloak] {
   display: none;
 }
+
 .menu-common {
   width: 100%;
   height: calc(100% - 0.56rem);
 }
+
 .menu-common .el-menu-vertical-demo {
   position: relative;
   margin-left: 0 !important;
   background: #fff;
   padding-top: 0.22rem;
 }
+
 .menu-common .el-menu--collapse {
   height: 100%;
   width: 50px;
 }
+
 .menu-common .el-menu {
   position: relative;
   box-sizing: border-box;
 }
+
 .menu-common .el-menu span.title {
   display: flex;
   align-items: center;
 }
+
 .menu-common .el-menu span.title img {
   margin-left: 4px;
   margin-top: -2px;
@@ -637,10 +677,12 @@ export default {
 .menu-common .el-submenu__title {
   font-size: 0.14rem !important;
 }
+
 .menu-common .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 100%;
   height: calc(100vh - 0.56rem);
 }
+
 .menu-common .el-menu-item,
 .el-submenu__title {
   height: 0.46rem;
@@ -649,24 +691,27 @@ export default {
   display: flex;
   align-items: center;
 }
+
 .menu-common .el-menu-vertical-demo:not(.el-menu--collapse) .el-menu-item {
   padding: 0 0.2rem 0 0.6rem !important;
 }
-.menu-common
-  .el-menu-vertical-demo:not(.el-menu--collapse)
-  .el-menu-item.is-active {
+
+.menu-common .el-menu-vertical-demo:not(.el-menu--collapse) .el-menu-item.is-active {
   color: #dc220d;
   background: rgba(244, 244, 244, 1) !important;
   border-left: 0.03rem solid #dc220d;
   padding: 0 0.2rem 0 0.57rem !important;
 }
+
 .el-menu-vertical-demo /deep/ .el-menu-item.is-active a {
   color: #dc220d;
 }
+
 .menu-common .el-menu--collapse .el-menu-item.is-active {
   color: #dc220d;
   background: rgba(244, 244, 244, 1);
 }
+
 .menu-common .el-submenu .el-menu-item {
   height: 0.46rem;
   line-height: 0.46rem;
@@ -679,13 +724,14 @@ export default {
   color: #dc220d;
 }
 
-.menu-common .el-menu-item > div {
+.menu-common .el-menu-item>div {
   width: 100%;
 }
 
 .menu-common .el-submenu .el-menu-item a:hover {
   color: #dc220d !important;
 }
+
 .menu-common .el-submenu__title:focus,
 .el-submenu__title:hover {
   background: rgba(244, 244, 244, 1);
@@ -711,20 +757,14 @@ export default {
   border-left: 0.03rem solid #dc220d;
 }
 
-.menu-common
-  .el-menu-vertical-demo:not(.el-menu--collapse)
-  .el-menu-item-group
-  .el-menu-item.is-active {
+.menu-common .el-menu-vertical-demo:not(.el-menu--collapse) .el-menu-item-group .el-menu-item.is-active {
   color: #dc220d;
   background: rgba(244, 244, 244, 1);
   border-left: none;
   padding: 0 0.2rem 0 0.7rem !important;
 }
 
-.menu-common
-  .el-menu-vertical-demo:not(.el-menu--collapse)
-  .el-menu-item-group
-  .el-menu-item {
+.menu-common .el-menu-vertical-demo:not(.el-menu--collapse) .el-menu-item-group .el-menu-item {
   padding: 0 0.2rem 0 0.7rem !important;
 }
 
@@ -736,12 +776,61 @@ export default {
 .menu-common .el-submenu.is-active .el-submenu__title i {
   color: #dc220d;
 }
-#contentBox{
-   position: absolute;
-   right: 0;
-   /* overflow: hidden; */
+
+#contentBox {
+  position: absolute;
+  right: 0;
+  /* overflow: hidden; */
 }
-.menu-common{
-   position: fixed;
+
+.menu-common {
+  position: fixed;
 }
+
+.avtarimg {
+  width: 0.24rem;
+  height: 0.24rem;
+  margin: 0.16rem;
+  overflow: hidden;
+  float: left;
+  border-radius: 50%;
+}
+
+.jindufive span {
+  display: flex;
+  align-items: center;
+  color: #B1B1B1;
+  font-size: 0.14rem;
+}
+
+.editPassword {
+  padding: 30px 20px 0;
+  color: #606266;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+::v-deep .editPassword .el-input__inner {
+  height: 0.5rem;
+  padding-left: 40px !important;
+}
+
+
+.editPassword .demo-input-suffix {
+  margin-bottom: 0.2rem;
+}
+
+
+::v-deep .el-button--primary:hover {
+  color: #FFF;
+  background: #409EFF;
+  border-color: #409EFF;
+}
+
+
+/* ::v-deep .el-button:hover{
+  background: #FFF;
+    border: 1px solid #DCDFE6;
+    color: #606266;
+} */
 </style>

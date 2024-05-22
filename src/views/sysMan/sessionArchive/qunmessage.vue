@@ -2,7 +2,7 @@
     <div class="template containerWidth">
         <div class="staff">
             <header class="headfixed">
-                <div style="margin-bottom: 0.1rem">
+                <div style="margin-bottom: 0.1rem ;font-size: 0.16rem;">
                     群聊-{{ parentData.quncount }}
                 </div>
                 <div class="select-content">
@@ -50,7 +50,7 @@
                     <div class="userbox" style="width:35%">
                         <img src="../../../static/images/qunavatar.png" alt="" class="avatar" />
                         <div class="pBox" style="width: auto;">
-                            <p style="font-size: 0.18rem;">{{ selectfirstName }}</p>
+                            <p style="font-size: 0.15rem;">{{ selectfirstName }}</p>
                         </div>
                         <i class="el-icon-user qunUser" @click="qunDetail"></i>
                     </div>
@@ -558,6 +558,7 @@ export default {
             // 取消请求
             controller.abort()
             var _this = this
+            var jiekouUrl = ''
             this.loading = true;
             if (this.activeName == 'third') {
                 var params = {
@@ -574,10 +575,112 @@ export default {
                 if (lookupdown && lookupdown != '') {
                     params['direction'] = 'front'
                 }
-                var getTalkData = api.getQwQunTalkData(params, this)
+
+                // var getTalkData = api.getQwQunTalkData(params, this)
+                jiekouUrl = "/crm/qwMan/getQwQunTalkData.do"
             }
 
-            getTalkData.then((data) => {
+            // getTalkData.then((data) => {
+            //     if (data.length > 0) {
+            //         _this.seq = data[data.length - 1].seq
+            //         if (_this.funhuiValue && lookupdown && lookupdown != '') {
+            //             data.push(lookupdown)
+            //         }
+            //         for (var i = 0; i < data.length; i++) {
+            //             var aa = i;
+            //             var upaa = i - 1
+            //             if (upaa < 0 || upaa == 0) {
+            //                 upaa = 0
+            //             }
+            //             var firstTime = Date.parse(data[aa].msgtime)
+            //             var upTime = Date.parse(data[upaa].msgtime)
+            //             var nowTime = Date.parse(new Date())
+            //             var timestampValue = Math.abs(firstTime - upTime)
+            //             // 首次
+            //             if (data.length < 20 && aa == 0) {
+            //                 data[data.length - 1]['addtime'] = data[data.length - 1].msgtime
+            //             }
+            //             // 大于5分钟小于1天   大于1天小于10周      大于1周
+            //             if (86400 > timestampValue > 300 || 604800 > timestampValue > 86400 || timestampValue > 604800) {
+            //                 data[upaa]['addtime'] = data[upaa].msgtime
+            //             }
+            //             if (data[i].msgtype == "revoke") {
+            //                 data.splice(i, 1)
+            //             }
+            //             if (data[i].msgtype == "link") {
+            //                 var fileData = JSON.parse(data[i].text)
+            //                 data[i]["link_url"] = fileData.link_url
+            //                 data[i]["title"] = fileData.title
+            //                 data[i]["description"] = fileData.description
+            //                 if (fileData.image_url != '') {
+            //                     data[i]["image_url"] = fileData.image_url
+            //                 } else {
+            //                     data[i]["image_url"] = '../../../static/images/file.jpg'
+            //                 }
+            //             }
+
+            //             if (data[i].msgtype == "file") {
+            //                 var fileData = JSON.parse(data[i].text)
+            //                 data[i]["filepath"] = fileData.filepath
+            //                 data[i]["filename"] = fileData.filename
+
+            //                 let fileSize = (fileData.filesize / 1048576).toFixed(2)
+            //                 data[i]["fileSize"] = fileSize
+
+            //                 if (fileData.image_url != '') {
+            //                     data[i]["image_url"] = fileData.image_url
+            //                 } else {
+            //                     data[i]["image_url"] = '../../../static/images/file.jpg'
+            //                 }
+            //             }
+
+            //             if (data[i].msgtype == "voice") {
+            //                 var voiceData = JSON.parse(data[i].text)
+            //                 data[i]['play_length'] = _this.format(voiceData.play_length)
+            //                 data[i]['filepath'] = voiceData.filepath
+            //             }
+            //             if (data[i].msgtype == "voiptext") {
+            //                 var voiceData = JSON.parse(data[i].text)
+            //                 data[i]['play_length'] = _this.format(voiceData.callduration)
+            //             }
+            //             if (data[i].msgtype == "chatrecord") {
+            //                 var chatrecordData = JSON.parse(data[i].text)
+            //                 data[i]['title'] = chatrecordData.title
+            //                 data[i]['play_length'] = chatrecordData.item.length
+            //             }
+            //             if (searchmsg && searchmsg != '' && !_this.funhuiValue) {
+            //                 _this.requestSearchList.unshift(data[i])
+            //             } else if (_this.funhuiValue) {
+            //                 _this.requestDataList.unshift(data[i])//push 数据到数组中
+            //             } else {
+            //                 _this.requestDataList.unshift(data[i])//push 数据到数组中
+            //             }
+            //         }
+
+            //         if (_this.funhuiValue && lookupdown && lookupdown != '') {
+
+            //         } else {
+            //             _this.scrollHeight = _this.$refs['list'].scrollHeight
+            //             _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight;
+            //             _this.$nextTick(() => {
+            //                 _this.$refs['list'].scrollTop = _this.$refs['list'].scrollHeight - _this.scrollHeight;
+            //             })
+            //         }
+            //         const scrollview = _this.$refs['list'];
+            //         scrollview.addEventListener('scroll', _this.handleScroll, true)
+
+            //     } else {
+            //         _this.noChathistory = false
+            //     }
+            //     _this.loading = false;
+            // }).catch((err) => {
+            //     _this.loading = false;
+            //     console.log(err)
+            //     // alert('访问超时了,请刷新后重新查看')
+            // })
+
+
+            getData("post", my_url + jiekouUrl, function (data) {
                 if (data.length > 0) {
                     _this.seq = data[data.length - 1].seq
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
@@ -670,11 +773,12 @@ export default {
                     _this.noChathistory = false
                 }
                 _this.loading = false;
-            }).catch((err) => {
-                _this.loading = false;
-                console.log(err)
-                alert('访问超时了,请刷新后重新查看')
-            })
+
+            }, params)
+
+
+
+
         },
 
 
@@ -1007,11 +1111,12 @@ export default {
 }
 
 .pBox p:first-child {
-    font-size: 0.16rem;
+    font-size: 0.15rem;
 }
 
 .pBox p:last-child {
-    font-size: 0.12rem;
+    font-size: 0.13rem;
+    margin-top: 5px;
 }
 
 ::v-deep .el-tree-node__content {
@@ -1125,7 +1230,7 @@ export default {
 }
 
 .lastText {
-    width: 1.5rem;
+    width: 1.2rem;
     display: block;
     position: relative;
     overflow: hidden;
@@ -1697,5 +1802,9 @@ export default {
     text-align: center;
     color: #1890ff;
     border: 1px solid #1890ff;
+}
+
+::v-deep .el-date-editor .el-range__icon {
+    margin-left: 0px;
 }
 </style>

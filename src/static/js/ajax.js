@@ -2,10 +2,13 @@ import axios from 'axios';
 import $ from 'jquery';
 export var my_url = '';
 export var crm_url = 'https://';
-
+var request;
 export function getData(type, url, callback, params) {
 	var params = params || {};
-	$.ajax({
+	if (request) {
+		request.abort();
+	}
+	request = $.ajax({
 		type: type,
 		async: true,
 		url: url,
@@ -21,7 +24,7 @@ export function getData(type, url, callback, params) {
 		//dataType : "jsonp",
 		//jsonp: "jsonpCallback",
 		// dataType: 'jsonp',  // 请求方式为jsonp
-    // crossDomain: true,
+		// crossDomain: true,
 		success: function (data) {
 			var obj = JSON.parse(data);
 			callback(obj);
@@ -51,4 +54,3 @@ export function getPhoneData(type, url, callback, params) {
 		}
 	});
 };
-

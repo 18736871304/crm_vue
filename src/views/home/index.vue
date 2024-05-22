@@ -469,7 +469,7 @@
             <div class="shu-xian "></div>
           </li>
           <li style="position: relative" class="border_b">
-            <p class="container_listthree_po">配置方案
+            <p class="container_listthree_po">保单检视
               <el-tooltip popper-class="atooltip" effect="light" content="在统计周期内，跟进状态变更为计划书的客户数量" placement="top">
                 <span></span>
               </el-tooltip>
@@ -485,7 +485,7 @@
             <div class="shu-xian "></div>
           </li>
           <li style="position: relative" class="border_b">
-            <p class="container_listthree_po">认清市场
+            <p class="container_listthree_po">计划书
               <el-tooltip popper-class="atooltip" effect="light" content="在统计周期内，跟进状态变更为认清市场的客户数量" placement="top">
                 <span></span>
               </el-tooltip>
@@ -501,7 +501,7 @@
             <div class="shu-xian "></div>
           </li>
           <li style="position: relative" class="border_b">
-            <p class="container_listthree_po">渠道服务
+            <p class="container_listthree_po">理赔服务
               <el-tooltip popper-class="atooltip" effect="light" content="在统计周期内，跟进状态变更为合同理赔的客户数量" placement="top">
                 <span></span>
               </el-tooltip>
@@ -3054,5 +3054,9 @@ export default {
 }
 .container_left_two_d {
   margin: 0.2rem 0.3rem 0 0.3rem;
+}
+
+.date_cntent .canyu{
+   width:100%;
 }
 </style>

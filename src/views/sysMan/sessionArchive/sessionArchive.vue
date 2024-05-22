@@ -72,6 +72,9 @@ export default {
   margin-left: 0.3rem;
   margin-right: 0.3rem;
 }
+::v-deep .el-tabs__item{
+   font-size: 0.15rem;
+}
 
 .qunUser {
   margin-left: 0.2rem;
