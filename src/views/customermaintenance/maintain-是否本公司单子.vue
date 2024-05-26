@@ -28,31 +28,49 @@
           </div>
         </div>
 
-        <div class="common-select">
+        <div class="common-select"  v-if="CJGselectValue == '服务客户'" >
+          <div class="select-title" style="width: 1.38rem">
+            是否本公司单子
+          </div>
+          <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+            <el-select class="el-select-inners" v-model="istuoguan" size="mini" placeholder="">
+              <el-option v-for="(item, index) in istuoguanList" :key="index" :label="item.dd_value" :value="item.dd_key">
+              </el-option>
+            </el-select>
+          </div>
+
+        </div>
+        <div class="common-select"   style="float: right; width:11%">
           <div class="search-btn" @click="search(1)">搜索</div>
-          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="screenReset">重置</div>
+          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);"
+            @click="screenReset">重置</div>
         </div>
       </div>
     </div>
-    <!-- v-loading="loading" -->
     <div class="table-box">
-      <el-table  :data="tableData" border  style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange" class="splice-header">
+      <el-table v-if="CJGselectValue == '服务客户' || CJGselectValue == '生日保单'" :data="tableData" border v-loading="loading"
+        style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange" class="splice-header">
         <el-table-column key="2" align="center" type="index" label="序号" width="60">
         </el-table-column>
-        <!-- <el-table-column key="3" label="客户姓名" width="100" align="center" :show-overflow-tooltip="true">
+        <el-table-column key="3" label="客户姓名" width="100" align="center" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <a style="cursor: pointer; color: #8f9198" type="text" size="small" @click="handle(scope.row)">{{
-                scope.row.name || "空" }}</a>
+              scope.row.name || "空" }}</a>
           </template>
         </el-table-column>
+        <!-- <el-table-column key="4" align="center" prop="mobile" label="电话号码" width="120">
+        </el-table-column> -->
+
         <el-table-column key="4" align="center" label="电话号码" width="140" :show-overflow-tooltip="true">
           <template slot-scope="scope">
+            <!-- <a class="call-a" href="javascript:void(0);" v-if="queryflagString == 02">{{scope.row.mobile}}</a> -->
             <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)">
               {{ scope.row.mobile }}
               <img style="margin-left: 5px;" src="../../static/images/call-icon.png" />
             </span>
           </template>
         </el-table-column>
+
         <el-table-column key="5" align="center" prop="wxno" label="微信号" width="100" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="6" align="center" prop="reusername" label="出单业务员" width="110">
@@ -67,6 +85,7 @@
             </p>
           </template>
         </el-table-column>
+
         <el-table-column key="7" align="center" prop="serusername[0]" label="服务人员" width="100">
           <template slot-scope="scope">
             <div class="edit option tan_seruser" style="display: flex;justify-content: center;color: #8f9198;">
@@ -91,9 +110,14 @@
               </el-tooltip>
             </p>
           </template>
-        </el-table-column> -->
+        </el-table-column>
 
         <el-table-column key="8" align="center" prop="sex" label="性别" width="80">
+        </el-table-column>
+        <el-table-column key="33" v-if="CJGselectValue == '生日保单'" align="center" prop="birthday" label="客户生日" width="155">
+        </el-table-column>
+        <el-table-column key="9" v-if="CJGselectValue == '服务客户'" align="center" prop="age" label="年龄" width="80"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="10" align="center" prop="policycount" label="保单数量" width="80">
         </el-table-column>
@@ -101,9 +125,11 @@
         </el-table-column>
         <el-table-column key="12" align="center" prop="makedate" label="线索产生时间" width="155" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="34" align="center" prop="cusdealtime" label="客户成交时间" width="155" :show-overflow-tooltip="true">
+        <el-table-column key="34" align="center" prop="cusdealtime" label="客户成交时间" width="155"
+          :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="35" align="center" prop="cusdealperiod" label="客户成交周期" width="100" :show-overflow-tooltip="true">
+        <el-table-column key="35" align="center" prop="cusdealperiod" label="客户成交周期" width="100"
+          :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="13" align="center" prop="batchno" label="批次号" width="140">
         </el-table-column>
@@ -111,14 +137,90 @@
         </el-table-column>
 
       </el-table>
+      <el-table v-if="CJGselectValue == '失效保单' || CJGselectValue == '终止保单'" :data="tableData" ref="multipleTable" border
+        v-loading="loading" style="width: 100%;" @selection-change="handleSelectionChange" @sort-change="sortChange"
+        class="splice-header">
+        <el-table-column key="61" align="center" type="index" label="序号" width="60">
+        </el-table-column>
+        <el-table-column key="15" align="center" prop="accepttime" label="出单日期" width="155" :show-overflow-tooltip="true">
+        </el-table-column>
 
+        <el-table-column key="16" align="center" prop="reusername" label="出单业务员" width="100"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="60" align="center" prop='serviceusername' label="服务人员" width="100"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+
+        <el-table-column key="18" align="center" prop="contno" label="保单号" width="150" :show-overflow-tooltip="true">
+          <!-- <template slot-scope="scope">
+            <el-tag type="success" v-if="scope.row.isxubao == '05'" size="mini">续</el-tag>
+            {{scope.row.contno}}
+          </template> -->
+        </el-table-column>
+        <el-table-column key="19" align="center" prop="statename" label="保单状态" width="80" :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="20" align="center" prop="insorganname" label="保险公司" width="130"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="21" align="center" prop="riskname" label="险种名称" width="200" :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key=22 align="center" prop="appname" label="投保人姓名" width="100" :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="33" align="center" label="投保人手机号" width="140" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <!-- <a class="call-a" href="javascript:void(0);" v-if="queryflagString == 02">{{scope.row.appphone}}</a> -->
+            <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)">
+              {{ scope.row.appphone }}
+              <img style="margin-left: 5px;" src="../../static/images/call-icon.png" />
+            </span>
+          </template>
+        </el-table-column>
+
+        <el-table-column key="23" align="center" prop="appprovincename" label="投保人所在省" width="120"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="24" align="center" prop="appcityname" label="投保人所在市" width="120"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="25" align="center" prop="insname" label="被保人姓名" width="100" :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="26" align="center" prop="payintvvalue" label="缴费方式" width="80"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="27" align="center" prop="payendyearvalue" label="缴费年期" width="80"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="28" align="center" prop="insuyearvalue" label="保障期限" width="80"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="29" align="center" prop="prem" label="保费" width="80" :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="30" align="center" prop="activitychannelname" label="渠道类型" width="80"
+          :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column key="31" align="center" prop="typename" label="电子保单" width="80" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <a v-if='scope.row.policyurl' class="edit option" target="_blank" :href="scope.row.policyurl"
+              style="color: #8F9198;">下载</a>
+            <a v-else class="edit option" target="_blank" :href="scope.row.policyurl"></a>
+          </template>
+        </el-table-column>
+        <el-table-column key="32" align="center" label="查看详情" width="100">
+          <template slot-scope="scope">
+            <a class="edit option" href="javascript:void(0);" style="color: #4985E5;"
+              @click="showEditPopup(scope.row)">查看详情</a>
+          </template>
+        </el-table-column>
+      </el-table>
       <div style="margin-top: 20px; ">
-        <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
+        <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize"
+          :current-page="pageNum" @current-change="pageClick">
         </el-pagination>
       </div>
     </div>
     <!-- 侧拉窗口 -->
-    <!-- <el-drawer title="我是标题" size='70%' custom-class="customer-drawer" :visible.sync="drawer" :with-header="false">
+    <el-drawer title="我是标题" size='70%' custom-class="customer-drawer" :visible.sync="drawer" :with-header="false">
       <div class="drawerLeft" style="width: 41%;">
         <div class="left_box">
           <div class="header">
@@ -164,7 +266,8 @@
                 <span class="dd">电话号码</span>
                 <span class="dd">
                   <el-popover placement="bottom" width="225" trigger="click" v-model="addMobliePopVisible">
-                    <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px" @input="addMoblieChange">
+                    <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px"
+                      @input="addMoblieChange">
                     </el-input>
 
                     <div class="mobile_input_box" v-show="mobileInputShow">
@@ -184,7 +287,8 @@
                       <el-input placeholder="请输入" size="mini" v-model="detailsInfo.mobilestr">
                       </el-input>
 
-                      <span @click="addMobliePopVisible = !addMobliePopVisible" class="icon_arr"><i class="el-select__caret el-input__icon el-icon-arrow-down"></i></span>
+                      <span @click="addMobliePopVisible = !addMobliePopVisible" class="icon_arr"><i
+                          class="el-select__caret el-input__icon el-icon-arrow-down"></i></span>
                     </template>
                   </el-popover>
 
@@ -202,10 +306,12 @@
               <div class="editContent_c editContent_box editContent_date" style=" font-size: 0.13rem;">
                 <span class="dd">出生日期</span>
                 <span class="dd">
-                  <el-date-picker v-model="ceBirthday" type="date" size="mini" placeholder="请输入出生年月" class="difPicker" clearable style="width: 100%;" value-format="yyyy-MM-dd">
+                  <el-date-picker v-model="ceBirthday" type="date" size="mini" placeholder="请输入出生年月" class="difPicker"
+                    clearable style="width: 100%;" value-format="yyyy-MM-dd">
                   </el-date-picker>
                 </span>
               </div>
+
 
               <div class="editContent_b editContent_box">
                 <span class="dd">微信号</span>
@@ -213,9 +319,23 @@
                   <el-input placeholder="请输入" size="mini" v-model="detailsInfo.wxno">
                   </el-input>
                 </span>
-     
+                <!-- <div class="editContent_box_r">
+                  <span>邮箱</span>
+                  <span>
+                    <el-input placeholder="请输入" size="mini" v-model="detailsInfo.email">
+                    </el-input>
+                  </span>
+                </div> -->
               </div>
-       
+              <!-- <div class="editContent_b editContent_box">
+                <div class="editContent_box_l" style="width: 100%;">
+                  <span class="dd">详细地址</span>
+                  <span class="dd">
+                    <el-input placeholder="请输入" size="mini" v-model="detailsInfo.address">
+                    </el-input>
+                  </span>
+                </div>
+              </div> -->
             </div>
           </div>
           <div class="condition">
@@ -224,14 +344,16 @@
                 <div class="select-title" style="width: 0.8rem">转其他库</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
                   <el-select class="el-select-inners" v-model="editInfo.otherstore" size="mini" placeholder="" clearable>
-                    <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
+                    <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value"
+                      :value="item.dd_key"></el-option>
                   </el-select>
                 </div>
               </div>
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">共享客户</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0;">
-                  <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
+                  <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false"
+                    :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
                 </div>
               </div>
               <div class="common-select">
@@ -245,8 +367,10 @@
               </div>
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">预约回访</div>
-                <div class="select-content" style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0; border: none">
-                  <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini" placeholder="" :picker-options="previstitimePickerOptions" clearable>
+                <div class="select-content"
+                  style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0; border: none">
+                  <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini"
+                    placeholder="" :picker-options="previstitimePickerOptions" clearable>
                   </el-date-picker>
                 </div>
               </div>
@@ -263,7 +387,19 @@
                 <span :title="detailsInfo.makedate">线索产生时间：{{ detailsInfo.makedate }}</span>
                 <span :title="detailsInfo.channelname">渠道类型：{{ detailsInfo.channelname }}</span>
               </div>
-             
+              <!-- <div class="cb">
+                <span :title="detailsInfo.planid">广告计划ID：{{detailsInfo.planid}}</span>
+              </div>
+              <div class="cb">
+                <span :title="detailsInfo.planname">
+                  广告计划名称：<a style="cursor: pointer; color: #578EE7;" href="#"
+                    @click="disVideoUrl(detailsInfo)">{{detailsInfo.planname}}</a>
+                </span>
+              </div>
+              <div class="cc">
+                <span :title="detailsInfo.module_id">组件ID：{{detailsInfo.module_id}}</span>
+                <span :title="detailsInfo.module_name">组件名称：{{detailsInfo.module_name}}</span>
+              </div> -->
               <div class="cc">
                 <span :title="detailsInfo.clue_sourcename">线索来源：{{ detailsInfo.clue_sourcename }}</span>
                 <span :title="detailsInfo.appname">流量来源：{{ detailsInfo.appname }}</span>
@@ -274,7 +410,7 @@
               <div class="cb" style="width: 90%;">
                 <span :title="detailsInfo.pageurl">
                   推广页面：<a style="cursor: pointer; color: #578EE7;" href="#" @click="disPageUrl(detailsInfo)">{{
-                      detailsInfo.pageurl }}</a>
+                    detailsInfo.pageurl }}</a>
                 </span>
               </div>
             </div>
@@ -298,9 +434,12 @@
                 </el-table-column>
                 <el-table-column align="center" label="录音" width="70">
                   <template slot-scope="scope" v-if="scope.row.recordurl">
-                    <img class="play-icon" src="../../static/images/pause-icon.png" alt="" @click="audioPause(scope.$index)" v-if="!audioPaused && scope.$index === currentCallIndex">
-                    <img class="play-icon" src="../../static/images/play-icon.png" alt="" @click="audioPlay(scope.$index)" v-else>
-                    <a style="margin-left: 8px;font-size: 15px;vertical-align: middle;" :href="scope.row.recordurl" :download="scope.row.username + '_' + detailsInfo.name + '_' + scope.row.calltimeType" title="下载">
+                    <img class="play-icon" src="../../static/images/pause-icon.png" alt=""
+                      @click="audioPause(scope.$index)" v-if="!audioPaused && scope.$index === currentCallIndex">
+                    <img class="play-icon" src="../../static/images/play-icon.png" alt="" @click="audioPlay(scope.$index)"
+                      v-else>
+                    <a style="margin-left: 8px;font-size: 15px;vertical-align: middle;" :href="scope.row.recordurl"
+                      :download="scope.row.username + '_' + detailsInfo.name + '_' + scope.row.calltimeType" title="下载">
                       <i class="el-icon-download"></i>
                     </a>
                   </template>
@@ -311,12 +450,19 @@
         </div>
       </div>
 
+
       <div class="drawerRight" style="width: 31%;">
         <div class="title">
           <span></span>
           <span>跟进记录</span>
         </div>
-      
+        <!-- <div class="cjg-search-section " style="display: flex; justify-content: center;align-items: center;">
+          <el-select v-model="cjgTitle" :loading="loading" filterable remote :remote-method="remoteMethod"
+            placeholder="搜索藏经阁内容" @change="cjgChange" @focus="cjgfocus" class="cjgserach" style="width: 100%;">
+            <el-option v-for="item in cjgList" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </div> -->
         <div class="inputBox">
           <el-input v-model="followrecord" id="textarea" type="textarea" placeholder="添加跟进记录…"></el-input>
         </div>
@@ -337,7 +483,8 @@
               <div class="li_b">
                 <div class="li_b_l" :title="item.name">{{ item.oprname }}</div>
                 <div class="li_b_r">{{ item.makedate }} 创建
-                  <span class="mobile-icon el-icon-delete" @click="deleteRemark(item.remarkserialno)" style="color:#979797"></span>
+                  <span class="mobile-icon el-icon-delete" @click="deleteRemark(item.remarkserialno)"
+                    style="color:#979797"></span>
                 </div>
 
               </div>
@@ -345,6 +492,7 @@
           </ul>
         </div>
       </div>
+
 
       <div class="drawerRight isDealed" style="width: 28%;">
         <div class="title">
@@ -355,7 +503,8 @@
           <li class="item" v-for="(item, index) in policyList" :key="index">
             <div class="head">
               <div class="txt" @click="showEditPopup(item)">{{ item.riskname }}</div>
-              <div class="status" :class="[item.status === 'processing' ? 'processing' : '', item.status === 'invalid' ? 'invalid' : '', item.status === 'cancel' ? 'cancel' : '']">
+              <div class="status"
+                :class="[item.status === 'processing' ? 'processing' : '', item.status === 'invalid' ? 'invalid' : '', item.status === 'cancel' ? 'cancel' : '']">
                 <template v-if="item.status === 'effective'">保障中</template>
                 <template v-if="item.status === 'processing'">待处理</template>
                 <template v-if="item.status === 'invalid'">已失效</template>
@@ -407,14 +556,15 @@
           </li>
         </ul>
       </div>
-    </el-drawer> -->
+    </el-drawer>
     <!-- 录音播放器 -->
     <audio :src="audioSrc" ref="audio1"></audio>
     <!-- 查看详情弹窗 -->
-    <view-details :datas="detailObj" :showEditPopupDialogVisible.sync="showEditPopupDialogVisible" @updateVisible="updateVisibleId"></view-details>
+    <view-details :datas="detailObj" :showEditPopupDialogVisible.sync="showEditPopupDialogVisible"
+      @updateVisible="updateVisibleId"></view-details>
   </div>
 </template>
-  <script>
+<script>
 import viewDetails from "../../components/viewDetails.vue";
 import moment from "../../static/js/moment.js"
 import { getData, my_url, crm_url } from '../../static/js/ajax.js';
@@ -462,6 +612,14 @@ export default {
         dd_value: '女',
         dd_key: '1'
       }],
+      istuoguan:'',
+      istuoguanList:[{
+        dd_value: '是',
+        dd_key: 'N'
+      }, {
+        dd_value: '否',
+        dd_key: 'Y'
+      }],
       //修改被保人
       editRelatoapp: "",
       editinName: '',
@@ -474,7 +632,7 @@ export default {
       visitstateList: [], //回访状态列表
       editvisitstate: '', //回访状态
       //侧拉
-      // drawer: false,
+      drawer: false,
       detailsInfo: '',
       mobileInputShow: false,
       activitytag: '', //标签
@@ -604,13 +762,19 @@ export default {
     var val = this.$route.query.type || '01';
     if (val == '01') {
       this.CJGselectValue = '服务客户'
+    } else if (val == '02') {
+      this.CJGselectValue = '失效保单'
+    } else if (val == '03') {
+      this.CJGselectValue = '终止保单'
+    } else if (val == '04') {
+      this.CJGselectValue = '生日保单'
     }
-    // this.getConditionData();
-    // this.getIsCall();
+    this.getConditionData();
+    this.getIsCall();
     this.search(1); //搜索
   },
   methods: {
-    // 筛选查询保单   /crm_web/getPolicyList.do
+    // 筛选查询保单
     search(page) {
       var _this = this
       this.loading = true
@@ -620,56 +784,75 @@ export default {
       } else {
         cuswxno = this.cusMobileWxno
       }
-
       getData('post', my_url + '/crm/auth/getToken.do', data => {
-        console.log(data)
-
-
         if (data.code == 0) {
-          var tabData = {
-            "token": data.token,
-            "contno": this.contno.trim(),
-            // "name": this.cusname,
-            // "mobile": cusmobile.trim(),
-            // "wxno": cuswxno,
-            "cusname": this.cusname,
-            "cusmobile": cusmobile.trim(),
-            "wxno": cuswxno,
-            "pageNumber": page,
-            "pageSize": this.pageSize,
-            "menutype": "75000000",
-            isbirthdayquery: 'Y',
-            isidquery: "Y",
-            // "followupstep": "'07'"
+          var tabData = {}
+          var inteUrl = ''
+          if (_this.CJGselectValue == '服务客户' || _this.CJGselectValue == '生日保单') {
+            tabData = {
+              // "token": data.token,
+              "contno": this.contno.trim(),
+              // "name": this.cusname,
+              // "mobile": cusmobile.trim(),
+              // "wxno": cuswxno,
+              "cusname": this.cusname,
+              "cusmobile": cusmobile.trim(),
+              "wxno": cuswxno,
+              "pageNumber": page,
+              "pageSize": this.pageSize,
+              "menutype": "75000000",
+              // "followupstep": "'07'"
+            }
+            if (_this.CJGselectValue == '生日保单') {
+              tabData['isbirthdayquery'] = "Y"
+            } else {
+              tabData['isidquery'] = "Y"
+              tabData['istuoguan'] = _this.istuoguan
+            }
+            inteUrl = my_url + '/crm/activity/getClienServerList.do'
+          } else if (_this.CJGselectValue == '失效保单' || _this.CJGselectValue == '终止保单') {
+            tabData = {
+              "token": data.token,
+              "contno": this.contno.trim(),
+              "cusname": this.cusname,
+              "cusmobile": cusmobile.trim(),
+              "wxno": cuswxno,
+              "pageNumber": page,
+              "pageSize": this.pageSize,
+            }
+            tabData['state'] = "74"
+            if (_this.CJGselectValue == '终止保单') {
+              // tabData['state'] = "70','72','73','75"  //72犹豫期退保
+              tabData['state'] = "70','73','75"
+            }
+            inteUrl = crm_url + 'insure.meihualife.com/crm_web/getPolicyList.do'
           }
-          getData('post', crm_url + 'insure.meihualife.com/crm_web/getPolicyList.do', function (data) {
-            console.log('1213')
-            console.log(data)
-            // _this.loading = false
+          getData('post', inteUrl, function (data) {
+            _this.loading = false
             let {
               rows,
               total
             } = data;
+            console.log(data)
+            const genderArr = ['男', '女']
+            if (rows) {
+              rows.forEach(res => {
+                if (res.channel == "8001") {
+                  res['channelname'] = res.channeldetailname
+                }
+                if (res.birthday) {
+                  var birthday = res.birthday
+                  res.birthday = birthday.split(" ")[0]
+                }
 
-            // const genderArr = ['男', '女']
-            // if (rows) {
-            //   rows.forEach(res => {
-            //     if (res.channel == "8001") {
-            //       res['channelname'] = res.channeldetailname
-            //     }
-            //     if (res.birthday) {
-            //       var birthday = res.birthday
-            //       res.birthday = birthday.split(" ")[0]
-            //     }
-
-            //     if (res.appidno) {
-            //       res["sex"] = genderArr[res.appidno.substr(16, 1) % 2]
-            //       res["sex"] = genderArr[res.appidno.substr(16, 1) % 2]
-            //       res["chu"] = res.appidno.substr(6, 4) + '-' + res.appidno.substr(10, 2) + '-' + res.appidno.substr(12, 2)
-            //       res["age"] = _this.getAgeByBirthday(res.appidno.substr(6, 4) + '-' + res.appidno.substr(10, 2) + '-' + res.appidno.substr(12, 2))
-            //     }
-            //   })
-            // }
+                if (res.appidno) {
+                  res["sex"] = genderArr[res.appidno.substr(16, 1) % 2]
+                  res["sex"] = genderArr[res.appidno.substr(16, 1) % 2]
+                  res["chu"] = res.appidno.substr(6, 4) + '-' + res.appidno.substr(10, 2) + '-' + res.appidno.substr(12, 2)
+                  res["age"] = _this.getAgeByBirthday(res.appidno.substr(6, 4) + '-' + res.appidno.substr(10, 2) + '-' + res.appidno.substr(12, 2))
+                }
+              })
+            }
             console.log(rows)
             _this.tableData = rows
             _this.pageTotal = total
@@ -679,19 +862,19 @@ export default {
     },
 
 
-    // getAgeByBirthday(birth) {
-    //   let age = 0
-    //   const birthYear = birth.substr(0, 4)
-    //   const birthMonth = birth.substr(5, 2)
-    //   const birthDay = birth.substr(8, 2)
-    //   const nowDate = new Date()
-    //   const nowYear = nowDate.getFullYear()
-    //   const nowMonth = nowDate.getMonth() + 1
-    //   const nowDay = nowDate.getDate()
-    //   age = nowYear - birthYear
-    //   if (nowMonth < Number(birthMonth) || (nowMonth == Number(birthMonth) && nowDay < Number(birthDay))) age--
-    //   return age
-    // },
+    getAgeByBirthday(birth) {
+      let age = 0
+      const birthYear = birth.substr(0, 4)
+      const birthMonth = birth.substr(5, 2)
+      const birthDay = birth.substr(8, 2)
+      const nowDate = new Date()
+      const nowYear = nowDate.getFullYear()
+      const nowMonth = nowDate.getMonth() + 1
+      const nowDay = nowDate.getDate()
+      age = nowYear - birthYear
+      if (nowMonth < Number(birthMonth) || (nowMonth == Number(birthMonth) && nowDay < Number(birthDay))) age--
+      return age
+    },
 
     // 筛选项值为空
     screenReset() {
@@ -702,7 +885,7 @@ export default {
     },
     handle(item) {
       console.log(item)
-      // this.drawer = true;
+      this.drawer = true;
 
       this.ceBirthday = item.chu
       this.ceMobile = item.mobile
@@ -789,7 +972,7 @@ export default {
           });
         }
         loading.close();
-        // _this.drawer = false;
+        _this.drawer = false;
       }, params);
     },
 
@@ -1030,53 +1213,53 @@ export default {
         mobile: this.ceMobile
       });
     },
-    // // 跟进记录
-    // getReleaseData() { //发布的列表
-    //   let _this = this;
-    //   let params = {
-    //     activityserialno: this.ceActivityserialno
-    //   }
-    //   getData('post', my_url + '/crm/activity/getRemarkList.do', function (data) {
-    //     let {
-    //       total,
-    //       rows
-    //     } = data;
-    //     _this.releaseNum = rows.length;
-    //     rows.forEach(res => {
-    //       if (res.name) {
-    //         res.name = _this.detailsInfo.name;
-    //       }
-    //       res.remark = res.remark.replace(/:/g, '：');
-    //     })
-    //     _this.records = rows;
+    // 跟进记录
+    getReleaseData() { //发布的列表
+      let _this = this;
+      let params = {
+        activityserialno: this.ceActivityserialno
+      }
+      getData('post', my_url + '/crm/activity/getRemarkList.do', function (data) {
+        let {
+          total,
+          rows
+        } = data;
+        _this.releaseNum = rows.length;
+        rows.forEach(res => {
+          if (res.name) {
+            res.name = _this.detailsInfo.name;
+          }
+          res.remark = res.remark.replace(/:/g, '：');
+        })
+        _this.records = rows;
 
-    //   }, params);
-    // },
-    // // 删除跟进纪录
-    // deleteRemark(id) {
-    //   let _this = this;
-    //   let params = {
-    //     remarkid: id,
-    //   }
-    //   getData('post', my_url + '/crm/activity/activityRemarkDelete.do', function (data) {
-    //     if (data.code == 0) {
-    //       _this.$message({
-    //         showClose: true,
-    //         message: '删除成功!',
-    //         duration: 3000,
-    //         type: 'success'
-    //       });
-    //       _this.getReleaseData();
-    //     } else {
-    //       _this.$message({
-    //         showClose: true,
-    //         message: data.msg,
-    //         duration: 3000,
-    //         type: 'error'
-    //       });
-    //     }
-    //   }, params);
-    // },
+      }, params);
+    },
+    // 删除跟进纪录
+    deleteRemark(id) {
+      let _this = this;
+      let params = {
+        remarkid: id,
+      }
+      getData('post', my_url + '/crm/activity/activityRemarkDelete.do', function (data) {
+        if (data.code == 0) {
+          _this.$message({
+            showClose: true,
+            message: '删除成功!',
+            duration: 3000,
+            type: 'success'
+          });
+          _this.getReleaseData();
+        } else {
+          _this.$message({
+            showClose: true,
+            message: data.msg,
+            duration: 3000,
+            type: 'error'
+          });
+        }
+      }, params);
+    },
     getIsCall() {
       let _this = this;
       getData('post', my_url + '/crm/common/getIsCall.do', function (data) { //渠道类型
@@ -1207,16 +1390,16 @@ export default {
   }
 }
 
-  </script>
-  <style src="../../static/css/drawer.css"></style>
-  <style>
+</script>
+<style src="../../static/css/drawer.css"></style>
+<style>
 .el-drawer__body {
   display: flex;
 }
 
 /* .el-dialog .el-dialog__body {
-    padding: 0;
-  } */
+  padding: 0;
+} */
 
 .head .txt {
   cursor: pointer;

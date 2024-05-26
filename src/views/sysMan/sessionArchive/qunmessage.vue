@@ -3,7 +3,7 @@
         <div class="staff">
             <header class="headfixed">
                 <div style="margin-bottom: 0.1rem ;font-size: 0.16rem;">
-                    群聊-{{ parentData.quncount }}
+                    群聊 - {{ parentData.quncount }}
                 </div>
                 <div class="select-content">
                     <div class="searchName" style="width: 100%;">
@@ -61,7 +61,7 @@
                             </el-input>
                         </div>
                     </div>
-                    <div class="common-select" style="width:30%">
+                    <div class="common-select" style="width:25%">
                         <div class="select-content" style="height: 0.34rem; width: 3.2rem;  border: none">
                             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange"
                                 align="right" :disabled="dateVale" size="mini" unlink-panels range-separator="-"
@@ -244,7 +244,7 @@
 
                 <div class="drawerbigbox">
                     <div class="usersmallbox">
-                        <p>群成员-{{ inqunList.length + exqunList.length }}</p>
+                        <p>群成员 - {{ inqunList.length + exqunList.length }}</p>
                     </div>
                     <div class="userList">
                         <div class="userItem" v-for=" item of inqunList" :key="item.name">
@@ -270,7 +270,7 @@
 </template>
 <script>
 import api from "../../../utils/api.js";
-import { getData, my_url } from "../../../static/js/ajax.js";
+import { getData,getDataOne, my_url } from "../../../static/js/ajax.js";
 import { formatDate } from "../../../static/js/common.js";
 import BenzAMRRecorder from 'benz-amr-recorder';
 import _ from 'lodash';
@@ -680,7 +680,7 @@ export default {
             // })
 
 
-            getData("post", my_url + jiekouUrl, function (data) {
+            getDataOne("post", my_url + jiekouUrl, function (data) {
                 if (data.length > 0) {
                     _this.seq = data[data.length - 1].seq
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
@@ -1000,7 +1000,7 @@ export default {
 }
 
 .ChatRecords {
-    width: 70%;
+    width: 85%;
     height: calc(100vh - 1.6rem);
     border-left: 1px solid #E4E7ED;
     background: #fff;
@@ -1241,7 +1241,7 @@ export default {
 .headRecords {
     height: 0.7rem;
     padding: 0;
-    width: 58%;
+    width: 72%;
     border-bottom: 1px solid #E4E7ED;
     /* padding:0.2rem 0.2rem 0; */
     display: flex;
@@ -1764,7 +1764,7 @@ export default {
 
 .exUser {
     margin-top: 0.3rem;
-    font-size: 12px;
+    font-size: 0.14rem;
     color: rgba(0, 0, 0, .45);
 }
 
@@ -1773,7 +1773,7 @@ export default {
     height: 0.25rem;
     background: #f6f6f6;
     border-radius: 2px;
-    font-size: 12px;
+    font-size: 0.14rem;
     margin-top: 8px;
     display: -webkit-box;
     display: flex;

@@ -4,7 +4,7 @@
         <div class="staff">
             <header class="headfixed">
                 <div style="margin-bottom: 0.1rem ;font-size: 0.16rem;">
-                    客户-{{ parentData.cuscount }}
+                    客户 - {{ parentData.cuscount }}
                 </div>
                 <div class="select-content" style="margin-top: 0.1rem; ">
                     <div class="searchName" style="width: 100%;">
@@ -475,7 +475,7 @@
 <script>
 import axios from "axios";
 import api from "../../../utils/api.js";
-import { getData, my_url } from "../../../static/js/ajax.js";
+import { getData, getDataOne,my_url } from "../../../static/js/ajax.js";
 import { formatDate } from "../../../static/js/common.js";
 import BenzAMRRecorder from 'benz-amr-recorder';
 import _ from 'lodash';
@@ -889,7 +889,7 @@ export default {
             //     // alert('访问超时了,请刷新后重新查看')
             // })
 
-            getData("post", my_url + jiekouUrl, function (data) {
+            getDataOne("post", my_url + jiekouUrl, function (data) {
                 if (data.length > 0) {
                     _this.seq = data[data.length - 1].seq
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
@@ -2157,7 +2157,7 @@ export default {
 
 .exUser {
     margin-top: 0.3rem;
-    font-size: 12px;
+    font-size: 0.14rem;
     color: rgba(0, 0, 0, .45);
 }
 
@@ -2166,7 +2166,7 @@ export default {
     height: 0.25rem;
     background: #f6f6f6;
     border-radius: 2px;
-    font-size: 12px;
+    font-size: 0.14rem;
     margin-top: 8px;
     display: -webkit-box;
     display: flex;

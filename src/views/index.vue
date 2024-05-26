@@ -2,8 +2,7 @@
   <div id="containerBox" class="containerBox" v-cloak>
     <div class="menu-box clearfix">
       <div class="logo fl"></div>
-      <el-menu :default-active="activeIndex" background-color="transparent" text-color="#909399"
-        active-text-color="white" mode="horizontal" class="menu-ui fl" @select="handleSelect">
+      <el-menu :default-active="activeIndex" background-color="transparent" text-color="#909399" active-text-color="white" mode="horizontal" class="menu-ui fl" @select="handleSelect">
         <el-menu-item v-for="item in tabMenus" :key="item.menucode" :index="item.memuname">
           <sidebar-item :item="item" :base-path="item.path"></sidebar-item>
         </el-menu-item>
@@ -19,8 +18,7 @@
           </el-badge>
         </div>
         <div class="jindutwo">
-          <el-dropdown trigger="click" @command="handleCommand" @visible-change="visibleChange" class="el-dropdown-bg"
-            :class="{ changeColor }" placement="bottom">
+          <el-dropdown trigger="click" @command="handleCommand" @visible-change="visibleChange" class="el-dropdown-bg" :class="{ changeColor }" placement="bottom">
             <span class="el-dropdown-link">{{ Online
               }}<i class="el-icon-arrow-down el-icon--right" :class="[{ 'arrow-down-top': isDown }]"></i></span>
             <el-dropdown-menu slot="dropdown" class="dianhua">
@@ -46,8 +44,7 @@
             </li>
           </ul> -->
           <span style="color: #b1b1b1; font-size: 0.14rem">回扫外呼：</span>
-          <el-switch v-model="isPhoneLogin" active-color="#13ce66" inactive-color="#909399"
-            @change="activeFun(isPhoneLogin)">
+          <el-switch v-model="isPhoneLogin" active-color="#13ce66" inactive-color="#909399" @change="activeFun(isPhoneLogin)">
           </el-switch>
         </div>
 
@@ -57,7 +54,6 @@
           <span class="spantwo" @click="SignOut()">退出</span>
         </div> -->
 
-
         <div class="jindufive" style="cursor: pointer;">
           <el-dropdown trigger="click" placement="bottom" @command="handleuser">
             <span class="el-dropdown-link">
@@ -66,17 +62,12 @@
                 {{ username }}
               </span><i class="el-icon-arrow-down el-icon--right"></i>
             </span>
-            <el-dropdown-menu slot="dropdown" class="dianhua" style="margin-top:0px">
-              <el-dropdown-item command="a">更改密码</el-dropdown-item>
-              <el-dropdown-item command="b">退出登录</el-dropdown-item>
+            <el-dropdown-menu slot="dropdown" class="dianhuaaa" style="margin-top:0px">
+              <el-dropdown-item command="a"> <i class="el-icon-unlock"></i>更改密码</el-dropdown-item>
+              <el-dropdown-item command="b"> <i class="el-icon-switch-button"></i>退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
-
-
-
-
-
 
       </div>
     </div>
@@ -108,8 +99,6 @@
 
     <AssignClues></AssignClues>
 
-
-
     <el-dialog title="修改密码" :visible.sync="iseditDialog" width="30%" center :close-on-click-modal="false">
 
       <div class="editPassword">
@@ -131,12 +120,9 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="iseditDialog = false">取 消</el-button>
-        <el-button type="primary" @click="editDialog">确 定</el-button>
+        <el-button type="primary" @click="editDialog" class="sure_edit">确 定</el-button>
       </span>
     </el-dialog>
-
-
-
 
   </div>
 </template>
@@ -152,6 +138,7 @@ import SidebarChildren from "../components/sidebar1/index.vue";
 import AgentBar from "../components/tkyCall/index.vue";
 import AssignClues from "../components/assignClues/index.vue";
 import api from "../utils/api.js";
+import { hex_md5 } from "../static/js/md5.js";
 var loading;
 export default {
   name: "index",
@@ -350,8 +337,8 @@ export default {
       var _this = this
       var params = {
         usercode: this.zhanghu,
-        yuanpassword: this.oldPassword,
-        password: this.newPassword
+        yuanpassword: hex_md5(this.oldPassword).toUpperCase(),
+        password: hex_md5(this.newPassword).toUpperCase()
       }
       console.log(params)
 
@@ -724,7 +711,7 @@ export default {
   color: #dc220d;
 }
 
-.menu-common .el-menu-item>div {
+.menu-common .el-menu-item > div {
   width: 100%;
 }
 
@@ -780,7 +767,7 @@ export default {
 #contentBox {
   position: absolute;
   right: 0;
-  /* overflow: hidden; */
+  overflow-x: hidden;
 }
 
 .menu-common {
@@ -799,7 +786,7 @@ export default {
 .jindufive span {
   display: flex;
   align-items: center;
-  color: #B1B1B1;
+  color: #b1b1b1;
   font-size: 0.14rem;
 }
 
@@ -815,19 +802,30 @@ export default {
   padding-left: 40px !important;
 }
 
-
 .editPassword .demo-input-suffix {
   margin-bottom: 0.2rem;
 }
 
-
-::v-deep .el-button--primary:hover {
-  color: #FFF;
-  background: #409EFF;
-  border-color: #409EFF;
+::v-deep .el-dialog__footer .dialog-footer .sure_edit:hover,
+::v-deep .el-dialog__footer .dialog-footer .sure_edit:focus {
+  color: #fff;
+  background: #409eff;
+  border: 1px solid #409eff;
+}
+::v-deep .el-dialog__footer .dialog-footer .sure_edit {
+  color: #fff;
+  background-color: #409eff;
+  border-color: #409eff;
 }
 
-
+.dianhuaaa {
+  width: 1.6rem !important;
+  padding: 5px 0 !important;
+  text-align: center;
+}
+.dianhuaaa .el-dropdown-menu__item {
+  font-size: 0.14rem;
+}
 /* ::v-deep .el-button:hover{
   background: #FFF;
     border: 1px solid #DCDFE6;

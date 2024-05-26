@@ -1,305 +1,617 @@
 <template>
-
-  <div class="scriptLibrary">
-    <div class="eltabs">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="团队话术" name="first"></el-tab-pane>
-        <el-tab-pane label="个人话术" name="second"></el-tab-pane>
-      </el-tabs>
-    </div>
-
-    <div class="newAdd">
-      <div class="addpatter" @click="addNewhuashu">
-        <el-button plain>新建话术</el-button>
-      </div>
-      <div class="addgroup" @click="addNewGroup">
-        <el-button plain>添加分组</el-button>
-      </div>
-    </div>
-
-    <!-- 团队话术 -->
-    <div class="teamLanguage" v-if="activeName == 'first'">
-
-      <div class="productList" v-loading="loading">
-        <el-tree :data="options" :props="defaultProps" @node-click="handleNodeClick" highlight-current></el-tree>
-      </div>
-
-      <div class="teamMain">
-        这是团队话术
-      </div>
-
-    </div>
-
-    <!-- 个人话术 -->
-    <div class="personLanguage" v-if="activeName == 'second'">
-      <div class="productList" v-loading="loading">
-        这是话术分组
-      </div>
-      <div class="personMain">
-        这是个人话术
-      </div>
-    </div>
-
-
-
-    <el-dialog title="新建话术" :visible.sync="dialoghuashu" width="30%" :before-close="handleClose"
-      :close-on-click-modal="false" append-to-body>
-      <div class="titleBox">
-        <div>
-          <p>分组</p>
-          <!-- <el-select v-model="groupValue" placeholder="请选择分组" clearable>
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select> -->
-
-
-          <div class="block">
-            <!-- <span class="demonstration">默认 click 触发子菜单</span> -->
-            <el-cascader v-model="groupValue" :options="options" @change="handleChange" placeholder="请选择分组"
-              clearable></el-cascader>
-          </div>
-
-
-
-        </div>
-        <div>
-          <p>标题</p>
-          <el-input v-model="titleCon" placeholder="请输入内容"></el-input>
-        </div>
-
-        <div style="margin-top: 10px;">
-          <p>话术权限</p>
-          <div class="select-content">
-            <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
-              <p class="el-dropdown-inners" clearable>
-                <span>{{ teamNames }}</span>
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </p>
-              <el-dropdown-menu class="asd" slot="dropdown">
-                <el-tree @check="checkTeam" :data="teamDataList" ref="tree" show-checkbox node-key="id"
-                  :default-checked-keys="[1]" :props="defaultProps">
-                </el-tree>
-                <div class="sure-footer">
-                  <div class="my-sure" @click="team_sure()">确定</div>
-                  <div class="my-sure cancel" @click="team_cancel()">取消</div>
-                </div>
-              </el-dropdown-menu>
-            </el-dropdown>
+  <div style=" width: 17.1rem;">
+    <div class="search-header" style="padding: 0">
+      <div class="search-box clearfix">
+        <el-tabs
+          class="nav"
+          v-model="queryParams.risktype"
+          @tab-click="handleClick"
+        >
+          <el-tab-pane label="意外" name="01"></el-tab-pane>
+          <el-tab-pane label="医疗" name="02"></el-tab-pane>
+          <el-tab-pane label="重疾" name="03"></el-tab-pane>
+          <el-tab-pane label="定寿" name="04"></el-tab-pane>
+          <el-tab-pane label="理财" name="05"></el-tab-pane>
+          <el-tab-pane label="车险" name="06"></el-tab-pane>
+          <el-tab-pane label="其他" name="07"></el-tab-pane>
+        </el-tabs>
+        <div class="common-select" style="float: right; width: 10%">
+          <div class="search-btn" @click="handleSearch">搜索</div>
+          <div
+            class="search-btn"
+            style="
+              background: #fff;
+              color: #dc220d;
+              border: 1px solid rgba(216, 216, 216, 1);
+            "
+            @click="handleReset"
+          >
+            重置
           </div>
         </div>
 
-
-      </div>
-      <div v-for="(item, index) in dataList " :key="index">
-
-        <div class="mainBox">
-
-          <div class="listMain">
-            <div>话术内容{{ index + 1 }}</div>
-            <div class="listDelete" @click="clickDelete(index + 1)"><i class="el-icon-delete"></i></div>
+        <div class="common-select" style="float: right">
+          <div class="select-title" style="width: 1.28rem">产品名称</div>
+          <div class="select-content" style="width: calc(100% - 1.28rem)">
+            <el-autocomplete
+              class="el-input-inners"
+              v-model="queryParams.title"
+              :trigger-on-focus="false"
+              :fetch-suggestions="querySearch"
+              size="mini"
+              placeholder=""
+              clearable
+            ></el-autocomplete>
           </div>
-
-          <el-tabs v-model="item.mainName" @tab-click="mainClick(index + 1)">
-
-            <el-tab-pane label="文字" name="wenzi">
-              <div class="listMainbox">
-                <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 4 }" placeholder="在此输入回复内容"
-                  v-model="item.wenzimain">
-                </el-input>
-              </div>
-            </el-tab-pane>
-
-            <el-tab-pane label="图片" name="tupian">
-              <div class="listMainbox">
-                <div style="margin-bottom: 0.15rem;">
-                  <p>名称:</p>
-                  <el-input v-model="item.img.imgmain" placeholder="选填，仅内部可见，方便整理"></el-input>
-                </div>
-                <div class="imgupload">
-
-                  <el-upload accept="image/*" action="#" ref="imgupload" list-type="picture-card" :auto-upload="false"
-                    :limit="1" :on-change="(file) => {
-        return imgSaveToUrl(file, index)
-      }" :class="item.img.num == '1' ? 'jinyong' : ''">
-                    <i slot="default" class="el-icon-plus"></i>
-
-                    <div slot="file" slot-scope="{file}">
-                      <img class="el-upload-list__item-thumbnail" :src="item.img.file.url" alt="">
-                      <span class="el-upload-list__item-actions">
-                        <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file, index)">
-                          <i class="el-icon-zoom-in"></i>
-                        </span>
-                        <span v-if="!item.img.disabled" class="el-upload-list__item-delete"
-                          @click="handleRemove(file, index)">
-                          <i class="el-icon-delete"></i>
-                        </span>
-                      </span>
-                    </div>
-
-                  </el-upload>
-
-                  <div class="imgNameSize" v-if="item.img.file">{{ item.img.dialogImageUrl }}
-                    <p>{{ item.img.file.name }}</p>
-                    <p>{{ (item.img.file.size / 1048576).toFixed(2) }}M</p>
-                  </div>
-                  <el-dialog :visible.sync="item.img.dialogVisible" append-to-body>
-                    <img width="100%" :src="item.img.dialogImageUrl" alt="">
-                  </el-dialog>
-                </div>
-              </div>
-            </el-tab-pane>
-
-
-            <el-tab-pane label="图文" name="tuwen">
-              <div class="listMainbox">
-                <div style="margin-bottom: 0.15rem;">
-                  <el-input placeholder="请输入内容" @input="imgTextSelect" v-model="item.imgText.text" clearable>
-                  </el-input>
-                </div>
-                <div v-if="item.imgText.title">
-                  <div class="recordFile">
-                    <!-- <a :href="item.link_url" alt="" target="_blank"> -->
-                    <div class="fileMain">
-                      <span class="FileTitle">{{ item.imgText.title }}</span>
-                      <span class="FileSize FileSizeleft">{{ item.imgText.desc }}</span>
-                    </div>
-                    <img :src="item.imgText.imgUrl" alt="">
-                    <!-- </a> -->
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-
-
-            <el-tab-pane label="PDF" name="pdf">
-              <div class="listMainbox">
-                <div style="margin-bottom: 0.15rem;">
-                  <div class="pdfupload">
-
-                    <el-upload accept=".pdf" action="#" ref="pdfupload" list-type="picture-card" :auto-upload="false"
-                      :limit="1" :on-change="(file) => {
-        return pdfSaveToUrl(file, index)
-      }" :class="item.pdf.num == '1' ? 'pdfjinyong' : ''">
-                      <i slot="default" class="el-icon-plus"></i>
-
-                      <div slot="file" slot-scope="{file}">
-                        <img class="el-upload-list__item-thumbnail" :src="item.pdf.file.url" alt="">
-                        <span class="el-upload-list__item-actions">
-
-                          <span v-if="!item.pdf.disabled" class="el-upload-list__item-delete"
-                            @click="handlepdfRemove(file, index)">
-                            <i class="el-icon-delete"></i>
-                          </span>
-                        </span>
-                      </div>
-
-                    </el-upload>
-
-
-                    <div class="pdfNameSize" v-if="item.pdf.file">{{ item.pdf.dialogpdfUrl }}
-                      <p>{{ item.pdf.file.name }}</p>
-                      <p>{{ (item.pdf.file.size / 1048576).toFixed(2) }}M</p>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </el-tab-pane>
-
-
-            <el-tab-pane label="视频" name="shipin">
-              <div class="listMainbox">
-                <div style="margin-bottom: 0.15rem;">
-                  <div class="videoupload">
-
-                    <el-upload accept="video/*" action="#" ref="videoupload" list-type="picture-card"
-                      :auto-upload="false" :limit="1" :on-change="(file) => {
-        return videoSaveToUrl(file, index)
-      }" :class="item.video.num == '1' ? 'videojinyong' : ''">
-                      <i slot="default" class="el-icon-plus"></i>
-
-                      <div slot="file" slot-scope="{file}">
-                        <img class="el-upload-list__item-thumbnail" :src="item.video.dialogvideoimgUrl" alt="">
-                        <span class="el-upload-list__item-actions">
-                          <span class="el-upload-list__item-preview" @click="handlevideoPreview(file, index)">
-                            <i class="el-icon-zoom-in"></i>
-                          </span>
-                          <span v-if="!item.video.disabled" class="el-upload-list__item-delete"
-                            @click="handlevideoRemove(file, index)">
-                            <i class="el-icon-delete"></i>
-                          </span>
-                        </span>
-                      </div>
-
-                    </el-upload>
-
-
-                    <div class="pdfNameSize" v-if="item.video.file">
-                      <p>{{ item.video.file.name }}</p>
-                      <p>{{ (item.video.file.size / 1048576).toFixed(2) }}M</p>
-                    </div>
-
-                    <el-dialog :visible.sync="item.video.dialogVisible" append-to-body>
-                      <video :src="item.video.dialogvideoUrl" controls class="videoUrl"></video>
-                    </el-dialog>
-                  </div>
-                </div>
-              </div>
-
-            </el-tab-pane>
-          </el-tabs>
         </div>
-
+        <div class="common-select" style="float: right; margin-right: 2%">
+          <div class="select-title" style="width: 1.28rem">可投保区域</div>
+          <div
+            class="select-content"
+            style="width: calc(100% - 1.28rem); border: 0"
+          >
+            <el-select
+              class="el-select-inners"
+              filterable
+              multiple
+              collapse-tags
+              v-model="salesArea"
+              size="mini"
+              placeholder=""
+              @change="selectSalesArea"
+            >
+              <el-option
+                v-for="(item, index) in regionList"
+                :key="index"
+                :label="item.dd_value"
+                :value="item.dd_key"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
       </div>
+    </div>
+    <div class="product-list" v-loading="loading">
+      <div
+        class="product-item clearfix"
+        v-for="item in riskList"
+        :key="item.riskcode"
+      >
+        <div class="product-item-left">
+          <p class="product-item-title">
+            {{ item.title }} &nbsp;&nbsp;&nbsp;&nbsp;
+            <el-tag
+              class="paragraph"
+              style="color: #578ee7"
+              v-show="item.emailuw == 'Y'"
+              @click="handleParagraph(item.riskcode)"
+              >人工核保</el-tag
+            >
+            <el-tag class="paragraph" v-show="item.aiuw == 'Y'" type="warning"
+              >智能核保</el-tag
+            >
+          </p>
+          <p class="product-item-lightspot">{{ item.description || "" }}</p>
 
-      <div @click="addmain" class="addTemplate">
-        <p>
-          <i class="el-icon-circle-plus-outline"></i> 添加内容
-        </p>
-        <p>(添加多个内容可以一键发送)</p>
+          <el-button
+            class="el-image"
+            @click="handleMindMap(item.riskcode)"
+            type="primary"
+            icon="el-icon-share"
+            >思维导图<i class="el-icon-arrow-right el-icon--right"></i>
+          </el-button>
 
+          <el-button
+            type="primary"
+            @click="handleBaseInfo(item.riskcode)"
+            icon="el-icon-document"
+            >基本资料<i class="el-icon-arrow-right el-icon--right"></i
+          ></el-button>
+          <el-button
+            type="primary"
+            @click="handleHotQuerstion(item.riskcode)"
+            icon="el-icon-warning-outline"
+            >常见问题<i class="el-icon-arrow-right el-icon--right"></i
+          ></el-button>
+          <el-button
+            v-if="pageType == '01'"
+            type="primary"
+            @click="handleInsureUrl(item.url)"
+            icon="el-icon-link"
+          >
+            投保地址<i class="el-icon-arrow-right el-icon--right"></i
+          ></el-button>
+        </div>
+        <div class="product-item-right">
+          <div class="product-item-logo">
+            <img :src="item.logo" alt="" style="width: 100%" />
+          </div>
+          <div class="product-item-price">
+            <p><span>￥&nbsp;</span>{{ item.prem }} <span>起</span></p>
+          </div>
+        </div>
       </div>
-
-
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="cencle">取 消</el-button>
-        <el-button type="primary" @click="sure">确 定</el-button>
-      </span>
+    </div>
+    <div class="el-footer">
+      <el-pagination
+        background
+        layout="total, prev, pager, next"
+        :total="queryParams.pageTotal"
+        :page-size="queryParams.pageSize"
+        :current-page="queryParams.pageNum"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
+    </div>
+    <el-image
+      ref="mindMap"
+      v-if="pageType == '01'"
+      class="mind-map-img-view"
+      :src="url"
+      :preview-src-list="srcList"
+    ></el-image>
+    <!-- 人工核保弹窗 -->
+    <el-dialog
+      custom-class="cang-jing-ge"
+      title="人工核保"
+      :visible.sync="dialogArtificialVisible"
+      width="70%"
+    >
+      <div class="paragraph">
+        <p v-html="emailUwInfo"></p>
+      </div>
+      <div
+        class="paragraph"
+        v-if="paragraphFile.filename != ''"
+        style="margin-top: 10px"
+      >
+        <span class="file-download"
+          ><i class="el-icon-paperclip"></i>&nbsp;{{
+            paragraphFile.filename
+          }}</span
+        >
+        <a
+          :href="
+            'https://insure.meihualife.com/filedownload.do?fileid=' +
+            paragraphFile.fileid
+          "
+          class="download"
+          :download="paragraphFile.filename"
+          >下载</a
+        >
+      </div>
     </el-dialog>
 
-
-
-
-    <el-dialog title="新建分组" :visible.sync="dialogGroup" width="30%" :before-close="handleClose"
-      :close-on-click-modal="false" append-to-body>
-      <div class="titleBox">
-        <div>
-          <p>分组名称</p>
-          <div class="block">
-            <el-input placeholder="请输入分组名称" v-model="input" clearable>
+    <!-- 基本资料弹窗 -->
+    <el-dialog
+      custom-class="cang-jing-ge"
+      title="基本资料"
+      :visible.sync="dialogBaseInfoVisible"
+      width="70%"
+    >
+      <div class="base-info-list">
+        <div
+          class="file-item"
+          v-for="(item, index) in baseInfoFileList"
+          :key="index"
+        >
+          <p class="file-download">
+            <span class="file-icon"
+              >{{ index + 1 }}.&nbsp; <i :class="fileTypeFun(item.filetype)"></i
+            ></span>
+            <span>{{ item.filename }}</span>
+          </p>
+          <!-- <span class="download" @click="download(item.fileid)">下载</span> -->
+          <a
+            :href="
+              'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid
+            "
+            class="download"
+            :download="item.filename"
+            >下载</a
+          >
+        </div>
+      </div>
+      <div class="sure-footer" style="padding: 0.2rem 0 0 0">
+        <div class="search-btn" @click="dialogBaseInfoVisible = false">
+          取消
+        </div>
+        <div class="search-btn" style="width: 70px">
+          <a :href="downloadAllPath" class="download" style="color: #fff">
+            下载全部
+          </a>
+        </div>
+      </div>
+    </el-dialog>
+    <!-- 投保地址弹窗 -->
+    <el-dialog
+      custom-class="cang-jing-ge"
+      title="投保地址"
+      :visible.sync="dialogInsureUrlVisible"
+      width="70%"
+    >
+      <el-form class="insure-url-form">
+        <el-form-item label="投保地址链接" label-width="1.3rem">
+          <el-input
+            v-model="insureUrl"
+            ref="copy"
+            size="mini"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label-width="1.3rem">
+          <div class="search-btn" @click.stop="copy" style="width: 80px">
+            复制地址
+          </div>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!-- 常见问题弹窗 -->
+    <el-dialog
+      custom-class="cang-jing-ge"
+      title="常见问题"
+      :visible.sync="dialogHotQuestionVisible"
+      width="70%"
+    >
+      <ul class="question-list">
+        <li
+          class="question-item"
+          v-for="(item, index) in questionList"
+          :key="item.questionid"
+        >
+          <p class="question-title">
+            <span class="num">{{ index + 1 }}. Q：</span>{{ item.question }}
+          </p>
+          <p class="question-answer">
+            <span class="question-answer-icon">A：</span>
+            <el-input
+              :disabled="true"
+              type="textarea"
+              autosize
+              v-model="item.answer"
+            >
             </el-input>
+          </p>
+          <p
+            class="file-download"
+            v-for="list in item.fileList"
+            :key="list.fileid"
+          >
+            <i :class="fileTypeFun(list.filetype)"></i>&nbsp;&nbsp;{{
+              list.filename
+            }}
+            <!-- <span class="size">(123KB)</span> -->
+            <!-- <span class="download">下载</span> -->
+            <a
+              :href="
+                'https://crm.meihualife.com/filedownload.do?fileid=' +
+                list.fileid
+              "
+              class="download"
+              :download="list.filename"
+              >下载</a
+            >
+          </p>
+        </li>
+      </ul>
+    </el-dialog>
+
+    <!-- 设置基本资料弹窗 -->
+    <el-dialog
+      custom-class="cang-jing-ge"
+      title="基本资料"
+      :visible.sync="dialogConfigBaseInfoVisible"
+      width="70%"
+    >
+      <div class="baseInfoTableBox" v-loading="baseInfoLoading">
+        <div class="search-btn" @click="handleUpLoad" style="width: 87px">
+          添加附件<i class="el-icon-paperclip el-icon--right"></i>
+        </div>
+        <input
+          v-show="false"
+          type="file"
+          v-on:change="tirggerFile($event)"
+          class="file-input"
+        />
+        <el-table
+          border
+          class="baseInfoTable"
+          :data="baseInfoFileList"
+          style="width: 100%; border: none"
+          cell-class-name="base-info-file-list"
+          :class="
+            baseInfoFileList.length == 0 ? 'table-no-border' : 'baseInfoTable'
+          "
+          :show-header="false"
+        >
+          <!-- <el-table-column type="index" label="">
+          </el-table-column> -->
+          <el-table-column label="资料" align="center">
+            <template slot-scope="scope">
+              <span>{{ scope.row.flieListIndex }}.&nbsp;</span>
+              <i :class="fileTypeFun(scope.row.filetype)"></i>
+              <span>{{ scope.row.filename }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="编辑" width="110" align="center">
+            <template slot-scope="scope" style="border: none">
+              <el-button-group class="base-info-botton-group">
+                <el-button
+                  size="mini"
+                  @click="baseInfoUp(scope.row.fileid)"
+                  type="primary"
+                  icon="iconfont icon-my-up"
+                >
+                </el-button>
+                <el-button
+                  size="mini"
+                  @click="baseInfoDown(scope.row.fileid)"
+                  type="primary"
+                  icon="iconfont icon-my-down"
+                ></el-button>
+              </el-button-group>
+              <span
+                class="base-info-delete"
+                @click="baseInfoDelete(scope.row.fileid)"
+                >删除</span
+              >
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-dialog>
+
+    <!-- 设置思维导图弹窗 -->
+    <el-dialog
+      custom-class="cang-jing-ge"
+      title="上传图片"
+      v-if="dialogConfigMindMapVisible"
+      :visible.sync="dialogConfigMindMapVisible"
+      width="3.35rem"
+    >
+      <div class="mind-map-box" v-loading="MindMapLoading">
+        <div
+          class="mind-map-add-file"
+          @click="handleMindMapUpLoad"
+          v-if="!mindMapImgVisable"
+        >
+          <i class="el-icon-plus"></i>
+          <p>点击上传所需图片</p>
+          <input
+            v-show="false"
+            type="file"
+            class="mind-map-upload-input"
+            v-on:change="tirggerMindMapFile($event)"
+          />
+        </div>
+        <div class="mind-map-add-file" v-if="mindMapImgVisable">
+          <img
+            v-if="mindMapImgVisable"
+            class="mind-map-img"
+            :src="mindMapImgLocaUrl"
+            alt=""
+          />
+          <div class="mind-map-warp"></div>
+          <div class="mind-map-botton-box">
+            <span class="oper"
+              ><i class="el-icon-zoom-in"></i>
+              <el-image
+                v-if="pageType == '02'"
+                class="mind-map-img"
+                src="../../../static/images/file.png"
+                :preview-src-list="srcList"
+              >
+              </el-image>
+            </span>
+            <a
+              class="oper download"
+              :href="mindMapFileDownload"
+              :download="mindMapFileName"
+              ><span> <i class="el-icon-download"></i></span
+            ></a>
+            <span class="oper" @click="handelMindMapDelete"
+              ><i class="el-icon-delete"></i
+            ></span>
           </div>
         </div>
-        <div style="margin-top: 0.3rem;">
-          <p>子分组名称</p>
-          <div class="block">
-            <el-input placeholder="请输入子分组名称" v-model="input" clearable>
-            </el-input>
+        <div class="sure-footer" style="padding: 0; justify-content: center">
+          <div class="my-sure" @click="mindMapEnter">确定</div>
+          <div
+            class="my-sure"
+            style="
+              background: #fff;
+              color: #dc240f;
+              border: 0.01rem solid #dc240f;
+            "
+            @click="mindMapCancle"
+          >
+            取消
           </div>
         </div>
       </div>
-
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="cencle">取 消</el-button>
-        <el-button type="primary" @click="sure">确 定</el-button>
-      </span>
     </el-dialog>
 
+    <!-- 设置常见问题弹窗 margin:10px auto 0px-->
+    <el-dialog
+      custom-class="cang-jing-ge"
+      title="常见问题"
+      :visible.sync="dialogConfigHotQuestionVisible"
+      width="70%"
+    >
+      <div class="hot-question-box" v-loading="hotQuestionLoading">
+        <div class="search-btn" @click="handleAddQuertion" style="width: 87px">
+          添加问题<i class="el-icon-plus el-icon--right"></i>
+        </div>
+        <input
+          v-show="false"
+          type="file"
+          v-on:change="tirggerQuestionFile($event, scope)"
+          class="question-file-input"
+        />
+        <el-table
+          border
+          class="hotQuestionTable"
+          :data="questionList"
+          cell-class-name="base-info-file-list"
+          v-loading="hotQuestionLoading"
+          :class="
+            questionList.length == 0 ? 'table-no-border' : 'hotQuestionTable'
+          "
+        >
+          <el-table-column label="问题" align="center">
+            <template slot-scope="scope">
+              <div class="step-list">
+                <div class="item-section">
+                  <label
+                    class="hot-question-q"
+                    style="width: 0.3rem; line-height: 0.14rem"
+                    ><span style="color: #686868"
+                      >{{ scope.row.questionIndex }}.</span
+                    >
+                    &nbsp;Q &nbsp;</label
+                  >
+                  <div class="right-content">
+                    <el-input
+                      v-if="scope.row.isEdit"
+                      placeholder="请输入问题"
+                      :disabled="false"
+                      size="mini"
+                      v-model="question"
+                    >
+                    </el-input>
+                    <el-input
+                      v-else
+                      placeholder="请输入问题"
+                      :disabled="true"
+                      size="mini"
+                      v-model="scope.row.question"
+                    >
+                    </el-input>
+                  </div>
+                </div>
+                <div class="item-section item-section-question">
+                  <label style="width: 0.3rem;text-align;:right">A</label>
+                  <div class="right-content">
+                    <el-input
+                      v-if="scope.row.isEdit"
+                      resize="none"
+                      :disabled="false"
+                      type="textarea"
+                      :autosize="{ minRows: 3, maxRows: 30 }"
+                      :rows="3"
+                      placeholder="请输入答案"
+                      v-model="answer"
+                    >
+                    </el-input>
+                    <el-input
+                      v-else
+                      resize="none"
+                      :disabled="true"
+                      type="textarea"
+                      :autosize="{ minRows: 3, maxRows: 30 }"
+                      :rows="3"
+                      placeholder="请输入答案"
+                      v-model="scope.row.answer"
+                    >
+                    </el-input>
+                  </div>
+                </div>
+                <div class="item-section">
+                  <label style="width: 0.3rem"></label>
+                  <div class="right-content">
+                    <div class="hot-question-file clearfix">
+                      <template v-if="scope.row.fileList.length > 0">
+                        <p
+                          class="hot-question-file-left"
+                          v-for="item in scope.row.fileList"
+                          :key="item.fileid"
+                        >
+                          <!-- <span class="hot-question-file-left" v-if="scope.row.fileList"> <i class="el-icon-paperclip"></i>{{item.filename}}</span> -->
+                          <span>
+                            <i :class="fileTypeFun(item.filetype)"></i
+                            >&nbsp;&nbsp;{{ item.filename }}
+                            <i
+                              @click="baseInfoDelete(item.fileid)"
+                              v-if="item.type !== 'upfile'"
+                              style="
+                                margin-left: 5px;
+                                cursor: pointer;
+                                color: #979797;
+                              "
+                              >删除</i
+                            ></span
+                          >
+                        </p>
+                      </template>
+                      <template v-else>
+                        <p
+                          class="hot-question-file-left"
+                          style="height: 0.15rem; display: inline-block"
+                        ></p>
+                      </template>
+                      <!-- <span class="hot-question-file-left" v-if="scope.row.fileList"> <i class="el-icon-paperclip"></i>{{item.filename}}</span> -->
+                      <!-- <span class="hot-question-file-left up-file"><span> <i class="el-icon-paperclip"></i>上传附件</span></p> -->
+                      <span
+                        class="hot-question-file-right"
+                        @click="handleQuestionUpLoad(scope.row.questionid)"
+                      >
+                        <i
+                          class="el-icon-paperclip el-icon--right"
+                          style="color: #606266"
+                        ></i
+                        >&nbsp;&nbsp;添加附件</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="73" align="center">
+            <template slot-scope="scope">
+              <template v-if="!scope.row.isEdit">
+                <el-button-group class="base-info-botton-group">
+                  <el-button
+                    size="mini"
+                    @click="hotQuestionUp(scope.row.questionid)"
+                    type="primary"
+                    icon="iconfont icon-my-up"
+                  ></el-button>
+                  <el-button
+                    size="mini"
+                    @click="hotQuestionDown(scope.row.questionid)"
+                    type="primary"
+                    icon="iconfont icon-my-down"
+                  ></el-button>
+                </el-button-group>
+                <span
+                  class="base-info-delete hot-question-delete"
+                  @click="hotQuestionEdit(scope)"
+                  >编辑</span
+                >
+                <span
+                  class="base-info-delete hot-question-delete"
+                  @click="hotQuestionDelete(scope.row.questionid)"
+                  >删除</span
+                >
+              </template>
+              <template v-else>
+                <span
+                  class="hot-question-enter"
+                  @click="hotQuestionEnter(scope.row.questionid)"
+                  >确定</span
+                >
+              </template>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import api from "../../../utils/api";
 import $ from "jquery";
 import "../../../static/js/viewer-jquery.min.js";
 import "../../../static/css/viewer.min.css";
@@ -307,721 +619,917 @@ import { getData, getPhoneData, my_url } from "../../../static/js/ajax.js";
 export default {
   data() {
     return {
-      activeName: 'first',
-      mainName: 'wenzi',
+      regionList: [],
+      queryParams: {
+        risktype: "03",
+        title: "",
+        pageNumber: 1,
+        pageSize: 10,
+        pageTotal: 0,
+        // totalRecord: ''
+      },
+      salesArea: "",
       loading: false,
-      dialoghuashu: false,
-      dialogGroup: false,
-
-      groupValue: "",
-      titleCon: '',
-      quanxian: '',
-      dataList: [
-        {
-          mainName: 'tupian',
-          wenzimain: '',
-          img: {
-            imgmain: '',
-            dialogImageUrl: '',
-            dialogVisible: false,
-            disabled: false,
-            num: '',
-          },
-          imgText: {
-            text: '',
-            desc: '',
-            title: "",
-            imgUrl: '',
-          },
-          pdf: {
-            dialogpdfUrl: '',
-            disabled: false,
-            num: '',
-          },
-          video: {
-            dialogvideoimgUrl: '',
-            dialogVisible: false,
-            disabled: false,
-            num: '',
-            dialogvideoUrl: ''
-          },
-        },
+      downloadUrl: "",
+      pageType: "",
+      riskList: [],
+      loading: false,
+      totalRecord: 0,
+      dialogArtificialVisible: false, //人工核保弹窗
+      dialogBaseInfoVisible: false, //基本资料弹窗
+      dialogInsureUrlVisible: false, //投保地址弹框
+      insureUrl: "",
+      dialogHotQuestionVisible: false, //常见问题弹窗
+      url: "../../../static/images/file.png",
+      srcList: [
+        // './images/img.png',
+        // 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
       ],
-
-
-      options: [
-        {
-          value: 'shejiyuanze',
-          label: '设计原则',
-          children: [{
-            value: 'yizhi',
-            label: '一致'
-          }, {
-            value: 'fankui',
-            label: '反馈'
-          }, {
-            value: 'xiaolv',
-            label: '效率'
-          }, {
-            value: 'kekong',
-            label: '可控'
-          }]
-        },
-        {
-          value: 'daohang',
-          label: '导航',
-          children: [{
-            value: 'cexiangdaohang',
-            label: '侧向导航'
-          }, {
-            value: 'dingbudaohang',
-            label: '顶部导航'
-          }]
-        }
-
-      ],
-
-
-
-
-
-
-
-      data: [{
-        label: '一级 1',
-        children: [{
-          label: '二级 1-1',
-
-        }]
-      }, {
-        label: '一级 2',
-        children: [{
-          label: '二级 2-1',
-
-        }, {
-          label: '二级 2-2',
-
-        }]
-      }, {
-        label: '一级 3',
-        children: [{
-          label: '二级 3-1',
-
-        }, {
-          label: '二级 3-2',
-
-        }]
-      }, {
-        label: '一级 4',
-        children: [{
-          label: '二级 3-1',
-
-        }, {
-          label: '二级 3-2',
-
-        }]
-      }, {
-        label: '一级 5',
-        children: [{
-          label: '二级 3-1',
-
-        }, {
-          label: '二级 3-2',
-
-        }]
-      }, {
-        label: '一级 6',
-        children: [{
-          label: '二级 3-1',
-
-        }, {
-          label: '二级 3-2',
-
-        }]
-      }, {
-        label: '一级 7',
-        children: [{
-          label: '二级 3-1',
-
-        }, {
-          label: '二级 3-2',
-
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'value'
+      dialogConfigBaseInfoVisible: false, //设置基本资料弹窗
+      baseInfoFileList: [],
+      dialogConfigHotQuestionVisible: false, //设置常见问题弹窗
+      dialogConfigMindMapVisible: false, //上传思维导图弹窗
+      baseInfoTableData: [],
+      riskcode: "",
+      buztype: "",
+      baseid: "",
+      baseInfoLoading: false,
+      mindMapImgVisable: false,
+      hotQuestionLoading: false,
+      MindMapLoading: false,
+      mindMapImgLocaUrl: "",
+      emailUwInfo: "",
+      questionList: [],
+      question: "",
+      answer: "",
+      hotQuestionFile: {},
+      quertionFileName: "附件上传",
+      mindMapFileDownload: "",
+      mindMapFileName: "",
+      uploadQuestionId: "",
+      downloadAllPath: "",
+      paragraphFile: {
+        filename: "",
+        fileid: "",
       },
-
-
-
-      SalesmanIdBox: [],
-      defaultProps: {
-        children: "children",
-        label: "label",
-      },
-      teamNames: "团队选择",
-      teamListId: "",
-      teamDataList: [],
-      teamid: "",
-
-    }
+      hotQuestionLoading: false,
+      productNameOption: [], //产品名称模糊搜索
+      // mindMapEnterVisable: true,//思维导图弹窗确定按钮
+    };
   },
-
-
   mounted() {
-    this.yewu();
+    var val = this.$route.query.type || "01";
+    this.pageType = val;
+    this.getRiskList();
+    this.getproductNameOption();
+    this.downloadUrl = location.origin;
+    this.getSalesArea();
   },
   methods: {
-
-    handleChange(value) {
-      console.log(value);
-    },
-
-    // 上传图片
-
-    // 删除上传
-    handleRemove(file, index) {
-      let filelist = this.$refs.imgupload[index].uploadFiles
-      let indexaa = filelist.findIndex((fileItem) => {
-        return fileItem.uid === file.uid
-      })
-      filelist.splice(indexaa, 1)
-      delete this.dataList[index].img.file
-      this.dataList[index].img.dialogImageUrl = ''
-      this.dataList[index].img.num = ''
-    },
-    // 更换或上传图片数据
-    imgSaveToUrl(file, index) {
-      if (this.dataList[index].img.file) {
-        delete this.dataList[index].img.file
-      }
-      this.dataList[index].img['file'] = file
-      this.dataList[index].img.dialogImageUrl = file.url
-      this.dataList[index].img.num = 1
-    },
-
-    // 放大图片
-    handlePictureCardPreview(file, index) {
-      console.log(file, index)
-      this.dataList[index].img.dialogImageUrl = file.url;
-      this.dataList[index].img.dialogVisible = true;
-
-
-
-    },
-    // handleDownload(file) {
-    //   console.log(file);
-    // },
-
-    // 上传PDF
-    pdfSaveToUrl(file, index) {
-      console.log(file)
-      if (this.dataList[index].pdf.file) {
-        delete this.dataList[index].pdf.file
-      }
-      this.dataList[index].pdf['file'] = file
-      // this.dataList[index].pdf.dialogpdfUrl = file.url
-      // this.dataList[index].pdf.dialogpdfUrl = '../../../static/images/pdf.jpg'
-      this.dataList[index].pdf.dialogpdfUrl = 'https://crm.meihualife.com/images/pdf.jpg'
-      this.dataList[index].pdf.num = 1
-    },
-    // 删除PDF
-    handlepdfRemove(file, index) {
-      console.log(file)
-      let filelist = this.$refs.pdfupload[index].uploadFiles
-      let indexaa = filelist.findIndex((fileItem) => {
-        return fileItem.uid === file.uid
-      })
-      filelist.splice(indexaa, 1)
-      delete this.dataList[index].pdf.file
-      this.dataList[index].pdf.dialogpdfUrl = ''
-      this.dataList[index].pdf.num = ''
-    },
-
-    // 上传图文
-    imgTextSelect(item) {
-      console.log(item)
-      console.log(item.length, item.substring(0, 7))
-      console.log(item.length >= 7, item.substring(0, 7) == "http://")
-      if (item.length >= 7 && item.substring(0, 7) == "http://") {
-        console.log("地址输入正确")
-
-
-      } else {
-        console.log("地址输入错误")
-      }
-
-    },
-
-    // 上传视频
-    videoSaveToUrl(file, index) {
-      console.log(file)
-
-      var that = this
-      if (this.dataList[index].video.file) {
-        delete this.dataList[index].video.file
-      }
-      this.dataList[index].video['file'] = file
-      this.dataList[index].video.num = 1
-
-      // that.dataList[index].video.dialogvideoUrl = URL.createObjectURL(file.raw);
-
-      // 获取视频封面第一帧
-      const video = document.createElement("video"); // 也可以自己创建video
-      video.src = file.url; // url地址 url跟 视频流是一样的
-      var canvas = document.createElement("canvas"); // 获取 canvas 对象
-      const ctx = canvas.getContext("2d"); // 绘制2d
-      video.crossOrigin = "anonymous"; // 解决跨域问题，也就是提示污染资源无法转换视频
-      video.currentTime = 1; // 第一帧
-      video.oncanplay = () => {
-        canvas.width = video.clientWidth ? video.clientWidth : 320; // 获取视频宽度
-        canvas.height = video.clientHeight ? video.clientHeight : 320; //获取视频高度
-        // 利用canvas对象方法绘图
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        // 转换成base64形式
-        let videoFirstimgsrc = canvas.toDataURL("image/png"); // 截取后的视频封面
-        let videoUrl = file.url;//file的videoUrl储存视频
-        // file.url = videoFirstimgsrc; // file的url储存封面图片
-        // file.videoUrl = videoUrl; // 
-        that.dataList[index].video.dialogvideoimgUrl = videoFirstimgsrc
-        that.dataList[index].video.dialogvideoUrl = videoUrl
-        video.remove();
-        canvas.remove();
-      };
-
-
-    },
-    handlevideoRemove(file, index) {
-      console.log(file)
-      let filelist = this.$refs.videoupload[index].uploadFiles
-      let indexaa = filelist.findIndex((fileItem) => {
-        return fileItem.uid === file.uid
-      })
-      filelist.splice(indexaa, 1)
-      delete this.dataList[index].video.file
-      this.dataList[index].video.dialogvideoUrl = ''
-      this.dataList[index].video.num = ''
-
-    },
-
-    handlevideoPreview(file, index) {
-      this.dataList[index].video.dialogImageUrl = file.url;
-      this.dataList[index].video.dialogVisible = true;
-    },
-
-
-
-
-
-
-
-
-
-    addmain() {
-      this.dataList.push({
-        mainName: 'tuwen',
-        quanxian: "",
-        wenzimain: '',
-        img: {
-          imgmain: '',
-          dialogImageUrl: '',
-          dialogVisible: false,
-          disabled: false
+    getSalesArea() {
+      let _this = this;
+      getData(
+        "post",
+        my_url + "/crm/common/getDictList.do",
+        function (data) {
+          console.log(data)
+          if (data.code == 0) {
+            console.log(data);
+            _this.regionList = data.dictList;
+          }
         },
-        imgText: {
-          text: '',
-          desc: '',
-          title: "",
-          imgUrl: '',
-        },
-        pdf: {
-          dialogpdfUrl: '',
-          num: '',
-          disabled: false,
-        },
-        video: {
-          dialogvideoimgUrl: '',
-          dialogVisible: false,
-          disabled: false,
-          num: '',
-          dialogvideoUrl: ''
-        },
-
-      })
+        {
+          dict_type: "sale_area"
+        }
+      );
     },
-    clickDelete(data) {
-      if (this.dataList.length > 1) {
-        // this.dataList.splice(data - 1, 1)
-      } else {
-        this.$message({
-          message: '最少保留一条话术',
-          type: 'warning'
-        });
-      }
-
-    },
-    mainClick(tab, event) {
-      console.log(tab, event);
-    },
-    addNewhuashu() {
-      this.dialoghuashu = true
+    selectSalesArea(aa) {
+      this.salesArea = aa;
+      this.getRiskList();
     },
 
-    addNewGroup() {
-      this.dialogGroup = true
-    },
-
-    cencle() {
-      console.log(this.dataList)
-      // this.dialogVisible = false
-    },
-
-    sure() {
-      console.log(this.dataList)
-      console.log(this.groupValue)
-      console.log(this.titleCon)
-      console.log(this.quanxian)
-      // this.dialogVisible = false
-    },
-    handleClose(done) {
-      console.log(this.dataList)
-      done();
-
-    },
-    handleNodeClick(data) {
-      console.log(data);
-    },
     handleClick(tab, event) {
-      console.log(this.activeName)
-      console.log(tab.$props.label)
+      this.queryParams.risktype = tab.name;
+      this.queryParams.pageNumber = 1;
+      this.getRiskList();
+      this.getproductNameOption();
     },
-
-
-
-
-
-
-    // 勾选团队时，统计团队ID
-    checkTeam(data, checked, indeterminate) {
-      let teamListName = [];
-      checked.checkedNodes.forEach(function (item) {
-        teamListName.push(item.label);
-      });
-      this.myList = teamListName.join(",");
-      this.teamListId = checked.checkedKeys.join(",");
-      this.teamid = this.teamListId;
+    handleSizeChange(val) {
+      this.queryParams.pageSize = val;
+      this.getRiskList();
     },
-    // 取消所选团队
-    team_cancel(index) {
-      this.$refs.disTeam.hide();
-      this.myList = "";
-      this.teamListId = "";
-      this.teamNames = "团队选择";
-      this.teamid = "";
-
-      this.$refs.tree.setCheckedKeys([]);
-      this.queryflag = true;
-      this.staffValue = "";
-
-      this.dataList[index].quanxian = ''
-      // this.searchUser(this.teamAllid)
+    handleCurrentChange(val) {
+      this.queryParams.pageNumber = val;
+      this.getRiskList();
     },
-
-    // 确认所选团队
-    team_sure(index) {
+    handleParagraph(riskcode) {
       let _this = this;
-      this.$refs.disTeam.hide();
-      // this.staffValue = "";
-      if (this.myList == null || this.myList == "" || this.myList == "1") {
-        this.queryflag = true;
-        this.queryflagString = "01";
+      this.dialogArtificialVisible = true;
+      getData(
+        "post",
+        my_url + "/crm/risk/getEmailUwInfo.do",
+        function (data) {
+          // _this.emailUwInfo = data.emailUwInfo.replace()
+          let arr = [],
+            emailUwInfo = "";
+          data.emailUwInfo.split("\n").forEach(function (item, index) {
+            if (item == null || item == "") {
+              arr.push(`<br>`);
+            } else {
+              arr.push(`<p>${item.trim()}</p>`);
+            }
+          });
+          _this.emailUwInfo = arr.join("");
+        },
+        {
+          riskcode: riskcode,
+        }
+      );
+      getData(
+        "post",
+        my_url + "/crm/fileupload/getFileByBuzIdAndType.do",
+        function (data) {
+          let { fileList } = data;
+          if (fileList.length != 0) {
+            _this.paragraphFile = fileList[0];
+          } else {
+            _this.paragraphFile = {
+              filename: "",
+              fileid: "",
+            };
+          }
+        },
+        {
+          buzid: riskcode,
+          buztype: "0201",
+        }
+      );
+    },
+    // 基本资料按钮
+    handleBaseInfo(riskcode) {
+      var _this = this;
+      if (_this.pageType == "01") {
+        var _this = this;
+        getData(
+          "post",
+          my_url + "/crm/fileupload/getFileByBuzIdAndType.do",
+          function (data) {
+            let { fileList } = data;
+            if (fileList.length > 0) {
+              _this.downloadAllPath =
+                "https://crm.meihualife.com/filedownload.do?fileid=" +
+                fileList[0].fileid;
+            } else {
+              _this.downloadAllPath = "javascript:void(0);";
+            }
+          },
+          {
+            buzid: riskcode,
+            buztype: "0302_01",
+          }
+        );
+        _this.dialogBaseInfoVisible = true;
       } else {
-        this.teamNames = this.myList;
-        this.queryflag = false;
-        this.queryflagString = "02";
+        _this.dialogConfigBaseInfoVisible = true;
       }
-
-
-      console.log(this.teamListId)
-      console.log(this.quanxian)
-      this.quanxian = this.teamListId
-
-      // _this.searchUser(this.teamListId, this.staffValue)
+      _this.riskcode = riskcode;
+      _this.buztype = "0302";
+      _this.getBaseInfoFileList(riskcode);
     },
-    // 获取该团队权限下的员工
-    yewu() {
-      let _this = this;
-      var idStr = ''
-      api.getTalkTeamList().then((data) => {
-        if (data.code == 0) {
-          _this.teamDataList = data.teamList;
-          for (var i = 0; i < _this.teamDataList.length; i++) {
-            idStr += _this.teamDataList[i].id + ','
-            if (_this.teamDataList[i].children) {
-              for (var j = 0; j < this.teamDataList[i].children.length; j++) {
-                idStr += _this.teamDataList[i].children[j].id + ','
-                if (this.teamDataList[i].children[j].children) {
-                  for (var s = 0; s < this.teamDataList[i].children[j].children.length; s++) {
-                    idStr += _this.teamDataList[i].children[j].children[s].id + ','
-                  }
-                }
-              }
+    //基本资料全部下载
+    // downloadAll () {
+
+    // },
+    getBaseInfoFileList(riskcode) {
+      var _this = this;
+      _this.baseInfoLoading = true;
+      getData(
+        "post",
+        my_url + "/crm/fileupload/getFileByBuzIdAndType.do",
+        function (data) {
+          let { fileList } = data;
+          if (fileList) {
+            fileList.forEach(function (item, index) {
+              item.flieListIndex = index + 1;
+            });
+            _this.baseInfoFileList = fileList;
+            _this.baseInfoLoading = false;
+          }
+        },
+        {
+          buzid: riskcode,
+          buztype: "0302",
+        }
+      );
+    },
+    // 文件上移
+    baseInfoUp(fileid) {
+      var _this = this;
+      getData(
+        "post",
+        my_url + "/crm/fileupload/file_Up.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "操作成功！",
+            });
+            _this.getBaseInfoFileList(_this.riskcode);
+          } else {
+            _this.$message({
+              type: "waring",
+              duration: 3000,
+              message: "操作失败！",
+            });
+          }
+        },
+        {
+          fileid: fileid,
+        }
+      );
+    },
+    // 文件下移
+    baseInfoDown(fileid) {
+      var _this = this;
+      getData(
+        "post",
+        my_url + "/crm/fileupload/file_Down.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "操作成功！",
+            });
+            _this.getBaseInfoFileList(_this.riskcode);
+          } else {
+            _this.$message({
+              type: "waring",
+              duration: 3000,
+              message: "操作失败！",
+            });
+          }
+        },
+        {
+          fileid: fileid,
+        }
+      );
+    },
+    // 文件删除
+    baseInfoDelete(fileid) {
+      var _this = this;
+      getData(
+        "post",
+        my_url + "/crm/fileupload/fileDelete.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "操作成功！",
+            });
+            _this.getBaseInfoFileList(_this.riskcode);
+            _this.getRiskQuestionList(_this.riskcode);
+          } else {
+            _this.$message({
+              type: "waring",
+              duration: 3000,
+              message: "操作失败！",
+            });
+          }
+        },
+        {
+          fileid: fileid,
+        }
+      );
+    },
+    // 投保地址按钮
+    handleInsureUrl(url) {
+      this.insureUrl = url;
+      this.dialogInsureUrlVisible = true;
+    },
+    // 查询
+    handleSearch() {
+      this.getRiskList();
+    },
+    // 重置
+    handleReset() {
+      this.queryParams.title = "";
+      this.getRiskList();
+    },
+    // 复制
+    copy() {
+      var _this = this;
+      this.$copyText(this.insureUrl).then(
+        function (e) {
+          _this.$message({
+            type: "success",
+            duration: 3000,
+            message: "复制成功!",
+          });
+          _this.dialogInsureUrlVisible = false;
+        },
+        function (e) {}
+      );
+    },
+    // 热门问题按钮
+    handleHotQuerstion(riskcode) {
+      var _this = this;
+      _this.riskcode = riskcode;
+      _this.buztype = "0303";
+      _this.getRiskQuestionList(riskcode);
+      if (_this.pageType == "01") {
+        _this.dialogHotQuestionVisible = true;
+      } else {
+        console.log(_this.questionList);
+        _this.questionList = _this.questionList;
+        _this.dialogConfigHotQuestionVisible = true;
+      }
+    },
+    getRiskQuestionList(riskcode) {
+      var _this = this;
+      _this.hotQuestionLoading = true;
+      getData(
+        "post",
+        my_url + "/crm/risk/getRiskQuestionList.do",
+        function (data) {
+          let { questionList } = data;
+          if (questionList) {
+            questionList.forEach(function (item, index) {
+              item.questionIndex = index + 1;
+            });
+            _this.questionList = questionList;
+            _this.hotQuestionLoading = false;
+
+            // if (_this.pageType == "02") {
+            //   _this.questionList.forEach(function (item) {
+            //     item.fileList.push({ filename: "上传附件", type: "upfile" })
+            //   })
+            // }
+          }
+        },
+        {
+          riskcode: riskcode,
+        }
+      );
+    },
+    handleAddQuertion() {
+      var _this = this;
+      _this.questionList.forEach((item) => {
+        if (item.isEdit) {
+          _this.$message({
+            type: "waring",
+            duration: 3000,
+            message: "您还有未保存的问题，请先保存后再加新的问题!",
+          });
+          return false;
+        }
+      });
+      _this.question = "";
+      _this.answer = "";
+      _this.questionList.unshift({
+        questionIndex: _this.questionList.length + 1,
+        question: "",
+        answer: "",
+        isEdit: true,
+        fileList: [],
+      });
+    },
+    // 提交问题
+    hotQuestionEnter(id) {
+      var _this = this;
+      if (_this.question == "" || _this.answer == "") {
+        _this.$message({
+          type: "waring",
+          duration: 3000,
+          message: "问题或者答案不能为空！",
+        });
+        return;
+      }
+      if (id) {
+        //有id为问题修改
+        var pramsEdit = {
+          questionid: id,
+          question: _this.question,
+          answer: _this.answer,
+        };
+        getData(
+          "post",
+          my_url + "/crm/risk/riskCommQusetionModify.do",
+          function (data) {
+            if (data.code == 0) {
+              _this.$message({
+                type: "success",
+                duration: 3000,
+                message: "保存成功!",
+              });
+
+              _this.getRiskQuestionList(_this.riskcode);
+            } else {
+              _this.$message.error(data.msg);
+            }
+          },
+          pramsEdit
+        );
+      } else {
+        //无id为新建
+        var prams = {
+          riskcode: _this.riskcode,
+          question: _this.question,
+          answer: _this.answer,
+        };
+        getData(
+          "post",
+          my_url + "/crm/risk/riskCommQusetionAdd.do",
+          function (data) {
+            // let { questionid } = data;
+            if (data.code == 0) {
+              _this.$message({
+                type: "success",
+                duration: 3000,
+                message: "保存成功!",
+              });
+
+              _this.getRiskQuestionList(_this.riskcode);
+            } else {
+              _this.$message.error(data.msg);
+            }
+          },
+          prams
+        );
+      }
+    },
+    // 删除问题
+    hotQuestionDelete(id) {
+      var _this = this;
+      getData(
+        "post",
+        my_url + "/crm/risk/questionDelete.do",
+        function (data) {
+          let { code } = data;
+          if (code == 0) {
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "删除成功",
+            });
+            _this.getRiskQuestionList(_this.riskcode);
+          }
+        },
+        {
+          questionid: id,
+        }
+      );
+    },
+    // 问题上移
+    hotQuestionUp(id) {
+      var _this = this;
+      getData(
+        "post",
+        my_url + "/crm/risk/question_Up.do",
+        function (data) {
+          let { code } = data;
+          if (code == 0) {
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "操作成功!",
+            });
+            _this.getRiskQuestionList(_this.riskcode);
+          }
+        },
+        {
+          questionid: id,
+        }
+      );
+    },
+    // 问题下移
+    hotQuestionDown(id) {
+      var _this = this;
+      getData(
+        "post",
+        my_url + "/crm/risk/question_Down.do",
+        function (data) {
+          let { code } = data;
+          if (code == 0) {
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "操作成功!",
+            });
+            _this.getRiskQuestionList(_this.riskcode);
+          }
+        },
+        {
+          questionid: id,
+        }
+      );
+    },
+    // 编辑
+    hotQuestionEdit(scope) {
+      var _this = this;
+      var newArr = [];
+      _this.uploadQuestionId = scope.row.questionid;
+      _this.questionList.forEach(function (i, index) {
+        if (i.questionid == scope.row.questionid) {
+          _this.$set(_this.questionList[index], "isEdit", true);
+          i.isEdit = true;
+          _this.question = i.question;
+          _this.answer = i.answer;
+        }
+        newArr.push(i);
+      });
+      // _this.questionList = newArr
+    },
+    // 思维导图按钮
+    handleMindMap(riskcode) {
+      var _this = this;
+      _this.riskcode = riskcode;
+      _this.buztype = "0301";
+      getData(
+        "post",
+        my_url + "/crm/fileupload/getFileByBuzIdAndType.do",
+        function (data) {
+          let { fileList } = data;
+          if (fileList.length != 0) {
+            _this.srcList = [];
+            _this.srcList.push(
+              "https://crm.meihualife.com" +
+                fileList[0].dis_filePath +
+                fileList[0].store_name
+            );
+            _this.mindMapFileDownload =
+              "https://crm.meihualife.com/filedownload.do?fileid=" +
+              fileList[0].fileid;
+            _this.mindMapFileName = fileList[0].filename;
+            _this.mindMapFileId = fileList[0].fileid;
+            if (_this.pageType == "02") {
+              _this.dialogConfigMindMapVisible = true;
+              _this.mindMapImgVisable = true;
+              _this.mindMapImgLocaUrl = _this.srcList[0];
+            } else if (_this.pageType == "01") {
+              _this.$refs["mindMap"].showViewer = true;
+            }
+          } else {
+            if (_this.pageType == "02") {
+              _this.dialogConfigMindMapVisible = true;
+              _this.mindMapImgVisable = false;
+              _this.riskcode = riskcode;
+              _this.buztype = "0301";
+            } else {
+              _this.srcList = [];
+              _this.$message.error("该产品没有思维导图！");
             }
           }
-          if (idStr != '') {
-            idStr = idStr.slice(0, -1);
-          }
-          // 权限内的所有人员
-          _this.teamAllid = idStr
-          // _this.searchUser(idStr)
+        },
+        {
+          buzid: riskcode,
+          buztype: "0301",
         }
-      })
-
+      );
     },
+    handelMindMapDelete() {
+      var _this = this;
+      getData(
+        "post",
+        my_url + "/crm/fileupload/fileDelete.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "操作成功！",
+            });
+            _this.mindMapImgVisable = false;
+          } else {
+            _this.$message({
+              type: "waring",
+              duration: 3000,
+              message: "操作失败！",
+            });
+          }
+        },
+        {
+          fileid: _this.mindMapFileId,
+        }
+      );
+    },
+    mindMapCancle() {
+      var _this = this;
+      $(".mind-map-upload-input").val("");
+      _this.mindMapImgVisable = false;
+      _this.dialogConfigMindMapVisible = false;
+    },
+    handleMindMapUpLoad() {
+      $(".mind-map-upload-input").trigger("click");
+    },
+    tirggerMindMapFile(e) {
+      var _this = this;
+      let formData = new FormData();
+      formData.append("myFile", e.target.files[0]);
+      formData.append("buztype", _this.buztype);
+      formData.append("buzid", _this.riskcode);
+      _this.mindMapImgLocaUrl = window.URL.createObjectURL(e.target.files[0]);
+      _this.mindMapRormData = formData;
+      _this.mindMapImgVisable = true;
+    },
+    mindMapEnter() {
+      var _this = this;
+      _this.MindMapLoading = true;
+      $.ajax({
+        url: my_url + "/crm/fileupload/fileUpload.do",
+        type: "POST",
+        cache: false,
+        data: _this.mindMapRormData,
+        processData: false,
+        contentType: false,
+      })
+        .done(function (res) {
+          _this.MindMapLoading = false;
+          var res = JSON.parse(res);
+          if (res.code == 0) {
+            $(".file-input").val("");
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "上传成功!",
+            });
+          } else {
+            _this.$message.error(res.msg);
+          }
+        })
+        .fail(function (res) {
+          _this.MindMapLoading = false;
 
+          _this.$message({
+            type: "waring",
+            duration: 3000,
+            message: "上传失败!",
+          });
+        });
+    },
+    // 获取保险列表
+    getRiskList(param) {
+      var _this = this;
+      if (_this.salesArea.length > 0) {
+        _this.queryParams.salesArea = _this.salesArea.toString();
+      } else {
+        _this.queryParams.salesArea = "";
+      }
+      getData("post", my_url + "/crm/risk/getRiskList.do",   function (data) {
+          let { rows, total } = data;
+          _this.queryParams.pageTotal = total;
+          if (rows) {
+            _this.riskList = rows;
+          }
+        },
+        _this.queryParams
+      );
+    },
+    // getFileListByBuzId (id) {
+    //   let _this = this;
+    //   getData('post', my_url + '/crm/fileupload/getFileListByBuzId.do', function (data) {
+    //     let { fileList } = data;
+    //     if (fileList) {
+    //       console.log(fileList)
+    //     }
 
+    //   }, { buzid: id });
 
+    // },
+    //
+    handleUpLoad() {
+      $(".file-input").trigger("click");
+    },
+    handleQuestionUpLoad(id) {
+      this.uploadQuestionId = id;
+      $(".question-file-input").trigger("click");
+    },
+    tirggerQuestionFile(e, scope) {
+      console.log(e);
+      var _this = this;
+      _this.baseInfoLoading = true;
+      let formData = new FormData();
+      formData.append("myFile", e.target.files[0]);
+      formData.append("secondbuzid", _this.riskcode);
+      formData.append("buztype", _this.buztype);
+      _this.quertionFileName = e.target.files[0].name;
 
+      $(e.path).find(".question-file-input");
+      _this.hotQuestionFile = formData;
+      if (_this.uploadQuestionId) {
+        //有id为修改，直接触发上传
 
+        formData.append("buzid", _this.uploadQuestionId);
+        _this.questionList.forEach(function (item) {
+          if (item.questionid == _this.uploadQuestionId) {
+            item.fileList.push({
+              filename: e.target.files[0].name,
+            });
+            // item.fileList[item.fileList.length - 1].filename = e.target.files[0].name
+          }
+        });
 
+        $.ajax({
+          url: my_url + "/crm/fileupload/fileUpload.do",
+          type: "POST",
+          cache: false,
+          data: formData,
+          processData: false,
+          contentType: false,
+        })
+          .done(function (res) {
+            $(".file-input").val("");
+            _this.baseInfoLoading = false;
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "上传成功!",
+            });
+            _this.getRiskQuestionList(_this.riskcode);
+          })
+          .fail(function (res) {
+            _this.baseInfoLoading = false;
+            _this.$message({
+              type: "waring",
+              duration: 3000,
+              message: "上传失败!",
+            });
+          });
+      } else {
+        //无id先保存再上传
+        var prams = {
+          riskcode: _this.riskcode,
+          question: _this.question,
+          answer: _this.answer,
+        };
+        getData(
+          "post",
+          my_url + "/crm/risk/riskCommQusetionAdd.do",
+          function (data) {
+            if (data.code == 0) {
+              let { questionid } = data;
+              _this.hotQuestionFile.append("buzid", questionid);
+              _this.questionList.forEach(function (item) {
+                if (item.questionid == _this.uploadQuestionId) {
+                  item.fileList.push({
+                    filename: e.target.files[0].name,
+                  });
+                  // item.fileList[item.fileList.length - 1].filename = e.target.files[0].name
+                }
+              });
+              $.ajax({
+                url: my_url + "/crm/fileupload/fileUpload.do",
+                type: "POST",
+                cache: false,
+                data: _this.hotQuestionFile,
+                processData: false,
+                contentType: false,
+              })
+                .done(function (res) {
+                  _this.baseInfoLoading = false;
+                  var res = JSON.parse(res);
+                  if (res.code == 0) {
+                    $(".file-input").val("");
+                    _this.$message({
+                      type: "success",
+                      duration: 3000,
+                      message: "上传成功!",
+                    });
+                    _this.getRiskQuestionList(_this.riskcode);
+                  } else {
+                    _this.$message.error(res.msg);
+                  }
+                  // that.getUploadFile(baseid)
+                })
+                .fail(function (res) {
+                  _this.baseInfoLoading = false;
+                  _this.$message({
+                    type: "waring",
+                    duration: 3000,
+                    message: "上传失败!",
+                  });
+                });
+            } else {
+              _this.$message.error(data.msg);
+            }
+          },
+          prams
+        );
+      }
+    },
+    tirggerFile(e) {
+      var _this = this;
+      _this.baseInfoLoading = true;
+      let formData = new FormData();
+      formData.append("myFile", e.target.files[0]);
+      // formData.append('secondbuzid', _this.baseid);
+      formData.append("buztype", _this.buztype);
+      formData.append("buzid", _this.riskcode);
 
-
+      let that = this;
+      $.ajax({
+        url: my_url + "/crm/fileupload/fileUpload.do",
+        type: "POST",
+        cache: false,
+        data: formData,
+        processData: false,
+        contentType: false,
+      })
+        .done(function (res) {
+          _this.baseInfoLoading = false;
+          var res = JSON.parse(res);
+          if (res.code == 0) {
+            $(".file-input").val("");
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "上传成功!",
+            });
+            if (_this.buztype == "0302") {
+              _this.getBaseInfoFileList(_this.riskcode);
+            }
+          } else {
+            _this.$message.error(res.msg);
+          }
+          // that.getUploadFile(baseid)
+        })
+        .fail(function (res) {
+          _this.baseInfoLoading = false;
+          _this.$message({
+            type: "waring",
+            duration: 3000,
+            message: "上传失败!",
+          });
+        });
+    },
+    fileTypeFun(type) {
+      if (type) {
+        var type = type.toLowerCase();
+        if (type == "jpg" || type == "png") {
+          return "file-type file-type-img";
+        } else if (type == "xlsx" || type == "xls") {
+          return "file-type file-type-xlsx";
+        } else {
+          return `file-type file-type-${type}`;
+        }
+      } else {
+        return "file-type file-type-file";
+      }
+    },
+    getproductNameOption() {
+      let _this = this;
+      getData(
+        "post",
+        my_url + "/crm/risk/getRiskTitleList.do",
+        function (data) {
+          let { risktitlelist } = data;
+          _this.totalRecord = risktitlelist.length;
+          if (risktitlelist) {
+            risktitlelist.forEach(function (item, index) {
+              _this.productNameOption.push({
+                value: item,
+                index: index,
+              });
+            });
+          }
+        },
+        {
+          risktype: _this.queryParams.risktype,
+        }
+      );
+    },
+    // 产品名称
+    querySearch(queryString, cb) {
+      var productNameOption = this.productNameOption;
+      var results = queryString
+        ? productNameOption.filter(this.createFilterName(queryString))
+        : productNameOption;
+      // 调用 callback 返回建议列表的数据
+      console.log(results);
+      cb(results);
+    },
+    createFilterName(queryString) {
+      return (productNameOption) => {
+        return (
+          productNameOption.value
+            .toLowerCase()
+            .indexOf(queryString.toLowerCase()) > -1
+        );
+      };
+    },
   },
 };
 </script>
 <style src="../../../static/css/insuranceProducts.css"></style>
 <style src="../../../static/css/myFonts/iconfont.css"></style>
-<style scoped>
-.scriptLibrary {}
-
-.eltabs {
-  padding: 0rem 0.3rem 0.15rem;
-  font-size: 0.36rem;
-  border-bottom: 0.1rem solid rgba(244, 244, 244, 1);
-}
-
-.teamLanguage,
-.personLanguage {
-  padding: 0rem 0.3rem 0.3rem;
-  display: flex;
-}
-
-.mainBox {
-  background: #fff;
-  padding: 0.2rem;
-  margin-top: 10px;
-}
-
-.titleBox {
-  background: #fff;
-  padding: 0.2rem;
-  /* margin-top: 10px; */
-}
-
-::v-deep .el-dialog__body {
-  padding: 10px 20px 20px;
-  background: #fafafa;
-}
-
-.newAdd {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  padding: 0.2rem 0.3rem;
-}
-
-.addpatter {
-  padding-right: 0.3rem;
-}
-
-.newAdd .is-plain:hover {
-  color: #409EFF;
-  border-color: #c6e2ff;
-  background: #ecf5ff;
-  border: 1px solid #DCDFE6;
-}
-
-.newAdd .is-plain {
-  background: #FFF;
-  border: 1px solid #DCDFE6;
-  color: #606266;
-}
-
-.productList {
-  width: 15%;
-  height: calc(100vh - 3rem);
-  border: 1px solid #909399;
-  position: relative;
-  overflow: auto;
-}
-
-.teamMain,
-.personMain {
-  width: 85%;
-  height: calc(100vh - 3rem);
-  border: 1px solid #909399;
-  position: relative;
-}
-
-
-::v-deep .el-input__inner {
-  /* -webkit-appearance: none; */
-  background-color: #FFF;
-  /* border-radius: 4px; */
-  border: 1px solid #DCDFE6;
-  box-sizing: border-box;
-  color: #606266;
-  display: inline-block;
-  font-size: inherit;
-  height: 35px;
-  line-height: 35px;
-  outline: 0;
-  transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
-  width: 100%;
-  margin-left: 0.01rem;
-}
-
-::v-deep .el-textarea__inner {
-  border: 0px solid #DCDFE6;
-}
-
-::v-deep .el-input__icon {
-  line-height: 35px;
-}
-
-::v-deep .el-select {
-  display: block;
-}
-
-::v-deep .el-dialog__body {}
-
-::v-deep .el-textarea__inner {
-  background: #fafafa;
-}
-
-.listMain {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.listMainbox {
-  margin-top: 0.15rem;
-  background: #fafafa;
-  padding: 0.1rem;
-}
-
-
-::v-deep .jinyong .el-upload--picture-card {
-  display: none;
-}
-
-::v-deep .pdfjinyong .el-upload--picture-card {
-  display: none;
-}
-
-::v-deep .videojinyong .el-upload--picture-card {
-  display: none;
-}
-
-::v-deep .el-tree-node__content .el-tree-node__label {
-  font-size: 0.18rem;
-}
-
-::v-deep .el-tree-node__content {
-  height: 0.45rem;
-}
-
-::v-deep .select-content .el-dropdown-inners>span {
-  width: auto;
-}
-
-
-::v-deep .el-cascader {
-  width: 100%;
-}
-
-/* .el-tree-node .el-tree-node__content  .el-tree-node__label */
-.asd .el-tree .el-tree-node .el-tree-node__content .el-tree-node__label {
-  font-size: 0.14rem;
-}
-
-.select-content .el-dropdown-inners {
-  border: 1px solid #DCDFE6;
-  width: 100%;
-  height: 35px;
-
-}
-
-.imgupload,
-.pdfupload,
-.videoupload {
-  display: flex;
-  align-items: center;
-  font-size: 0.16rem;
-}
-
-.videoUrl {
-  width: 100%;
-  height: 100%;
-}
-
-.imgNameSize p,
-.pdfNameSize p {
-  margin-left: 0.2rem;
-}
-
-.addTemplate {
-  font-size: 0.16rem;
-  margin-top: 0.2rem;
-  background: #fff;
-  padding: 0.3rem;
-  cursor: pointer;
-}
-
-.addTemplate p {
-  text-align: center;
-}
-
-.recordFile {
-  display: block;
-  cursor: pointer;
-  border: 1px solid #e8e8e8;
-  padding: 10px;
-  width: 260px;
-  height: 90px;
-  font-size: 12px;
-  word-break: break-all;
-  color: #909090;
-  display: flex;
-  justify-content: space-between;
-  box-sizing: border-box;
-  text-decoration: none
-}
-
-.recordFile a :hover {
-  text-decoration: underline
-}
-
-.recordFile .fileMain {
-  width: 188px;
-  display: flex;
-  flex-direction: column;
-}
-
-.recordFile a img {
-  width: 46px;
-  height: 46px;
-  margin-top: 20px;
-  margin-left: 6px;
-  -o-object-fit: cover;
-  object-fit: cover;
-}
-</style>
-
 <style>
-.asd .el-tree .el-tree-node .el-tree-node__content .el-tree-node__label {
-  font-size: 0.14rem;
+.editContent_box .wei span .el-date-editor .el-input__prefix {
+  left: 1.9rem;
+}
+.el-select .el-input.is-focus .el-input__inner,
+.el-select .el-input__inner:focus {
+  border-color: #dcdfe6;
 }
 </style>

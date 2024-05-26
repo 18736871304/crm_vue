@@ -89,7 +89,7 @@
 .mobile_input_box {
   position: absolute;
   top: 16px;
-  right: 17px
+  right: 25px
 }
 
 .mobile_box.el-table .cell {
@@ -102,6 +102,7 @@
   height: 17px;
   font-size: 12px;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 .mobile_input_add {

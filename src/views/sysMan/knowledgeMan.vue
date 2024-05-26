@@ -6,16 +6,14 @@
         <div class="common-select" v-if="CJGselectValue === '保单检视'">
           <div class="select-title" style="width: 1.28rem">保险公司</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-autocomplete class="el-input-inners" v-model="insorganName" :trigger-on-focus="false" :fetch-suggestions="querySearch1"
-              size="mini" placeholder="请输入保险公司" clearable></el-autocomplete>
-              
+            <el-autocomplete class="el-input-inners" v-model="insorganName" :trigger-on-focus="false" :fetch-suggestions="querySearch1" size="mini" placeholder="请输入保险公司" clearable></el-autocomplete>
+
           </div>
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.28rem">关键字搜索</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini"
-              placeholder="请输入关键字"></el-autocomplete>
+            <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入关键字"></el-autocomplete>
           </div>
         </div>
         <div class="common-select" v-if="CJGselectValue === '解答疑义'">
@@ -27,8 +25,7 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree3" show-checkbox node-key="id"
-                  :default-expanded-keys="['01', '02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
+                <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree3" show-checkbox node-key="id" :default-expanded-keys="['01', '02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
                 </el-tree>
                 <div class="sure-footer">
                   <div class="my-sure" @click="my_sure3">确定</div>
@@ -47,13 +44,12 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree4" show-checkbox node-key="id"
-                  :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
+                <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree4" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
                 </el-tree>
                 <div class="sure-footer">
                   <div class="my-sure" @click="my_sure4">确定</div>
                   <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne4">取消</div>
-              </div>
+                </div>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -61,18 +57,14 @@
         <div class="common-select" v-if="CJGselectValue === '解答疑义'" style="width: 28%">
           <div class="select-title" style="width: 1rem">修改时间</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1rem); border: none">
-            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini"
-              value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间"
-              end-placeholder="结束时间" :picker-options="pickerOptions">
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
         <div class="common-select" v-else style="width: 30%">
           <div class="select-title" style="width: 1.54rem">修改时间</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.54rem); border: none">
-            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini"
-              value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间"
-              end-placeholder="结束时间" :picker-options="pickerOptions">
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
@@ -92,30 +84,26 @@
     </div>
     <div class="table-box">
       <el-table :data="tableData" border style="width: 100%" :header-cell-class-name="headerClassName">
-        <el-table-column key="1"  align="center" type="index" label="序号" width="60">
+        <el-table-column key="1" align="center" type="index" label="序号" width="60">
         </el-table-column>
         <el-table-column key="2" sortable align="center" prop="makedate" label="新建时间" width="155">
         </el-table-column>
-        <el-table-column  key="3" sortable align="center" prop="modifydate" label="最后修改时间" width="155">
+        <el-table-column key="3" sortable align="center" prop="modifydate" label="最后修改时间" width="155">
         </el-table-column>
-        <el-table-column  key="4" align="center" prop="oprname" label="最后修改人员" width="100">
+        <el-table-column key="4" align="center" prop="oprname" label="最后修改人员" width="100">
         </el-table-column>
-        <el-table-column key="5" v-if="CJGselectValue === '保单检视'" align="center" prop="insorganname" label="保险公司"
-          width='130'>
+        <el-table-column key="5" v-if="CJGselectValue === '保单检视'" align="center" prop="insorganname" label="保险公司" width='130'>
         </el-table-column>
-        <el-table-column key="6" v-if="CJGselectValue === '解答疑义'" align="left" prop="title" label="疑义问题"
-          :show-overflow-tooltip="true">
+        <el-table-column key="6" v-if="CJGselectValue === '解答疑义'" align="left" prop="title" label="疑义问题" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="7" v-else align="left" prop="title" label="标题" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="8" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedtypedesc" label="所属分类"
-          width="180" :show-overflow-tooltip="true">
+        <el-table-column key="8" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedtypedesc" label="所属分类" width="180" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="9" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedflowdesc" label="跟进步骤"
-          width="180" :show-overflow-tooltip="true">
+        <el-table-column key="9" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedflowdesc" label="跟进步骤" width="180" :show-overflow-tooltip="true">
         </el-table-column>
 
-        <el-table-column  key="10" align="center" label="操作" width="140">
+        <el-table-column key="10" align="center" label="操作" width="140">
           <template slot-scope="scope">
             <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>
             <a class="delete option" href="javascript:void(0);" @click="deleteItem(scope.row)">删除</a>
@@ -124,13 +112,11 @@
       </el-table>
     </div>
     <div>
-      <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize"
-        :current-page="pageNum" @current-change="pageClick">
+      <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
       </el-pagination>
     </div>
     <!-- 藏经阁-->
-    <el-dialog :title="'新建-' + CJGselectValue" :visible.sync="addCJGItemVisible" width="1100px"
-      :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
+    <el-dialog :title="'新建-' + CJGselectValue" :visible.sync="addCJGItemVisible" width="1100px" :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
       <div class="step-list wei-step-list" v-if="CJGselectValue === '保单检视'">
         <div class="item-section">
           <label>标题</label>
@@ -142,8 +128,7 @@
         <div class="item-section">
           <label>保险公司</label>
           <div class="right-content">
-            <el-autocomplete style="position: relative!important;width: 100%;" v-model="insorganName1"
-              :trigger-on-focus="false" :fetch-suggestions="querySearch1" size="mini" placeholder="请输入保险公司" clearable>
+            <el-autocomplete style="position: relative!important;width: 100%;" v-model="insorganName1" :trigger-on-focus="false" :fetch-suggestions="querySearch1" size="mini" placeholder="请输入保险公司" clearable>
             </el-autocomplete>
           </div>
         </div>
@@ -197,8 +182,7 @@
         <div class="item-section">
           <label>疾病描述</label>
           <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" resize="none" type="textarea"
-              :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
+            <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
             </el-input>
           </div>
         </div>
@@ -206,16 +190,12 @@
           <label>核保建议</label>
           <div class="right-content">
             <div class="tab-head">
-              <div class="tab" :class="currentSuggestion === 'zjsuggestion' ? 'actived' : ''"
-                @click="changeSuggestion('zjsuggestion')">重疾险</div>
-              <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''"
-                @click="changeSuggestion('ylsuggestion')">医疗险</div>
+              <div class="tab" :class="currentSuggestion === 'zjsuggestion' ? 'actived' : ''" @click="changeSuggestion('zjsuggestion')">重疾险</div>
+              <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''" @click="changeSuggestion('ylsuggestion')">医疗险</div>
             </div>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10"
-              placeholder="请输入内容" v-if="currentSuggestion === 'zjsuggestion'" v-model="jbhbItem.zjsuggestion">
+            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10" placeholder="请输入内容" v-if="currentSuggestion === 'zjsuggestion'" v-model="jbhbItem.zjsuggestion">
             </el-input>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10"
-              placeholder="请输入内容" v-else v-model="jbhbItem.ylsuggestion">
+            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10" placeholder="请输入内容" v-else v-model="jbhbItem.ylsuggestion">
             </el-input>
           </div>
         </div>
@@ -236,8 +216,7 @@
                   <label>保险公司</label>
                   <div class="right-content">
                     <el-select v-model="item.insorgancode" size="mini" placeholder="请选择" @change="selectChange(index)">
-                      <el-option v-for="(item,index) in InsOrganList" :key="index" :label="item.dd_value"
-                        :value="item.dd_key">
+                      <el-option v-for="(item,index) in InsOrganList" :key="index" :label="item.dd_value" :value="item.dd_key">
                       </el-option>
                     </el-select>
                   </div>
@@ -246,8 +225,7 @@
                   <label>险种名称</label>
                   <div class="right-content">
                     <el-select v-model="item.riskcode" size="mini" placeholder="请选择">
-                      <el-option v-for="(item,index) in item.productList" :key="index" :label="item.dd_value"
-                        :value="item.dd_key">
+                      <el-option v-for="(item,index) in item.productList" :key="index" :label="item.dd_value" :value="item.dd_key">
                       </el-option>
                     </el-select>
                   </div>
@@ -255,8 +233,7 @@
                 <div class="item">
                   <label>承保说明</label>
                   <div class="right-content">
-                    <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" resize="none" type="textarea"
-                      :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
+                    <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
                     </el-input>
                   </div>
                 </div>
@@ -297,8 +274,7 @@
                   <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree1" show-checkbox node-key="id"
-                    :default-expanded-keys="['01', '02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
+                  <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree1" show-checkbox node-key="id" :default-expanded-keys="['01', '02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
                   </el-tree>
                   <div class="sure-footer">
                     <div class="my-sure" @click="my_sure1">确定</div>
@@ -319,13 +295,12 @@
                   <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree2" show-checkbox node-key="id"
-                    :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
+                  <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
                   </el-tree>
                   <div class="sure-footer">
                     <div class="my-sure" @click="my_sure2">确定</div>
                     <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
-                </div>
+                  </div>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -515,10 +490,10 @@ export default {
             var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
             const end = monthEndDate;
             function getMonthDays() {
-                var monthStartDate = new Date(nowYear, nowMonth, 1);
-                var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
-                var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
-                return days;
+              var monthStartDate = new Date(nowYear, nowMonth, 1);
+              var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
+              var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
+              return days;
             }
             picker.$emit('pick', [start, end]);
           }
@@ -967,8 +942,8 @@ export default {
     },
     getItem(item) {
       let body = {
-          baseid: item.baseid
-        },
+        baseid: item.baseid
+      },
         url
       if (item.type === '01') {
         url = '/crm/knowledge/getOnePolicyRead.do'
@@ -1156,29 +1131,29 @@ export default {
       }
       this.addCJGItemVisible = true
       if (this.CJGselectValue === '保单检视') {
-        if (editor14 == null) { //true
-          this.$nextTick(() => {
-            this.newWangEditor('#div1', '#div2')
-            this.newWangEditor1('#div3', '#div4')
-            editor14.txt.html(this.bdjsItem.policydetail)
-            editor15.txt.html(this.bdjsItem.suggestion)
-          })
-        } else {
+        // if (editor14 == null) { //true
+        this.$nextTick(() => {
+          this.newWangEditor('#div1', '#div2')
+          this.newWangEditor1('#div3', '#div4')
           editor14.txt.html(this.bdjsItem.policydetail)
           editor15.txt.html(this.bdjsItem.suggestion)
-        }
+        })
+        // } else {
+        //   editor14.txt.html(this.bdjsItem.policydetail)
+        //   editor15.txt.html(this.bdjsItem.suggestion)
+        // }
       } else if (this.CJGselectValue === '解答疑义') {
-        if (editor16 == null) { //true
-          this.$nextTick(() => {
-            this.newWangEditor2('#div5', '#div6')
-            this.newWangEditor3('#div7', '#div8')
-            editor16.txt.html(this.dkwItem.content)
-            editor17.txt.html(this.dkwItem.voice)
-          })
-        } else {
+        // if (editor16 == null) { //true
+        this.$nextTick(() => {
+          this.newWangEditor2('#div5', '#div6')
+          this.newWangEditor3('#div7', '#div8')
           editor16.txt.html(this.dkwItem.content)
           editor17.txt.html(this.dkwItem.voice)
-        }
+        })
+        // } else {
+        //   editor16.txt.html(this.dkwItem.content)
+        //   editor17.txt.html(this.dkwItem.voice)
+        // }
       } else {
         $('.w-e-text').remove()
         $('.w-e-menu').remove()

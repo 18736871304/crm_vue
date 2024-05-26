@@ -51,7 +51,7 @@ export default {
       inputUserform2: [], //储存记忆
       channelList: [],
       channelOptions: [],
-      planid: '批次号', //广告计划ID
+      planid: '渠道类型', //广告计划ID
       planidBatchno: '',
       planidValue: '',
       batchnoValue: '',
@@ -411,10 +411,21 @@ export default {
   },
   methods: {
     remarktop(data) {
+      var _this =this
       console.log(data)
-      getData('post', my_url + '/crm/activity/getOneDayData.do', function (data) {
+      getData('post', my_url + '/crm/activity/setRemarkTop.do', function (data) {
         console.log(data)
-        this.getReleaseData()
+        if(data.code=='0'){
+          _this.$message({
+            showClose: true,
+            message: '跟进记录置顶成功',
+            duration: 3000,
+            type: 'success'
+          });
+
+           _this.getReleaseData()
+        }
+       
       }, {
         activityid: data
       })
@@ -1216,29 +1227,29 @@ export default {
         this.detailsInfo.mobilestr = row.mobilestr;
         this.detailsInfo.wxnostr = row.wxnostr;
       }
-      if (!row.activitytag) {
-        this.sendActivitytag()
-      }
+      // if (!row.activitytag) {
+      //   this.sendActivitytag()
+      // }
       //已成交处理
       this.isDealed = (this.followupstep == "07")
     },
-    sendActivitytag() {
-      let _this = this;
-      let params = {
-        activitytag: this.adLabelselect,
-        activityserialno: this.detailsInfo.activityserialno
-      }
-      getData('post', my_url + '/crm/activity/updateActivityTag.do', function (data) {
-        if (data.code == 0) {
-          _this.tableData.forEach((item, index) => {
-            _this.$set(_this.tableData[index], 'activitytag', _this.adLabelselect)
-          })
-        }
-      }, params);
-    },
-    activitytagClick() {
-      this.sendActivitytag()
-    },
+    // sendActivitytag() {
+    //   let _this = this;
+    //   let params = {
+    //     activitytag: this.adLabelselect,
+    //     activityserialno: this.detailsInfo.activityserialno
+    //   }
+    //   getData('post', my_url + '/crm/activity/updateActivityTag.do', function (data) {
+    //     if (data.code == 0) {
+    //       _this.tableData.forEach((item, index) => {
+    //         _this.$set(_this.tableData[index], 'activitytag', _this.adLabelselect)
+    //       })
+    //     }
+    //   }, params);
+    // },
+    // activitytagClick() {
+    //   this.sendActivitytag()
+    // },
     //点击成交单子，查看详情
     showEdit(item) {
       var arr = []

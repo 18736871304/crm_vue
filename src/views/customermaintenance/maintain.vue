@@ -1405,4 +1405,29 @@
     height: 100%;
     align-items: center;
   }
+
+  .mobile_box .el-table__header-wrapper{ 
+    display: none;
+  }
+
+  .mobile_input_box {
+    position: absolute;
+    top: 16px;
+    right: 25px;
+}
+.mobile_input_cancle {
+    color: #B9B9B9;
+}
+.mobile_input_add {
+    color: #DC240F;
+}
+
+.mobile_input {
+    display: inline-block;
+    width: 25px;
+    height: 17px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 10px;
+}
   </style>

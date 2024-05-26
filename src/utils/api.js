@@ -5,8 +5,7 @@ import {
 } from './request.js';
 import axios from "axios";
 
-const CancelToken = axios.CancelToken;
-const source = CancelToken.source();
+
 
 // 获取token
 function getTempToken(params) {
@@ -230,16 +229,12 @@ function getQunList(params) {
 }
 //获取用户和客户的聊天记录
 function getQwTalkData(params) {
-  return POST(params, '/crm/qwMan/getQwTalkData.do', {
-    cancelToken: source.token
-  })
+  return POST(params, '/crm/qwMan/getQwTalkData.do')
 }
 
 //获取群的聊天记录
 function getQwQunTalkData(params) {
-  return POST(params, '/crm/qwMan/getQwQunTalkData.do', {
-    cancelToken: source.token
-  })
+  return POST(params, '/crm/qwMan/getQwQunTalkData.do')
 }
 // 获取企业所有的客户
 function getAllcustom(params){
@@ -263,6 +258,25 @@ function getAllqunUser(params){
 function getQwTj(params){
   return POST(params, '/crm/qwMan/getQwTj.do')
 }
+
+// 查询分组
+function getTalkTempleteGroup(params){
+  return POST(params, '/crm/talktemplete/getTalkTempleteGroup.do')
+}
+// 创建分组
+function addTalkTempleteGroup(params){
+  return POST(params, '/crm/talktemplete/addTalkTempleteGroup.do')
+}
+// 编辑分组
+function modifyTalkTempleteGroup(params){
+  return POST(params, '/crm/talktemplete/modifyTalkTempleteGroup.do')
+}
+// 删除分组
+function deleteTalkTempleteGroup(params){
+  return POST(params, '/crm/talktemplete/deleteTalkTempleteGroup.do')
+}
+
+
 
 
 export default {
@@ -317,5 +331,8 @@ export default {
   getAllqun,
   getAllqunUser,
   getQwTj,
-  source //quxiao
+  addTalkTempleteGroup,
+  modifyTalkTempleteGroup,
+  deleteTalkTempleteGroup,
+  getTalkTempleteGroup,
 }

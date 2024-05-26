@@ -6,13 +6,11 @@
         <div class="common-select" style="width: 30%;">
           <div class="select-title" style="width: 1.28rem">创建时间</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.28rem); border: none">
-            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini"
-              value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间"
-              end-placeholder="结束时间" :picker-options="pickerOptions">
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
-        
+
         <div class="common-select">
           <div class="select-title" style="width: 1.28rem">所属类别</div>
           <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
@@ -26,8 +24,7 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.28rem">关键字搜索</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini"
-              placeholder=""></el-autocomplete>
+            <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder=""></el-autocomplete>
           </div>
         </div>
 
@@ -41,7 +38,7 @@
       <el-table :data="tableData" border style="width: 100%">
         <el-table-column align="center" type="index" label="序号">
         </el-table-column>
-        <el-table-column align="center"  sortable prop="makedate" label="创建时间" width="150px">
+        <el-table-column align="center" sortable prop="makedate" label="创建时间" width="150px">
         </el-table-column>
         <el-table-column align="center" prop="oprname" label="创建人" width="120px">
         </el-table-column>
@@ -49,7 +46,7 @@
         </el-table-column>
         <el-table-column align="center" prop="title" label="标题">
         </el-table-column>
-        <el-table-column align="center" label="操作"  width="140px">
+        <el-table-column align="center" label="操作" width="140px">
           <template slot-scope="scope">
             <a href="javascript:void(0);" style="color: #4985E5;" @click="showEditPopup(scope.row)">编辑</a>
             <a href="javascript:void(0);" style="color: #DC220D; margin-left: 0.15rem;" @click="deleteItem(scope.row)">删除</a>
@@ -57,8 +54,7 @@
         </el-table-column>
       </el-table>
       <div style="margin-top: 20px; ">
-        <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize"
-          :current-page="pageNum" @current-change="pageClick">
+        <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
         </el-pagination>
       </div>
     </div>
@@ -68,8 +64,7 @@
           <label>所属类别</label>
           <div class="right-content">
             <el-select v-model="noticeItem.type" size="mini" placeholder="请选择">
-              <el-option v-for="(item) in noticeTypeList" :key="item.dd_key" :label="item.dd_value"
-                :value="item.dd_key">
+              <el-option v-for="(item) in noticeTypeList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
               </el-option>
             </el-select>
           </div>
@@ -86,7 +81,7 @@
           <div class="right-content">
             <div class="editor-box editor-content1">
               <div id="div1" class="toolbar"></div>
-              <div id="div2" class="text">
+              <div id="div2" class="text" style="min-height: 2rem">
               </div>
             </div>
           </div>
@@ -101,7 +96,7 @@
 </template>
 <script>
 import wangEditor from '@/components/wangEditor/release/wangEditor.min.js'
-import { getData, getPhoneData, my_url} from '../../static/js/ajax.js';
+import { getData, getPhoneData, my_url } from '../../static/js/ajax.js';
 import { formatDate } from '../../static/js/common.js';
 let editor10
 export default {
@@ -192,10 +187,10 @@ export default {
             var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
             const end = monthEndDate;
             function getMonthDays() {
-                var monthStartDate = new Date(nowYear, nowMonth, 1);
-                var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
-                var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
-                return days;
+              var monthStartDate = new Date(nowYear, nowMonth, 1);
+              var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
+              var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
+              return days;
             }
             picker.$emit('pick', [start, end]);
           }
@@ -243,13 +238,13 @@ export default {
       this.titleDialog = '编辑';
       this.addNoticeDialogVisible = true
       if (editor10 == null) { //true
-      this.$nextTick(() => {
-        this.newWangEditor('#div1', '#div2')
-        if (this.noticeItem.content) {
-          editor10.txt.html(this.noticeItem.content)
-        }
-      })
-      }else{
+        this.$nextTick(() => {
+          this.newWangEditor('#div1', '#div2')
+          if (this.noticeItem.content) {
+            editor10.txt.html(this.noticeItem.content)
+          }
+        })
+      } else {
         editor10.txt.html(this.noticeItem.content)
       }
     },
@@ -311,15 +306,15 @@ export default {
       this.itemReset()
       this.addNoticeDialogVisible = true;
       this.titleDialog = '新建';
-      if (editor10 == null) { //true
+      // if (editor10 == null) { //true
         this.$nextTick(() => {
-        this.newWangEditor('#div1', '#div2')
-        editor10.txt.html(this.noticeItem.content)
-      })
-      }else{
-        editor10.txt.html(this.noticeItem.content)
-      }
-    
+          this.newWangEditor('#div1', '#div2')
+          editor10.txt.html(this.noticeItem.content)
+        })
+      // } else {
+      //   editor10.txt.html(this.noticeItem.content)
+      // }
+
     },
     reset() { //重置
       this.title = ''
@@ -328,6 +323,7 @@ export default {
     },
     newWangEditor(el1, el2) {
       editor10 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+      editor10.customConfig.height = 500
       // 关闭粘贴内容中的样式
       // editor10.customConfig.pasteFilterStyle = false
       // editor10.customConfig.pasteText = false;
@@ -349,7 +345,7 @@ export default {
       // 使用 base64 保存图片
       //editor10.customConfig.uploadImgShowBase64 = true
       editor10.customConfig.menus = [
-      'image', // 插入图片
+        'image', // 插入图片
         'head', // 标题
         'bold', // 粗体
         'fontSize', // 字号
@@ -424,7 +420,7 @@ export default {
       ]
       editor10.create()
     },
-    
+
     getSearchData() {
       let _this = this;
       getData('post', my_url + '/crm/system/getNoticeTitleList.do', function (data) { //渠道类型
@@ -458,48 +454,48 @@ export default {
 <style src="@/components/wangEditor/release/fonts/w-e-icon.woff"></style>
 <style>
 .noticeMan-step-list {
-    max-height: 700px;
-    /* overflow-y: scroll; */
-    overflow-x: hidden;
+  max-height: 700px;
+  /* overflow-y: scroll; */
+  overflow-x: hidden;
 }
 
 .noticeMan-step-list .item-section {
-    display: flex;
+  display: flex;
 }
 
 .noticeMan-step-list .item-section label {
-    width: 0.7rem;
-    margin-top: 0.06rem;
-    margin-right: 0.18rem;
-    font-size: 0.14rem;
+  width: 0.7rem;
+  margin-top: 0.06rem;
+  margin-right: 0.18rem;
+  font-size: 0.14rem;
 }
 
 .noticeMan-step-list .item-section .right-content {
-    flex: 1;
-    width: 0;
+  flex: 1;
+  width: 0;
 }
 
 .noticeMan-step-list .item-section .el-select {
-    display: block;
-    width: 100%;
+  display: block;
+  width: 100%;
 }
 
 .item-section {
-    margin-top: 0.08rem;
+  margin-top: 0.08rem;
 }
 
 .item-section .el-input--mini .el-input__inner {
-    line-height: calc(0.3rem - 2px);
-    border-radius: 2px;
-    border: 1px solid rgba(216, 216, 216, 1);
-    font-size: 0.14rem;
-    margin-left: 0;
+  line-height: calc(0.3rem - 2px);
+  border-radius: 2px;
+  border: 1px solid rgba(216, 216, 216, 1);
+  font-size: 0.14rem;
+  margin-left: 0;
 }
 
 .editor-box {
-    border-radius: 2px;
-    border: 1px solid rgba(216, 216, 216, 1);
-    font-size: 0.14rem;
+  border-radius: 2px;
+  border: 1px solid rgba(216, 216, 216, 1);
+  font-size: 0.14rem;
 }
 
 .editor-content1 {
@@ -507,13 +503,13 @@ export default {
 }
 
 .item-section .el-textarea__inner {
-    overflow: hidden;
-    border-radius: 2px;
-    font-size: 0.14rem;
-    font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+  border-radius: 2px;
+  font-size: 0.14rem;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .w-e-toolbar {
-    border-bottom: 1px solid rgba(216,216,216,1);
+  border-bottom: 1px solid rgba(216, 216, 216, 1);
 }
 </style>

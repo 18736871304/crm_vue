@@ -45,7 +45,7 @@ export default {
       cusmobile: '电话号码', //显示的电话号码
       cusMobileWxno: '', //客户电话号码或者微信值
       cusname: '', //客户姓名
-      cusplanid: '批次号', //广告计划ID
+      cusplanid: '渠道类型', //广告计划ID
       cusplanidBatchno: '', //广告计划ID，渠道类型，批次号的值
 
       fuName: '业务员姓名',

@@ -1609,6 +1609,7 @@ export default {
     // 时长
     api.getDictList({dict_type: 'durationtype'}).then((data) => {
       if (data.code == 0) {
+        console.log(data.dictList)
         _this.durations = data.dictList
       }
     });
@@ -1817,6 +1818,7 @@ export default {
 
       //新增
       if (this.selectValue.calendarid == '') {
+
         if (endtime.slice(0, 10) != this.impordata1) {
           setTimeout(() => {
             this.$message({

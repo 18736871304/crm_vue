@@ -5,7 +5,7 @@
             <header class="headfixed">
                 <div style="margin-bottom: 0.1rem;font-size: 0.16rem;">
                     <!-- 员工-{{ parentData.zzcount }}-{{ parentData.lzcount }} -->
-                    员工 ({{ zaizhiNum.length }} - {{ lizhiNum.length }})
+                    员工 ({{ zaizhiNum.length }} - {{ lizhiNum.length + zaizhiNum.length }})
                 </div>
                 <div class="select-content" style="margin-bottom: 0.1rem;">
                     <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
@@ -55,7 +55,7 @@
                             <img :src="selectStaffPhoto" alt="" class="avatar" />
                             <div class="pBox">
                                 <p style="font-size: 0.15rem;">{{ selectStaffName }}</p>
-                                <p class="lastText" style=" margin-top: 5px;">别名：{{ oneitem.qwalias }}</p>
+                                <p class="lastText" style=" margin-top: 7px;">别名：{{ oneitem.qwalias }}</p>
                             </div>
 
 
@@ -445,7 +445,7 @@
     </div>
 </template>
 <script>
-import { getData, my_url } from "../../../static/js/ajax.js";
+import { getData,getDataOne, my_url } from "../../../static/js/ajax.js";
 import api from "../../../utils/api.js";
 import { formatDate } from "../../../static/js/common.js";
 import BenzAMRRecorder from 'benz-amr-recorder';
@@ -614,7 +614,9 @@ export default {
         teamNameList(data) {
             this.lizhiNum = []
             this.zaizhiNum = []
+
             console.log(data)
+
             if (data.length > 0) {
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].usertype == '04') {
@@ -852,15 +854,14 @@ export default {
 
 
 
-            getData("post", my_url + jiekouUrl, function (data) {
+            getDataOne("post", my_url + jiekouUrl, function (data) {
                 if (data.length > 0) {
                     _this.seq = data[data.length - 1].seq
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
                         data.push(lookupdown)
                     }
+                    _this.loading = false;
                     for (var i = 0; i < data.length; i++) {
-
-                        _this.loading = false;
                         var aa = i;
                         var upaa = i - 1
                         if (upaa < 0 || upaa == 0) {
@@ -881,7 +882,7 @@ export default {
                         if (data[i].msgtype == "revoke") {
                             data.splice(i, 1)
                         }
-                    console.log(data[i].msgtype == "link")
+              
                         if (data[i].msgtype == "link") {
                             var fileData = JSON.parse(data[i].text)
                             data[i]["link_url"] = fileData.link_url
@@ -1083,6 +1084,7 @@ export default {
                         qwalias: res.qwalias,
                         qwuserid: res.qwuserid,
                         qwuserurl: res.qwuserurl,
+                        usertype:res.usertype
                     });
                 });
                 _this.selectOneName(data.userList[0], this.tablabel)
@@ -1249,6 +1251,7 @@ export default {
             item["qwalias"] = item.qwalias;
             item["qwuserid"] = item.qwuserid;
             item["qwuserurl"] = item.qwuserurl;
+            item["usertype"] = item.usertype;
 
             arr.push(item);
             this.teamNameList = arr;
@@ -1284,6 +1287,7 @@ export default {
                     qwalias: res.qwalias,
                     qwuserid: res.qwuserid,
                     qwuserurl: res.qwuserurl,
+                    usertype:res.usertype
                 })
             });
             _this.teamNameList = arr
@@ -2218,7 +2222,7 @@ export default {
 
 .exUser {
     margin-top: 0.3rem;
-    font-size: 12px;
+    font-size: 0.14rem;
     color: rgba(0, 0, 0, .45);
 }
 
@@ -2227,7 +2231,7 @@ export default {
     height: 0.25rem;
     background: #f6f6f6;
     border-radius: 2px;
-    font-size: 12px;
+    font-size: 0.14rem;
     margin-top: 8px;
     display: -webkit-box;
     display: flex;

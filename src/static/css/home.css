@@ -205,7 +205,7 @@
     background-color: #FFF;
     color: #686868;
     cursor: initial;
-    font-size: 0.12rem;
+    font-size: 0.14rem;
     font-weight: 500;
     -webkit-transition: border-bottom-color .3s;
     transition: border-bottom-color .3s;
@@ -227,7 +227,7 @@
 }
 
 .notice_p_so {
-    font-size: 0.14rem;
+    font-size: 0.15rem;
     color: #282828;
     margin: 0.05rem 0;
 }
@@ -354,7 +354,7 @@
 }
 
 .xu-xian .el-collapse-item__content .img-list * {
-    font-size: 0.12rem !important;
+    font-size: 0.14rem !important;
 }
 
 .xu-xian .el-collapse-item__content .img-list img {
