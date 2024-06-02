@@ -1304,12 +1304,12 @@ export default {
 }
 
 .gjg_topping {
-  display: none;
-  color: #979797;
+  display: none!important;
+  color: #979797!important;
   width: 15% !important;
   cursor: pointer;
 }
 .customer-drawer .drawerRight .drawercontentBox ul li:hover .gjg_topping {
-  display: block;
+  display: block!important;
 }
 </style>

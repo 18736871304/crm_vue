@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       dis_Pz_up: false, //资源删除
-      planid: '批次号', //广告计划ID
+      planid: '渠道类型', //广告计划ID
       planidBatchno: '',
       planidValue: '', //广告计划ID
       batchnoValue: '', //批次号

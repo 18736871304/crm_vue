@@ -275,7 +275,23 @@ function modifyTalkTempleteGroup(params){
 function deleteTalkTempleteGroup(params){
   return POST(params, '/crm/talktemplete/deleteTalkTempleteGroup.do')
 }
+// 新建话术库
+function addTalkTempleteContent(params){
+  return POST(params, '/crm/talktemplete/addTalkTempleteContent.do')
+}
+// 查询话术库
+function getTalkItemList(params){
+  return POST(params, '/crm/talktemplete/getTalkItemList.do')
+}
 
+// 编辑话术库
+function modifyTalkTempleteContent(params){
+  return POST(params, '/crm/talktemplete/modifyTalkTempleteContent.do')
+}
+// 删除话术库
+function deleteTalkTempleteContent(params){
+  return POST(params, '/crm/talktemplete/deleteTalkTempleteContent.do')
+}
 
 
 
@@ -335,4 +351,8 @@ export default {
   modifyTalkTempleteGroup,
   deleteTalkTempleteGroup,
   getTalkTempleteGroup,
+  addTalkTempleteContent,
+  getTalkItemList,
+  modifyTalkTempleteContent,
+  deleteTalkTempleteContent
 }

@@ -60,4 +60,7 @@ nav {
     height: 40px !important;
     font-size: 14px;
 }
+html{
+   overflow-x: hidden;
+}
 </style>

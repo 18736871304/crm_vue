@@ -5,15 +5,13 @@
         <div class="common-select" v-if="CJGselectValue === '保单检视'">
           <div class="select-title" style="width: 1.28rem">保险公司</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-autocomplete class="el-input-inners" v-model="insorganName" :trigger-on-focus="false" :fetch-suggestions="querySearch1"
-              size="mini" placeholder="请输入保险公司" clearable></el-autocomplete>
+            <el-autocomplete class="el-input-inners" v-model="insorganName" :trigger-on-focus="false" :fetch-suggestions="querySearch1" size="mini" placeholder="请输入保险公司" clearable></el-autocomplete>
           </div>
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.28rem">关键字搜索</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini"
-              placeholder=""></el-autocomplete>
+            <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder=""></el-autocomplete>
           </div>
         </div>
         <div class="common-select" v-if="CJGselectValue === '解答疑义'">
@@ -25,8 +23,7 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree1" show-checkbox node-key="id"
-                  :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
+                <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree1" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
                 </el-tree>
                 <div class="sure-footer">
                   <div class="my-sure" @click="my_sure1">确定</div>
@@ -45,13 +42,12 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree2" show-checkbox node-key="id"
-                  :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
+                <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
                 </el-tree>
                 <div class="sure-footer">
                   <div class="my-sure" @click="my_sure2">确定</div>
                   <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
-              </div>
+                </div>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -59,18 +55,14 @@
         <div class="common-select" v-if="CJGselectValue === '解答疑义'" style="width: 28%">
           <div class="select-title" style="width: 1.2rem">最后修改时间</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.2rem); border: none">
-            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini"
-              value-format="yyyy-MM-dd HH:mm:ss" unlink-panels range-separator="-" start-placeholder="开始时间"
-              end-placeholder="结束时间" :picker-options="pickerOptions">
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd HH:mm:ss" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
         <div class="common-select" v-else style="width: 30%">
           <div class="select-title" style="width: 1.6rem">最后修改时间</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.6rem); border: none">
-            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini"
-              value-format="yyyy-MM-dd HH:mm:ss" unlink-panels range-separator="-" start-placeholder="开始时间"
-              end-placeholder="结束时间" :picker-options="pickerOptions">
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd HH:mm:ss" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
@@ -78,7 +70,7 @@
           <div class="search-btn" @click="search">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
         </div>
-        <div class="common-select" style="float: right;width: 11.5%;" v-else-if="CJGselectValue === '解答疑义'"      >
+        <div class="common-select" style="float: right;width: 11.5%;" v-else-if="CJGselectValue === '解答疑义'">
           <div class="search-btn" @click="search">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
         </div>
@@ -90,25 +82,21 @@
     </div>
     <div class="table-box">
       <el-table :data="tableData" border style="width: 100%" :header-cell-class-name="headerClassName">
-        <el-table-column  key="1" align="center" type="index" label="序号">
+        <el-table-column key="1" align="center" type="index" label="序号">
         </el-table-column>
-        <el-table-column  key="2" sortable align="center" prop="modifydate" label="最后修改时间" width="170">
+        <el-table-column key="2" sortable align="center" prop="modifydate" label="最后修改时间" width="170">
         </el-table-column>
-        <el-table-column  key="3" v-if="CJGselectValue === '保单检视'" align="center" prop="insorganname" label="保险公司"
-          width='140' :show-overflow-tooltip="true">
+        <el-table-column key="3" v-if="CJGselectValue === '保单检视'" align="center" prop="insorganname" label="保险公司" width='140' :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column  key="4" v-if="CJGselectValue === '解答疑义'" align="left" prop="title" label="疑义问题"
-          :show-overflow-tooltip="true">
+        <el-table-column key="4" v-if="CJGselectValue === '解答疑义'" align="left" prop="title" label="疑义问题" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column  key="5"   v-else align="left" prop="title" label="标题"  width="auto" :show-overflow-tooltip="true">
+        <el-table-column key="5" v-else align="left" prop="title" label="标题" width="auto" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column  key="6" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedtypedesc" label="所属分类"
-          width="180" :show-overflow-tooltip="true">
+        <el-table-column key="6" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedtypedesc" label="所属分类" width="180" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column  key="7" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedflowdesc" label="跟进步骤"
-          width="180" :show-overflow-tooltip="true">
+        <el-table-column key="7" v-if="CJGselectValue === '解答疑义'" align="center" prop="askedflowdesc" label="跟进步骤" width="180" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column  key="8" align="center" label="操作" width="140">
+        <el-table-column key="8" align="center" label="操作" width="140">
           <template slot-scope="scope">
             <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">查看</a>
           </template>
@@ -116,8 +104,7 @@
       </el-table>
     </div>
     <div>
-      <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize"
-        :current-page="pageNum" @current-change="pageClick">
+      <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
       </el-pagination>
     </div>
     <el-dialog :title="CJGselectValue" :visible.sync="drawer" width="1100px">
@@ -162,8 +149,7 @@
             <ul class="enclosure-list" v-if="fileList.length">
               <li class="item" v-for="(item,index) in fileList" :key="index">
                 <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
-                <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn"
-                  :download="item.filename">下载</a>
+                <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
               </li>
             </ul>
             <ul class="enclosure-list" v-else>
@@ -183,8 +169,7 @@
         <div class="item-section">
           <label>疾病描述</label>
           <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" :disabled="true" resize="none"
-              type="textarea" autosize>
+            <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" :disabled="true" resize="none" type="textarea" autosize>
             </el-input>
           </div>
         </div>
@@ -192,17 +177,12 @@
           <label>核保建议</label>
           <div class="right-content">
             <div class="tab-head">
-              <div class="tab" :class="currentSuggestion === 'zjsuggestion' ? 'actived' : ''"
-                @click="changeSuggestion('zjsuggestion')">重疾险</div>
-              <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''"
-                @click="changeSuggestion('ylsuggestion')">医疗险</div>
+              <div class="tab" :class="currentSuggestion === 'zjsuggestion' ? 'actived' : ''" @click="changeSuggestion('zjsuggestion')">重疾险</div>
+              <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''" @click="changeSuggestion('ylsuggestion')">医疗险</div>
             </div>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10"
-              placeholder="请输入内容" :disabled="true" v-if="currentSuggestion === 'zjsuggestion'"
-              v-model="jbhbItem.zjsuggestion">
+            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10" placeholder="请输入内容" :disabled="true" v-if="currentSuggestion === 'zjsuggestion'" v-model="jbhbItem.zjsuggestion">
             </el-input>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10"
-              placeholder="请输入内容" v-else :disabled="true" v-model="jbhbItem.ylsuggestion">
+            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10" placeholder="请输入内容" v-else :disabled="true" v-model="jbhbItem.ylsuggestion">
             </el-input>
           </div>
         </div>
@@ -228,8 +208,7 @@
                 <div class="item">
                   <label>承保说明</label>
                   <div class="right-content">
-                    <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" :disabled="true" resize="none"
-                      type="textarea" autosize>
+                    <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" :disabled="true" resize="none" type="textarea" autosize>
                     </el-input>
                   </div>
                 </div>
@@ -261,16 +240,6 @@
         </div>
 
         <div class="item-section">
-          <label>隐藏信息</label>
-          <div class="right-content">
-            <div class="editor-box">
-              <div id="div7" class="toolbar"></div>
-              <div id="div8" class="text">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="item-section">
           <label>解答示范</label>
           <div class="right-content">
             <div class="editor-box">
@@ -286,8 +255,7 @@
             <ul class="enclosure-list" v-if="fileList.length">
               <li class="item" v-for="(item,index) in fileList" :key="index">
                 <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
-                <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn"
-                  :download="item.filename">下载</a>
+                <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
               </li>
             </ul>
             <ul class="enclosure-list" v-else>
@@ -295,6 +263,17 @@
             </ul>
           </div>
         </div>
+        <div class="item-section">
+          <label>点评</label>
+          <div class="right-content">
+            <div class="editor-box">
+              <div id="div7" class="toolbar"></div>
+              <div id="div8" class="text">
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </el-dialog>
   </div>
@@ -303,7 +282,7 @@
 import $ from 'jquery';
 import wangEditor from '@/components/wangEditor/release/wangEditor.min.js';
 import { getData, my_url } from '../../static/js/ajax.js';
-import { formatDate} from '../../static/js/common.js';
+import { formatDate } from '../../static/js/common.js';
 let editor9, editor10, editor11, editor12;
 export default {
   data() {
@@ -438,10 +417,10 @@ export default {
             var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
             const end = monthEndDate;
             function getMonthDays() {
-                var monthStartDate = new Date(nowYear, nowMonth, 1);
-                var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
-                var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
-                return days;
+              var monthStartDate = new Date(nowYear, nowMonth, 1);
+              var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
+              var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
+              return days;
             }
             picker.$emit('pick', [start, end]);
           }
@@ -797,8 +776,8 @@ export default {
     },
     getItem(item) {
       let body = {
-          baseid: item.baseid
-        },
+        baseid: item.baseid
+      },
         url
       if (item.type === '01') {
         url = '/crm/knowledge/getOnePolicyRead.do'
@@ -1033,9 +1012,7 @@ export default {
 </script>
 <style src="../../static/css/knowledgeMan.css"></style>
 <style>
-
-
 .el-table tr {
-    height: 0.3rem !important;
+  height: 0.3rem !important;
 }
 </style>

@@ -102,25 +102,30 @@
     <el-dialog title="修改密码" :visible.sync="iseditDialog" width="30%" center :close-on-click-modal="false">
 
       <div class="editPassword">
-        <div class="demo-input-suffix">
-          账号：
-          <el-input placeholder="请输入账号" prefix-icon="el-icon-user-solid" v-model="zhanghu">
-          </el-input>
-        </div>
-        <div class="demo-input-suffix">
-          原密码：
-          <el-input placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="oldPassword" show-password>
-          </el-input>
-        </div>
-        <div class="demo-input-suffix">
-          新密码确认：
-          <el-input placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="newPassword" show-password>
-          </el-input>
-        </div>
+        
+        <Form>
+          <div class="demo-input-suffix">
+
+            账号：
+            <el-input placeholder="请输入账号" prefix-icon="el-icon-user-solid" v-model="zhanghu" autocomplete="new-password">
+            </el-input>
+
+          </div>
+          <div class="demo-input-suffix">
+            原密码：
+            <el-input placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="oldPassword" show-password autocomplete="new-password">
+            </el-input>
+          </div>
+          <div class="demo-input-suffix">
+            新密码确认：
+            <el-input placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="newPassword" show-password autocomplete="new-password">
+            </el-input>
+          </div>
+        </Form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="iseditDialog = false">取 消</el-button>
-        <el-button type="primary" @click="editDialog" class="sure_edit">确 定</el-button>
+        <el-button size="small" @click="iseditDialog = false">取 消</el-button>
+        <el-button type="primary" size="small" @click="editDialog" class="sure_edit">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -767,7 +772,7 @@ export default {
 #contentBox {
   position: absolute;
   right: 0;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 .menu-common {
@@ -798,12 +803,26 @@ export default {
 }
 
 ::v-deep .editPassword .el-input__inner {
-  height: 0.5rem;
+  height: 0.3rem;
+  line-height: 0.3rem;
+    font-size: 0.14rem;
   padding-left: 40px !important;
 }
-
+::v-deep .editPassword  .el-input__icon {
+   line-height: 0.3rem;
+}
 .editPassword .demo-input-suffix {
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.14rem;
+}
+
+.editPassword .demo-input-suffix  .el-input{
+   margin-top: 0.1rem;
+}
+
+::v-deep .editPassword .demo-input-suffix  .el-input  .el-input__suffix
+{
+  margin-right: 0.15rem;
 }
 
 ::v-deep .el-dialog__footer .dialog-footer .sure_edit:hover,
@@ -831,4 +850,10 @@ export default {
     border: 1px solid #DCDFE6;
     color: #606266;
 } */
+
+::v-deep  input::-webkit-input-placeholder {
+    color: #aab2bd;
+    font-size: 0.13rem;
+    line-height: 0.3rem;
+}
 </style>

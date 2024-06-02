@@ -565,8 +565,8 @@
             <div class="shu-xian "></div>
           </li>
           <li style="position: relative" class="border_b">
-            <p class="container_listthree_po">业绩金额
-              <el-tooltip popper-class="atooltip" effect="light" content="在统计周期内，已成交的20年FYP业绩金额" placement="top">
+            <p class="container_listthree_po">标保
+              <el-tooltip popper-class="atooltip" effect="light" content="在统计周期内，已成交的标保" placement="top">
                 <span></span>
               </el-tooltip>
             </p>
@@ -1140,6 +1140,8 @@
           <el-table-column prop="batchno" align="center" label="批次号" width="140" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="channelname" align="center" label="渠道类型" width="90">
+          </el-table-column>
+          <el-table-column prop="appname" align="center" label="流量来源" width="100">
           </el-table-column>
         </el-table>
         <div style="margin-top: 20px;">

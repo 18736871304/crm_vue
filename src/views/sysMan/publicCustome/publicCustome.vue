@@ -20,6 +20,32 @@
                 </el-select>
               </div>
             </div> -->
+            <div class="common-select publiccustome-select" style="width: 30%;">
+              <div class="select-title" style="width: 1.65rem">线索产生时间</div>
+              <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
+                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+                </el-date-picker>
+              </div>
+            </div>
+
+            <div class="common-select">
+              <div class="select-title" style="width: 1.28rem">客户姓名</div>
+              <div class="select-content" style="width: calc(100% - 1.28rem);">
+                <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder=""></el-input>
+              </div>
+            </div>
+
+            <div class="common-select">
+              <div class="select-title" style="width: 1.28rem">
+                <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
+                  <el-option label="电话号码" value="电话号码"></el-option>
+                  <el-option label="微信号" value="微信号"></el-option>
+                </el-select>
+              </div>
+              <div class="select-content" style="width: calc(100% - 1.28rem);">
+                <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
+              </div>
+            </div>
             <div class="common-select">
               <div class="select-title" style="width: 1.28rem">
                 <!-- label选择框 -->
@@ -33,32 +59,6 @@
                 <el-input class="el-input-inners" v-model="planidBatchno" align="right" size="mini" clearable></el-input>
               </div>
             </div>
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">客户姓名</div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
-                <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder=""></el-input>
-              </div>
-            </div>
-            <div class="common-select publiccustome-select">
-              <div class="select-title" style="width: 1.65rem">线索产生时间</div>
-              <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
-                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels
-                  range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
-                </el-date-picker>
-              </div>
-            </div>
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
-                <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
-                  <el-option label="电话号码" value="电话号码"></el-option>
-                  <el-option label="微信号" value="微信号"></el-option>
-                </el-select>
-              </div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
-                <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
-              </div>
-            </div>
-
             <div class="common-select" style="float: right;    width: 11.5%;">
               <div class="search-btn" @click="search(1)">搜索</div>
               <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
@@ -83,6 +83,31 @@
                 </el-select>
               </div>
             </div> -->
+            <div class="common-select" style="width: 30%;">
+              <div class="select-title" style="width: 1.65rem">线索产生时间</div>
+              <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
+                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+                </el-date-picker>
+              </div>
+            </div>
+            <div class="common-select">
+              <div class="select-title" style="width: 1.28rem">客户姓名</div>
+              <div class="select-content" style="width: calc(100% - 1.28rem);">
+                <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder=""></el-input>
+              </div>
+            </div>
+
+            <div class="common-select">
+              <div class="select-title" style="width: 1.28rem">
+                <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
+                  <el-option label="电话号码" value="电话号码"></el-option>
+                  <el-option label="微信号" value="微信号"></el-option>
+                </el-select>
+              </div>
+              <div class="select-content" style="width: calc(100% - 1.28rem);">
+                <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
+              </div>
+            </div>
             <div class="common-select">
               <div class="select-title" style="width: 1.28rem">
                 <!-- label选择框 -->
@@ -94,31 +119,6 @@
               </div>
               <div class="select-content" style="width: calc(100% - 1.28rem);">
                 <el-input class="el-input-inners" v-model="planidBatchno" align="right" size="mini" clearable></el-input>
-              </div>
-            </div>
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">客户姓名</div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
-                <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder=""></el-input>
-              </div>
-            </div>
-            <div class="common-select">
-              <div class="select-title" style="width: 1.65rem">线索产生时间</div>
-              <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
-                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels
-                  range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
-                </el-date-picker>
-              </div>
-            </div>
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
-                <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
-                  <el-option label="电话号码" value="电话号码"></el-option>
-                  <el-option label="微信号" value="微信号"></el-option>
-                </el-select>
-              </div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
-                <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
 
@@ -248,20 +248,16 @@
       <div class="check-all-box-publicCustome clearfix" style="padding-bottom: 0.1rem;">
         <el-checkbox v-model="checkedAll" style="float: left">全选 &nbsp;{{checkedAllNum}}个客户</el-checkbox>
         <div style="float: right; display: flex; align-items: center; justify-content: flex-end;">
-          
-          <div class="search-btn" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;" 
-          @click="auditUnpass" v-show="examstateShow">审核不通过</div>
-          <div class="search-btn" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;" 
-          @click="auditPass" v-show="examstateShow">审核通过</div>
 
-          <el-popover popper-class="entry-customer-popper" placement="bottom-start" width="3.31rem" trigger="click" v-model="resourceDeployVisable"
-            @show="resourceDeployShow" v-show="activeName!='00000006'">
+          <div class="search-btn" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;" @click="auditUnpass" v-show="examstateShow">审核不通过</div>
+          <div class="search-btn" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;" @click="auditPass" v-show="examstateShow">审核通过</div>
+
+          <el-popover popper-class="entry-customer-popper" placement="bottom-start" width="3.31rem" trigger="click" v-model="resourceDeployVisable" @show="resourceDeployShow" v-show="activeName!='00000006'">
             <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源调配</div>
             <div class="common-select">
               <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">新所属业务员</div>
               <div class="select-content" style="width: 2rem;">
-                <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :fetch-suggestions="querySearchId"
-                  placeholder="请输入新所属业务员" :trigger-on-focus="false" @select="handleSelectId"></el-autocomplete>
+                <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :fetch-suggestions="querySearchId" placeholder="请输入新所属业务员" :trigger-on-focus="false" @select="handleSelectId"></el-autocomplete>
               </div>
             </div>
             <div class="common-select">
@@ -277,7 +273,7 @@
               <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="resourceDeployCancel">取消</div>
             </div>
           </el-popover>
-          <el-popover  popper-class="entry-customer-popper" v-show="activeName!='00000006'" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
+          <el-popover popper-class="entry-customer-popper" v-show="activeName!='00000006'" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
             <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源删除</div>
             <div style="text-align:center;">确定删除所选资源？</div>
             <div class="sure-footer" style="padding-bottom: 0;">
@@ -319,9 +315,8 @@
         </div>
       </div>
       <div class="check-all-table publicCustome-table">
-        <el-table :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%"
-          @selection-change="handleSelectionChange" @sort-change="sortChange" :empty-text="emptyText" header-cell-class-name="splice-header">
-          <el-table-column type="selection" width="60">
+        <el-table :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange" :empty-text="emptyText" header-cell-class-name="splice-header">
+          <el-table-column type="selection" width="40">
           </el-table-column>
           <el-table-column key="1" type="index" label="序号" align="center" width="60">
           </el-table-column>
@@ -329,15 +324,13 @@
             <el-table-column key="2" type="index" label="状态" align="center" width="100">
               <template slot-scope="scope">
                 <el-tag v-if="scope.row.examstate == '02'" type="success" size="mini">审核通过</el-tag>
-                <el-tag style="color:#979797;background: #F6F7FA;border: 1px solid #ECEEF6;"
-                  v-if="scope.row.examstate == '01'" size="mini">待审核</el-tag>
+                <el-tag style="color:#979797;background: #F6F7FA;border: 1px solid #ECEEF6;" v-if="scope.row.examstate == '01'" size="mini">待审核</el-tag>
               </template>
             </el-table-column>
           </template>
           <el-table-column key="3" label="客户姓名" align="center" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <a style="cursor: pointer;" type="text" size="small"
-                @click="handle(scope.row)">{{scope.row.name||"空"}}</a>
+              <a style="cursor: pointer;" type="text" size="small" @click="handle(scope.row)">{{scope.row.name||"空"}}</a>
             </template>
           </el-table-column>
           <el-table-column key="4" prop="mobile" label="电话号码" align="center" width="140" :show-overflow-tooltip="true">
@@ -350,19 +343,15 @@
             </template>
           </el-table-column>
           <template v-if="activeName != '00000005'&&activeName != '00000007'">
-            <el-table-column key="6" prop="followupstepname" align="center" label="跟进步骤" width="90"
-              :show-overflow-tooltip="true">
+            <el-table-column key="6" prop="followupstepname" align="center" label="跟进步骤" width="90" :show-overflow-tooltip="true">
             </el-table-column>
-            <el-table-column key="7" prop="username" align="center" label="所属业务员" width="100"
-              :show-overflow-tooltip="true">
+            <el-table-column key="7" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
             </el-table-column>
           </template>
-          <el-table-column key="8" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100"
-            :show-overflow-tooltip="true">
+          <el-table-column key="8" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.shareusername}}</span>
-              <img src="../../../static/images/delete-icon.png" alt=""
-                style="cursor: pointer;vertical-align: -0.02rem;margin-left: 0.03rem;" @click="cancelShare(scope.row)">
+              <img src="../../../static/images/delete-icon.png" alt="" style="cursor: pointer;vertical-align: -0.02rem;margin-left: 0.03rem;" @click="cancelShare(scope.row)">
             </template>
           </el-table-column>
           <el-table-column key="9" prop="sex" label="性别" align="center" width="80" :show-overflow-tooltip="true">
@@ -390,120 +379,89 @@
               </p>
             </template>
           </el-table-column>
-          <el-table-column key="12"
-            v-if="activeName != '00000005'&&activeName != '00000007' && inputUserform1.includes('menudate')"
-            prop="menudate" align="center" label="线索入库时间" width="155" :show-overflow-tooltip="true" sortable="custom">
+          <el-table-column key="12" v-if="activeName != '00000005'&&activeName != '00000007' && inputUserform1.includes('menudate')" prop="menudate" align="center" label="线索入库时间" width="155" :show-overflow-tooltip="true" sortable="custom">
           </el-table-column>
 
-          <el-table-column key="13" v-if="inputUserform1.includes('makedate')" prop="makedate" align="center"
-            label="线索产生时间" width="155" :show-overflow-tooltip="true" sortable="custom">
+          <el-table-column key="13" v-if="inputUserform1.includes('makedate')" prop="makedate" align="center" label="线索产生时间" width="155" :show-overflow-tooltip="true" sortable="custom">
           </el-table-column>
 
-          <template
-            v-if="activeName != '00000005' && activeName != '00000007' && inputUserform1.includes('firstcalltime')">
-            <el-table-column key="14" prop="firstcalltime" align="center" label="首次拨打时间" :show-overflow-tooltip="true"
-              width="155" sortable="custom">
+          <template v-if="activeName != '00000005' && activeName != '00000007' && inputUserform1.includes('firstcalltime')">
+            <el-table-column key="14" prop="firstcalltime" align="center" label="首次拨打时间" :show-overflow-tooltip="true" width="155" sortable="custom">
             </el-table-column>
           </template>
-          <el-table-column key="15" v-if="inputUserform1.includes('lastcalltime')" prop="lastcalltime" align="center"
-            label="最新拨打时间" :show-overflow-tooltip="true" width="155" sortable="custom">
+          <el-table-column key="15" v-if="inputUserform1.includes('lastcalltime')" prop="lastcalltime" align="center" label="最新拨打时间" :show-overflow-tooltip="true" width="155" sortable="custom">
           </el-table-column>
 
-
-          <el-table-column key="16" v-if="activeName == '00000005'||activeName == '00000007'"  prop="distributedate"
-            align="center" label="最新分配时间" :show-overflow-tooltip="true" sortable="custom" width="155">
+          <el-table-column key="16" v-if="activeName == '00000005'||activeName == '00000007'" prop="distributedate" align="center" label="最新分配时间" :show-overflow-tooltip="true" sortable="custom" width="155">
           </el-table-column>
 
-
-          <el-table-column key="17" v-if="inputUserform1.includes('batchno')" prop="callcount" align="center"
-            label="累计拨打次数" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="17" v-if="inputUserform1.includes('batchno')" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="18" v-if="activeName == '00000006' && inputUserform1.includes('cusdealtime') " prop="cusdealtime"
-             align="center" label="客户成交时间" width="155" :show-overflow-tooltip="true" sortable="custom">
+          <el-table-column key="18" v-if="activeName == '00000006' && inputUserform1.includes('cusdealtime') " prop="cusdealtime" align="center" label="客户成交时间" width="155" :show-overflow-tooltip="true" sortable="custom">
           </el-table-column>
-          <el-table-column key="19" v-if="activeName == '00000006' && inputUserform1.includes('cusdealperiod')"
-            prop="cusdealperiod"  align="center" label="客户成交周期" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="19" v-if="activeName == '00000006' && inputUserform1.includes('cusdealperiod')" prop="cusdealperiod" align="center" label="客户成交周期" width="100" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="20" v-if="inputUserform1.includes('batchno')" prop="batchno" align="center" label="批次号"
-            width="140" :show-overflow-tooltip="true">
+          <el-table-column key="20" v-if="inputUserform1.includes('batchno')" prop="batchno" align="center" label="批次号" width="140" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="21" prop="channelname" align="center" label="渠道类型" width="80"
-            :show-overflow-tooltip="true">
+          <el-table-column key="21" prop="channelname" align="center" label="渠道类型" width="80" :show-overflow-tooltip="true">
           </el-table-column>
 
           <!-- <el-table-column key="18" prop="planname" label="计划名称" width="220" :show-overflow-tooltip="true"
             align="center">
           </el-table-column> -->
 
-          <el-table-column prop="clueid" key="22" v-if="inputUserform1.includes('clueid')" align="center" label="线索ID"
-            width="160" :show-overflow-tooltip="true">
+          <el-table-column prop="clueid" key="22" v-if="inputUserform1.includes('clueid')" align="center" label="线索ID" width="160" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="accountid" key="23" v-if="inputUserform1.includes('accountid')" align="center"
-            label="广告主ID" width="140" :show-overflow-tooltip="true">
+          <el-table-column prop="accountid" key="23" v-if="inputUserform1.includes('accountid')" align="center" label="广告主ID" width="140" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="accountname" key="24" v-if="inputUserform1.includes('accountname')" align="center"
-            label="广告主名称" width="160" :show-overflow-tooltip="true">
+          <el-table-column prop="accountname" key="24" v-if="inputUserform1.includes('accountname')" align="center" label="广告主名称" width="160" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="planid" key="25" v-if="inputUserform1.includes('planid')" align="center" label="广告计划ID"
-            width="140" :show-overflow-tooltip="true">
+          <el-table-column prop="planid" key="25" v-if="inputUserform1.includes('planid')" align="center" label="广告计划ID" width="140" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="planname" key="26" v-if="inputUserform1.includes('planname')" align="center"
-            label="广告计划名称" width="220" :show-overflow-tooltip="true">
+          <el-table-column prop="planname" key="26" v-if="inputUserform1.includes('planname')" align="center" label="广告计划名称" width="220" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="module_id" key="27" v-if="inputUserform1.includes('module_id')" align="center"
-            label="组件ID" width="160" :show-overflow-tooltip="true">
+          <el-table-column prop="module_id" key="27" v-if="inputUserform1.includes('module_id')" align="center" label="组件ID" width="160" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="module_name" key="28" v-if="inputUserform1.includes('module_name')" align="center"
-            label="组件名称" width="180" :show-overflow-tooltip="true">
+          <el-table-column prop="module_name" key="28" v-if="inputUserform1.includes('module_name')" align="center" label="组件名称" width="180" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="clue_sourcename" key="29" v-if="inputUserform1.includes('clue_sourcename')"
-            align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
+          <el-table-column prop="clue_sourcename" key="29" v-if="inputUserform1.includes('clue_sourcename')" align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="appname" key="30" v-if="inputUserform1.includes('appname')" align="center" label="流量来源"
-            width="100" :show-overflow-tooltip="true">
+          <el-table-column prop="appname" key="30" v-if="inputUserform1.includes('appname')" align="center" label="流量来源" width="100" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="area" key="31" v-if="inputUserform1.includes('area')" align="center" label="自动定位城市"
-            width="100" :show-overflow-tooltip="true">
+          <el-table-column prop="area" key="31" v-if="inputUserform1.includes('area')" align="center" label="自动定位城市" width="100" :show-overflow-tooltip="true">
           </el-table-column>
           <!-- <el-table-column prop="pagename" key="30" align="center" label="推广页面" width="100"
             :show-overflow-tooltip="true">
           </el-table-column> -->
 
-          <el-table-column key="32" v-if="inputUserform1.includes('pagename')" prop="pagename" label="推广页面" width="150"
-            :show-overflow-tooltip="true" align="center">
+          <el-table-column key="32" v-if="inputUserform1.includes('pagename')" prop="pagename" label="推广页面" width="150" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
               <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{scope.row.pagename}}</a>
             </template>
           </el-table-column>
-
-
 
           <!-- v-if="activeName != '00000005'&&activeName != '00000007'" -->
           <!-- <el-table-column key="18" v-if="inputUserform1.includes('planname')" prop="planname" label="计划名称" width="150"
             :show-overflow-tooltip="true" align="center">
           </el-table-column> -->
           <!-- v-if="activeName != '00000005'&&activeName != '00000007'" -->
-          <el-table-column key="33" prop="pagename" label="推广页面" min-width="150" width="auto"
-            :show-overflow-tooltip="true" align="center">
+          <el-table-column key="33" prop="pagename" label="推广页面" min-width="150" width="auto" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
               <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{scope.row.pagename}}</a>
             </template>
           </el-table-column>
-          <el-table-column key="34" v-if="activeName != '00000005' &&activeName != '00000006'&&activeName != '00000007'" 
-            prop="remark" align="center" label="备注" width="200" :show-overflow-tooltip="true">
+          <el-table-column key="34" v-if="activeName != '00000005' &&activeName != '00000006'&&activeName != '00000007'" prop="remark" align="center" label="备注" width="200" :show-overflow-tooltip="true">
           </el-table-column>
         </el-table>
       </div>
       <div>
-        <el-pagination background layout="total,prev, pager, next" :total="pageTotal" :page-size="pageSize"
-          :current-page="pageNum" @current-change="pageClick">
+        <el-pagination background layout="total,prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
         </el-pagination>
       </div>
     </div>
-    <el-drawer title="我是标题" :size="isDealed ? '75%' : '56%'" custom-class="customer-drawer" :visible.sync="drawer"
-      :with-header="false">
+    <el-drawer title="我是标题" :size="isDealed ? '75%' : '56%'" custom-class="customer-drawer" :visible.sync="drawer" :with-header="false">
       <div class="drawerLeft" :class="isDealed ? 'isDealed' : ''">
         <div class="left_box">
           <div class="header">
@@ -544,8 +502,7 @@
                 <span class="dd">
                   <el-popover placement="bottom" width="230" trigger="click" v-model="addMobliePopVisible">
                     <!-- <el-button slot="reference">hover 激活</el-button> -->
-                    <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px"
-                      @input="addMoblieChange">
+                    <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px" @input="addMoblieChange">
                     </el-input>
 
                     <div class="mobile_input_box" v-show="mobileInputShow">
@@ -565,8 +522,7 @@
                       <el-input placeholder="请输入" size="mini" v-model="detailsInfo.mobilestr">
                       </el-input>
 
-                      <span @click="addMobliePopVisible = !addMobliePopVisible" class="icon_arr"><i
-                          class="el-select__caret el-input__icon el-icon-arrow-down"></i></span>
+                      <span @click="addMobliePopVisible = !addMobliePopVisible" class="icon_arr"><i class="el-select__caret el-input__icon el-icon-arrow-down"></i></span>
                     </template>
                   </el-popover>
 
@@ -583,8 +539,7 @@
               <div class="editContent_c editContent_box editContent_date" style=" font-size: 0.13rem;">
                 <span class="dd">出生日期</span>
                 <span class="dd">
-                  <el-date-picker v-model="birthday" type="date" size="mini" placeholder="请输入出生日期" class="difPicker"
-                    clearable style="width: 100%;" value-format="yyyy-MM-dd">
+                  <el-date-picker v-model="birthday" type="date" size="mini" placeholder="请输入出生日期" class="difPicker" clearable style="width: 100%;" value-format="yyyy-MM-dd">
                   </el-date-picker>
                 </span>
               </div>
@@ -627,16 +582,14 @@
                 <div class="select-title" style="width: 0.8rem">转其他库</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
                   <el-select class="el-select-inners" v-model="editInfo.otherstore" size="mini" placeholder="" clearable>
-                    <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value"
-                      :value="item.dd_key"></el-option>
+                    <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
                   </el-select>
                 </div>
               </div>
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">共享客户</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0;">
-                  <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false"
-                  :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
+                  <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
                 </div>
               </div>
               <div class="common-select">
@@ -651,8 +604,7 @@
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">预约回访</div>
                 <div class="select-content" style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0; border: none">
-                  <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini" placeholder=""
-                    :picker-options="previstitimePickerOptions" clearable>
+                  <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini" placeholder="" :picker-options="previstitimePickerOptions" clearable>
                   </el-date-picker>
                 </div>
               </div>
@@ -701,8 +653,7 @@
               </div>
               <div class="cb">
                 <span :title="detailsInfo.pageurl">
-                  推广页面：<a style="cursor: pointer;" href="#"
-                    @click="disPageUrl(detailsInfo)">{{detailsInfo.pageurl}}</a>
+                  推广页面：<a style="cursor: pointer;" href="#" @click="disPageUrl(detailsInfo)">{{detailsInfo.pageurl}}</a>
                 </span>
               </div>
             </div>
@@ -729,7 +680,7 @@
               <span>累计通话时长{{callSum}}分钟</span>
             </div>
             <div class="tableContent">
-              <el-table :data="callDataList" border style="width: 100%" height="120">
+              <el-table :data="callDataList" border style="width: 100%">
                 <el-table-column prop="calltime" label="拨打时间" align="center" :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column prop="username" label="拨打业务员" width="97" align="center" :show-overflow-tooltip="true">
@@ -740,11 +691,10 @@
                 </el-table-column>
                 <el-table-column align="center" label="录音" width="70">
                   <template slot-scope="scope" v-if="scope.row.recordurl">
-                    
+
                     <img class="play-icon" src="../../../static/images/pause-icon.png" title="暂停" @click="audioPause(scope.$index)" v-if="!audioPaused && scope.$index === currentCallIndex">
                     <img class="play-icon" src="../../../static/images/play-icon.png" title="播放" @click="audioPlay(scope.$index)" v-else>
-                    <a style="margin-left: 8px;font-size: 15px;vertical-align: middle;" :href="scope.row.recordurl" 
-                    :download="scope.row.username + '_' + detailsInfo.name + '_' + scope.row.calltimeType" title="下载">
+                    <a style="margin-left: 8px;font-size: 15px;vertical-align: middle;" :href="scope.row.recordurl" :download="scope.row.username + '_' + detailsInfo.name + '_' + scope.row.calltimeType" title="下载">
                       <i class="el-icon-download"></i>
                     </a>
                   </template>
@@ -760,8 +710,7 @@
           <span>跟进记录</span>
         </div>
         <div class="cjg-search-section " style="display: flex; justify-content: center;align-items: center;">
-          <el-select v-model="cjgTitle" :loading="loading" filterable remote :remote-method="remoteMethod"
-            placeholder="搜索藏经阁内容" @change="cjgChange" @focus="cjgfocus" class="cjgserach" style="width: 100%;">
+          <el-select v-model="cjgTitle" :loading="loading" filterable remote :remote-method="remoteMethod" placeholder="搜索藏经阁内容" @change="cjgChange" @focus="cjgfocus" class="cjgserach" style="width: 100%;">
             <el-option v-for="item in cjgList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -787,8 +736,7 @@
               <div class="li_b">
                 <div class="li_b_l" :title="item.name">{{item.oprname}}</div>
                 <div class="li_b_r">{{item.makedate}} 创建
-                  <span class="mobile-icon el-icon-delete" @click="deleteRemark(item.remarkserialno)"
-                    style="color:#979797"></span>
+                  <span class="mobile-icon el-icon-delete" @click="deleteRemark(item.remarkserialno)" style="color:#979797"></span>
                 </div>
 
               </div>
@@ -805,8 +753,7 @@
           <li class="item" v-for="item in policyList" :key="item.riskname">
             <div class="head">
               <div class="txt">{{item.riskname}}</div>
-              <div class="status"
-                :class="[item.status === 'processing' ? 'processing' : '',item.status === 'invalid' ? 'invalid' : '',item.status === 'cancel' ? 'cancel' : '']">
+              <div class="status" :class="[item.status === 'processing' ? 'processing' : '',item.status === 'invalid' ? 'invalid' : '',item.status === 'cancel' ? 'cancel' : '']">
                 <template v-if="item.status === 'effective'">保障中</template>
                 <template v-if="item.status === 'processing'">待处理</template>
                 <template v-if="item.status === 'invalid'">已失效</template>
@@ -859,8 +806,7 @@
           </li>
         </ul>
       </div>
-      <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="55%" :modal-append-to-body="false"
-        :append-to-body="false" :modal="false">
+      <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="55%" :modal-append-to-body="false" :append-to-body="false" :modal="false">
         <el-input v-if="idoverage === 'Y'" type="textarea" :rows="4" placeholder="请注明客户身体状况异常情况" v-model="remark">
         </el-input>
         <el-input v-if="ispeer === 'Y'" type="textarea" :rows="4" placeholder="请注明客户所属保险公司名称" v-model="remark">
@@ -876,10 +822,8 @@
           <a href="javascript:;" @click="postRemark" class="modify">确定</a>
         </div>
       </el-dialog>
-      <el-dialog title="共享客户" :visible.sync="shareDialogVisible" width="55%" :modal-append-to-body="false"
-        :append-to-body="false" :modal="false">
-        <el-autocomplete v-model="shareUserName" :trigger-on-focus="false" :fetch-suggestions="querySearchId"
-          size="mini" placeholder="请选择或输入共享客户姓名"></el-autocomplete>
+      <el-dialog title="共享客户" :visible.sync="shareDialogVisible" width="55%" :modal-append-to-body="false" :append-to-body="false" :modal="false">
+        <el-autocomplete v-model="shareUserName" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请选择或输入共享客户姓名"></el-autocomplete>
         <div class="popover-bottom-btns" slot="footer" v-show="dis_save">
           <a href="javascript:;" @click="shareDialogVisible = false">取消</a>
           <a href="javascript:;" @click="shareCustomer" class="modify">确定</a>
@@ -931,8 +875,7 @@
             <ul class="enclosure-list" v-if="fileList.length">
               <li class="item" v-for="(item,index) in fileList" :key="index">
                 <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
-                <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn"
-                  :download="item.filename">下载</a>
+                <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
               </li>
             </ul>
             <ul class="enclosure-list" v-else>
@@ -952,8 +895,7 @@
         <div class="item-section">
           <label>疾病描述</label>
           <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" :disabled="true" resize="none"
-              type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
+            <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" :disabled="true" resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
             </el-input>
           </div>
         </div>
@@ -961,17 +903,12 @@
           <label>核保建议</label>
           <div class="right-content">
             <div class="tab-head">
-              <div class="tab" :class="currentSuggestion === 'zjsuggestion' ? 'actived' : ''"
-                @click="changeSuggestion('zjsuggestion')">重疾险</div>
-              <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''"
-                @click="changeSuggestion('ylsuggestion')">医疗险</div>
+              <div class="tab" :class="currentSuggestion === 'zjsuggestion' ? 'actived' : ''" @click="changeSuggestion('zjsuggestion')">重疾险</div>
+              <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''" @click="changeSuggestion('ylsuggestion')">医疗险</div>
             </div>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10"
-              placeholder="请输入内容" :disabled="true" v-if="currentSuggestion === 'zjsuggestion'"
-              v-model="jbhbItem.zjsuggestion">
+            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10" placeholder="请输入内容" :disabled="true" v-if="currentSuggestion === 'zjsuggestion'" v-model="jbhbItem.zjsuggestion">
             </el-input>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10"
-              placeholder="请输入内容" v-else :disabled="true" v-model="jbhbItem.ylsuggestion">
+            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10" placeholder="请输入内容" v-else :disabled="true" v-model="jbhbItem.ylsuggestion">
             </el-input>
           </div>
         </div>
@@ -997,8 +934,7 @@
                 <div class="item">
                   <label>承保说明</label>
                   <div class="right-content">
-                    <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" :disabled="true" resize="none"
-                      type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
+                    <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" :disabled="true" resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
                     </el-input>
                   </div>
                 </div>
@@ -1055,8 +991,7 @@
               <li class="item" v-for="(item,index) in fileList" :key="index">
                 <!-- <img src="../images/file-icon.png" alt=""> -->
                 <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
-                <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn"
-                  :download="item.filename">下载</a>
+                <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
               </li>
             </ul>
             <ul class="enclosure-list" v-else>
@@ -1098,20 +1033,19 @@ export default {
   font-size: 0.14rem;
 }
 
-.select-check{
+.select-check {
   min-width: auto;
   font-size: 0.14rem;
   padding: 12px 0 0 12px;
 }
 
-.select-check .el-checkbox__label{
+.select-check .el-checkbox__label {
   font-size: 0.14rem;
 }
 
-
 .el-popover__reference-wrapper {
-    display: flex;
-    height: 100%;
-    align-items: center;
+  display: flex;
+  height: 100%;
+  align-items: center;
 }
 </style>

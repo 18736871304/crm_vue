@@ -286,12 +286,12 @@
 }
 
 .editContent_box.editContent_date span .el-date-editor .el-input__suffix {
-  left: 1.7rem;
+  left: 1.4rem;
   top: -0.06rem;
 }
 
 .editContent_box.editContent_date span .el-date-editor .el-input__prefix {
-  left: 1.3rem;
+  left: 1.2rem;
   top: -0.03rem;
 }
 
@@ -727,7 +727,7 @@
 }
 
 .drawerRight .order-list .item .head .txt {
-  width: 2.5rem;
+  width: 2rem;
   display: flex;
   font-size: 0.16rem;
   font-family: PingFang-SC-Bold, PingFang-SC;
@@ -738,7 +738,7 @@
 
 .drawerRight .order-list .item .head .status {
   font-size: 0.15rem;
-  width: 0.7rem;
+  width: 0.6rem;
   line-height: 0.26rem;
   background: rgba(73, 133, 229, 1);
   border-radius: 3px;

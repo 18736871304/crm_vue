@@ -3,8 +3,8 @@ const webpack = require('webpack')
 module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
-    host: 'localhost',
-    // host: '0.0.0.0',
+    // host: 'localhost',
+    host: '0.0.0.0',
     port: '8081', 
     proxy: {
       "/crm": {

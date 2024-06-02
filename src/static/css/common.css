@@ -387,7 +387,7 @@ iframe {
   height: 0.28rem;
   line-height: 0.28rem;
   font-weight: 500;
-  font-size: 13px;
+  /* font-size: 13px; */
   color: rgba(151, 151, 151, 1);
   background-color: transparent;
   border: 0;

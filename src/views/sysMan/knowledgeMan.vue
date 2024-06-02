@@ -306,16 +306,7 @@
             </div>
           </div>
         </div>
-        <div class="item-section">
-          <label>隐藏信息</label>
-          <div class="right-content">
-            <div class="editor-box">
-              <div id="div7" class="toolbar"></div>
-              <div id="div8" class="text">
-              </div>
-            </div>
-          </div>
-        </div>
+
         <div class="item-section">
           <label>解答示范</label>
           <div class="right-content">
@@ -344,6 +335,17 @@
             </ul>
           </div>
         </div>
+        <div class="item-section">
+          <label>点评</label>
+          <div class="right-content">
+            <div class="editor-box">
+              <div id="div7" class="toolbar"></div>
+              <div id="div8" class="text">
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
       <div class="dialog-footer" style="margin-top: 0.2rem; padding: 0;">
         <div class="search-btn" @click="updateCJGitem">确定</div>

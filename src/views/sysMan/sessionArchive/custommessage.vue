@@ -1547,8 +1547,8 @@ export default {
 }
 
 ::v-deep .select-content .el-input-inners .el-input__inner {
-    height: 0.34rem;
-    line-height: 0.34rem;
+    height: 0.33rem;
+    line-height: 0.33rem;
     padding: 0 15px !important;
 }
 
@@ -1579,8 +1579,8 @@ export default {
 
 ::v-deep .searchName .el-input .el-input__inner {
     border: 0px;
-    height: 0.34rem;
-    line-height: 0.34rem;
+    height: 0.33rem;
+    line-height: 0.33rem;
     width: 100%;
     margin-left: 0px;
 }
