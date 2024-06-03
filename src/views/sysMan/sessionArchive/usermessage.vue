@@ -5,7 +5,7 @@
             <header class="headfixed">
                 <div style="margin-bottom: 0.1rem;font-size: 0.16rem;">
                     <!-- 员工-{{ parentData.zzcount }}-{{ parentData.lzcount }} -->
-                    员工 ({{ zaizhiNum.length }} - {{ lizhiNum.length + zaizhiNum.length }})
+                    员工 - {{ zaizhiNum.length }} /{{ lizhiNum.length + zaizhiNum.length }}
                 </div>
                 <div class="select-content" style="margin-bottom: 0.1rem;">
                     <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
@@ -277,6 +277,11 @@
                                         <p v-if="item.msgtype == 'sphfeed'" class="chatContent">【视频号转发】</p>
                                         <p v-if="item.msgtype == 'mixed'" class="chatContent">【引用数据】</p>
                                         <p v-if="item.msgtype == 'card'" class="chatContent">【名片】</p>
+                                        <p v-if="item.msgtype == 'meeting_notification'" class="chatContent">暂不支持查看「meeting」类型消息</p>
+                                        <p v-if="item.msgtype == 'meeting'" class="chatContent">暂不支持查看「meeting」类型消息</p>
+
+
+                                        <!-- <p v-else class="chatContent">【未知的消息类型】</p> -->
                                     </div>
                                 </div>
 
@@ -368,6 +373,11 @@
                                         <p v-if="item.msgtype == 'sphfeed'" class="chatContent">【视频号转发】</p>
                                         <p v-if="item.msgtype == 'mixed'" class="chatContent">【引用数据】</p>
                                         <p v-if="item.msgtype == 'card'" class="chatContent">【名片】</p>
+                                        <p v-if="item.msgtype == 'meeting_notification'" class="chatContent">暂不支持查看「meeting」类型消息</p>
+                                        <p v-if="item.msgtype == 'meeting'" class="chatContent">暂不支持查看「meeting」类型消息</p>
+
+
+                                        <!-- <p v-else class="chatContent">【未知的消息类型】</p> -->
 
                                     </div>
                                 </div>

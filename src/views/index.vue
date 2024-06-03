@@ -99,7 +99,7 @@
 
     <AssignClues></AssignClues>
 
-    <el-dialog title="修改密码" :visible.sync="iseditDialog" width="30%" center :close-on-click-modal="false">
+    <el-dialog title="修改密码" :visible.sync="iseditDialog" width="25%" center :close-on-click-modal="false">
 
       <div class="editPassword">
         
@@ -796,7 +796,7 @@ export default {
 }
 
 .editPassword {
-  padding: 30px 20px 0;
+  padding: 30px 30px 0;
   color: #606266;
   font-size: 14px;
   word-break: break-all;

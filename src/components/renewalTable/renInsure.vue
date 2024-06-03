@@ -82,16 +82,17 @@
       <el-table-column
         key="5"
         align="center"
-        prop="accepttime"
+        prop="renewpaytime"
         label="实收日期"
         width="155"
         :show-overflow-tooltip="true"
       >
+      <!-- renewpaytime -->
       </el-table-column>
       <el-table-column
         key="6"
         align="center"
-        prop="prem"
+        prop="actualprem"
         label="实收保费"
         width="80"
         :show-overflow-tooltip="true"
