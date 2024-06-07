@@ -41,6 +41,7 @@ export default {
         'YYYY-MM-DD')], //出单日期
       contno: '', //保单号
       policyStatus: '40', //保单状态
+      searchChannel:'',//筛选渠道类型
       policyStatusList: '', //保单状态列表
       cusmobile: '电话号码', //显示的电话号码
       cusMobileWxno: '', //客户电话号码或者微信值
@@ -427,38 +428,6 @@ export default {
               this.applicantCity = item.appcityname; //投保人所在市
               this.applicantRegion = item.appcountryname; //投保人所在区
               this.applicantAddress = item.appaddress; //投保人所在地址
-              //被保人
-              // this.relatoapp = item.relaname; //父母子女配偶
-              // this.insuredName = item.insname; //被保人姓名
-              // this.insuredPhone = item.insphone; //被保人手机号
-              // if (item.insidnotype == '8') {
-              //   item.appidnotype = "其他"
-              // } else if (item.insidnotype == '4') {
-              //   item.appidnotype = "户口本"
-              // } else if (item.insidnotype == '7') {
-              //   this.inoType = true
-              //   this.insex = item.inssexname
-              //   this.birthData = item.insbirthday
-              // }
-              // this.insuredType = item.insidnotype; //被保人证件类型
-              // this.insuredIDCard = item.insidno; //被保人证件号
-              // this.insuredProvince = item.insprovincename; //被保人所在省
-              // this.insuredCity = item.inscityname; //被保人所在市
-              // this.insuredRegion = item.inscountryname; //被保人所在区
-              // this.insuredAddress = item.insaddress //被保人所在地址
-              // // relaname: "本人"
-              // // relatoapp
-              // if (item.relatoapp == '00') {
-              //   this.inpeople = '是'
-              //   this.ispeople = false
-              // } else {
-              //   this.inpeople = '否'
-              //   this.ispeople = true
-              //   if (item.relatoapp == '06') {
-              //     item.relatoapp = "其他"
-              //   }
-              //   this.relatoapp = item.relatoapp
-              // }
 
               this.channelValue = item.activitychannel;
               this.sourceValue = item.activityappname;
@@ -636,12 +605,6 @@ export default {
         if (data.code == 0) {
           _this.productList = []
           _this.productList = data.dictList;
-          // nameList.forEach(res => {
-          //   _this.productList.push({
-          //     "value": res.dd_value,
-          //     "key": res.dd_key
-          //   });
-          // })
         }
       }, body);
     },
@@ -742,14 +705,9 @@ export default {
       } else {
         cuswxno = this.cusMobileWxno
       }
-      var planidValue, batchnoValue, channelValue = ''
-      if (this.cusplanid == '批次号') {
-        batchnoValue = this.cusplanidBatchno
-      } else if (this.cusplanid == '渠道类型') {
-        channelValue = this.cusplanidBatchno
-      } else {
-        planidValue = this.cusplanidBatchno
-      }
+
+
+
       var fuName, yeName = ''
       if (this.fuName == '业务员姓名') {
         yeName = this.yefuName
@@ -778,9 +736,7 @@ export default {
             "cusname": this.cusname,
             "cusmobile": cusmobile.trim(),
             "wxno": cuswxno,
-            "planserialno": planidValue,
-            "batchno": batchnoValue,
-            "channel": channelValue,
+            "channel": this.searchChannel,
             "teamid": this.overviewForm.teamid,
             "serusername": fuName,
             "reusername": yeName,
@@ -790,7 +746,6 @@ export default {
             "has_coefficient": "N"
           }
           var _this = this
-          // getData('post', crm_url + 'insure.meihualife.com/crm_web/getPolicyList.do', data => {
           getData('post', crm_url + 'insure.meihualife.com/crm_web/getPolicyList_New.do', data => {
             console.log(data)
             _this.tableData = data.rows
@@ -822,7 +777,8 @@ export default {
       this.cusplanidBatchno = '';
       this.overviewForm.teamid = '';
       this.overviewForm.userid = '';
-      this.policyStatus = ''
+      this.policyStatus = '';
+      this.searchChannel= ''
       this.search(1)
     },
     //选择团队和业务人员
@@ -948,9 +904,6 @@ export default {
       }, {
         dict_type: 'source'
       });
-      // this.channelSelect();
-
-
     },
     channelSelect() {
       var _this = this
@@ -969,7 +922,6 @@ export default {
           showClose: true,
           message: "资源来源提交后不能修改，请确认无误后再提交",
           duration: 3000,
-          // type: 'success'
         });
 
       }, {
@@ -1405,11 +1357,7 @@ export default {
       if (this.insuredPhone == undefined) {
         this.insuredPhone = ''
       }
-      // 身份证为空的情况
-      // if (this.applicantIDCard == undefined || this.applicantIDCard == '') {
-      //     this.applicantIDCard = 0
-      // }
-      // if (jiaoyanTrue == true) {
+  
 
       //手动录入
       console.log(this.jiaoyan())
@@ -1891,15 +1839,11 @@ export default {
               this.incontno = item.contno; //保单号
               this.insorganNamecode = item.insorganname; //保险公司
               this.insorgancode = item.insorgancode; //保险公司代号
-              // this.inmainriskcode = item.riskname; //险种名称
               this.inmainriskcode = item.riskcode; //险种名称
               this.riskcode = item.riskcode; //险种名称代号
               this.insuranceAmount = item.amnt; //保险金额
-              // this.paymentMethod = item.payintvvalue; //缴费方式
               this.paymentMethod = item.payintv; //缴费方式
-              // this.paymentPeriod = item.payendyearvalue; //缴费年期
               this.paymentPeriod = item.payendyearkey; //缴费年期
-              // this.guaranteePeriod = item.insuyearvalue; //保障期限
               this.guaranteePeriod = item.insuyearkey; //保障期限
               this.premium = item.prem; //保费
               this.applicantName = item.appname; //投保人姓名
@@ -1908,9 +1852,7 @@ export default {
               this.applicantIDCard = item.appidno; //投保人证件号
               this.applicantProvince = item.appprovincename; //投保人所在省
               this.applicantProvinceCode = item.appprovince; //投保人所在省
-              // this.applicantCity = item.in scityname; //投保人所在市
               this.applicantCity = item.appcity; //投保人所在市
-              // this.applicantRegion = item.inscountryname; //投保人所在区
               this.applicantRegion = item.appcountry; //投保人所在区
               this.applicantAddress = item.insaddress; //投保人所在地址
               var bb = {
@@ -1925,9 +1867,7 @@ export default {
               this.insuredIDCard = item.insidno; //被保人证件号
               this.insuredProvince = item.insprovincename; //被保人所在省
               this.insuredProvinceCode = item.insprovince; //被保人所在省
-              // this.insuredCity = item.inscityname; //被保人所在市
               this.insuredCity = item.inscity; //被保人所在市
-              // this.insuredRegion = item.inscountryname; //被保人所在区
               this.insuredRegion = item.inscountry; //被保人所在区
               this.insuredAddress = item.insaddress; //被保人所在地址
               var cc = {

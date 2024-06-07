@@ -16,7 +16,7 @@
             <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入关键字"></el-autocomplete>
           </div>
         </div>
-        <div class="common-select" v-if="CJGselectValue === '解答疑义'">
+        <div class="common-select" v-if="false">
           <div class="select-title" style="width: 1.28rem">跟进步骤</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
             <el-dropdown trigger="click" placement="top" ref="disTeam3" style="width: 100%">
@@ -35,7 +35,7 @@
             </el-dropdown>
           </div>
         </div>
-        <div class="common-select" v-if="CJGselectValue === '解答疑义'">
+        <div class="common-select" v-if="false">
           <div class="select-title" style="width: 1.28rem">所属分类</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
             <el-dropdown trigger="click" placement="top" ref="disTeam4" style="width: 100%">
@@ -54,9 +54,9 @@
             </el-dropdown>
           </div>
         </div>
-        <div class="common-select" v-if="CJGselectValue === '解答疑义'" style="width: 28%">
-          <div class="select-title" style="width: 1rem">修改时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1rem); border: none">
+        <div class="common-select" v-if="CJGselectValue === '解答疑义'" style="width: 30%">
+          <div class="select-title" style="width: 1.54rem">修改时间</div>
+          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.54rem); border: none">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
@@ -264,7 +264,7 @@
             </el-input>
           </div>
         </div>
-        <div class="item-section">
+        <div class="item-section" v-if="false">
           <div class="common-select">
             <div class="select-title" style="width: 0.8rem; color: #606266;background: #fff;border: none;padding-left: 0; padding-right: 0.08rem; text-align: right;">跟进步骤</div>
             <div class="select-content" style="width: 2.5rem;">
@@ -285,7 +285,7 @@
             </div>
           </div>
         </div>
-        <div class="item-section">
+        <div class="item-section" v-if="false">
           <div class="common-select">
             <div class="select-title" style="width: 0.8rem; color: #606266;background: #fff;border: none;padding-left: 0; padding-right: 0.08rem; text-align: right;">所属分类</div>
             <div class="select-content" style="width: 2.5rem;">
@@ -600,82 +600,12 @@ export default {
         }
       });
     },
-    handleCheckChange1(data, checked, indeterminate) {
-      let teamListName = [];
-      checked.checkedNodes.forEach(function (item) {
-        teamListName.push(item.label)
-      })
-      if (teamListName == '') {
-        this.teamNames1 = '跟进步骤'
-        this.dkwItem.askedflow = ''
-      } else {
-        this.teamNames1 = teamListName.join(',');
-        this.dkwItem.askedflow = (checked.checkedKeys).join(',');
-      }
-    },
-    my_sureOne1() {
-      this.$refs.disTeam1.hide();
-      this.teamNames1 = "跟进步骤";
-      this.dkwItem.askedflow = '';
-      this.$refs.tree1.setCheckedKeys([]);
-      this.selectAskedflow = []
-    },
-    my_sure1() {
-      this.$refs.disTeam1.hide();
-    },
 
-    my_sureOne2() {
-      this.$refs.disTeam2.hide();
-      this.teamNames2 = "分类选择";
-      this.dkwItem.askedtype = '';
-      this.$refs.tree2.setCheckedKeys([]);
-      this.selectAskedtype = []
-    },
-    my_sure2() {
-      this.$refs.disTeam2.hide();
-    },
+    
 
-    my_sureOne3() {
-      this.$refs.disTeam3.hide();
-      this.teamNames1 = "跟进步骤";
-      this.dkwItem.askedflow = '';
-      this.$refs.tree3.setCheckedKeys([]);
-      this.selectAskedflow = []
-      this.search();
-    },
-    my_sure3() {
-      this.$refs.disTeam3.hide();
-      this.search();
-    },
-
-    my_sureOne4() {
-      this.$refs.disTeam4.hide();
-      this.teamNames2 = "分类选择";
-      this.dkwItem.askedtype = '';
-      this.$refs.tree4.setCheckedKeys([]);
-      this.selectAskedtype = []
-      this.search();
-    },
-    my_sure4() {
-      this.$refs.disTeam4.hide();
-      this.search();
-    },
-
-    handleCheckChange2(data, checked, indeterminate) {
-      let teamListName = [];
-      checked.checkedNodes.forEach(function (item) {
-        teamListName.push(item.label)
-      })
-      if (teamListName == '') {
-        this.teamNames2 = '分类选择'
-        this.dkwItem.askedtype = ''
-      } else {
-        this.teamNames2 = teamListName.join(',');
-        this.dkwItem.askedtype = (checked.checkedKeys).join(',');
-      }
-    },
+ 
     handleNodeClick(data) {
-      console.log(data);
+
     },
     getRiskList() {
       let _this = this
@@ -782,7 +712,6 @@ export default {
           })
         }
       }, {
-        // type: this.cjgType
       });
     },
 
@@ -798,11 +727,11 @@ export default {
       }, body);
     },
     tirggerFile(e) {
-      console.log('11')
+
       var _this = this
       this.updateCJGitem('isUpload').then(res => {
         let buztype, buzid
-        console.log(this.CJGselectValue)
+
         if (this.CJGselectValue === '保单检视') {
           buzid = res.readid
           buztype = '0101'
@@ -1022,7 +951,6 @@ export default {
         data = JSON.parse(JSON.stringify(this.jbhbItem))
         data.productJsonStr = JSON.stringify(data.productJsonStr)
       }
-      console.log(this.dkwItem.baseid)
       if (this.CJGselectValue === '解答疑义') {
         url = this.dkwItem.baseid ? '/crm/knowledge/answerCustomerQuestionUpdate.do' :
           '/crm/knowledge/answerCustomerQuestion.do'
@@ -1035,7 +963,6 @@ export default {
       return new Promise((resovle, reject) => {
         getData('post', my_url + url, res => {
           if (res.code == 0) {
-            console.log(isUpload)
             if (isUpload !== 'isUpload') {
               this.addCJGItemVisible = false
               this.addCJGFIrstVisible = false
@@ -1113,16 +1040,6 @@ export default {
     hideaddCJGFIrstVisible() {
       this.addCJGFIrstVisible = false
       this.addCJGItemVisible = false
-      if (this.CJGselectValue === '解答疑义') {
-        this.teamNames1 = "跟进步骤";
-        this.teamNames2 = "分类选择";
-        this.$refs.tree1.setCheckedKeys([]);
-        this.$refs.tree2.setCheckedKeys([]);
-        this.$refs.tree3.setCheckedKeys([]);
-        this.$refs.tree4.setCheckedKeys([]);
-        this.selectAskedflow = []
-        this.selectAskedtype = []
-      }
       this.insorganName1 = ''
       this.bdjsItem.insorgancode = ''
       this.itemReset()

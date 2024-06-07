@@ -1,23 +1,11 @@
 <template>
-  <div style="    width: 17.1rem;">
+  <div style=" width: 17.1rem;">
     <div class="search-header">
       <div class="search-box clearfix">
         <div class="common-select">
           <div class="select-title" style="width: 1.28rem">{{ add_Renewal }}</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.28rem); border: none">
-            <el-date-picker
-              class="el-date-picker-inners"
-              v-model="selectTime"
-              type="daterange"
-              align="right"
-              size="mini"
-              value-format="yyyy-MM-dd "
-              unlink-panels
-              range-separator="-"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              :picker-options="pickerOptions"
-            >
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" value-format="yyyy-MM-dd " unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
@@ -41,17 +29,7 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.28rem">保险公司</div>
           <div class="select-content" style="width: calc(100% - 1.28rem)">
-            <el-autocomplete
-              class="el-input-inners"
-              v-model="insorganName"
-              :trigger-on-focus="false"
-              :fetch-suggestions="querySearch"
-              size="mini"
-              placeholder=""
-              @select="insorganNameSelect"
-              @blur="xiaochu"
-              clearable
-            ></el-autocomplete>
+            <el-autocomplete class="el-input-inners" v-model="insorganName" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="" @select="insorganNameSelect" @blur="xiaochu" clearable></el-autocomplete>
           </div>
         </div>
 
@@ -66,15 +44,7 @@
           </div>
 
           <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
-            <el-select
-              v-model="mainriskcode"
-              size="mini"
-              clearable
-              placeholder=""
-              popper-class="xianSelect"
-              @change="inmainriskSelect"
-              class="el-select-inners"
-            >
+            <el-select v-model="mainriskcode" size="mini" clearable placeholder="" popper-class="xianSelect" @change="inmainriskSelect" class="el-select-inners">
               <el-option v-for="(item, index) in productList" :key="index" :label="item.dd_value" :value="item.dd_key"> </el-option>
             </el-select>
           </div>
@@ -372,7 +342,6 @@ export default {
         my_url + "/crm/common/getDictList.do",
         function (data) {
           if (data.code == 0) {
-            console.log(data.dictList);
             _this.policyStatusList = data.dictList;
           }
         },
@@ -493,13 +462,7 @@ export default {
       } else {
         planidValue = this.cusplanidBatchno;
       }
-      // console.log(this.yefuName)
-      // var fuName, yeName = ''
-      // if (this.fuName == '业务员姓名') {
-      //     yeName = this.yefuName
-      // } else {
-      //     fuName = this.yefuName
-      // }
+
 
       if (this.selectTime == null || this.selectTime == "") {
         this.selectTime = ["", ""];
@@ -572,15 +535,12 @@ export default {
               }
             }
             xbtabData["xbstate"] = policyStatus;
-            console.log(this.mainriskName == "险种名称");
             if (this.mainriskName == "险种名称") {
               xbtabData.riskcode = this.riskcode;
               xbtabData.xbriskcode = "";
-              console.log(xbtabData);
             } else {
               xbtabData.xbriskcode = this.riskcode;
               xbtabData.riskcode = "";
-              console.log(xbtabData);
             }
             getData(
               "post",
@@ -590,9 +550,7 @@ export default {
                 for (var i = 0; i < list.length; i++) {
                   list[i].accepttime = this.getYMDHMS(new Date(list[i].accepttime).setFullYear(new Date(list[i].accepttime).getFullYear() + 1));
                 }
-                console.log(list);
                 _this.tableData = list;
-
                 _this.pageTotal = data.total;
                 _this.loading = false;
               },
@@ -655,7 +613,6 @@ export default {
     //查看详情
     showEditPopup(item) {
       let _this = this;
-      console.log(item);
       getData("post", my_url + "/crm/auth/getToken.do", (data) => {
         if (data.code == 0) {
           if (item.xbcontno) {
@@ -680,9 +637,9 @@ export default {
                   _this.detailObj[0].xbcontno = item.contno;
                   _this.detailObj[0].xbpaytime = _this.getYMDHMS(new Date(item.accepttime).setFullYear(new Date(item.accepttime).getFullYear() - 1));
                   _this.detailObj[0].xbprem = item.prem;
-               
-               
-                } 
+
+
+                }
               }
             },
             body
@@ -692,7 +649,6 @@ export default {
       this.showEditPopupDialogVisible = true;
     },
     updateVisibleId(e) {
-      console.log(123123213, e);
       this.showEditPopupDialogVisible = e;
     },
     //所有业务员
@@ -720,7 +676,7 @@ export default {
         return state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0;
       };
     },
-    userNameSelect(item) {},
+    userNameSelect(item) { },
     //跳转页数
     pageClick(page) {
       this.pageNum = page;
@@ -859,7 +815,7 @@ export default {
                 anis: data.phoneprefix + phoneStr,
                 cltid: data.callid,
               };
-              getPhoneData("post", "http://" + data.phoneurl + "/CRM2CTI/", function (data) {}, params);
+              getPhoneData("post", "http://" + data.phoneurl + "/CRM2CTI/", function (data) { }, params);
             }
           } else {
             _this.$message({

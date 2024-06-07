@@ -1,5 +1,5 @@
 <template>
-  <div class="container clearfix" id="homeContainer" style="display: flex; width :19.26rem"  v-cloak>
+  <div class="container clearfix" id="homeContainer" style="display: flex; width :19.26rem" v-cloak>
     <div class="container_left fl">
       <div class="container_left_one mt clearfix">
         <div class="fl">
@@ -13,8 +13,7 @@
         </div>
         <div class="container_left_one_divtwowz fr" @click="showLogDialog">
           <p class="divtwo_p_one">在线坐席/总坐席</p>
-          <p class="divtwo_p_two"><span
-              style="color: #333333">{{jieshao.onlineseat}}</span>&nbsp;/&nbsp;{{jieshao.allseat}}</p>
+          <p class="divtwo_p_two"><span style="color: #333333">{{jieshao.onlineseat}}</span>&nbsp;/&nbsp;{{jieshao.allseat}}</p>
         </div>
       </div>
       <div class="container_left_three mt clearfix" style="padding-bottom:0.2rem">
@@ -26,14 +25,12 @@
             <div class="common-select">
               <div class="select-title">时间周期</div>
               <div class="select-content" style="width: 2rem; height: 0.3rem; border: none;">
-                <el-date-picker class="el-date-picker-sigle" v-model="impordata" type="date" align="right" size="mini" format="yyyy-MM-dd  星期dddd"
-                  value-format="yyyy-MM-dd" placeholder="选择日期" @change="importantThing">
+                <el-date-picker class="el-date-picker-sigle" v-model="impordata" type="date" align="right" size="mini" format="yyyy-MM-dd  星期dddd" value-format="yyyy-MM-dd" placeholder="选择日期" @change="importantThing">
                 </el-date-picker>
               </div>
             </div>
             <!-- 新增要事 manual -->
-            <el-popover popper-class='add_thing' placement="bottom-start" :visible-arrow='false' width="450"
-              trigger="manual" class="addclick" v-model="visible">
+            <el-popover popper-class='add_thing' placement="bottom-start" :visible-arrow='false' width="450" trigger="manual" class="addclick" v-model="visible">
               <el-button slot="reference" class="addThing" @click="addOpen"> + 新增要事</el-button>
               <div class="addContent">
                 <div class="thingInput">
@@ -42,12 +39,10 @@
                 <div class="dateTime">
                   <div class="date_start">开始</div>
                   <div class="date_cntent">
-                    <el-date-picker class="start-time" v-model="impordata1" type="date" align="right" size="mini" value-format="yyyy-MM-dd"
-                      :picker-options="pickerOptions1" format="yyyy-MM-dd  星期dddd" placeholder="选择日期">
+                    <el-date-picker class="start-time" v-model="impordata1" type="date" align="right" size="mini" value-format="yyyy-MM-dd" :picker-options="pickerOptions1" format="yyyy-MM-dd  星期dddd" placeholder="选择日期">
                     </el-date-picker>
                     <!-- :ss -->
-                    <el-time-picker v-show='isallday1' class="startTime" v-model="startTime" format='HH:mm'
-                      value-format='HH:mm' placeholder="选择时间点">
+                    <el-time-picker v-show='isallday1' class="startTime" v-model="startTime" format='HH:mm' value-format='HH:mm' placeholder="选择时间点">
                     </el-time-picker>
 
                     <div class="checkbox-item" style="margin-left: 0.1rem;">
@@ -58,8 +53,7 @@
                 <div class="dateTime">
                   <div class="date_start" ref='shichang'>时长</div>
                   <div class="date_cntent" v-show='isallday3'>
-                    <el-date-picker class="start-time" v-model="impordata2" type="date" align="right" size="mini" value-format="yyyy-MM-dd"
-                      :picker-options="pickerOptions1" format="yyyy-MM-dd  星期dddd" placeholder="选择日期">
+                    <el-date-picker class="start-time" v-model="impordata2" type="date" align="right" size="mini" value-format="yyyy-MM-dd" :picker-options="pickerOptions1" format="yyyy-MM-dd  星期dddd" placeholder="选择日期">
                     </el-date-picker>
 
                     <el-time-picker v-show='customTime' class="startTime" v-model="endtime" format='HH:mm' value-format='HH:mm' placeholder="选择时间点">
@@ -69,8 +63,7 @@
                     </div>
                   </div>
                   <div class="date_cntent" v-show='isallday2'>
-                    <el-select class="duration" @change='customDate' v-model="duration" clearable
-                      placeholder="请选择">
+                    <el-select class="duration" @change='customDate' v-model="duration" clearable placeholder="请选择">
                       <el-option v-for="item in durations" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
                       </el-option>
                     </el-select>
@@ -79,11 +72,8 @@
                 <div class="dateTime">
                   <div class="date_start">参与者</div>
                   <div class="date_cntent">
-                    <el-select :class="[canyu1 ? 'duration' : 'canyu' ]" v-model="participant" multiple filterable remote
-                      placeholder="请输入参与者" :remote-method="remoteMethod" :loading="loading" @change='changecanyu'
-                      @blur.native.capture='blurcanyu'>
-                      <el-option v-for="item in participants" :key="item.userid" :label="item.username"
-                        :value="item.username">
+                    <el-select :class="[canyu1 ? 'duration' : 'canyu' ]" v-model="participant" multiple filterable remote placeholder="请输入参与者" :remote-method="remoteMethod" :loading="loading" @change='changecanyu' @blur.native.capture='blurcanyu'>
+                      <el-option v-for="item in participants" :key="item.userid" :label="item.username" :value="item.username">
                       </el-option>
                     </el-select>
                   </div>
@@ -91,17 +81,13 @@
                 <div class="dateTime">
                   <div class="date_start">重复</div>
                   <div class="date_cntent">
-                    <el-select v-show='!moreSelect' class="duration" v-model="repeat" @change='selectRepeat' clearable
-                      placeholder="请选择">
-                      <el-option v-for="item in repeatList" :key="item.dd_key" :label="item.dd_value"
-                        :value="item.dd_key">
+                    <el-select v-show='!moreSelect' class="duration" v-model="repeat" @change='selectRepeat' clearable placeholder="请选择">
+                      <el-option v-for="item in repeatList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
                       </el-option>
                     </el-select>
 
-                    <el-select v-show='moreSelect' class="chongfu" v-model="moreRepeat" multiple @change='selectRepeat'
-                      clearable placeholder="请选择" style="width: 4.1rem;">
-                      <el-option v-for="item in customList" :key="item.dd_key" :label="item.dd_value"
-                        :value="item.dd_key">
+                    <el-select v-show='moreSelect' class="chongfu" v-model="moreRepeat" multiple @change='selectRepeat' clearable placeholder="请选择" style="width: 4.1rem;">
+                      <el-option v-for="item in customList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
                       </el-option>
                     </el-select>
                   </div>
@@ -124,8 +110,7 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </p>
                   <el-dropdown-menu slot="dropdown">
-                    <el-tree @check="handleCheckChange3" :data="teamDataList2" ref="tree3" show-checkbox node-key="id"
-                      :default-expanded-keys="[1]" :props="defaultProps2" style="padding-right: 0px;">
+                    <el-tree @check="handleCheckChange3" :data="teamDataList2" ref="tree3" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps2" style="padding-right: 0px;">
                     </el-tree>
                     <div class="sure-footer">
                       <div class="my-sure" @click="my_sure3">确定</div>
@@ -138,10 +123,8 @@
             <div class="common-select" v-show="dis_P4_up">
               <div class="select-title">业务员姓名</div>
               <div class="select-content" style="height: 0.3rem; border: none;">
-                <el-select placeholder="请选择" style="width:1.68rem" size="mini" v-model="overviewForm3.userid"
-                  @change="userNameChange3" clearable class="el-select-inners">
-                  <el-option v-for="item in userNameOptions3" :key="item.userid" :label="item.username"
-                    :value="item.userid">
+                <el-select placeholder="请选择" style="width:1.68rem" size="mini" v-model="overviewForm3.userid" @change="userNameChange3" clearable class="el-select-inners">
+                  <el-option v-for="item in userNameOptions3" :key="item.userid" :label="item.username" :value="item.userid">
                   </el-option>
                 </el-select>
               </div>
@@ -160,35 +143,34 @@
 
                 <div class="box1" v-for="(item1, index1) in list0" :key="item1.day" @click.capture="timeSlot(item1.day)">
                   <div :class={a1:aa} :ref="'tody'+index1">{{item1.day}}</div>
-                    <div v-for='item in item1.child' :key="item.day">
-                      <el-popover placement="bottom-start" ref="aa" popper-class='add_tan' class="tanchuang" trigger="click">
-                        <div class="tan_close">
-                          <div style="width: 90%; color: #282828;">今日要事</div>
-                          <div style="width: 10%; color: #979797; text-align: center; cursor: pointer;"
-                            @click='tanClose()'>
-                            <i class="el-icon-close"></i>
-                          </div>
+                  <div v-for='item in item1.child' :key="item.day">
+                    <el-popover placement="bottom-start" ref="aa" popper-class='add_tan' class="tanchuang" trigger="click">
+                      <div class="tan_close">
+                        <div style="width: 90%; color: #282828;">今日要事</div>
+                        <div style="width: 10%; color: #979797; text-align: center; cursor: pointer;" @click='tanClose()'>
+                          <i class="el-icon-close"></i>
                         </div>
-                        <div style="padding: 0.12rem;color: #282828;">
-                          <p>{{item.schedule}}</p>
-                          <p style="padding-top: 0.12rem;">{{item.querydate}} {{item.starttime}}-{{item.endtime}}</p>
-                        </div>
-                        <div style="padding: 0.12rem;padding-top: 0; color: #282828;">
-                          <p> <span style="color:#686868">组织者</span>：{{item.oprname}}</p>
-                          <p style="padding-top: 0.12rem;"><span style="color:#686868">参与者</span>：{{realusernamelist}}
-                          </p>
-                        </div>
-                        <div class="sure-footer" style="padding: 0 0 0.1rem;">
-                          <div class="search-btn" @click="tanTdit(item.calendarid)">编辑</div>
-                          <div class="search-btn" @click="tanDel(item.calendarid)">删除</div>
-                        </div>
-                        <div slot="reference" class="click_tan" @click=tanOpen(item.calendarid)>
-                          <span>{{item.starttime}}&nbsp;-&nbsp;</span>
-                          <span>{{item.schedule}}</span>
-                        </div>
-                      </el-popover>
-                    </div>
+                      </div>
+                      <div style="padding: 0.12rem;color: #282828;">
+                        <p>{{item.schedule}}</p>
+                        <p style="padding-top: 0.12rem;">{{item.querydate}} {{item.starttime}}-{{item.endtime}}</p>
+                      </div>
+                      <div style="padding: 0.12rem;padding-top: 0; color: #282828;">
+                        <p> <span style="color:#686868">组织者</span>：{{item.oprname}}</p>
+                        <p style="padding-top: 0.12rem;"><span style="color:#686868">参与者</span>：{{realusernamelist}}
+                        </p>
+                      </div>
+                      <div class="sure-footer" style="padding: 0 0 0.1rem;">
+                        <div class="search-btn" @click="tanTdit(item.calendarid)">编辑</div>
+                        <div class="search-btn" @click="tanDel(item.calendarid)">删除</div>
+                      </div>
+                      <div slot="reference" class="click_tan" @click=tanOpen(item.calendarid)>
+                        <span>{{item.starttime}}&nbsp;-&nbsp;</span>
+                        <span>{{item.schedule}}</span>
+                      </div>
+                    </el-popover>
                   </div>
+                </div>
               </div>
               <div class="click_hover" :class={bb:bb} @click='select(2)'>
                 <div class="date_day">
@@ -199,12 +181,10 @@
                   <div class="box1" v-for='(item1, index1) in list1' :key="item1.day" @click.capture='timeSlot(item1.day)'>
                     <div :class={a1:bb} :ref="'tody'+index1">{{item1.day}}</div>
                     <div v-for='(item)  in item1.child' :key="item.day">
-                      <el-popover placement="bottom-start" ref="aa" popper-class='add_tan' class="tanchuang"
-                        trigger="click">
+                      <el-popover placement="bottom-start" ref="aa" popper-class='add_tan' class="tanchuang" trigger="click">
                         <div class="tan_close">
                           <div style="width: 90%; color: #282828;">今日要事</div>
-                          <div style="width: 10%; color: #979797; text-align: center; cursor: pointer;"
-                            @click='tanClose()'>
+                          <div style="width: 10%; color: #979797; text-align: center; cursor: pointer;" @click='tanClose()'>
                             <i class="el-icon-close"></i>
                           </div>
                         </div>
@@ -241,8 +221,7 @@
                     <el-popover placement="bottom-start" ref="aa" popper-class='add_tan' class="tanchuang" trigger="click">
                       <div class="tan_close">
                         <div style="width: 90%; color: #282828;">今日要事</div>
-                        <div style="width: 10%; color: #979797; text-align: center; cursor: pointer;"
-                          @click='tanClose()'>
+                        <div style="width: 10%; color: #979797; text-align: center; cursor: pointer;" @click='tanClose()'>
                           <i class="el-icon-close"></i>
                         </div>
                       </div>
@@ -263,7 +242,7 @@
                       <div slot="reference" class="click_tan" @click=tanOpen(item.calendarid)>
                         <span>{{item.starttime}}&nbsp;-&nbsp;</span>
                         <span>{{item.schedule}}</span>
-                        </div>
+                      </div>
                     </el-popover>
                   </div>
                 </div>
@@ -282,9 +261,7 @@
             <div class="common-select">
               <div class="select-title">时间周期</div>
               <div class="select-content" style="width: 3.4rem; height: 0.3rem; border: none;">
-                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels
-                  range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions"
-                  @blur="queryDownDataByDate">
+                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" @blur="queryDownDataByDate">
                 </el-date-picker>
               </div>
             </div>
@@ -299,8 +276,7 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </p>
                   <el-dropdown-menu slot="dropdown">
-                    <el-tree @check="handleCheckChange2" :data="teamDataList2" ref="tree2" show-checkbox node-key="id"
-                      :default-expanded-keys="[1]" :props="defaultProps2" style="padding-right: 0px;">
+                    <el-tree @check="handleCheckChange2" :data="teamDataList2" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps2" style="padding-right: 0px;">
                     </el-tree>
                     <div class="sure-footer">
                       <div class="my-sure" @click="my_sure2">确定</div>
@@ -313,10 +289,8 @@
             <div class="common-select" v-show="dis_P4_up">
               <div class="select-title">业务员姓名</div>
               <div class="select-content" style="height: 0.3rem; border: none;">
-                <el-select class="el-select-inners" placeholder="请选择" style="width:1.68rem" size="mini" v-model="overviewForm2.userid"
-                @change="userNameChange2" clearable>
-                  <el-option v-for="item in userNameOptions2" :key="item.userid" :label="item.username"
-                  :value="item.userid">
+                <el-select class="el-select-inners" placeholder="请选择" style="width:1.68rem" size="mini" v-model="overviewForm2.userid" @change="userNameChange2" clearable>
+                  <el-option v-for="item in userNameOptions2" :key="item.userid" :label="item.username" :value="item.userid">
                   </el-option>
                 </el-select>
               </div>
@@ -333,10 +307,8 @@
             <p class="container_listthree_pt">{{dataList.hotlinecount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.hotlinecount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.hotlinecount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.hotlinecount_compare}}%</span>
-              <span v-if="dataList.hotlinecount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.hotlinecount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.hotlinecount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.hotlinecount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.hotlinecount_compare}}%</span>
+              <span v-if="dataList.hotlinecount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.hotlinecount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -349,10 +321,8 @@
             <p class="container_listthree_pt">{{dataList.hotlinecallcount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.hotlinecallcount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.hotlinecallcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.hotlinecallcount_compare}}%</span>
-              <span v-if="dataList.hotlinecallcount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.hotlinecallcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.hotlinecallcount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.hotlinecallcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.hotlinecallcount_compare}}%</span>
+              <span v-if="dataList.hotlinecallcount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.hotlinecallcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -365,10 +335,8 @@
             <p class="container_listthree_pt">{{dataList.hotlineconnectcount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.hotlineconnectcount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.hotlineconnectcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.hotlineconnectcount_compare}}%</span>
-              <span v-if="dataList.hotlineconnectcount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.hotlineconnectcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.hotlineconnectcount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.hotlineconnectcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.hotlineconnectcount_compare}}%</span>
+              <span v-if="dataList.hotlineconnectcount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.hotlineconnectcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -381,10 +349,8 @@
             <p class="container_listthree_pt">{{dataList.hotlineconnectrate}}<span>%</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.hotlineconnectrate_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.hotlineconnectrate_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.hotlineconnectrate_compare}}%</span>
-              <span v-if="dataList.hotlineconnectrate_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.hotlineconnectrate_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.hotlineconnectrate_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.hotlineconnectrate_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.hotlineconnectrate_compare}}%</span>
+              <span v-if="dataList.hotlineconnectrate_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.hotlineconnectrate_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -397,10 +363,8 @@
             <p class="container_listthree_pt">{{dataList.phonecallcount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.phonecallcount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.phonecallcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.phonecallcount_compare}}%</span>
-              <span v-if="dataList.phonecallcount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.phonecallcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.phonecallcount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.phonecallcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.phonecallcount_compare}}%</span>
+              <span v-if="dataList.phonecallcount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.phonecallcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -413,10 +377,8 @@
             <p class="container_listthree_pt">{{dataList.phoneconnectcount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.phoneconnectcount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.phoneconnectcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.phoneconnectcount_compare}}%</span>
-              <span v-if="dataList.phoneconnectcount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.phoneconnectcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.phoneconnectcount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.phoneconnectcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.phoneconnectcount_compare}}%</span>
+              <span v-if="dataList.phoneconnectcount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.phoneconnectcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -429,10 +391,8 @@
             <p class="container_listthree_pt">{{dataList.phoneconnectrate}}<span>%</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.phoneconnectrate_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.phoneconnectrate_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.phoneconnectrate_compare}}%</span>
-              <span v-if="dataList.phoneconnectrate_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.phoneconnectrate_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.phoneconnectrate_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.phoneconnectrate_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.phoneconnectrate_compare}}%</span>
+              <span v-if="dataList.phoneconnectrate_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.phoneconnectrate_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -445,10 +405,8 @@
             <p class="container_listthree_pt">{{dataList.sumtime}}<span>分钟</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.sumtime_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.sumtime_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.sumtime_compare}}%</span>
-              <span v-if="dataList.sumtime_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.sumtime_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.sumtime_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.sumtime_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.sumtime_compare}}%</span>
+              <span v-if="dataList.sumtime_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.sumtime_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <!--                    <div class="shu-xian " style="position: absolute;top: 0.27rem;left: 1.66rem;"></div>-->
           </li>
@@ -461,10 +419,8 @@
             <p class="container_listthree_pt">{{dataList.wxcount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.wxcount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.wxcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.wxcount_compare}}%</span>
-              <span v-if="dataList.wxcount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.wxcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.wxcount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.wxcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.wxcount_compare}}%</span>
+              <span v-if="dataList.wxcount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.wxcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -477,10 +433,8 @@
             <p class="container_listthree_pt">{{dataList.firstplancount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.firstplancount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.firstplancount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.firstplancount_compare}}%</span>
-              <span v-if="dataList.firstplancount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.firstplancount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.firstplancount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.firstplancount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.firstplancount_compare}}%</span>
+              <span v-if="dataList.firstplancount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.firstplancount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -493,10 +447,8 @@
             <p class="container_listthree_pt">{{dataList.secondplancount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.secondplancount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.secondplancount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.secondplancount_compare}}%</span>
-              <span v-if="dataList.secondplancount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.secondplancount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.secondplancount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.secondplancount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.secondplancount_compare}}%</span>
+              <span v-if="dataList.secondplancount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.secondplancount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -509,10 +461,8 @@
             <p class="container_listthree_pt">{{dataList.claimcount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.claimcount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.claimcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.claimcount_compare}}%</span>
-              <span v-if="dataList.claimcount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.claimcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.claimcount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.claimcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.claimcount_compare}}%</span>
+              <span v-if="dataList.claimcount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.claimcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -525,10 +475,8 @@
             <p class="container_listthree_pt">{{dataList.tdancount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.tdancount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.tdancount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.tdancount_compare}}%</span>
-              <span v-if="dataList.tdancount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.tdancount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.tdancount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.tdancount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.tdancount_compare}}%</span>
+              <span v-if="dataList.tdancount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.tdancount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -541,10 +489,8 @@
             <p class="container_listthree_pt">{{dataList.dealcount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.dealcount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.dealcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.dealcount_compare}}%</span>
-              <span v-if="dataList.dealcount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.dealcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.dealcount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.dealcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.dealcount_compare}}%</span>
+              <span v-if="dataList.dealcount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.dealcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -557,10 +503,8 @@
             <p class="container_listthree_pt">{{dataList.nodealcount}}<span>个</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.nodealcount_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.nodealcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.nodealcount_compare}}%</span>
-              <span v-if="dataList.nodealcount_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.nodealcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.nodealcount_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.nodealcount_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.nodealcount_compare}}%</span>
+              <span v-if="dataList.nodealcount_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.nodealcount_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
             <div class="shu-xian "></div>
           </li>
@@ -573,10 +517,8 @@
             <p class="container_listthree_pt">{{dataList.sumfyp20}}<span>元</span></p>
             <p class="clearfix">
               <span class="container_listthree_pth fl">较上一周期</span>
-              <span v-if="dataList.sumfyp20_compare<1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.sumfyp20_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.sumfyp20_compare}}%</span>
-              <span v-if="dataList.sumfyp20_compare>1000" class="container_listthree_pf fr"
-                :style="'color:'+(dataList.sumfyp20_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
+              <span v-if="dataList.sumfyp20_compare<1000" class="container_listthree_pf fr" :style="'color:'+(dataList.sumfyp20_compare>=0?'#DC220D':'#00a963')+';'">{{dataList.sumfyp20_compare}}%</span>
+              <span v-if="dataList.sumfyp20_compare>1000" class="container_listthree_pf fr" :style="'color:'+(dataList.sumfyp20_compare>=0?'#DC220D':'#00a963')+';'">>1000%</span>
             </p>
           </li>
         </ul>
@@ -590,8 +532,7 @@
           <div class="common-select">
             <div class="select-title">时间周期</div>
             <div class="select-content" style="width: 3.4rem; height: 0.3rem; border: none;">
-              <el-date-picker class="el-date-picker-inners" v-model="selectDataTime" type="datetimerange" align="right" size="mini" start-placeholder="开始日期"
-                end-placeholder="结束日期" :picker-options="pickerOptions" @blur="getDataAnalysis">
+              <el-date-picker class="el-date-picker-inners" v-model="selectDataTime" type="datetimerange" align="right" size="mini" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" @blur="getDataAnalysis">
               </el-date-picker>
             </div>
           </div>
@@ -613,8 +554,7 @@
                   <i class="el-icon-arrow-down el-icon--right"></i>
                 </p>
                 <el-dropdown-menu slot="dropdown">
-                  <el-tree @check="handleCheckChange1" :data="teamDataList1" ref="tree1" show-checkbox node-key="id"
-                    :default-expanded-keys="[1]" :props="defaultProps1" style="padding-right: 0px;">
+                  <el-tree @check="handleCheckChange1" :data="teamDataList1" ref="tree1" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps1" style="padding-right: 0px;">
                   </el-tree>
                   <div class="sure-footer">
                     <div class="my-sure" @click="my_sure1">确定</div>
@@ -627,8 +567,7 @@
           <div class="common-select" v-show="dis_P4_up">
             <div class="select-title">业务员姓名</div>
             <div class="select-content" style="height: 0.3rem; border: none;">
-              <el-select class="el-select-inners" placeholder="请选择" style="width:1.68rem" size="mini" v-model="overviewForm1.userid"
-                @change="userNameChange1" clearable>
+              <el-select class="el-select-inners" placeholder="请选择" style="width:1.68rem" size="mini" v-model="overviewForm1.userid" @change="userNameChange1" clearable>
                 <el-option v-for="item in userNameOptions1" :key="item.userid" :label="item.username" :value="item.userid">
                 </el-option>
               </el-select>
@@ -649,8 +588,7 @@
               <div class="common-select">
                 <div class="select-title">创建时间</div>
                 <div class="select-content" style="width: 3.6rem; height: 0.3rem; border: none;">
-                  <el-date-picker class="el-date-picker-inners" v-model="selectNoticeTime" type="datetimerange" align="right" size="mini"
-                    start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+                  <el-date-picker class="el-date-picker-inners" v-model="selectNoticeTime" type="datetimerange" align="right" size="mini" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
                   </el-date-picker>
                 </div>
               </div>
@@ -665,12 +603,12 @@
               </div>
               <div class="common-select">
                 <div class="select-title">关键字</div>
-                <div class="select-content"  style="width:1.68rem">
+                <div class="select-content" style="width:1.68rem">
                   <el-input class="el-input-inners" v-model="noticeTitle" size="mini" placeholder=""></el-input>
-                </div> 
+                </div>
               </div>
               <div class="common-select">
-                <div class="search-btn"  @click="getNoticeListMore">搜索</div>
+                <div class="search-btn" @click="getNoticeListMore">搜索</div>
               </div>
             </div>
             <el-collapse v-model="noticeActive" accordion style="border: none;padding: 0;margin: 20px 0">
@@ -688,8 +626,7 @@
               </div>
             </el-collapse>
             <div style="margin-top: 20px;">
-              <el-pagination @current-change="handleNoticePageChange" :current-page="noticePageNumber"
-                :page-size="noticePageSize" layout="total, prev, pager, next" :total="noticeTotal" background>
+              <el-pagination @current-change="handleNoticePageChange" :current-page="noticePageNumber" :page-size="noticePageSize" layout="total, prev, pager, next" :total="noticeTotal" background>
               </el-pagination>
             </div>
           </el-dialog>
@@ -891,8 +828,7 @@
                 <ul class="enclosure-list" v-if="fileList.length">
                   <li class="item" v-for="(item,index) in fileList" :key="index">
                     <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp; {{item.filename}}</div>
-                    <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn"
-                      :download="item.filename">下载</a>
+                    <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
                   </li>
                 </ul>
                 <ul class="enclosure-list" v-else>
@@ -912,8 +848,7 @@
             <div class="item-section">
               <label>疾病描述</label>
               <div class="right-content">
-                <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" :disabled="true" resize="none"
-                  type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
+                <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" :disabled="true" resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
                 </el-input>
               </div>
             </div>
@@ -921,17 +856,12 @@
               <label>核保建议</label>
               <div class="right-content">
                 <div class="tab-head">
-                  <div class="tab" :class="currentSuggestion === 'zjsuggestion' ? 'actived' : ''"
-                    @click="changeSuggestion('zjsuggestion')">重疾险</div>
-                  <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''"
-                    @click="changeSuggestion('ylsuggestion')">医疗险</div>
+                  <div class="tab" :class="currentSuggestion === 'zjsuggestion' ? 'actived' : ''" @click="changeSuggestion('zjsuggestion')">重疾险</div>
+                  <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''" @click="changeSuggestion('ylsuggestion')">医疗险</div>
                 </div>
-                <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10"
-                  placeholder="请输入内容" :disabled="true" v-if="currentSuggestion === 'zjsuggestion'"
-                  v-model="jbhbItem.zjsuggestion">
+                <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10" placeholder="请输入内容" :disabled="true" v-if="currentSuggestion === 'zjsuggestion'" v-model="jbhbItem.zjsuggestion">
                 </el-input>
-                <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10"
-                  placeholder="请输入内容" v-else :disabled="true" v-model="jbhbItem.ylsuggestion">
+                <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10" placeholder="请输入内容" v-else :disabled="true" v-model="jbhbItem.ylsuggestion">
                 </el-input>
               </div>
             </div>
@@ -957,8 +887,7 @@
                     <div class="item">
                       <label>承保说明</label>
                       <div class="right-content">
-                        <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" :disabled="true"
-                          resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
+                        <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" :disabled="true" resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
                         </el-input>
                       </div>
                     </div>
@@ -1016,8 +945,7 @@
                   <li class="item" v-for="(item,index) in fileList" :key="index">
                     <!-- <img src=".../../static/images/file-icon.png" alt=""> -->
                     <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
-                    <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn"
-                      :download="item.filename">下载</a>
+                    <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
                   </li>
                 </ul>
                 <ul class="enclosure-list" v-else>
@@ -1033,34 +961,45 @@
           <div class="common-select">
             <div class="select-title">操作时间</div>
             <div class="select-content" style="width: 3.6rem; height: 0.3rem; border: none;">
-              <el-date-picker class="el-date-picker-inners" v-model="logRange" type="datetimerange" range-separator="-"
-                start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" align="right">
+              <el-date-picker class="el-date-picker-inners" v-model="logRange" type="datetimerange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" align="right">
               </el-date-picker>
             </div>
           </div>
-          <div class="common-select">
-            <div class="select-title">业务员姓名</div>
-            <div class="select-content" style="width:1.68rem">
-              <el-autocomplete class="el-input-inners" v-model="username" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini"
-              placeholder="请输入" clearable></el-autocomplete>
-            </div> 
-          </div>
-          <div class="common-select">
-            <div class="select-title">操作状态</div>
-            <div class="select-content" style="height: 0.3rem; border: none;">
-              <el-select class="el-select-inners" style="width:1.68rem" v-model="isonline" placeholder="请选择">
-              <el-option v-for="item in operationStatusData" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
-              </el-option>
-            </el-select>
+
+          <div class="common-select" v-show="dis_P4_up">
+            <div class="select-title">选择团队</div>
+            <div class="select-content">
+              <el-dropdown trigger="click" placement="bottom" ref="disTeam5">
+                <p class="el-dropdown-inners" clearable>
+                  <span>{{teamNames5}}</span>
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </p>
+                <el-dropdown-menu slot="dropdown">
+                  <el-tree @check="handleCheckChange5" :data="teamDataList5" ref="tree5" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps2" style="padding-right: 0px;">
+                  </el-tree>
+                  <div class="sure-footer">
+                    <div class="my-sure" @click="my_sure5">确定</div>
+                    <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne5">取消</div>
+                  </div>
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
           </div>
+          <div class="common-select" v-show="dis_P4_up">
+            <div class="select-title">业务员姓名</div>
+            <div class="select-content" style="height: 0.3rem; border: none;">
+              <el-select class="el-select-inners" placeholder="请选择" style="width:1.68rem" size="mini" v-model="overviewForm5.userid" @change="userNameChange5" clearable>
+                <el-option v-for="item in userNameOptions5" :key="item.userid" :label="item.username" :value="item.username">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+
           <div class="common-select">
-            <div class="search-btn"  @click="getOperationData">搜索</div>
+            <div class="search-btn" @click="getOperationData">搜索</div>
           </div>
         </div>
         <el-table class="dialog-table" :data="operationLogData" border header-align="center" style="width: 100%">
-          <!-- <el-table-column prop="usercode" label="业务员工号" align="center">
-          </el-table-column> -->
           <el-table-column key="2" type="index" label="序号" align="center" width="50">
           </el-table-column>
           <el-table-column prop="makedate" align="center" label="操作时间">
@@ -1078,8 +1017,7 @@
 
         </el-table>
         <div style="margin-top: 20px;">
-          <el-pagination @current-change="handleCurrentChange" :current-page="logPageNumber" :page-size="logPageSize"
-            layout="total, prev, pager, next" :total="logTotal" background>
+          <el-pagination @current-change="handleCurrentChange" :current-page="logPageNumber" :page-size="logPageSize" layout="total, prev, pager, next" :total="logTotal" background>
           </el-pagination>
         </div>
       </el-dialog>
@@ -1089,30 +1027,27 @@
           <div class="common-select">
             <div class="select-title">操作时间</div>
             <div class="select-content" style="width: 3.6rem; height: 0.3rem; border: none;">
-              <el-date-picker class="el-date-picker-inners" v-model="operationDate" type="datetimerange" range-separator="-"
-                start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" align="right">
+              <el-date-picker class="el-date-picker-inners" v-model="operationDate" type="datetimerange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" align="right">
               </el-date-picker>
             </div>
           </div>
           <div class="common-select">
             <div class="select-title">业务员姓名</div>
-            <div class="select-content"  style="width:1.68rem">
-              <el-autocomplete class="el-input-inners" v-model="username" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini"
-              placeholder="请输入" clearable></el-autocomplete>
-            </div> 
+            <div class="select-content" style="width:1.68rem">
+              <el-autocomplete class="el-input-inners" v-model="username" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入" clearable></el-autocomplete>
+            </div>
           </div>
           <div class="common-select">
             <div class="select-title">跟进步骤</div>
             <div class="select-content" style="height: 0.3rem; border: none;">
               <el-select class="el-select-inners" v-model="followupStep" placeholder="全部">
-                <el-option class="el-select-inners" v-for="item in followupStepData" :key="item.dd_key" :label="item.dd_value"
-                  :value="item.dd_key">
+                <el-option class="el-select-inners" v-for="item in followupStepData" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
                 </el-option>
               </el-select>
             </div>
           </div>
           <div class="common-select">
-            <div class="search-btn"  @click="getCustomersData">搜索</div>
+            <div class="search-btn" @click="getCustomersData">搜索</div>
           </div>
         </div>
         <el-table class="dialog-table" :data="customersData" border header-align="center" style="width: 100%">
@@ -1145,8 +1080,7 @@
           </el-table-column>
         </el-table>
         <div style="margin-top: 20px;">
-          <el-pagination @current-change="handleCurrentChangeCustomers" :current-page="customersPageNumber"
-            :page-size="customersPageSize" layout="total, prev, pager, next" :total="customersTotal" background>
+          <el-pagination @current-change="handleCurrentChangeCustomers" :current-page="customersPageNumber" :page-size="customersPageSize" layout="total, prev, pager, next" :total="customersTotal" background>
           </el-pagination>
         </div>
       </el-dialog>
@@ -1160,7 +1094,7 @@ import '../../static/css/viewer.min.css'
 import moment from "../../static/js/moment.js"
 import echarts from "../../static/js/echart.js"
 import wangEditor from '@/components/wangEditor/release/wangEditor.min.js'
-import { getData, getPhoneData, my_url} from '../../static/js/ajax.js';
+import { getData, getPhoneData, my_url } from '../../static/js/ajax.js';
 import { getBeforeDate, formatDate } from '../../static/js/common.js';
 import api from '../../utils/api.js';
 let editor, editor1, editor2, editor3;
@@ -1168,6 +1102,25 @@ export default {
   name: 'home',
   data() {
     return {
+
+      // 日志
+      overviewForm5: {
+        teamid: '',
+        userid: '',
+        startDate: '',
+        endDate: '',
+        time: '1'
+      },
+      teamNames5: "团队选择",
+      teamDataList5: [],
+      userNameOptions5: [],
+      defaultProps5: {
+        children: 'children',
+        label: 'label'
+      },
+
+
+
       pickerOptions1: {
         disabledDate(time) {
           return time.getTime() <= (Date.now() - (24 * 60 * 60 * 1000));
@@ -1196,45 +1149,45 @@ export default {
       cc: false,
       //昨天
       list0: [{
-          'child': [],
-          day: '上午'
-        },
-        {
-          'child': [],
-          day: '下午'
-        },
-        {
-          'child': [],
-          day: '晚上'
-        }
+        'child': [],
+        day: '上午'
+      },
+      {
+        'child': [],
+        day: '下午'
+      },
+      {
+        'child': [],
+        day: '晚上'
+      }
       ],
       //今天
       list1: [{
-          'child': [],
-          day: '上午'
-        },
-        {
-          'child': [],
-          day: '下午'
-        },
-        {
-          'child': [],
-          day: '晚上'
-        }
+        'child': [],
+        day: '上午'
+      },
+      {
+        'child': [],
+        day: '下午'
+      },
+      {
+        'child': [],
+        day: '晚上'
+      }
       ],
       //明天
       list2: [{
-          'child': [],
-          day: '上午'
-        },
-        {
-          'child': [],
-          day: '下午'
-        },
-        {
-          'child': [],
-          day: '晚上'
-        }
+        'child': [],
+        day: '上午'
+      },
+      {
+        'child': [],
+        day: '下午'
+      },
+      {
+        'child': [],
+        day: '晚上'
+      }
       ],
       realusernamelist: '',
 
@@ -1405,76 +1358,76 @@ export default {
       knowledgeDialog: false,
       pickerOptions: {
         shortcuts: [{
-            text: '今日',
-            onClick(picker) {
-              const end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-              const start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
+          text: '今日',
+          onClick(picker) {
+            const end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
+            const start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
 
-              end.setTime(end.getTime() + 3600 * 1000 * 24);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '昨日',
-            onClick(picker) {
-              const end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-              const start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-
-              start.setTime(start.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近7天',
-            onClick(picker) {
-              const end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-              const start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近30天',
-            onClick(picker) {
-              const end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-              const start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          },
-          {
-          text: '本周',
-            onClick(picker) {
-              var now = new Date(); // 当前日期
-              var nowDayOfWeek = now.getDay(); // 今天本周的第几天
-              var nowDay = now.getDate(); // 当前日
-              var nowMonth = now.getMonth(); // 当前月
-              var nowYear = now.getYear(); // 当前年
-              nowYear += (nowYear < 2000) ? 1900 : 0;
-              var day = nowDayOfWeek || 7;
-              const start = new Date(now.getFullYear(), nowMonth, nowDay - day);
-              const end = new Date(now.getFullYear(), nowMonth, nowDay + 6 - day);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '本月',
-            onClick(picker) {
-              var now = new Date(); // 当前日期
-              var nowMonth = now.getMonth(); // 当前月
-              var nowYear = now.getYear(); // 当前年
-              nowYear += (nowYear < 2000) ? 1900 : 0;
-              var monthStartDate = new Date(nowYear, nowMonth, 1);
-              const start = monthStartDate;
-              var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
-              const end = monthEndDate;
-              function getMonthDays() {
-                  var monthStartDate = new Date(nowYear, nowMonth, 1);
-                  var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
-                  var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
-                  return days;
-              }
-              picker.$emit('pick', [start, end]);
-            }
+            end.setTime(end.getTime() + 3600 * 1000 * 24);
+            picker.$emit('pick', [start, end]);
           }
+        }, {
+          text: '昨日',
+          onClick(picker) {
+            const end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
+            const start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
+
+            start.setTime(start.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近7天',
+          onClick(picker) {
+            const end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
+            const start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
+
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近30天',
+          onClick(picker) {
+            const end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
+            const start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
+
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        },
+        {
+          text: '本周',
+          onClick(picker) {
+            var now = new Date(); // 当前日期
+            var nowDayOfWeek = now.getDay(); // 今天本周的第几天
+            var nowDay = now.getDate(); // 当前日
+            var nowMonth = now.getMonth(); // 当前月
+            var nowYear = now.getYear(); // 当前年
+            nowYear += (nowYear < 2000) ? 1900 : 0;
+            var day = nowDayOfWeek || 7;
+            const start = new Date(now.getFullYear(), nowMonth, nowDay - day);
+            const end = new Date(now.getFullYear(), nowMonth, nowDay + 6 - day);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '本月',
+          onClick(picker) {
+            var now = new Date(); // 当前日期
+            var nowMonth = now.getMonth(); // 当前月
+            var nowYear = now.getYear(); // 当前年
+            nowYear += (nowYear < 2000) ? 1900 : 0;
+            var monthStartDate = new Date(nowYear, nowMonth, 1);
+            const start = monthStartDate;
+            var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
+            const end = monthEndDate;
+            function getMonthDays() {
+              var monthStartDate = new Date(nowYear, nowMonth, 1);
+              var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
+              var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
+              return days;
+            }
+            picker.$emit('pick', [start, end]);
+          }
+        }
         ]
       },
       selectTime: [],
@@ -1509,7 +1462,7 @@ export default {
     };
   },
   mounted: function () {
-    this.searchChannel()
+  
     this.selectRepeat()
     this.selectSearch()
     let _this = this;
@@ -1522,8 +1475,8 @@ export default {
       new Date(formatDate(new Date(_this.downEndTime), 'yyyy-MM-dd 00:00:00'))
     ];
     _this.getConditionData();
-    
-    _this.disOnLineInfo().then((res)=> {
+
+    _this.disOnLineInfo().then((res) => {
       _this.disDownData();
     })
 
@@ -1533,24 +1486,24 @@ export default {
       _this.PhotoData = data.userphoto
     });
     //获取预约回访记录
-    api.getPreVisitList({pageSize: 5}).then((data) => {
+    api.getPreVisitList({ pageSize: 5 }).then((data) => {
       _this.huifang = data.rows;
     });
     //获取操作状态
-    api.getDictList({dict_type: 'isonline'}).then((data) => {
+    api.getDictList({ dict_type: 'isonline' }).then((data) => {
       if (data.code == 0) {
-        _this.operationStatusData = [{ dd_key: "", dd_value: "全部"}].concat(data.dictList);
+        _this.operationStatusData = [{ dd_key: "", dd_value: "全部" }].concat(data.dictList);
       }
     });
     //获取跟进步骤
-    api.getDictList({dict_type: 'followupstep'}).then((data) => {
+    api.getDictList({ dict_type: 'followupstep' }).then((data) => {
       if (data.code == 0) {
-        _this.followupStepData = [{ dd_key: "", dd_value: "全部"}].concat(data.dictList);
+        _this.followupStepData = [{ dd_key: "", dd_value: "全部" }].concat(data.dictList);
         _this.followupStep = '';
       }
     });
     //数据选择类型
-    api.getHomeReportDictList({dict_type: 'followupstep'}).then((data) => {
+    api.getHomeReportDictList({ dict_type: 'followupstep' }).then((data) => {
       if (data.code == 0) {
         _this.dataTypeList = data.dictList;
       }
@@ -1587,7 +1540,7 @@ export default {
     this.getNoticeListNew()
     //this.getNoticeListMore()
     //数据字典
-    api.getDictList({dict_type: 'notice_type'}).then((data) => {
+    api.getDictList({ dict_type: 'notice_type' }).then((data) => {
       if (data.code == 0) {
         let { dictList } = data;
         _this.noticeTypeList = dictList;
@@ -1595,23 +1548,22 @@ export default {
     });
 
     // 重复类型
-    api.getDictList({dict_type: 'repeattype'}).then((data) => {
+    api.getDictList({ dict_type: 'repeattype' }).then((data) => {
       if (data.code == 0) {
         _this.repeatList = data.dictList
       }
     });
 
     // 自定义重复类型
-    api.getDictList({dict_type: 'repeattype_customer'}).then((data) => {
+    api.getDictList({ dict_type: 'repeattype_customer' }).then((data) => {
       if (data.code == 0) {
         _this.customList = data.dictList
       }
     });
 
     // 时长
-    api.getDictList({dict_type: 'durationtype'}).then((data) => {
+    api.getDictList({ dict_type: 'durationtype' }).then((data) => {
       if (data.code == 0) {
-        console.log(data.dictList)
         _this.durations = data.dictList
       }
     });
@@ -1623,17 +1575,33 @@ export default {
     },
   },
   methods: {
-    //渠道权限判断
-    searchChannel() {
-      var _this = this
-      // getData('post', my_url + '/crm/auth/getHomePagePermission.do', function (data) {
-      //   if (data.code == "0") {
-      //     _this.ischannel = true
-      //   } else {
-      //     _this.ischannel = false
-      //   }
-      // });
+
+
+
+    handleCheckChange2(data, checked, indeterminate) {
+      let teamListName = [];
+      checked.checkedNodes.forEach(function (item) {
+        teamListName.push(item.label)
+      })
+      this.my_list2 = teamListName.join(',');
+      this.teamList2 = (checked.checkedKeys).join(',');
+      this.overviewForm.teamid = this.teamList2;
     },
+
+    my_sureOne2() {
+      this.$refs.disTeam2.hide();
+      this.my_list2 = '';
+      this.teamList2 = '';
+      this.teamNames2 = "团队选择";
+      this.overviewForm.teamid = '';
+      this.$refs.tree2.setCheckedKeys([]);
+      this.queryflag = true;
+      this.search();
+      this.refresh();
+    },
+
+
+  
 
     importantThing() {
       if (this.impordata != null) {
@@ -1661,11 +1629,11 @@ export default {
             data.yesterday[i].starttime = data.yesterday[i].starttime.substring(0, 5)
             data.yesterday[i].endtime = data.yesterday[i].endtime.substring(0, 5)
             if (parseInt(data.yesterday[i].starttime.slice(0, 2)) < 13 && parseInt(data.yesterday[i]
-                .starttime
-                .slice(0, 2)) >= 0) {
+              .starttime
+              .slice(0, 2)) >= 0) {
               _this.list0[0].child.push(data.yesterday[i])
             } else if (parseInt(data.yesterday[i].starttime.slice(0, 2)) >= 13 && parseInt(data.yesterday[i]
-                .starttime.slice(0, 2)) < 19) {
+              .starttime.slice(0, 2)) < 19) {
               _this.list0[1].child.push(data.yesterday[i])
             } else {
               _this.list0[2].child.push(data.yesterday[i])
@@ -1675,12 +1643,12 @@ export default {
             data.today[i].starttime = data.today[i].starttime.substring(0, 5)
             data.today[i].endtime = data.today[i].endtime.substring(0, 5)
             if (parseInt(data.today[i].starttime.slice(0, 2)) < 13 && parseInt(data.today[i].starttime
-                .slice(
-                  0, 2)) >= 0) {
+              .slice(
+                0, 2)) >= 0) {
               _this.list1[0].child.push(data.today[i])
             } else if (parseInt(data.today[i].starttime.slice(0, 2)) >= 13 && parseInt(data.today[i]
-                .starttime
-                .slice(0, 2)) < 19) {
+              .starttime
+              .slice(0, 2)) < 19) {
               _this.list1[1].child.push(data.today[i])
             } else {
               _this.list1[2].child.push(data.today[i])
@@ -1690,10 +1658,10 @@ export default {
             data.tomorrow[i].starttime = data.tomorrow[i].starttime.substring(0, 5)
             data.tomorrow[i].endtime = data.tomorrow[i].endtime.substring(0, 5)
             if (parseInt(data.tomorrow[i].starttime.slice(0, 2)) < 13 && parseInt(data.tomorrow[i].starttime
-                .slice(0, 2)) >= 0) {
+              .slice(0, 2)) >= 0) {
               _this.list2[0].child.push(data.tomorrow[i])
             } else if (parseInt(data.tomorrow[i].starttime.slice(0, 2)) >= 13 && parseInt(data.tomorrow[i]
-                .starttime.slice(0, 2)) < 19) {
+              .starttime.slice(0, 2)) < 19) {
               _this.list2[1].child.push(data.tomorrow[i])
             } else {
               _this.list2[2].child.push(data.tomorrow[i])
@@ -1821,17 +1789,17 @@ export default {
       //新增
       if (this.selectValue.calendarid == '') {
 
-        if (endtime.slice(0, 10) != this.impordata1) {
-          setTimeout(() => {
-            this.$message({
-              showClose: true,
-              message: '日期不能跨天选择',
-              duration: 3000,
-              type: 'error'
-            });
-          }, 1000);
-          return
-        }
+        // if (endtime.slice(0, 10) != this.impordata1) {
+        //   setTimeout(() => {
+        //     this.$message({
+        //       showClose: true,
+        //       message: '日期不能跨天选择',
+        //       duration: 3000,
+        //       type: 'error'
+        //     });
+        //   }, 1000);
+        //   return
+        // }
         // 参数
         var addcontent = {}
         if (this.moreSelect == false) {
@@ -1899,17 +1867,17 @@ export default {
         } else {
           endtime = this.impordata2 + " " + this.endtime
         }
-        if (endtime.slice(0, 10) != this.impordata1) {
-          setTimeout(() => {
-            this.$message({
-              showClose: true,
-              message: '日期不能跨天选择',
-              duration: 3000,
-              type: 'error'
-            });
-          }, 1000);
-          return
-        }
+        // if (endtime.slice(0, 10) != this.impordata1) {
+        //   setTimeout(() => {
+        //     this.$message({
+        //       showClose: true,
+        //       message: '日期不能跨天选择',
+        //       duration: 3000,
+        //       type: 'error'
+        //     });
+        //   }, 1000);
+        //   return
+        // }
 
 
         var addcontent = {}
@@ -1991,7 +1959,7 @@ export default {
     },
     tanOpen(index, day) {
       var _this = this;
-      api.getRealUserName({calendarid: index}).then((data) => {
+      api.getRealUserName({ calendarid: index }).then((data) => {
         if (data.code == 0) {
           //  切割 转化数组 在转化为字符串， 在替换成中文的逗号
           _this.realusernamelist = (Array.from(new Set((data.realusernamelist.split("，")))).toString()).replace(/,/g, '，')
@@ -2095,6 +2063,8 @@ export default {
         _this.teamDataList = data.teamList;
         _this.teamDataList1 = data.teamList;
         _this.teamDataList2 = data.teamList;
+        _this.teamDataList3 = data.teamList;
+        _this.teamDataList5 = data.teamList;
       })
     },
     //今日要事
@@ -2140,7 +2110,7 @@ export default {
         this.queryflagString = "01"
       }
       //获取业务员列表
-      api.getUserIdNameListByTeam({teamid: this.teamList3}).then((data) => {
+      api.getUserIdNameListByTeam({ teamid: this.teamList3 }).then((data) => {
         _this.userNameOptions3 = data.namelist
       })
     },
@@ -2154,6 +2124,84 @@ export default {
       }
       this.selectSearch()
     },
+
+    //日志
+    // 选择团队
+    handleCheckChange5(data, checked, indeterminate) {
+      let teamListName = [];
+      checked.checkedNodes.forEach(function (item) {
+        teamListName.push(item.label)
+      })
+      this.my_list5 = teamListName.join(',');
+      this.teamList5 = (checked.checkedKeys).join(',');
+      this.overviewForm5.teamid = this.teamList5;
+    },
+
+    my_sureOne5() {
+      this.$refs.disTeam5.hide();
+      this.my_list5 = '';
+      this.teamList5 = '';
+      this.teamNames5 = "团队选择";
+      this.overviewForm5.teamid = '';
+      this.overviewForm5.userid = '';
+      this.$refs.tree5.setCheckedKeys([]);
+      this.queryflag = true;
+      this.queryflagString = "01";
+      this.userNameOptions5 = [];
+      this.getOperationData();
+    },
+
+    my_sure5() {
+      let _this = this;
+      this.$refs.disTeam5.hide();
+      if (this.my_list5 == null || this.my_list5 == '' || this.my_list5 == '1') {
+        this.queryflag = true;
+        this.queryflagString = "01"
+      } else {
+        this.teamNames5 = this.my_list5;
+        this.queryflag = false;
+        this.queryflagString = "02"
+      }
+      if (this.overviewForm5.userid == null || this.overviewForm5.userid == '') {
+        this.queryflagString = '02'
+      } else {
+        this.queryflagString = "01"
+      }
+      this.getOperationData();
+      //获取业务员列表
+      api.getUserIdNameListByTeam({ teamid: this.teamList5 }).then((data) => {
+        _this.userNameOptions5 = data.namelist
+      })
+    },
+    // 选择个人
+    userNameChange5() {
+      this.queryflag = false;
+      if (this.overviewForm5.userid == null || this.overviewForm5.userid == '') {
+        this.queryflagString = '02'
+      } else {
+        this.queryflagString = "01"
+      }
+      this.getOperationData();
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2184,6 +2232,7 @@ export default {
     },
 
     my_sure2() {
+     
       let _this = this;
       this.$refs.disTeam2.hide();
       if (this.my_list2 == null || this.my_list2 == '' || this.my_list2 == '1') {
@@ -2201,7 +2250,7 @@ export default {
       }
       this.disDownData();
       //获取业务员列表
-      api.getUserIdNameListByTeam({teamid: this.teamList2}).then((data) => {
+      api.getUserIdNameListByTeam({ teamid: this.teamList2 }).then((data) => {
         _this.userNameOptions2 = data.namelist
       })
     },
@@ -2258,7 +2307,7 @@ export default {
       }
       this.getDataAnalysis();
       //获取业务员列表
-      api.getUserIdNameListByTeam({teamid: this.teamList1}).then((data) => {
+      api.getUserIdNameListByTeam({ teamid: this.teamList1 }).then((data) => {
         _this.userNameOptions1 = data.namelist
       })
     },
@@ -2517,8 +2566,8 @@ export default {
     },
     getItem(item) {
       let body = {
-          baseid: item.baseid
-        },
+        baseid: item.baseid
+      },
         url
       if (item.type === '01') {
         url = '/crm/knowledge/getOnePolicyRead.do'
@@ -2546,37 +2595,35 @@ export default {
     echartInit() {
       var myChart = echarts.init(document.getElementById('main-echart'));
       let dataTemp = [{
-          name: 'sumcount',
-          legendName: '电话外拨量'
-        },
-        {
-          name: 'sumtime',
-          legendName: '通话总时长'
-        },
-        {
-          name: 'count01',
-          legendName: '微信'
-        },
-        {
-          name: 'count02',
-          legendName: '配置方案'
-        },
-        {
-          name: 'count03',
-          legendName: '认清市场'
-        },
-        {
-          name: 'count04',
-          legendName: '渠道服务'
-        },
-        {
-          name: 'count05',
-          legendName: '促销T单'
-        },
+        name: 'sumcount',
+        legendName: '电话外拨量'
+      },
+      {
+        name: 'sumtime',
+        legendName: '通话总时长'
+      },
+      {
+        name: 'count01',
+        legendName: '微信'
+      },
+      {
+        name: 'count02',
+        legendName: '配置方案'
+      },
+      {
+        name: 'count03',
+        legendName: '认清市场'
+      },
+      {
+        name: 'count04',
+        legendName: '渠道服务'
+      },
+      {
+        name: 'count05',
+        legendName: '促销T单'
+      },
       ]
       // 指定图表的配置项和数据
-      console.log(dataTemp.map(item => item.legendName).filter(item => this.dataTypeValueArr.some(val =>
-        val === item.name)))
       var option = {
         title: {
           text: ''
@@ -2714,7 +2761,7 @@ export default {
     },
     knowledgeComplete(id) {
       let _this = this
-      api.readKnowLedge({baseid: id}).then((data) => {
+      api.readKnowLedge({ baseid: id }).then((data) => {
         if (data.code == 0) {
           _this.getHomeKnowledgeList()
         }
@@ -2766,15 +2813,27 @@ export default {
       if (typeof val != "number") {
         this.logPageNumber = 1
       }
-      if (this.logRange.length > 0) {
-        let data = {
-          startDate: this.formatDate(this.logRange[0], 'yyyy-MM-dd HH:mm:ss'),
-          endDate: this.formatDate(this.logRange[1], 'yyyy-MM-dd HH:mm:ss'),
-          isonline: this.isonline,
-          username: this.username,
+      var data = ''
+      if ( this.logRange==null || this.logRange.length <= 0) {
+        data = {
+          startDate: '',
+          endDate: '',
+          teamid: _this.overviewForm5.teamid,
+          username: _this.overviewForm5.userid,
           pageNumber: this.logPageNumber,
           pageSize: this.logPageSize,
         }
+      } else {
+        data = {
+          startDate: this.formatDate(this.logRange[0], 'yyyy-MM-dd HH:mm:ss'),
+          endDate: this.formatDate(this.logRange[1], 'yyyy-MM-dd HH:mm:ss'),
+          teamid: _this.overviewForm5.teamid,
+          username: _this.overviewForm5.userid,
+          pageNumber: this.logPageNumber,
+          pageSize: this.logPageSize,
+        }
+      }
+
         api.getOnlineTrace(data).then((res) => {
           if (res.total > 0 && res.rows == '') {
             _this.logPageNumber = 1;
@@ -2784,7 +2843,8 @@ export default {
               _this.logTotal = res.total
           }
         })
-      }
+
+
     },
     // 客户列表
     getCustomersData(val) {
@@ -2810,7 +2870,7 @@ export default {
           _this.handleCurrentChangeCustomers();
         } else {
           _this.customersData = res.rows,
-          _this.customersTotal = res.total
+            _this.customersTotal = res.total
         }
       })
     },
@@ -2828,7 +2888,7 @@ export default {
     modifyPrevistiTime(index) {
       let _this = this
       let item = this.huifang[index]
-      api.updatePrevistiTime({activityserialno: item.activityserialno, previstitime: item.previstitime}).then((res) => {
+      api.updatePrevistiTime({ activityserialno: item.activityserialno, previstitime: item.previstitime }).then((res) => {
         if (res.code === '0') {
           _this.closeItemPopover(index)
         } else {
@@ -2932,14 +2992,14 @@ export default {
     disOnLineInfo() {
       let _this = this;
       //获取登录用户信息
-      return new Promise((relove,reject) => {
+      return new Promise((relove, reject) => {
         api.getLogonUserInfo().then((data) => {
           _this.jieshao = data
           _this.$store.commit('USER_INFO', data)
           relove()
         })
       })
-      
+
     },
     handleSelect(key, keyPath) {
       if (key == 'today') {
@@ -3043,24 +3103,24 @@ export default {
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 .filter-section .common-select {
   width: auto;
 }
 
-.filter-section .common-select .select-content{
+.filter-section .common-select .select-content {
   margin-right: 0.3rem;
 }
-.filter-section .common-select:last-child .select-content{
+.filter-section .common-select:last-child .select-content {
   margin-right: 0;
 }
 .container_left_two_d {
   margin: 0.2rem 0.3rem 0 0.3rem;
 }
 
-.date_cntent .canyu{
-   width:100%;
+.date_cntent .canyu {
+  width: 100%;
 }
 </style>

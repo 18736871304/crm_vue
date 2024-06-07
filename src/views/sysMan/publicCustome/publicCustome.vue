@@ -4,22 +4,7 @@
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="资源调配管理" name="00000005">
           <div class="search-box clearfix">
-            <!-- <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">资源等级</div>
-              <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
-                <el-select class="el-select-inners" v-model="sourcelevel" placeholder="请选择资源等级" size="mini" clearable>
-                  <el-option label="A理财" value="A+"></el-option>
-                  <el-option label="A重疾" value="A"></el-option>
-                  <el-option label="A-" value="A-"></el-option>
-                  <el-option label="B+" value="B+"></el-option>
-                  <el-option label="B" value="B"></el-option>
-                  <el-option label="B-" value="B-"></el-option>
-                  <el-option label="C" value="C"></el-option>
-                  <el-option label="C-" value="C-"></el-option>
-                  <el-option label="Z" value="Z"></el-option>
-                </el-select>
-              </div>
-            </div> -->
+        
             <div class="common-select publiccustome-select" style="width: 30%;">
               <div class="select-title" style="width: 1.65rem">线索产生时间</div>
               <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
@@ -46,19 +31,28 @@
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
-                <!-- label选择框 -->
-                <el-select class="el-input-title-inners" v-model="planid" placeholder="请选择" size="mini">
-                  <el-option label="渠道类型" value="渠道类型"></el-option>
-                  <el-option label="批次号" value="批次号"></el-option>
-                  <el-option label="广告计划ID" value="广告计划ID"></el-option>
+
+            <div class="common-select" style="margin-right: 6%;">
+              <div class="select-title" style="width: 1.38rem">渠道类型</div>
+              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+                <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
+                  <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
+                  </el-option>
                 </el-select>
               </div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
-                <el-input class="el-input-inners" v-model="planidBatchno" align="right" size="mini" clearable></el-input>
+            </div>
+            <div class="common-select">
+              <div class="select-title" style="width: 1.38rem">流量来源</div>
+              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+                <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="请选择流量来源" clearable>
+                  <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
+                  </el-option>
+                </el-select>
               </div>
             </div>
+
+     
+
             <div class="common-select" style="float: right;    width: 11.5%;">
               <div class="search-btn" @click="search(1)">搜索</div>
               <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
@@ -67,22 +61,7 @@
         </el-tab-pane>
         <el-tab-pane label="封存客户管理" name="00000007">
           <div class="search-box clearfix">
-            <!-- <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">资源等级</div>
-              <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
-                <el-select class="el-select-inners" v-model="sourcelevel" placeholder="请选择资源等级" size="mini" clearable>
-                  <el-option label="A理财" value="A+"></el-option>
-                  <el-option label="A重疾" value="A"></el-option>
-                  <el-option label="A-" value="A-"></el-option>
-                  <el-option label="B+" value="B+"></el-option>
-                  <el-option label="B" value="B"></el-option>
-                  <el-option label="B-" value="B-"></el-option>
-                  <el-option label="C" value="C"></el-option>
-                  <el-option label="C-" value="C-"></el-option>
-                  <el-option label="Z" value="Z"></el-option>
-                </el-select>
-              </div>
-            </div> -->
+       
             <div class="common-select" style="width: 30%;">
               <div class="select-title" style="width: 1.65rem">线索产生时间</div>
               <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
@@ -108,19 +87,27 @@
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
-                <!-- label选择框 -->
-                <el-select class="el-input-title-inners" v-model="planid" placeholder="请选择" size="mini">
-                  <el-option label="批次号" value="批次号"></el-option>
-                  <el-option label="渠道类型" value="渠道类型"></el-option>
-                  <el-option label="广告计划ID" value="广告计划ID"></el-option>
+
+            <div class="common-select" style="margin-right: 6%;">
+              <div class="select-title" style="width: 1.38rem">渠道类型</div>
+              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+                <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
+                  <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
+                  </el-option>
                 </el-select>
               </div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
-                <el-input class="el-input-inners" v-model="planidBatchno" align="right" size="mini" clearable></el-input>
+            </div>
+            <div class="common-select">
+              <div class="select-title" style="width: 1.38rem">流量来源</div>
+              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+                <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="请选择流量来源" clearable>
+                  <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
+                  </el-option>
+                </el-select>
               </div>
             </div>
+
+        
 
             <div class="common-select" style="float: right;">
               <div class="search-btn" @click="search(1)">搜索</div>
@@ -128,8 +115,7 @@
             </div>
           </div>
         </el-tab-pane>
-        <!-- <el-tab-pane label="已成交客户管理" name="00000006">
-        </el-tab-pane> -->
+
         <el-tab-pane label="非标体客户管理" name="00000001">
           <div class="search-box clearfix">
             <div class="common-select">
@@ -294,7 +280,6 @@
               <el-checkbox label="cusdealtime" :disabled="activeName != '00000006'">客户成交时间</el-checkbox>
               <el-checkbox label="cusdealperiod" :disabled="activeName != '00000006'">客户成交周期</el-checkbox>
               <el-checkbox label="batchno">批次号</el-checkbox>
-              <!-- <el-checkbox label="channelname">渠道类型</el-checkbox> -->
               <el-checkbox label="clueid">线索ID</el-checkbox>
               <el-checkbox label="accountid">广告主ID</el-checkbox>
               <el-checkbox label="accountname">广告主名称</el-checkbox>
@@ -305,7 +290,6 @@
               <el-checkbox label="appname">流量来源</el-checkbox>
               <el-checkbox label="area">自动定位城市</el-checkbox>
               <el-checkbox label="planname">计划名称</el-checkbox>
-              <!-- <el-checkbox label="pagename">推广页面</el-checkbox> -->
               <div class="sure-footer" style="border-top: 1px solid rgba(221, 221, 221, 1); margin-top: 0.15rem;">
                 <div class="my-sure" @click="checkedSure">确定</div>
                 <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
@@ -408,10 +392,6 @@
           <el-table-column key="21" prop="channelname" align="center" label="渠道类型" width="80" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <!-- <el-table-column key="18" prop="planname" label="计划名称" width="220" :show-overflow-tooltip="true"
-            align="center">
-          </el-table-column> -->
-
           <el-table-column prop="clueid" key="22" v-if="inputUserform1.includes('clueid')" align="center" label="线索ID" width="160" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="accountid" key="23" v-if="inputUserform1.includes('accountid')" align="center" label="广告主ID" width="140" :show-overflow-tooltip="true">
@@ -428,25 +408,20 @@
           </el-table-column>
           <el-table-column prop="clue_sourcename" key="29" v-if="inputUserform1.includes('clue_sourcename')" align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
           </el-table-column>
+          <el-table-column prop="channelname" key="35"  align="center" label="渠道来源" width="90" :show-overflow-tooltip="true">
+          </el-table-column>
           <el-table-column prop="appname" key="30" v-if="inputUserform1.includes('appname')" align="center" label="流量来源" width="100" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="area" key="31" v-if="inputUserform1.includes('area')" align="center" label="自动定位城市" width="100" :show-overflow-tooltip="true">
           </el-table-column>
-          <!-- <el-table-column prop="pagename" key="30" align="center" label="推广页面" width="100"
-            :show-overflow-tooltip="true">
-          </el-table-column> -->
-
+ 
           <el-table-column key="32" v-if="inputUserform1.includes('pagename')" prop="pagename" label="推广页面" width="150" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
               <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{scope.row.pagename}}</a>
             </template>
           </el-table-column>
 
-          <!-- v-if="activeName != '00000005'&&activeName != '00000007'" -->
-          <!-- <el-table-column key="18" v-if="inputUserform1.includes('planname')" prop="planname" label="计划名称" width="150"
-            :show-overflow-tooltip="true" align="center">
-          </el-table-column> -->
-          <!-- v-if="activeName != '00000005'&&activeName != '00000007'" -->
+
           <el-table-column key="33" prop="pagename" label="推广页面" min-width="150" width="auto" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
               <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{scope.row.pagename}}</a>
@@ -501,10 +476,8 @@
                 <span class="dd">电话号码</span>
                 <span class="dd">
                   <el-popover placement="bottom" width="230" trigger="click" v-model="addMobliePopVisible">
-                    <!-- <el-button slot="reference">hover 激活</el-button> -->
                     <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px" @input="addMoblieChange">
                     </el-input>
-
                     <div class="mobile_input_box" v-show="mobileInputShow">
                       <span class="mobile_input mobile_input_add" @click="mobileAdd">添加</span>
                       <span class="mobile_input mobile_input_cancle" @click="mobileCancle">取消</span>
@@ -549,31 +522,9 @@
                   <el-input placeholder="请输入" size="mini" v-model="wxno">
                   </el-input>
                 </span>
-                <!-- <div class="editContent_box_r">
-                  <span>邮箱</span>
-                  <span>
-                    <el-input placeholder="请输入" size="mini" v-model="email">
-                    </el-input>
-                  </span>
-                </div> -->
-              </div>
-              <!-- <div class="editContent_b editContent_box">
 
-                <div class="editContent_box_l">
-                  <span class="dd">区</span>
-                  <span class="dd">
-                    <el-input placeholder="请输入" size="mini" v-model="mobilecountry">
-                    </el-input>
-                  </span>
-                </div>
-                <div class="editContent_box_r">
-                  <span>详细地址</span>
-                  <span>
-                    <el-input placeholder="请输入" size="mini" v-model="address">
-                    </el-input>
-                  </span>
-                </div>
-              </div> -->
+              </div>
+  
             </div>
           </div>
           <div class="condition">
@@ -617,31 +568,12 @@
               <span>广告投放信息</span>
             </div>
             <div class="adInformation_b">
-              <!-- <div class="cb">
-                <span :title="detailsInfo.clueid">线索ID：{{detailsInfo.clueid}}</span>
-              </div> -->
+    
               <div class="cb">
                 <span :title="detailsInfo.makedate">线索产生时间：{{detailsInfo.makedate}}</span>
                 <span :title="detailsInfo.channelname">渠道类型：{{detailsInfo.channelname}}</span>
               </div>
-              <!-- <div class="cc">
-                <span :title="detailsInfo.accountid">广告主ID：{{detailsInfo.accountid}}</span>
-                <span :title="detailsInfo.accountname">广告主名称：{{detailsInfo.accountname}}</span>
-              </div> -->
-              <!-- <div class="cb">
-                <span :title="detailsInfo.planid">广告计划ID：{{detailsInfo.planid}}</span>
-              </div>
-              <div class="cb">
-                <span :title="detailsInfo.planname">
-                  广告计划名称：<a style="cursor: pointer; color: #578EE7;" href="#"
-                    @click="disVideoUrl(detailsInfo)">{{detailsInfo.planname}}</a>
-                </span>
-              </div>
-
-              <div class="cc">
-                <span :title="detailsInfo.module_id">组件ID：{{detailsInfo.module_id}}</span>
-                <span :title="detailsInfo.module_name">组件名称：{{detailsInfo.module_name}}</span>
-              </div> -->
+         
 
               <div class="cc">
                 <span :title="detailsInfo.clue_sourcename">线索来源：{{detailsInfo.clue_sourcename}}</span>
@@ -730,7 +662,7 @@
             <li v-for="(item,index) in records" :key="index">
               <div class="li_t">
                 <div v-html="item.remark">
-                  <!-- {{}} -->
+             
                 </div>
               </div>
               <div class="li_b">
@@ -859,9 +791,7 @@
         <div class="item-section">
           <label>建议规划</label>
           <div class="right-content">
-            <!-- <el-input resize="none" type="textarea" :autosize="{ minRows: 3, maxRows: 30}" :rows="3" placeholder="请输入内容"
-              :disabled="true" v-model="bdjsItem.suggestion">
-            </el-input> -->
+    
             <div class="editor-box">
               <div id="div3" class="toolbar"></div>
               <div id="div4" class="text">
@@ -979,9 +909,7 @@
               <div id="div5" class="toolbar"></div>
               <div id="div6" class="text"></div>
             </div>
-            <!-- <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="12" placeholder="请输入内容"
-              :disabled="true" class="content" v-model="dkwItem.content">
-            </el-input> -->
+
           </div>
         </div>
         <div class="item-section">
@@ -989,7 +917,7 @@
           <div class="right-content">
             <ul class="enclosure-list" v-if="fileList.length">
               <li class="item" v-for="(item,index) in fileList" :key="index">
-                <!-- <img src="../images/file-icon.png" alt=""> -->
+           
                 <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
                 <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
               </li>

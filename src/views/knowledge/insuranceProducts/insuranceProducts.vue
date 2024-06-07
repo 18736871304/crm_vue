@@ -2,11 +2,7 @@
   <div style=" width: 17.1rem;">
     <div class="search-header" style="padding: 0">
       <div class="search-box clearfix">
-        <el-tabs
-          class="nav"
-          v-model="queryParams.risktype"
-          @tab-click="handleClick"
-        >
+        <el-tabs class="nav" v-model="queryParams.risktype" @tab-click="handleClick">
           <el-tab-pane label="意外" name="01"></el-tab-pane>
           <el-tab-pane label="医疗" name="02"></el-tab-pane>
           <el-tab-pane label="重疾" name="03"></el-tab-pane>
@@ -17,15 +13,11 @@
         </el-tabs>
         <div class="common-select" style="float: right; width: 10%">
           <div class="search-btn" @click="handleSearch">搜索</div>
-          <div
-            class="search-btn"
-            style="
+          <div class="search-btn" style="
               background: #fff;
               color: #dc220d;
               border: 1px solid rgba(216, 216, 216, 1);
-            "
-            @click="handleReset"
-          >
+            " @click="handleReset">
             重置
           </div>
         </div>
@@ -33,94 +25,36 @@
         <div class="common-select" style="float: right">
           <div class="select-title" style="width: 1.28rem">产品名称</div>
           <div class="select-content" style="width: calc(100% - 1.28rem)">
-            <el-autocomplete
-              class="el-input-inners"
-              v-model="queryParams.title"
-              :trigger-on-focus="false"
-              :fetch-suggestions="querySearch"
-              size="mini"
-              placeholder=""
-              clearable
-            ></el-autocomplete>
+            <el-autocomplete class="el-input-inners" v-model="queryParams.title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="" clearable></el-autocomplete>
           </div>
         </div>
         <div class="common-select" style="float: right; margin-right: 2%">
           <div class="select-title" style="width: 1.28rem">可投保区域</div>
-          <div
-            class="select-content"
-            style="width: calc(100% - 1.28rem); border: 0"
-          >
-            <el-select
-              class="el-select-inners"
-              filterable
-              multiple
-              collapse-tags
-              v-model="salesArea"
-              size="mini"
-              placeholder=""
-              @change="selectSalesArea"
-            >
-              <el-option
-                v-for="(item, index) in regionList"
-                :key="index"
-                :label="item.dd_value"
-                :value="item.dd_key"
-              ></el-option>
+          <div class="select-content" style="width: calc(100% - 1.28rem); border: 0">
+            <el-select class="el-select-inners" filterable multiple collapse-tags v-model="salesArea" size="mini" placeholder="" @change="selectSalesArea">
+              <el-option v-for="(item, index) in regionList" :key="index" :label="item.dd_value" :value="item.dd_key"></el-option>
             </el-select>
           </div>
         </div>
       </div>
     </div>
     <div class="product-list" v-loading="loading">
-      <div
-        class="product-item clearfix"
-        v-for="item in riskList"
-        :key="item.riskcode"
-      >
+      <div class="product-item clearfix" v-for="item in riskList" :key="item.riskcode">
         <div class="product-item-left">
           <p class="product-item-title">
             {{ item.title }} &nbsp;&nbsp;&nbsp;&nbsp;
-            <el-tag
-              class="paragraph"
-              style="color: #578ee7"
-              v-show="item.emailuw == 'Y'"
-              @click="handleParagraph(item.riskcode)"
-              >人工核保</el-tag
-            >
-            <el-tag class="paragraph" v-show="item.aiuw == 'Y'" type="warning"
-              >智能核保</el-tag
-            >
+            <el-tag class="paragraph" style="color: #578ee7" v-show="item.emailuw == 'Y'" @click="handleParagraph(item.riskcode)">人工核保</el-tag>
+            <el-tag class="paragraph" v-show="item.aiuw == 'Y'" type="warning">智能核保</el-tag>
           </p>
           <p class="product-item-lightspot">{{ item.description || "" }}</p>
 
-          <el-button
-            class="el-image"
-            @click="handleMindMap(item.riskcode)"
-            type="primary"
-            icon="el-icon-share"
-            >思维导图<i class="el-icon-arrow-right el-icon--right"></i>
+          <el-button class="el-image" @click="handleMindMap(item.riskcode)" type="primary" icon="el-icon-share">思维导图<i class="el-icon-arrow-right el-icon--right"></i>
           </el-button>
 
-          <el-button
-            type="primary"
-            @click="handleBaseInfo(item.riskcode)"
-            icon="el-icon-document"
-            >基本资料<i class="el-icon-arrow-right el-icon--right"></i
-          ></el-button>
-          <el-button
-            type="primary"
-            @click="handleHotQuerstion(item.riskcode)"
-            icon="el-icon-warning-outline"
-            >常见问题<i class="el-icon-arrow-right el-icon--right"></i
-          ></el-button>
-          <el-button
-            v-if="pageType == '01'"
-            type="primary"
-            @click="handleInsureUrl(item.url)"
-            icon="el-icon-link"
-          >
-            投保地址<i class="el-icon-arrow-right el-icon--right"></i
-          ></el-button>
+          <el-button type="primary" @click="handleBaseInfo(item.riskcode)" icon="el-icon-document">基本资料<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+          <el-button type="primary" @click="handleHotQuerstion(item.riskcode)" icon="el-icon-warning-outline">常见问题<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+          <el-button v-if="pageType == '01'" type="primary" @click="handleInsureUrl(item.url)" icon="el-icon-link">
+            投保地址<i class="el-icon-arrow-right el-icon--right"></i></el-button>
         </div>
         <div class="product-item-right">
           <div class="product-item-logo">
@@ -133,83 +67,38 @@
       </div>
     </div>
     <div class="el-footer">
-      <el-pagination
-        background
-        layout="total, prev, pager, next"
-        :total="queryParams.pageTotal"
-        :page-size="queryParams.pageSize"
-        :current-page="queryParams.pageNum"
-        @current-change="handleCurrentChange"
-      >
+      <el-pagination background layout="total, prev, pager, next" :total="queryParams.pageTotal" :page-size="queryParams.pageSize" :current-page="queryParams.pageNum" @current-change="handleCurrentChange">
       </el-pagination>
     </div>
-    <el-image
-      ref="mindMap"
-      v-if="pageType == '01'"
-      class="mind-map-img-view"
-      :src="url"
-      :preview-src-list="srcList"
-    ></el-image>
+    <el-image ref="mindMap" v-if="pageType == '01'" class="mind-map-img-view" :src="url" :preview-src-list="srcList"></el-image>
     <!-- 人工核保弹窗 -->
-    <el-dialog
-      custom-class="cang-jing-ge"
-      title="人工核保"
-      :visible.sync="dialogArtificialVisible"
-      width="70%"
-    >
+    <el-dialog custom-class="cang-jing-ge" title="人工核保" :visible.sync="dialogArtificialVisible" width="70%">
       <div class="paragraph">
         <p v-html="emailUwInfo"></p>
       </div>
-      <div
-        class="paragraph"
-        v-if="paragraphFile.filename != ''"
-        style="margin-top: 10px"
-      >
-        <span class="file-download"
-          ><i class="el-icon-paperclip"></i>&nbsp;{{
+      <div class="paragraph" v-if="paragraphFile.filename != ''" style="margin-top: 10px">
+        <span class="file-download"><i class="el-icon-paperclip"></i>&nbsp;{{
             paragraphFile.filename
-          }}</span
-        >
-        <a
-          :href="
+          }}</span>
+        <a :href="
             'https://insure.meihualife.com/filedownload.do?fileid=' +
             paragraphFile.fileid
-          "
-          class="download"
-          :download="paragraphFile.filename"
-          >下载</a
-        >
+          " class="download" :download="paragraphFile.filename">下载</a>
       </div>
     </el-dialog>
 
     <!-- 基本资料弹窗 -->
-    <el-dialog
-      custom-class="cang-jing-ge"
-      title="基本资料"
-      :visible.sync="dialogBaseInfoVisible"
-      width="70%"
-    >
+    <el-dialog custom-class="cang-jing-ge" title="基本资料" :visible.sync="dialogBaseInfoVisible" width="70%">
       <div class="base-info-list">
-        <div
-          class="file-item"
-          v-for="(item, index) in baseInfoFileList"
-          :key="index"
-        >
+        <div class="file-item" v-for="(item, index) in baseInfoFileList" :key="index">
           <p class="file-download">
-            <span class="file-icon"
-              >{{ index + 1 }}.&nbsp; <i :class="fileTypeFun(item.filetype)"></i
-            ></span>
+            <span class="file-icon">{{ index + 1 }}.&nbsp; <i :class="fileTypeFun(item.filetype)"></i></span>
             <span>{{ item.filename }}</span>
           </p>
           <!-- <span class="download" @click="download(item.fileid)">下载</span> -->
-          <a
-            :href="
+          <a :href="
               'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid
-            "
-            class="download"
-            :download="item.filename"
-            >下载</a
-          >
+            " class="download" :download="item.filename">下载</a>
         </div>
       </div>
       <div class="sure-footer" style="padding: 0.2rem 0 0 0">
@@ -224,20 +113,10 @@
       </div>
     </el-dialog>
     <!-- 投保地址弹窗 -->
-    <el-dialog
-      custom-class="cang-jing-ge"
-      title="投保地址"
-      :visible.sync="dialogInsureUrlVisible"
-      width="70%"
-    >
+    <el-dialog custom-class="cang-jing-ge" title="投保地址" :visible.sync="dialogInsureUrlVisible" width="70%">
       <el-form class="insure-url-form">
         <el-form-item label="投保地址链接" label-width="1.3rem">
-          <el-input
-            v-model="insureUrl"
-            ref="copy"
-            size="mini"
-            autocomplete="off"
-          ></el-input>
+          <el-input v-model="insureUrl" ref="copy" size="mini" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label-width="1.3rem">
           <div class="search-btn" @click.stop="copy" style="width: 80px">
@@ -247,83 +126,42 @@
       </el-form>
     </el-dialog>
     <!-- 常见问题弹窗 -->
-    <el-dialog
-      custom-class="cang-jing-ge"
-      title="常见问题"
-      :visible.sync="dialogHotQuestionVisible"
-      width="70%"
-    >
+    <el-dialog custom-class="cang-jing-ge" title="常见问题" :visible.sync="dialogHotQuestionVisible" width="70%">
       <ul class="question-list">
-        <li
-          class="question-item"
-          v-for="(item, index) in questionList"
-          :key="item.questionid"
-        >
+        <li class="question-item" v-for="(item, index) in questionList" :key="item.questionid">
           <p class="question-title">
             <span class="num">{{ index + 1 }}. Q：</span>{{ item.question }}
           </p>
           <p class="question-answer">
             <span class="question-answer-icon">A：</span>
-            <el-input
-              :disabled="true"
-              type="textarea"
-              autosize
-              v-model="item.answer"
-            >
+            <el-input :disabled="true" type="textarea" autosize v-model="item.answer">
             </el-input>
           </p>
-          <p
-            class="file-download"
-            v-for="list in item.fileList"
-            :key="list.fileid"
-          >
+          <p class="file-download" v-for="list in item.fileList" :key="list.fileid">
             <i :class="fileTypeFun(list.filetype)"></i>&nbsp;&nbsp;{{
               list.filename
             }}
             <!-- <span class="size">(123KB)</span> -->
             <!-- <span class="download">下载</span> -->
-            <a
-              :href="
+            <a :href="
                 'https://crm.meihualife.com/filedownload.do?fileid=' +
                 list.fileid
-              "
-              class="download"
-              :download="list.filename"
-              >下载</a
-            >
+              " class="download" :download="list.filename">下载</a>
           </p>
         </li>
       </ul>
     </el-dialog>
 
     <!-- 设置基本资料弹窗 -->
-    <el-dialog
-      custom-class="cang-jing-ge"
-      title="基本资料"
-      :visible.sync="dialogConfigBaseInfoVisible"
-      width="70%"
-    >
+    <el-dialog custom-class="cang-jing-ge" title="基本资料" :visible.sync="dialogConfigBaseInfoVisible" width="70%">
       <div class="baseInfoTableBox" v-loading="baseInfoLoading">
         <div class="search-btn" @click="handleUpLoad" style="width: 87px">
           添加附件<i class="el-icon-paperclip el-icon--right"></i>
         </div>
-        <input
-          v-show="false"
-          type="file"
-          v-on:change="tirggerFile($event)"
-          class="file-input"
-        />
-        <el-table
-          border
-          class="baseInfoTable"
-          :data="baseInfoFileList"
-          style="width: 100%; border: none"
-          cell-class-name="base-info-file-list"
-          :class="
+        <input v-show="false" type="file" v-on:change="tirggerFile($event)" class="file-input" />
+        <el-table border class="baseInfoTable" :data="baseInfoFileList" style="width: 100%; border: none" cell-class-name="base-info-file-list" :class="
             baseInfoFileList.length == 0 ? 'table-no-border' : 'baseInfoTable'
-          "
-          :show-header="false"
-        >
+          " :show-header="false">
           <!-- <el-table-column type="index" label="">
           </el-table-column> -->
           <el-table-column label="资料" align="center">
@@ -337,25 +175,11 @@
           <el-table-column label="编辑" width="110" align="center">
             <template slot-scope="scope" style="border: none">
               <el-button-group class="base-info-botton-group">
-                <el-button
-                  size="mini"
-                  @click="baseInfoUp(scope.row.fileid)"
-                  type="primary"
-                  icon="iconfont icon-my-up"
-                >
+                <el-button size="mini" @click="baseInfoUp(scope.row.fileid)" type="primary" icon="iconfont icon-my-up">
                 </el-button>
-                <el-button
-                  size="mini"
-                  @click="baseInfoDown(scope.row.fileid)"
-                  type="primary"
-                  icon="iconfont icon-my-down"
-                ></el-button>
+                <el-button size="mini" @click="baseInfoDown(scope.row.fileid)" type="primary" icon="iconfont icon-my-down"></el-button>
               </el-button-group>
-              <span
-                class="base-info-delete"
-                @click="baseInfoDelete(scope.row.fileid)"
-                >删除</span
-              >
+              <span class="base-info-delete" @click="baseInfoDelete(scope.row.fileid)">删除</span>
             </template>
           </el-table-column>
         </el-table>
@@ -363,69 +187,32 @@
     </el-dialog>
 
     <!-- 设置思维导图弹窗 -->
-    <el-dialog
-      custom-class="cang-jing-ge"
-      title="上传图片"
-      v-if="dialogConfigMindMapVisible"
-      :visible.sync="dialogConfigMindMapVisible"
-      width="3.35rem"
-    >
+    <el-dialog custom-class="cang-jing-ge" title="上传图片" v-if="dialogConfigMindMapVisible" :visible.sync="dialogConfigMindMapVisible" width="3.35rem">
       <div class="mind-map-box" v-loading="MindMapLoading">
-        <div
-          class="mind-map-add-file"
-          @click="handleMindMapUpLoad"
-          v-if="!mindMapImgVisable"
-        >
+        <div class="mind-map-add-file" @click="handleMindMapUpLoad" v-if="!mindMapImgVisable">
           <i class="el-icon-plus"></i>
           <p>点击上传所需图片</p>
-          <input
-            v-show="false"
-            type="file"
-            class="mind-map-upload-input"
-            v-on:change="tirggerMindMapFile($event)"
-          />
+          <input v-show="false" type="file" class="mind-map-upload-input" v-on:change="tirggerMindMapFile($event)" />
         </div>
         <div class="mind-map-add-file" v-if="mindMapImgVisable">
-          <img
-            v-if="mindMapImgVisable"
-            class="mind-map-img"
-            :src="mindMapImgLocaUrl"
-            alt=""
-          />
+          <img v-if="mindMapImgVisable" class="mind-map-img" :src="mindMapImgLocaUrl" alt="" />
           <div class="mind-map-warp"></div>
           <div class="mind-map-botton-box">
-            <span class="oper"
-              ><i class="el-icon-zoom-in"></i>
-              <el-image
-                v-if="pageType == '02'"
-                class="mind-map-img"
-                src="../../../static/images/file.png"
-                :preview-src-list="srcList"
-              >
+            <span class="oper"><i class="el-icon-zoom-in"></i>
+              <el-image v-if="pageType == '02'" class="mind-map-img" src="../../../static/images/file.png" :preview-src-list="srcList">
               </el-image>
             </span>
-            <a
-              class="oper download"
-              :href="mindMapFileDownload"
-              :download="mindMapFileName"
-              ><span> <i class="el-icon-download"></i></span
-            ></a>
-            <span class="oper" @click="handelMindMapDelete"
-              ><i class="el-icon-delete"></i
-            ></span>
+            <a class="oper download" :href="mindMapFileDownload" :download="mindMapFileName"><span> <i class="el-icon-download"></i></span></a>
+            <span class="oper" @click="handelMindMapDelete"><i class="el-icon-delete"></i></span>
           </div>
         </div>
         <div class="sure-footer" style="padding: 0; justify-content: center">
           <div class="my-sure" @click="mindMapEnter">确定</div>
-          <div
-            class="my-sure"
-            style="
+          <div class="my-sure" style="
               background: #fff;
               color: #dc240f;
               border: 0.01rem solid #dc240f;
-            "
-            @click="mindMapCancle"
-          >
+            " @click="mindMapCancle">
             取消
           </div>
         </div>
@@ -433,87 +220,34 @@
     </el-dialog>
 
     <!-- 设置常见问题弹窗 margin:10px auto 0px-->
-    <el-dialog
-      custom-class="cang-jing-ge"
-      title="常见问题"
-      :visible.sync="dialogConfigHotQuestionVisible"
-      width="70%"
-    >
+    <el-dialog custom-class="cang-jing-ge" title="常见问题" :visible.sync="dialogConfigHotQuestionVisible" width="70%">
       <div class="hot-question-box" v-loading="hotQuestionLoading">
         <div class="search-btn" @click="handleAddQuertion" style="width: 87px">
           添加问题<i class="el-icon-plus el-icon--right"></i>
         </div>
-        <input
-          v-show="false"
-          type="file"
-          v-on:change="tirggerQuestionFile($event, scope)"
-          class="question-file-input"
-        />
-        <el-table
-          border
-          class="hotQuestionTable"
-          :data="questionList"
-          cell-class-name="base-info-file-list"
-          v-loading="hotQuestionLoading"
-          :class="
+        <input v-show="false" type="file" v-on:change="tirggerQuestionFile($event, scope)" class="question-file-input" />
+        <el-table border class="hotQuestionTable" :data="questionList" cell-class-name="base-info-file-list" v-loading="hotQuestionLoading" :class="
             questionList.length == 0 ? 'table-no-border' : 'hotQuestionTable'
-          "
-        >
+          ">
           <el-table-column label="问题" align="center">
             <template slot-scope="scope">
               <div class="step-list">
                 <div class="item-section">
-                  <label
-                    class="hot-question-q"
-                    style="width: 0.3rem; line-height: 0.14rem"
-                    ><span style="color: #686868"
-                      >{{ scope.row.questionIndex }}.</span
-                    >
-                    &nbsp;Q &nbsp;</label
-                  >
+                  <label class="hot-question-q" style="width: 0.3rem; line-height: 0.14rem"><span style="color: #686868">{{ scope.row.questionIndex }}.</span>
+                    &nbsp;Q &nbsp;</label>
                   <div class="right-content">
-                    <el-input
-                      v-if="scope.row.isEdit"
-                      placeholder="请输入问题"
-                      :disabled="false"
-                      size="mini"
-                      v-model="question"
-                    >
+                    <el-input v-if="scope.row.isEdit" placeholder="请输入问题" :disabled="false" size="mini" v-model="question">
                     </el-input>
-                    <el-input
-                      v-else
-                      placeholder="请输入问题"
-                      :disabled="true"
-                      size="mini"
-                      v-model="scope.row.question"
-                    >
+                    <el-input v-else placeholder="请输入问题" :disabled="true" size="mini" v-model="scope.row.question">
                     </el-input>
                   </div>
                 </div>
                 <div class="item-section item-section-question">
                   <label style="width: 0.3rem;text-align;:right">A</label>
                   <div class="right-content">
-                    <el-input
-                      v-if="scope.row.isEdit"
-                      resize="none"
-                      :disabled="false"
-                      type="textarea"
-                      :autosize="{ minRows: 3, maxRows: 30 }"
-                      :rows="3"
-                      placeholder="请输入答案"
-                      v-model="answer"
-                    >
+                    <el-input v-if="scope.row.isEdit" resize="none" :disabled="false" type="textarea" :autosize="{ minRows: 3, maxRows: 30 }" :rows="3" placeholder="请输入答案" v-model="answer">
                     </el-input>
-                    <el-input
-                      v-else
-                      resize="none"
-                      :disabled="true"
-                      type="textarea"
-                      :autosize="{ minRows: 3, maxRows: 30 }"
-                      :rows="3"
-                      placeholder="请输入答案"
-                      v-model="scope.row.answer"
-                    >
+                    <el-input v-else resize="none" :disabled="true" type="textarea" :autosize="{ minRows: 3, maxRows: 30 }" :rows="3" placeholder="请输入答案" v-model="scope.row.answer">
                     </el-input>
                   </div>
                 </div>
@@ -522,46 +256,24 @@
                   <div class="right-content">
                     <div class="hot-question-file clearfix">
                       <template v-if="scope.row.fileList.length > 0">
-                        <p
-                          class="hot-question-file-left"
-                          v-for="item in scope.row.fileList"
-                          :key="item.fileid"
-                        >
+                        <p class="hot-question-file-left" v-for="item in scope.row.fileList" :key="item.fileid">
                           <!-- <span class="hot-question-file-left" v-if="scope.row.fileList"> <i class="el-icon-paperclip"></i>{{item.filename}}</span> -->
                           <span>
-                            <i :class="fileTypeFun(item.filetype)"></i
-                            >&nbsp;&nbsp;{{ item.filename }}
-                            <i
-                              @click="baseInfoDelete(item.fileid)"
-                              v-if="item.type !== 'upfile'"
-                              style="
+                            <i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{ item.filename }}
+                            <i @click="baseInfoDelete(item.fileid)" v-if="item.type !== 'upfile'" style="
                                 margin-left: 5px;
                                 cursor: pointer;
                                 color: #979797;
-                              "
-                              >删除</i
-                            ></span
-                          >
+                              ">删除</i></span>
                         </p>
                       </template>
                       <template v-else>
-                        <p
-                          class="hot-question-file-left"
-                          style="height: 0.15rem; display: inline-block"
-                        ></p>
+                        <p class="hot-question-file-left" style="height: 0.15rem; display: inline-block"></p>
                       </template>
                       <!-- <span class="hot-question-file-left" v-if="scope.row.fileList"> <i class="el-icon-paperclip"></i>{{item.filename}}</span> -->
                       <!-- <span class="hot-question-file-left up-file"><span> <i class="el-icon-paperclip"></i>上传附件</span></p> -->
-                      <span
-                        class="hot-question-file-right"
-                        @click="handleQuestionUpLoad(scope.row.questionid)"
-                      >
-                        <i
-                          class="el-icon-paperclip el-icon--right"
-                          style="color: #606266"
-                        ></i
-                        >&nbsp;&nbsp;添加附件</span
-                      >
+                      <span class="hot-question-file-right" @click="handleQuestionUpLoad(scope.row.questionid)">
+                        <i class="el-icon-paperclip el-icon--right" style="color: #606266"></i>&nbsp;&nbsp;添加附件</span>
                     </div>
                   </div>
                 </div>
@@ -572,36 +284,14 @@
             <template slot-scope="scope">
               <template v-if="!scope.row.isEdit">
                 <el-button-group class="base-info-botton-group">
-                  <el-button
-                    size="mini"
-                    @click="hotQuestionUp(scope.row.questionid)"
-                    type="primary"
-                    icon="iconfont icon-my-up"
-                  ></el-button>
-                  <el-button
-                    size="mini"
-                    @click="hotQuestionDown(scope.row.questionid)"
-                    type="primary"
-                    icon="iconfont icon-my-down"
-                  ></el-button>
+                  <el-button size="mini" @click="hotQuestionUp(scope.row.questionid)" type="primary" icon="iconfont icon-my-up"></el-button>
+                  <el-button size="mini" @click="hotQuestionDown(scope.row.questionid)" type="primary" icon="iconfont icon-my-down"></el-button>
                 </el-button-group>
-                <span
-                  class="base-info-delete hot-question-delete"
-                  @click="hotQuestionEdit(scope)"
-                  >编辑</span
-                >
-                <span
-                  class="base-info-delete hot-question-delete"
-                  @click="hotQuestionDelete(scope.row.questionid)"
-                  >删除</span
-                >
+                <span class="base-info-delete hot-question-delete" @click="hotQuestionEdit(scope)">编辑</span>
+                <span class="base-info-delete hot-question-delete" @click="hotQuestionDelete(scope.row.questionid)">删除</span>
               </template>
               <template v-else>
-                <span
-                  class="hot-question-enter"
-                  @click="hotQuestionEnter(scope.row.questionid)"
-                  >确定</span
-                >
+                <span class="hot-question-enter" @click="hotQuestionEnter(scope.row.questionid)">确定</span>
               </template>
             </template>
           </el-table-column>
@@ -641,10 +331,7 @@ export default {
       insureUrl: "",
       dialogHotQuestionVisible: false, //常见问题弹窗
       url: "../../../static/images/file.png",
-      srcList: [
-        // './images/img.png',
-        // 'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-      ],
+      srcList: [],
       dialogConfigBaseInfoVisible: false, //设置基本资料弹窗
       baseInfoFileList: [],
       dialogConfigHotQuestionVisible: false, //设置常见问题弹窗
@@ -674,7 +361,7 @@ export default {
       },
       hotQuestionLoading: false,
       productNameOption: [], //产品名称模糊搜索
-      // mindMapEnterVisable: true,//思维导图弹窗确定按钮
+
     };
   },
   mounted() {
@@ -692,9 +379,7 @@ export default {
         "post",
         my_url + "/crm/common/getDictList.do",
         function (data) {
-          console.log(data)
           if (data.code == 0) {
-            console.log(data);
             _this.regionList = data.dictList;
           }
         },
@@ -729,7 +414,6 @@ export default {
         "post",
         my_url + "/crm/risk/getEmailUwInfo.do",
         function (data) {
-          // _this.emailUwInfo = data.emailUwInfo.replace()
           let arr = [],
             emailUwInfo = "";
           data.emailUwInfo.split("\n").forEach(function (item, index) {
@@ -797,9 +481,7 @@ export default {
       _this.getBaseInfoFileList(riskcode);
     },
     //基本资料全部下载
-    // downloadAll () {
 
-    // },
     getBaseInfoFileList(riskcode) {
       var _this = this;
       _this.baseInfoLoading = true;
@@ -930,7 +612,7 @@ export default {
           });
           _this.dialogInsureUrlVisible = false;
         },
-        function (e) {}
+        function (e) { }
       );
     },
     // 热门问题按钮
@@ -962,11 +644,6 @@ export default {
             _this.questionList = questionList;
             _this.hotQuestionLoading = false;
 
-            // if (_this.pageType == "02") {
-            //   _this.questionList.forEach(function (item) {
-            //     item.fileList.push({ filename: "上传附件", type: "upfile" })
-            //   })
-            // }
           }
         },
         {
@@ -1043,7 +720,7 @@ export default {
           "post",
           my_url + "/crm/risk/riskCommQusetionAdd.do",
           function (data) {
-            // let { questionid } = data;
+
             if (data.code == 0) {
               _this.$message({
                 type: "success",
@@ -1140,7 +817,7 @@ export default {
         }
         newArr.push(i);
       });
-      // _this.questionList = newArr
+
     },
     // 思维导图按钮
     handleMindMap(riskcode) {
@@ -1156,8 +833,8 @@ export default {
             _this.srcList = [];
             _this.srcList.push(
               "https://crm.meihualife.com" +
-                fileList[0].dis_filePath +
-                fileList[0].store_name
+              fileList[0].dis_filePath +
+              fileList[0].store_name
             );
             _this.mindMapFileDownload =
               "https://crm.meihualife.com/filedownload.do?fileid=" +
@@ -1277,28 +954,17 @@ export default {
       } else {
         _this.queryParams.salesArea = "";
       }
-      getData("post", my_url + "/crm/risk/getRiskList.do",   function (data) {
-          let { rows, total } = data;
-          _this.queryParams.pageTotal = total;
-          if (rows) {
-            _this.riskList = rows;
-          }
-        },
+      getData("post", my_url + "/crm/risk/getRiskList.do", function (data) {
+        let { rows, total } = data;
+        _this.queryParams.pageTotal = total;
+        if (rows) {
+          _this.riskList = rows;
+        }
+      },
         _this.queryParams
       );
     },
-    // getFileListByBuzId (id) {
-    //   let _this = this;
-    //   getData('post', my_url + '/crm/fileupload/getFileListByBuzId.do', function (data) {
-    //     let { fileList } = data;
-    //     if (fileList) {
-    //       console.log(fileList)
-    //     }
 
-    //   }, { buzid: id });
-
-    // },
-    //
     handleUpLoad() {
       $(".file-input").trigger("click");
     },
@@ -1307,7 +973,6 @@ export default {
       $(".question-file-input").trigger("click");
     },
     tirggerQuestionFile(e, scope) {
-      console.log(e);
       var _this = this;
       _this.baseInfoLoading = true;
       let formData = new FormData();
@@ -1376,7 +1041,6 @@ export default {
                   item.fileList.push({
                     filename: e.target.files[0].name,
                   });
-                  // item.fileList[item.fileList.length - 1].filename = e.target.files[0].name
                 }
               });
               $.ajax({
@@ -1507,7 +1171,6 @@ export default {
         ? productNameOption.filter(this.createFilterName(queryString))
         : productNameOption;
       // 调用 callback 返回建议列表的数据
-      console.log(results);
       cb(results);
     },
     createFilterName(queryString) {

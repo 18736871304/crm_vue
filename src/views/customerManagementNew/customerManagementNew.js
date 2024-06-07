@@ -37,8 +37,6 @@ export default {
       weekTarget: '', //本周目标
       month_modify: '',
       week_modify: "",
-      // todaySummary: '',
-      // tomorrowActing: '',
       delRemark: true, //跟进记录的删除按钮是否显示
       audioPaused: true,
       currentCallIndex: '',
@@ -49,13 +47,13 @@ export default {
       sable: false,
       inputUserform1: [],
       inputUserform2: [], //储存记忆
-      channelList: [],
+      channelList: [],//渠道类型
+      sourceList:[],//流量来源
       channelOptions: [],
       planid: '渠道类型', //广告计划ID
-      planidBatchno: '',
-      planidValue: '',
       batchnoValue: '',
       channelValue: '',
+      sourceValue:'',//流量来源
       birthday: '',
       cjgcontent: '保单检视',
       cjgtype: '',
@@ -339,14 +337,7 @@ export default {
       crm_url: '',
       audioShow: false,
       adLabelselect: '06'
-      // adLabelselect: [
-      //   {dd_key: "01", dd_value: "高意向保障"},
-      //   {dd_key: "02", dd_value: "高意向理财"},
-      //   {dd_key: "03", dd_value: "保单置换规划"},
-      //   {dd_key: "04", dd_value: "仅意外医疗"},
-      //   {dd_key: "05", dd_value: "其它需求"},
-      //   {dd_key: "06", dd_value: "未取得有效沟通"}
-      // ]
+  
     };
   },
 
@@ -366,8 +357,10 @@ export default {
         ismyUse: true,
         followupstep: '99',
         menutype: '75000000',
-        sourcelevel: '',
-        planid: this.planidValue,
+        channelValue:'',
+        sourceValue:'',
+        // sourcelevel: '',
+        // planid: this.planidValue,
         batchno: this.batchnoValue
       };
       this.getTableData(params); //table数据	
@@ -411,11 +404,11 @@ export default {
   },
   methods: {
     remarktop(data) {
-      var _this =this
-      console.log(data)
+      var _this = this
+     
       getData('post', my_url + '/crm/activity/setRemarkTop.do', function (data) {
-        console.log(data)
-        if(data.code=='0'){
+    
+        if (data.code == '0') {
           _this.$message({
             showClose: true,
             message: '跟进记录置顶成功',
@@ -423,9 +416,9 @@ export default {
             type: 'success'
           });
 
-           _this.getReleaseData()
+          _this.getReleaseData()
         }
-       
+
       }, {
         activityid: data
       })
@@ -458,7 +451,7 @@ export default {
     dataEntry(aa) {
       var _this = this
       this.dialogVisible = true
-      console.log(aa == 1)
+   
       if (aa != 1) {
         this.from.recorddate = moment().format('YYYY-MM-DD 00:00:00')
       }
@@ -486,28 +479,6 @@ export default {
             _this.monthTarget = data.oneDayData.month_fyp_target
             _this.weekTarget = data.oneDayData.week_fyp_target
 
-            // if (data.month_modify == '') {
-            //   _this.month_modify = false
-            // } else {
-            //   if (data.month_modify == 'no') {
-            //     _this.month_modify = true
-            //   } else {
-            //     _this.month_modify = false
-            //   }
-            // }
-
-            // if (data.week_modify == ''||data.week_modify==undefined) {
-            //   _this.month_modify = false
-            // } else{
-            //   if (data.week_modify == 'no') {
-            //     _this.week_modify = true
-            //   } else {
-            //     _this.week_modify = false
-            //   }
-            // }
-
-            // _this.month_modify=data.month_modify
-            // _this.week_modify=data.week_modify
           }
         }
       }, date)
@@ -544,7 +515,7 @@ export default {
         return
       }
 
-      console.log(Number(_this.monthTarget) > Number(_this.weekTarget))
+   
       if (Number(_this.monthTarget) < Number(_this.weekTarget)) {
         _this.$message({
           showClose: true,
@@ -570,8 +541,6 @@ export default {
             nocallcentertime: _this.from.nocallcentertime,
             month_fyp_target: _this.monthTarget,
             week_fyp_target: _this.weekTarget,
-            // today_work: _this.todaySummary,
-            // tomorrow_plan: _this.tomorrowActing
           }
           getData('post', crm_url + 'insure.meihualife.com/crm_web/dayDataInsert.do', function (data) {
             if (data.code == '0') {
@@ -609,14 +578,33 @@ export default {
     handleClose() {
       this.dialogVisible = false
     },
+
+    //渠道类型
     getchannelNameList() {
       let _this = this;
-      getData('post', my_url + '/crm/channel/getChannelData.do', function (data) {
+      getData('post', my_url + '/crm/common/getDictList.do', function (data) {
         if (data.code == 0) {
-          _this.channelList = data.channelList;
+          _this.channelList = data.dictList;
         }
+      }, {
+        dict_type: 'source'
       });
     },
+
+    channelSelect() {
+      var _this = this
+      this.sourceValue=''
+      getData('post', my_url + '/crm/common/getDictList.do', function (data) {
+        if (data.code == 0) {
+          _this.sourceList = data.dictList;
+        }
+      }, {
+        dict_type: 'sourcedetail_' + this.channelValue,
+        special: 'dis'
+      });
+    },
+
+
     tableHeard() {
       var _this = this
       getData('post', my_url + '/crm/tableheard/getTableHeardInfo.do', function (data) {
@@ -669,7 +657,8 @@ export default {
       this.mobile = '';
       this.wxno = '';
       this.username = '';
-      this.queryflag = false;
+      this.queryflag = true;
+      this.queryflagString='01'
       this.hotlineStartDate = ''; //线索开始时间
       this.hotlineEndDate = '';
       this.cusdealStartDate = '';
@@ -720,43 +709,13 @@ export default {
         }
         var channelListSum = this.channelList.concat(this.channelOptions)
 
-        if (this.planid == '广告计划ID') {
-          this.batchnoValue = ''
-          this.channelValue = ''
-          this.planidValue = this.planidBatchno
-        } else if (this.planid == '渠道类型') {
-          this.planidValue = ''
-          this.channelValue = ''
-          this.channelValue = this.planidBatchno
-
-          var channeldetail = ''
-          var channel = ''
-          channelListSum.forEach(res => {
-            if (res.dd_value == this.planidBatchno) {
-              if (res.dd_key.length < 5) {
-                channel = res.dd_key
-              } else {
-                channeldetail = res.dd_key
-              }
-            }
-          })
-
-
-
-        } else if (this.planid == '批次号') {
-          this.batchnoValue = ''
-          this.planidValue = ''
-          this.batchnoValue = this.planidBatchno
-        }
-
+      
 
 
         let params = {
           hotlineStartDate: hotlineStartDate, //线索开始时间
           hotlineEndDate: hotlineEndDate, //线索终止时间
-          // cusdealStartDate: cusdealStartDate, //成交起期
-          // cusdealEndDate: cusdealEndDate, //成交止期
-          planid: this.planidValue,
+     
           name: Salesman, //客户姓名
           userid: this.overviewForm.userid, //业务员姓名
           mobile: this.mobile,
@@ -766,13 +725,13 @@ export default {
           pageSize: this.pageSize,
           queryflag: this.queryflagString,
           menutype: '75000000',
-          sourcelevel: sourcelevel,
+ 
           teamid: this.overviewForm.teamid,
           prop: prop,
           order: order,
-          batchno: this.batchnoValue,
-          channeldetail: channeldetail,
-          channel: channel
+  
+          channel: this.channelValue,
+          appname: this.sourceValue
         };
         this.loading = true;
         this.getTableData(params);
@@ -881,10 +840,7 @@ export default {
             dd_key: "99",
             dd_value: "新资源"
           })
-          // select_dictList.unshift({
-          //   dd_key: "98",
-          //   dd_value: "企微资源"
-          // })
+      
           _this.select_steps = select_dictList;
 
           var add_dictList = JSON.parse(JSON.stringify(data.dictList))
@@ -990,7 +946,6 @@ export default {
         cusdealEndDate = this.formatDate(this.selectTimeCusdeal[1], 'yyyy-MM-dd');
       };
 
-      console.log(this.overviewForm, that.Salesman)
       getData('post', my_url + '/crm/auth/getToken.do', function (data) {
         var params = {
           cluestartdate: hotlineStartDate, //线索开始时间
@@ -1183,8 +1138,6 @@ export default {
       }
 
       row.username = row.username != undefined ? row.username : '无';
-
-      // this.activitytag = row.activitytag != undefined ? row.activitytag.split(',') : [];
       this.returnVisit = row.previstitime != undefined ? row.previstitime : '';
       this.visit = row.followupstep != undefined ? row.followupstep : '';
       this.wxno = row.wxno != undefined ? row.wxno : '';
@@ -1227,29 +1180,11 @@ export default {
         this.detailsInfo.mobilestr = row.mobilestr;
         this.detailsInfo.wxnostr = row.wxnostr;
       }
-      // if (!row.activitytag) {
-      //   this.sendActivitytag()
-      // }
+
       //已成交处理
       this.isDealed = (this.followupstep == "07")
     },
-    // sendActivitytag() {
-    //   let _this = this;
-    //   let params = {
-    //     activitytag: this.adLabelselect,
-    //     activityserialno: this.detailsInfo.activityserialno
-    //   }
-    //   getData('post', my_url + '/crm/activity/updateActivityTag.do', function (data) {
-    //     if (data.code == 0) {
-    //       _this.tableData.forEach((item, index) => {
-    //         _this.$set(_this.tableData[index], 'activitytag', _this.adLabelselect)
-    //       })
-    //     }
-    //   }, params);
-    // },
-    // activitytagClick() {
-    //   this.sendActivitytag()
-    // },
+ 
     //点击成交单子，查看详情
     showEdit(item) {
       var arr = []
@@ -1263,7 +1198,7 @@ export default {
         mobile: row.mobilestr,
         activityid: row.activityserialno
       });
-      // this.phonecall(row.activityserialno, row.mobilestr);
+      
     },
     phonecall_page() {
       if (this.dis_save == true) {
@@ -1271,7 +1206,7 @@ export default {
           mobile: this.detailsInfo.mobilestr,
           activityid: this.detailsInfo.activityserialno
         });
-        // this.phonecall(this.detailsInfo.activityserialno, this.detailsInfo.mobilestr);
+        
       }
     },
     phonecall(activityid, phoneStr) {
@@ -1957,13 +1892,7 @@ export default {
           _this.disTeamAll = true;
         }
         _this.teamDataList = data.teamList;
-        // tempData = [{
-        //   id: 1,
-        //   label: '团队选择',
-        //   children: data.teamList
-        // }]
-
-        // _this.teamData = tempData;
+      
 
       });
     },
@@ -1990,14 +1919,13 @@ export default {
       this.my_list = '';
       this.teamList = '';
       this.teamNames = "团队选择";
-      // this.$refs.tree1.setCheckedKeys([])
+    
     },
     my_sure() {
       let _this = this;
       this.$refs.disTeam.hide();
       if (this.my_list == null || this.my_list == '' || this.my_list == '1') {
-        // _this.$message({ showClose: true, message: '请选择团队数据', duration: 3000, type: 'error' });
-        // return;
+     
       }
       this.teamNames = this.my_list;
       //获取业务员列表
@@ -2084,7 +2012,6 @@ export default {
       this.overviewForm.endDate = formatDate(new Date(end), 'yyyy-MM-dd 00:00:00').substring(0, 10);
       this.queryflag = false;
       this.queryflagString = "02"
-      //this.search();
       this.refresh();
     },
     userNameChange() {
@@ -2102,20 +2029,20 @@ export default {
           _this.isrefresh = false;
         }, 1000);
       }
-      // _this.tableDataOverview = [],
+    
       getData('post', my_url + '/crm/activity/getActivityDataView.do', function (data) {
+        // data.today_Y_List.type = "今日已回访"
         data.sumData_List.type = "总数量";
         data.today_X_List.type = "今日需回访"
-        data.today_Y_List.type = "今日已回访"
         data.tomorrow_X_List.type = "明日需回访"
 
         data.sumData_List.yesterday = "昨日回访";
         data.today_X_List.yesterday = data.yesterday_visit
-        data.today_Y_List.yesterday = "本月跟丢"
+        // data.today_Y_List.yesterday = "本月跟丢"
         data.tomorrow_X_List.yesterday = data.month06count
+        // tableDataOverview.push(data.today_Y_List)
         tableDataOverview.push(data.sumData_List)
         tableDataOverview.push(data.today_X_List)
-        tableDataOverview.push(data.today_Y_List)
         tableDataOverview.push(data.tomorrow_X_List)
         _this.tableDataOverview = tableDataOverview
       }, _this.overviewForm);
@@ -2153,11 +2080,7 @@ export default {
             })
           })
           _this.mobileList = mobilelist;
-          // _this.mobileList = [
-          //   { id: 1, phone: '13244442222' },
-          //   { id: 2, phone: '13244442223' },
-          //   { id: 3, phone: '13244442224' },
-          // ];
+     
         }
       }, {
         activityid: activityid
@@ -2333,8 +2256,6 @@ export default {
         mobilecity: this.mobilecity,
         mobilecountry: this.mobilecountry,
         address: this.address,
-        // activitytag: this.adLabelselect,
-        // dict_type: 'activitytag'
       };
       getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) {
         _this.followrecord = '';
@@ -2383,16 +2304,5 @@ export default {
         document.documentElement.scrollTop = s4;
       }
     },
-    adLabelChange(e) {
-      let _this = this;
-      // getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) { //渠道类型
-      //   if (data.code == 0) {
-
-      //   }
-      // }, {type:'activitytag', activitytag: e });
-    },
-    test() {
-      alert(123);
-    }
   }
 }

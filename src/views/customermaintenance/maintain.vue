@@ -44,12 +44,9 @@
                 scope.row.name || "空" }}</a>
           </template>
         </el-table-column>
-        <!-- <el-table-column key="4" align="center" prop="mobile" label="电话号码" width="120">
-          </el-table-column> -->
 
         <el-table-column key="4" align="center" label="电话号码" width="140" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <!-- <a class="call-a" href="javascript:void(0);" v-if="queryflagString == 02">{{scope.row.mobile}}</a> -->
             <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)">
               {{ scope.row.mobile }}
               <img style="margin-left: 5px;" src="../../static/images/call-icon.png" />
@@ -118,7 +115,8 @@
         </el-table-column>
         <el-table-column key="14" align="center" prop="channelname" label="渠道类型" width="80">
         </el-table-column>
-
+        <el-table-column key="60" align="center" prop="appname" label="流量来源" width="100">
+        </el-table-column>
       </el-table>
       <el-table v-if="CJGselectValue == '失效保单' || CJGselectValue == '终止保单'" :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%;" @selection-change="handleSelectionChange" @sort-change="sortChange" class="splice-header">
         <el-table-column key="61" align="center" type="index" label="序号" width="60">
@@ -132,10 +130,6 @@
         </el-table-column>
 
         <el-table-column key="18" align="center" prop="contno" label="保单号" width="150" :show-overflow-tooltip="true">
-          <!-- <template slot-scope="scope">
-              <el-tag type="success" v-if="scope.row.isxubao == '05'" size="mini">续</el-tag>
-              {{scope.row.contno}}
-            </template> -->
         </el-table-column>
         <el-table-column key="19" align="center" prop="statename" label="保单状态" width="80" :show-overflow-tooltip="true">
         </el-table-column>
@@ -147,7 +141,6 @@
         </el-table-column>
         <el-table-column key="33" align="center" label="投保人手机号" width="140" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <!-- <a class="call-a" href="javascript:void(0);" v-if="queryflagString == 02">{{scope.row.appphone}}</a> -->
             <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)">
               {{ scope.row.appphone }}
               <img style="margin-left: 5px;" src="../../static/images/call-icon.png" />
@@ -284,23 +277,9 @@
                   <el-input placeholder="请输入" size="mini" v-model="detailsInfo.wxno">
                   </el-input>
                 </span>
-                <!-- <div class="editContent_box_r">
-                    <span>邮箱</span>
-                    <span>
-                      <el-input placeholder="请输入" size="mini" v-model="detailsInfo.email">
-                      </el-input>
-                    </span>
-                  </div> -->
+          
               </div>
-              <!-- <div class="editContent_b editContent_box">
-                  <div class="editContent_box_l" style="width: 100%;">
-                    <span class="dd">详细地址</span>
-                    <span class="dd">
-                      <el-input placeholder="请输入" size="mini" v-model="detailsInfo.address">
-                      </el-input>
-                    </span>
-                  </div>
-                </div> -->
+      
             </div>
           </div>
           <div class="condition">
@@ -348,19 +327,6 @@
                 <span :title="detailsInfo.makedate">线索产生时间：{{ detailsInfo.makedate }}</span>
                 <span :title="detailsInfo.channelname">渠道类型：{{ detailsInfo.channelname }}</span>
               </div>
-              <!-- <div class="cb">
-                  <span :title="detailsInfo.planid">广告计划ID：{{detailsInfo.planid}}</span>
-                </div>
-                <div class="cb">
-                  <span :title="detailsInfo.planname">
-                    广告计划名称：<a style="cursor: pointer; color: #578EE7;" href="#"
-                      @click="disVideoUrl(detailsInfo)">{{detailsInfo.planname}}</a>
-                  </span>
-                </div>
-                <div class="cc">
-                  <span :title="detailsInfo.module_id">组件ID：{{detailsInfo.module_id}}</span>
-                  <span :title="detailsInfo.module_name">组件名称：{{detailsInfo.module_name}}</span>
-                </div> -->
               <div class="cc">
                 <span :title="detailsInfo.clue_sourcename">线索来源：{{ detailsInfo.clue_sourcename }}</span>
                 <span :title="detailsInfo.appname">流量来源：{{ detailsInfo.appname }}</span>
@@ -413,13 +379,7 @@
           <span></span>
           <span>跟进记录</span>
         </div>
-        <!-- <div class="cjg-search-section " style="display: flex; justify-content: center;align-items: center;">
-            <el-select v-model="cjgTitle" :loading="loading" filterable remote :remote-method="remoteMethod"
-              placeholder="搜索藏经阁内容" @change="cjgChange" @focus="cjgfocus" class="cjgserach" style="width: 100%;">
-              <el-option v-for="item in cjgList" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
-          </div> -->
+
         <div class="inputBox">
           <el-input v-model="followrecord" id="textarea" type="textarea" placeholder="添加跟进记录…"></el-input>
         </div>
@@ -544,8 +504,6 @@ export default {
       cusmobile: '电话号码', //显示的电话号码
       cusMobileWxno: '', //客户电话号码或者微信值
       cusname: '', //客户姓名
-
-
       //查看编辑弹窗
       showEditPopupDialogVisible: false,
       restaurants: [], //所有业务员
@@ -735,18 +693,13 @@ export default {
           var inteUrl = ''
           if (_this.CJGselectValue == '服务客户' || _this.CJGselectValue == '生日保单') {
             tabData = {
-              // "token": data.token,
               "contno": this.contno.trim(),
-              // "name": this.cusname,
-              // "mobile": cusmobile.trim(),
-              // "wxno": cuswxno,
               "cusname": this.cusname,
               "cusmobile": cusmobile.trim(),
               "wxno": cuswxno,
               "pageNumber": page,
               "pageSize": this.pageSize,
               "menutype": "75000000",
-              // "followupstep": "'07'"
             }
             if (_this.CJGselectValue == '生日保单') {
               tabData['isbirthdayquery'] = "Y"
@@ -766,18 +719,16 @@ export default {
             }
             tabData['state'] = "74"
             if (_this.CJGselectValue == '终止保单') {
-              // tabData['state'] = "70','72','73','75"  //72犹豫期退保
               tabData['state'] = "70','73','75"
             }
-            inteUrl = crm_url + 'insure.meihualife.com/crm_web/getPolicyList.do'
+            inteUrl = crm_url + 'insure.meihualife.com/crm_web/getPolicyList_New.do'
           }
-          getData('post', inteUrl, function (data) {
+          getData('get', inteUrl, function (data) {
             _this.loading = false
             let {
               rows,
               total
             } = data;
-            console.log(data)
             const genderArr = ['男', '女']
             if (rows) {
               rows.forEach(res => {
@@ -797,7 +748,6 @@ export default {
                 }
               })
             }
-            console.log(rows)
             _this.tableData = rows
             _this.pageTotal = total
           }, tabData);
@@ -828,15 +778,10 @@ export default {
       this.search(1)
     },
     handle(item) {
-      console.log(item)
       this.drawer = true;
-
       this.ceBirthday = item.chu
       this.ceMobile = item.mobile
       this.ceActivityserialno = item.activityserialno
-      console.log(item)
-
-      // this.ceBirthday = item.birthday
       this.getTableData()
       this.getOrderData()
       this.getReleaseData()
@@ -880,20 +825,8 @@ export default {
         address: this.detailsInfo.address,
         followupstep: '07', //跟进步骤
         activityserialno: this.detailsInfo.activityserialno, //线索流水号
-        // activitytag: this.activitytag.join(),
-        // age: this.age,
-        // mobile: this.detailsInfo.mobilestr,
-        // previstitime: this.formatDate(this.returnVisit, 'yyyy-MM-dd HH:mm:ss'), //预约回访时间
-        // oldprevistitime: this.formatDate(this.detailsInfo.previstitime, 'yyyy-MM-dd HH:mm:ss'),
-        // otherstore: this.editInfo.otherstore,
-        // shareuserid: save_share_id,
-        // activityuserid: this.detailsInfo.userid,
-        // mobileprovince: this.mobileprovince,
-        // mobilecity: this.mobilecity,
-        // mobilecountry: this.mobilecountry,
+  
       };
-
-      console.log(this.detailsInfo)
       getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) {
         _this.followrecord = '';
         if (data.code == 0) {
@@ -973,9 +906,8 @@ export default {
           _this.$message({
             type: "error",
             duration: 3000,
-            message: "线索不在你这里，请联系杜燕进行调配"
+            message: "线索不在你这里，请联系管理员进行调配"
           })
-          // alert('线索不在你这里,请联系管理员')
         } else {
           _this.detailsInfo = data.rows[0]
         }
@@ -1038,7 +970,6 @@ export default {
     //添加 号码
     mobileAdd() {
       var _this = this;
-      // var addMoblieStr = _this.addMoblie
       getData('post', my_url + '/crm/activity/activityAddMobile.do', function (data) {
         if (data.code == '0') {
           _this.getmobileList();
@@ -1089,7 +1020,6 @@ export default {
       }, {
         activityid: this.ceActivityserialno,
         mobile: scope.row.phone
-        // mobile:18611158884
       });
     },
 
@@ -1233,12 +1163,10 @@ export default {
     // 打电话
     phonecall_row(row) {
       this.$parent.onSend({ mobile: row.mobile, activityid: row.activityserialno });
-      // this.phonecall(row.activityserialno, row.mobile);
     },
     // 拨打电话
     phonecall_page() {
       this.$parent.onSend({ mobile: this.ceMobile, activityid: this.ceActivityserialno });
-      // this.phonecall(this.detailsInfo.activityserialno, this.ceMobile);
     },
 
     phonecall(activityid, phoneStr) {
@@ -1278,7 +1206,6 @@ export default {
             contno: item.contno
           }
           getData('post', crm_url + 'insure.meihualife.com/crm_web/getOnePolicy.do', data => {
-            console.log(data.rows)
             if (data.rows.length > 1) {
               this.detailObj = data.rows;
             } else {
@@ -1291,7 +1218,6 @@ export default {
       this.showEditPopupDialogVisible = true;
     },
     updateVisibleId(e) {
-      console.log(123123213, e)
       this.showEditPopupDialogVisible = e;
     },
     //跳转页数
@@ -1341,9 +1267,6 @@ export default {
   display: flex;
 }
 
-/* .el-dialog .el-dialog__body {
-    padding: 0;
-  } */
 
 .head .txt {
   cursor: pointer;

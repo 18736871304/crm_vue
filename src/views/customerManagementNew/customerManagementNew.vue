@@ -45,7 +45,7 @@
             <div class="refresh" @click="refresh(true)">
               <i class="el-icon-refresh" :class="[{ 'refresh-crile': isrefresh }]"></i>
               <span>刷新</span>
-              <!-- <el-button icon="el-icon-refresh" size="mini" type="text" @click="refresh">刷新</el-button> -->
+           
             </div>
           </div>
         </div>
@@ -85,35 +85,27 @@
                 </el-date-picker>
               </div>
             </div>
+
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">资源等级</div>
-              <div class="select-content" style="width: 3.2rem; border: none">
-                <el-select class="el-select-inners" v-model="sourcelevel" placeholder="请选择资源等级" size="mini" clearable>
-                  <el-option label="A理财" value="A+"></el-option>
-                  <el-option label="A重疾" value="A"></el-option>
-                  <el-option label="A-" value="A-"></el-option>
-                  <el-option label="B+" value="B+"></el-option>
-                  <el-option label="B" value="B"></el-option>
-                  <el-option label="B-" value="B-"></el-option>
-                  <el-option label="C" value="C"></el-option>
-                  <el-option label="C-" value="C-"></el-option>
-                  <el-option label="Z" value="Z"></el-option>
+              <div class="select-title" style="width: 1.38rem">渠道类型</div>
+              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+                <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
+                  <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
+                  </el-option>
                 </el-select>
               </div>
             </div>
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
-                <!-- label选择框 -->
-                <el-select class="el-input-title-inners" v-model="planid" placeholder="请选择" size="mini">
-                  <el-option label="批次号" value="批次号"></el-option>
-                  <el-option label="渠道类型" value="渠道类型"></el-option>
-                  <el-option label="广告计划ID" value="广告计划ID"></el-option>
+              <div class="select-title" style="width: 1.38rem">流量来源</div>
+              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+                <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="请选择流量来源" clearable>
+                  <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
+                  </el-option>
                 </el-select>
               </div>
-              <div class="select-content" style="width: 3.2rem;">
-                <el-input class="el-input-inners" v-model="planidBatchno" align="right" size="mini" clearable></el-input>
-              </div>
             </div>
+
+    
             <div class="common-select">
               <div class="select-title" style="width: 1.28rem">客户姓名</div>
               <div class="select-content" style="width: 3.2rem;">
@@ -128,7 +120,7 @@
                 </el-select>
               </div>
               <div class="select-content" style="width: 3.2rem;">
-                <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
+                <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" placeholder="请输入电话号码" size="mini" clearable></el-input>
               </div>
             </div>
           </div>
@@ -184,8 +176,6 @@
               <el-select class="el-select-inners" v-model="inputUserform.batchno" placeholder="请选择批次号">
                 <el-option label="群加资源" value="群加资源"></el-option>
                 <el-option label="转介绍" value="转介绍"></el-option>
-                <!-- <el-option label="联通资源" value="联通资源"></el-option>
-                <el-option label="天眼保" value="天眼保"></el-option> -->
                 <el-option label="其他资源" value="其他资源"></el-option>
               </el-select>
             </div>
@@ -213,7 +203,7 @@
             <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
           </div>
         </el-popover>
-        <!-- v-show="dis_P4_up" -->
+   
         <el-popover popper-class="entry-customer-popper" placement="bottom-start" width="3.31rem" trigger="click" v-model="resourceDeployVisable" @show="resourceDeployShow">
           <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源调配
           </div>
@@ -262,7 +252,6 @@
             <el-checkbox label="cusdealtime">客户成交时间</el-checkbox>
             <el-checkbox label="cusdealperiod">客户成交周期</el-checkbox>
             <el-checkbox label="batchno">批次号</el-checkbox>
-            <!-- <el-checkbox label="channelname">渠道类型</el-checkbox> -->
             <el-checkbox label="clueid">线索ID</el-checkbox>
             <el-checkbox label="accountid">广告主ID</el-checkbox>
             <el-checkbox label="accountname">广告主名称</el-checkbox>
@@ -271,10 +260,10 @@
             <el-checkbox label="module_id">组件ID</el-checkbox>
             <el-checkbox label="module_name">组件名称</el-checkbox>
             <el-checkbox label="clue_sourcename">线索来源</el-checkbox>
+            <el-checkbox label="channelname">渠道类型</el-checkbox>
             <el-checkbox label="appname">流量来源</el-checkbox>
             <el-checkbox label="area">自动定位城市</el-checkbox>
             <el-checkbox label="pageurl">推广页面</el-checkbox>
-            <!-- <el-checkbox label="previstitime">预约回访</el-checkbox> -->
             <div class="sure-footer" style="border-top: 1px solid rgba(221, 221, 221, 1); margin-top: 0.15rem;">
               <div class="my-sure" @click="checkedSure">确定</div>
               <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
@@ -286,13 +275,6 @@
         <el-table v-if="isArticle" :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange">
           <el-table-column type="selection" width="40">
           </el-table-column>
-          <!-- <el-table-column key="1" label="置顶" v-if="isTop" align="center" width="60">
-            <template slot-scope="scope">
-              <img src="../../static/images/top-icon-1.png" class="top-icon-1" v-if="scope.row.toporderid"
-                @click="cancelTop(scope.row)">
-              <img src="../../static/images/top-icon-0.png" class="top-icon-0" v-else @click="top(scope.row)">
-            </template>
-          </el-table-column> -->
           <el-table-column key="2" type="index" label="序号" align="center" width="60">
           </el-table-column>
           <el-table-column key="3" label="客户姓名" width="100" align="center" :show-overflow-tooltip="true">
@@ -317,8 +299,6 @@
                 }}</span>
             </template>
           </el-table-column>
-
-          <!-- v-if="inputUserform1.includes('跟进步骤')" -->
           <el-table-column key="5" prop="followupstepname" align="center" label="跟进步骤" width="90" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="6" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
@@ -340,7 +320,6 @@
               <p class="source-level">资源等级
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
                   <template slot="content">
-                    <!-- <p>A理财：实时热线资源，且线索产生时间&lt;7天  </p> -->
                     <p>A：实时热线资源，且线索产生时间&lt;7天 </p>
                     <p>A-：热线资源，且7天&lt;线索产生时间&lt;1个月 </p>
                     <p>B+：热线资源，且线索产生时间&gt;1个月 </p>
@@ -381,10 +360,6 @@
           <el-table-column key="14" prop="channelname" align="center" label="渠道类型" width="80" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <!-- <el-table-column key="18" prop="planname" label="计划名称" width="220" :show-overflow-tooltip="true"
-            align="center">
-          </el-table-column> -->
-
           <el-table-column prop="clueid" key="33" v-if="inputUserform1.includes('clueid')" align="center" label="线索ID" width="160" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="accountid" key="31" v-if="inputUserform1.includes('accountid')" align="center" label="广告主ID" width="140" :show-overflow-tooltip="true">
@@ -401,13 +376,13 @@
           </el-table-column>
           <el-table-column prop="clue_sourcename" key="27" v-if="inputUserform1.includes('clue_sourcename')" align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
           </el-table-column>
+          <el-table-column prop="channelname" key="60" v-if="inputUserform1.includes('channelname')" align="center" label="渠道类型" width="90" :show-overflow-tooltip="true">
+          </el-table-column>
           <el-table-column prop="appname" key="28" v-if="inputUserform1.includes('appname')" align="center" label="流量来源" width="100" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="area" key="29" v-if="inputUserform1.includes('area')" align="center" label="自动定位城市" width="100" :show-overflow-tooltip="true">
           </el-table-column>
-          <!-- <el-table-column prop="pageurl" key="30" align="center" label="推广页面" width="100"
-            :show-overflow-tooltip="true">
-          </el-table-column> -->
+
 
           <el-table-column key="19" v-if="inputUserform1.includes('pageurl')" prop="pageurl" label="推广页面" width="150" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
@@ -428,13 +403,6 @@
                   <div class="my-sure" @click="editPrevistTime(scope)">确定</div>
                 </div>
               </el-popover>
-              <!-- <el-popover v-else placement="top" width="220" height="50" trigger="click">
-                <el-date-picker v-model="editPrevistitime" type="datetime" placeholder="选择日期时间" size="mini">
-                </el-date-picker>
-                </br>
-                <el-button size="mini" type="primary" @click="editPrevistTime(scope)" style="margin-top:25px;float:right">确定</el-button>
-                <span slot="reference" class="mobile-icon el-icon-edit-outline" style="color:#979797;margin-left:5px "></span>
-              </el-popover> -->
 
               <span v-if="scope.row.previstitime" class="mobile-icon el-icon-circle-check" @click="toggerIsVist(scope)" style="color:#DC240F;  line-height: 20px;"></span>
             </template>
@@ -448,8 +416,7 @@
           </el-table-column>
           <el-table-column prop="cluetypename" label="渠道活码" :show-overflow-tooltip="true" width="120" align="center">
           </el-table-column>
-          <!-- <el-table-column prop="isaddfriend" label="是否添加好友" :show-overflow-tooltip="true" width="120" align="center">
-          </el-table-column> -->
+
           <el-table-column prop="username" label="所属业务员" :show-overflow-tooltip="true" width="100" align="center">
           </el-table-column>
           <el-table-column prop="customername" label="客户微信昵称" :show-overflow-tooltip="true" width="180" align="center">
@@ -464,21 +431,11 @@
           </el-table-column>
           <el-table-column prop="sourcetypename" label="来源属性" width="120" align="center">
           </el-table-column>
-          <!-- <el-table-column prop="position" label="插件位置" width="120" align="center">
-          </el-table-column> -->
+
           <el-table-column prop="ip" label="IP" width="120" :show-overflow-tooltip="true" align="center">
           </el-table-column>
           <el-table-column prop="ipaddress" label="自动定位地址" :show-overflow-tooltip="true" width="120" align="center">
           </el-table-column>
-          <!-- <el-table-column prop="articletypename" label="文章类型" width="120" align="center">
-          </el-table-column>
-          <el-table-column prop="sourcedetailname" label="来源账户" width="120" align="center">
-          </el-table-column>
-          <el-table-column prop="pageurl" label="来源URL" :show-overflow-tooltip="true" align="center" >
-            <template slot-scope="scope">
-              <a style="cursor: pointer;" href="#" @click="disarticleUrl(scope.row)">{{scope.row.articleurl}}</a>
-            </template>
-          </el-table-column> -->
 
         </el-table>
       </div>
@@ -644,9 +601,6 @@
         <div class="item-section">
           <label>建议规划</label>
           <div class="right-content">
-            <!-- <el-input resize="none" type="textarea" :autosize="{ minRows: 3, maxRows: 30}" :rows="3" placeholder="请输入内容"
-              :disabled="true" v-model="bdjsItem.suggestion">
-            </el-input> -->
             <div class="editor-box">
               <div id="div3" class="toolbar"></div>
               <div id="div4" class="text"> </div>
@@ -770,7 +724,6 @@
           <div class="right-content">
             <ul class="enclosure-list" v-if="fileList.length">
               <li class="item" v-for="(item, index) in fileList" :key="index">
-                <!-- <img src="../../static/images/file-icon.png" alt=""> -->
                 <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{ item.filename }}</div>
                 <a :href="crm_url + 'crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
               </li>
@@ -783,7 +736,6 @@
       </div>
     </el-dialog>
     <el-drawer title="我是标题" :size="isDealed ? '70%' : '50%'" custom-class="customer-drawer" :visible.sync="drawer" :with-header="false">
-      <!-- <el-drawer title="我是标题" :size="drawerWidth" :visible.sync="drawer" :with-header="false"> -->
       <div class="drawerLeft" :class="isDealed ? 'isDealed' : ''">
         <div class="left_box">
           <div class="header">
@@ -828,7 +780,7 @@
                 <span class="dd">电话号码</span>
                 <span class="dd">
                   <el-popover placement="bottom" width="225" trigger="click" v-model="addMobliePopVisible">
-                    <!-- <el-button slot="reference">hover 激活</el-button> -->
+           
                     <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px" @input="addMoblieChange">
                     </el-input>
 
@@ -876,41 +828,9 @@
                   <el-input placeholder="请输入" size="mini" v-model="wxnostr">
                   </el-input>
                 </span>
-                <!-- <div class="editContent_box_r">
-                  <span>邮箱</span>
-                  <span>
-                    <el-input placeholder="请输入" size="mini" v-model="email">
-                    </el-input>
-                  </span>
-                </div> -->
+              
               </div>
-              <!-- <div class="editContent_b editContent_box">
-                <div class="editContent_box_l" style="width: 100%;">
-                  <span class="dd">详细地址</span>
-                  <span class="dd">
-                    <el-input placeholder="请输入" size="mini" v-model="address">
-                    </el-input>
-                  </span>
-                </div>
-              </div> -->
-              <!-- <div class="editContent_b editContent_box">
-
-                <div class="editContent_box_l">
-                  <span class="dd">所在区</span>
-                  <span class="dd">
-                    <el-input placeholder="请输入" size="mini" v-model="mobilecountry">
-                    </el-input>
-                  </span>
-                </div>
-                <div class="editContent_box_r">
-                  <span>详细地址</span>
-                  <span>
-                    <el-input placeholder="请输入" size="mini" v-model="address">
-                    </el-input>
-                  </span>
-                </div>
-
-              </div> -->
+          
             </div>
           </div>
           <div class="condition">
@@ -955,52 +875,12 @@
               <span>广告投放信息</span>
             </div>
             <div class="adInformation_b">
-              <!-- <div class="cb">
-                <span :title="detailsInfo.clueid">线索ID：{{detailsInfo.clueid}}</span>
-              </div> -->
-
-              <!-- <div class="cb insure-redio">
-                <div style="width: 1rem; color: #282828;font-size: 0.14rem;padding-left: 0.08rem;">意向标签：</div>
-                <ul class="clearfix">
-                  <li :class="[{ 'insure-select': adLabelselect == '01' }]" @click="activitytagClick(adLabelselect = '01')">
-                    高意向保障</li>
-                  <li :class="[{ 'insure-select': adLabelselect == '02' }]" @click="activitytagClick(adLabelselect = '02')">
-                    高意向理财</li>
-                  <li :class="[{ 'insure-select': adLabelselect == '03' }]" @click="activitytagClick(adLabelselect = '03')">
-                    保单检视</li>
-                  <li :class="[{ 'insure-select': adLabelselect == '04' }]" @click="activitytagClick(adLabelselect = '04')">
-                    仅意外医疗</li>
-                  <li :class="[{ 'insure-select': adLabelselect == '05' }]" @click="activitytagClick(adLabelselect = '05')">
-                    其它需求</li>
-                  <li :class="[{ 'insure-select': adLabelselect == '06' }]" @click="activitytagClick(adLabelselect = '06')">
-                    未取得有效沟通</li>
-                </ul>
-              </div> -->
+           
               <div class="cb">
                 <span :title="detailsInfo.makedate">线索产生时间：{{ detailsInfo.makedate }}</span>
                 <span :title="detailsInfo.channelname">渠道类型：{{ detailsInfo.channelname }}</span>
               </div>
 
-              <!-- <div class="cc">
-                <span :title="detailsInfo.accountid">广告主ID：{{detailsInfo.accountid}}</span>
-                <span :title="detailsInfo.accountname">广告主名称：{{detailsInfo.accountname}}</span>
-              </div> -->
-
-              <!-- <div class="cb">
-                <span :title="detailsInfo.planid">广告计划ID：{{detailsInfo.planid}}</span>
-              </div>
-              <div class="cb">
-                <span :title="detailsInfo.planname">
-                  广告计划名称：<a style="cursor: pointer; color: #578EE7;" href="#"
-                    @click="disVideoUrl(detailsInfo)">{{detailsInfo.planname}}</a>
-                </span>
-
-              </div>
-
-              <div class="cc">
-                <span :title="detailsInfo.module_id">组件ID：{{detailsInfo.module_id}}</span>
-                <span :title="detailsInfo.module_name">组件名称：{{detailsInfo.module_name}}</span>
-              </div> -->
 
               <div class="cc">
                 <span :title="detailsInfo.clue_sourcename">线索来源：{{ detailsInfo.clue_sourcename }}</span>
@@ -1304,12 +1184,12 @@ export default {
 }
 
 .gjg_topping {
-  display: none!important;
-  color: #979797!important;
+  display: none !important;
+  color: #979797 !important;
   width: 15% !important;
   cursor: pointer;
 }
 .customer-drawer .drawerRight .drawercontentBox ul li:hover .gjg_topping {
-  display: block!important;
+  display: block !important;
 }
 </style>

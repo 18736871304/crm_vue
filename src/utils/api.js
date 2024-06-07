@@ -292,8 +292,11 @@ function modifyTalkTempleteContent(params){
 function deleteTalkTempleteContent(params){
   return POST(params, '/crm/talktemplete/deleteTalkTempleteContent.do')
 }
+// 是否是团队长
 
-
+function isLeader(params){
+  return POST(params, '/crm/auth/isLeader.do')
+}
 
 export default {
   getTempToken,
@@ -354,5 +357,6 @@ export default {
   addTalkTempleteContent,
   getTalkItemList,
   modifyTalkTempleteContent,
-  deleteTalkTempleteContent
+  deleteTalkTempleteContent,
+  isLeader
 }

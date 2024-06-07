@@ -1,20 +1,11 @@
 <template>
   <div class="table-box">
-    <el-table
-      :data="dataRen"
-      ref="multipleTable"
-      border
-      v-loading="loading"
-      style="width: 100%"
-      @selection-change="handleSelectionChange"
-      @sort-change="sortChange"
-      class="splice-header"
-    >
+    <el-table :data="dataRen" ref="multipleTable" border v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange" class="splice-header">
       <el-table-column key="1" align="center" type="index" label="序号" width="60"> </el-table-column>
       <el-table-column key="6" align="center" prop="xbstatename" label="续保状态" width="100">
         <template slot-scope="scope">
           <el-tag type="success" class="greed" v-if="scope.row.xbstatename == '已续保'" size="mini">已续保</el-tag>
-          <el-tag type="success" class="yellow"  v-if="scope.row.xbstatename == '待续保'" size="mini">待续保</el-tag>
+          <el-tag type="success" class="yellow" v-if="scope.row.xbstatename == '待续保'" size="mini">待续保</el-tag>
         </template>
       </el-table-column>
       <el-table-column key="2" align="center" prop="contno" label="原保单号" width="150" :show-overflow-tooltip="true">
@@ -24,14 +15,11 @@
         </template> -->
       </el-table-column>
 
-
-
       <el-table-column key="3" align="center" prop="insorganname" label="保险公司" width="130" :show-overflow-tooltip="true"> </el-table-column>
       <el-table-column key="4" align="center" prop="riskname" label="险种名称" width="200" :show-overflow-tooltip="true"> </el-table-column>
 
       <el-table-column key="5" align="center" prop="prem" label="原保费" width="80" :show-overflow-tooltip="true"> </el-table-column>
 
- 
       <el-table-column key="7" align="center" prop="accepttime" label="保单截至日" width="155" sortable> </el-table-column>
       <el-table-column key="8" align="center" prop="xbpaytime" label="续保成功日" width="155"> </el-table-column>
 
@@ -64,12 +52,12 @@
         </template>
       </el-table-column>
 
-
     </el-table>
   </div>
 </template>
 
 <script>
+import { getData, my_url, crm_url } from "../../static/js/ajax.js";
 export default {
   props: {
     dataRen: [],
@@ -86,6 +74,19 @@ export default {
   methods: {
     //查看详情
     showEditPopup(item) {
+      // console.log(item)
+      // getData("post", my_url + "/crm/auth/getToken.do", (data) => {
+      //   var params = {
+      //     token: data.token,
+      //     orderid: item.orderid
+      //   }
+      //   getData("post", crm_url + "insure.meihualife.com/crm_web/getOriginXbList.do", (data) => {
+      //     console.log(data)
+      //     if (data.code == 0) {
+      //     }
+      //   }, params);
+      // })
+
       this.$emit("isshowEditPopup", item);
     },
 
@@ -105,24 +106,25 @@ export default {
 </script>
 
 <style>
-.cell .greed{
+.cell .greed {
   width: 90%;
-    height: 100%;
+  height: 100%;
   background-color: #1aae1a;
-    border-color: #e1f3d8;
-    color: #fff;
+  border-color: #e1f3d8;
+  color: #fff;
 }
-.cell .yellow{
+.cell .yellow {
   width: 90%;
-    height: 100%;
+  height: 100%;
   background-color: #fff440;
-    border-color: #e1f3d8;
-    color: #565656;
+  border-color: #e1f3d8;
+  color: #565656;
 }
-.cell .red{
+.cell .red {
   width: 90%;
-    height: 100%;
+  height: 100%;
   background-color: #d92020;
-    border-color: #e1f3d8;
-    color: #fff;
-}</style>
+  border-color: #e1f3d8;
+  color: #fff;
+}
+</style>

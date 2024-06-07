@@ -14,7 +14,7 @@
             <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder=""></el-autocomplete>
           </div>
         </div>
-        <div class="common-select" v-if="CJGselectValue === '解答疑义'">
+        <div class="common-select" v-if="false">
           <div class="select-title" style="width: 1.28rem">跟进步骤</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
             <el-dropdown trigger="click" placement="top" ref="disTeam1" style="width: 100%">
@@ -33,7 +33,7 @@
             </el-dropdown>
           </div>
         </div>
-        <div class="common-select" v-if="CJGselectValue === '解答疑义'">
+        <div class="common-select" v-if="false">
           <div class="select-title" style="width: 1.28rem">所属分类</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
             <el-dropdown trigger="click" placement="top" ref="disTeam2" style="width: 100%">

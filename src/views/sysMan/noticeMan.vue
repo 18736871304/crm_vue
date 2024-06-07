@@ -199,9 +199,6 @@ export default {
     }
   },
   mounted: function () {
-    //this.hotlineStartDate = getBeforeDate(-1);
-    //this.hotlineEndDate = getBeforeDate(1);
-    //this.selectTime=[ new Date(formatDate(new Date(this.hotlineStartDate),'yyyy-MM-dd 00:00:00')), new Date(formatDate(new Date(this.hotlineEndDate),'yyyy-MM-dd 00:00:00'))];
     this.$nextTick(() => {
       this.getNoticeList()
       //数据字典
@@ -311,9 +308,7 @@ export default {
           this.newWangEditor('#div1', '#div2')
           editor10.txt.html(this.noticeItem.content)
         })
-      // } else {
-      //   editor10.txt.html(this.noticeItem.content)
-      // }
+
 
     },
     reset() { //重置
@@ -324,20 +319,6 @@ export default {
     newWangEditor(el1, el2) {
       editor10 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
       editor10.customConfig.height = 500
-      // 关闭粘贴内容中的样式
-      // editor10.customConfig.pasteFilterStyle = false
-      // editor10.customConfig.pasteText = false;
-      // editor10.customConfig.pasteTextHandle = function (content) {
-      //   // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
-      //   if (content == '' && !content) return ''
-      //   var str = content
-      //   str = str.replace(/<xml>[\s\S]*?<\/xml>/ig, '')
-      //   str = str.replace(/<style>[\s\S]*?<\/style>/ig, '')
-      //   str = str.replace(/<\/?[^>]*>/g, '')
-      //   str = str.replace(/[ | ]*\n/g, '\n')
-      //   str = str.replace(/&nbsp;/ig, '')
-      //   return str
-      // }
       // 隐藏“网络图片”tab
       editor10.customConfig.showLinkImg = false
       // 忽略粘贴内容中的图片

@@ -2,7 +2,7 @@
   <div class="scriptLibrary">
     <div class="eltabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="团队话术" name="01"></el-tab-pane>
+        <el-tab-pane v-if="isLeader =='Y'" label="团队话术" name="01"></el-tab-pane>
         <el-tab-pane label="个人话术" name="02"></el-tab-pane>
       </el-tabs>
     </div>
@@ -16,10 +16,10 @@
       </div>
     </div>
 
-    <!-- 团队话术  v-if="activeName == '01'" -->
+
     <div class="teamLanguage">
       <div class="productList" v-loading="loading">
-        <el-tree :data="options" :props="GroupdefaultProps"  node-key="id" :default-checked-keys="[1]" :expand-on-click-node="true" ref="tree" @node-click="handleNodeClick" :highlight-current="true" :default-expand-all='true'>
+        <el-tree :data="options" :props="GroupdefaultProps" node-key="id" :default-checked-keys="[1]" :expand-on-click-node="true" ref="tree" @node-click="handleNodeClick" :highlight-current="true" :default-expand-all='true'>
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <span class="tree-lable">{{ data.groupname }}</span>
             <span class="groupLeft">
@@ -31,7 +31,7 @@
                   </ul>
                   <!-- 下面是显示在树形控件的元素 -->
                   <i slot="reference" class="el-icon-more"></i>
-                  <!-- <span slot="reference" >设置</span> -->
+           
                 </el-popover>
               </el-button>
             </span>
@@ -72,17 +72,13 @@
               <a class="edit option" href="javascript:void(0);" @click="deletePopup(scope.row)">删除</a>
             </template>
           </el-table-column>
-         
+
         </el-table>
 
       </div>
     </div>
 
-    <!-- 个人话术 -->
-    <!-- <div class="personLanguage" v-if="activeName == '02'">
-      <div class="productList" v-loading="loading">这是话术分组</div>
-      <div class="personMain">这是个人话术</div>
-    </div> -->
+ 
 
     <el-dialog title="新建话术" :visible.sync="dialoghuashu" width="30%" :before-close="data_cencle" :close-on-click-modal="false" append-to-body>
       <div class="titleBox">
@@ -97,7 +93,7 @@
           <el-input v-model="titleCon" placeholder="请输入内容"></el-input>
         </div>
 
-        <div style="margin-top: 10px">
+        <div style="margin-top: 10px" v-if="activeName=='01'">
           <p>话术权限</p>
           <div class="select-content">
             <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
@@ -161,9 +157,9 @@
                   </el-upload>
 
                   <div class="imgNameSize" v-if="item.image.file.filename != ''">
-                    <!-- {{ item.img.file.refilepath }} -->
+               
                     <p>{{ item.image.file.filename }}</p>
-                    <!-- <p>{{ (item.img.file.size / 1048576).toFixed(2) }}M</p> -->
+                   
                   </div>
                   <el-dialog :visible.sync="item.image.dialogVisible" append-to-body>
                     <img width="100%" :src="item.image.file.refilepath" alt="" />
@@ -179,13 +175,13 @@
                 </div>
                 <div v-if="item.imgText.title">
                   <div class="recordFile">
-                    <!-- <a :href="item.link_url" alt="" target="_blank"> -->
+          
                     <div class="fileMain">
                       <span class="FileTitle">{{ item.imgText.title }}</span>
                       <span class="FileSize FileSizeleft">{{ item.imgText.desc }}</span>
                     </div>
                     <img :src="item.imgText.imgUrl" alt="" />
-                    <!-- </a> -->
+               
                   </div>
                 </div>
               </div>
@@ -213,7 +209,7 @@
                     </el-upload>
 
                     <div class="pdfNameSize" v-if="item.pdf.file.filename != ''">
-                      <!-- {{ item.pdf.file.refilepath }} -->
+                  
                       <p>{{ item.pdf.file.filename }}</p>
                       <p>{{ (item.pdf.file.size / 1048576).toFixed(2) }}M</p>
                     </div>
@@ -278,8 +274,6 @@
         <div>
           <p>分组名称</p>
           <div class="block">
-            <!-- <el-input placeholder="请输入分组名称" v-model="groupName" clearable> </el-input> -->
-
             <el-select v-model="groupName" filterable allow-create default-first-option placeholder="请输入分组名称">
               <el-option v-for="item in groupOptions" :key="item.groupid" :label="item.groupname" :value="item.groupname">
               </el-option>
@@ -330,6 +324,8 @@ import { getData, getPhoneData, my_url } from "../../../static/js/ajax.js";
 export default {
   data() {
     return {
+      loading:false,
+      isLeader: 'Y',//判断是否是团队长
       // 团队话术01  个人话术02
       activeName: "01",
       options: [], //分组列表
@@ -437,27 +433,44 @@ export default {
   },
 
   mounted() {
+    this.teamLedar()
     this.yewu();
-    this.getTalkTempleteGroup()
-    // this.getvideoImg()/
   },
   watch: {
 
   },
   methods: {
+    //是否是团队账长isLeader
+    teamLedar() {
+      var _this = this
+      api.isLeader().then((data) => {
+        if (data.code == '0') {
+          if (data.isLeader == "Y") {
+            _this.activeName = '01'
+          } else {
+            _this.activeName = '02'
+          }
+          _this.getTalkTempleteGroup()
+          _this.isLeader = data.isLeader
+        }
+
+      })
+    },
+
     // 选择团队话术或者个人话术
     handleClick(tab, event) {
       this.options = []
       this.groupOptions = []
+      this.speechList = []
       this.getTalkTempleteGroup()
     },
     // 查询分组
     getTalkTempleteGroup() {
       var _this = this
-      var parms = {
+      var params = {
         grouptype: this.activeName,
       }
-      api.getTalkTempleteGroup(parms).then((data) => {
+      api.getTalkTempleteGroup(params).then((data) => {
         if (data.code == '0') {
           _this.options = data.talkTempleteGroup
           _this.groupOptions = data.talkTempleteGroup
@@ -468,7 +481,6 @@ export default {
             message: data.msg,
           });
         }
-
       })
     },
 
@@ -601,22 +613,10 @@ export default {
 
     // 选择分组
     handleChange(value) {
-      console.log(this.groupValue)
-      console.log(value);
+ 
     },
 
-    // 获取当前点击的下标
-    // visiblePopover(a) {
-    //   console.log(a)
-    //   // for (let i = 1; i < this.visibles.length; i++) {
-    //   //   if (i == a) {
-    //   //     this.visibles[i] = true
-    //   //   } else {
-    //   //     this.visibles[i] = false
-    //   //   }
-    //   // }
-    // },
-
+    
 
     addmain() {
       this.dataList.push({
@@ -681,8 +681,7 @@ export default {
         data: formData,
         processData: false,
         contentType: false,
-      })
-        .done(function (res) {
+      }).done(function (res) {
           var data = JSON.parse(res);
           if (data.code == "0") {
             if (fileType == "pdf") {
@@ -712,11 +711,11 @@ export default {
           }
         })
         .fail(function (res) {
-          // _this.$message({
-          //   type: "waring",
-          //   duration: 3000,
-          //   message: "上传失败!",
-          // });
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: "上传失败!",
+          });
         });
     },
 
@@ -741,9 +740,7 @@ export default {
       });
       filelist.splice(indexaa, 1);
       this.dataList[index].image.file = {
-        // refilepath: "",
-        // size: '',
-        // name: ''
+      
       };
       this.dataList[index].image.num = "";
     },
@@ -780,7 +777,7 @@ export default {
         this.dataList[index].imgText.text = item.imgText.text
         this.dataList[index].imgText.desc = '详细介绍'
         this.dataList[index].imgText.imgUrl = "https://assets.weibanzhushou.com/default-cover.png"
-        console.log("地址输入正确");
+
       } else {
         console.log("地址输入错误");
       }
@@ -818,13 +815,12 @@ export default {
 
 
     mainClick(tab, event) {
-      console.log(tab.name, event);
+    
     },
 
 
     // 取消新建话术
     data_cencle() {
-      console.log(this.dataList, "3333333333");
       this.groupValue = ''
       this.titleCon = ''
       this.teamNames = ''
@@ -885,15 +881,14 @@ export default {
     // 确认新建话术
     data_sure() {
       var _this = this
+      this.loading=true
       var arr = []
       var dataList = this.dataList
-      console.log(this.dataList)
-
       for (var i = 0; i < dataList.length; i++) {
         if (dataList[i].mainType == 'text' && dataList[i].wenzimain != '') {
           arr.push({
             type: dataList[i].mainType,
-            text:  dataList[i].wenzimain.replace(new RegExp(/( )/g), '&nbsp;'),
+            text: dataList[i].wenzimain.replace(new RegExp(/( )/g), '&nbsp;'),
             filetype: "",
             fileid: "",
           })
@@ -922,12 +917,13 @@ export default {
       }
 
       // 
-      if (this.groupValue[1] == '' || this.titleCon == '' || this.quanxian == '') {
+      if (this.groupValue[1] == '') {
         this.$message({
           type: "error",
           duration: 2000,
-          message: '请填写分组，标题，话术权限',
+          message: '请填写分组',
         });
+        _this.loading=false
         return
       }
 
@@ -937,6 +933,7 @@ export default {
           duration: 2000,
           message: '请填写话术内容后再提交',
         });
+        _this.loading=false
         return
       }
       var params = {
@@ -948,7 +945,6 @@ export default {
 
 
       if (this.isEdit == true) {
-        console.log(params)
         this.edit_sure(params)
         return
       } else {
@@ -973,8 +969,7 @@ export default {
 
       }
 
-
-      // this.dialoghuashu = false
+      _this.loading=false
     },
 
     // 修改话术
@@ -982,7 +977,6 @@ export default {
       var _this = this
       params['itemid'] = this.editId
       api.modifyTalkTempleteContent(params).then((data) => {
-        console.log(data)
         if (data.code == '0') {
           _this.dialoghuashu = false
           _this.$message({
@@ -1005,7 +999,6 @@ export default {
 
 
     handleClose(done) {
-      // console.log(this.dataList);
       done();
     },
     handleNodeClick(data) {
@@ -1033,7 +1026,7 @@ export default {
               for (var j = 0; j < arrchild.length; j++) {
                 if (arrchild[j].type == 'text') {
                   dd += '<p>' + arrchild[j].text + '</p>'
-                } else  if (arrchild[j].type == 'img-txt') {
+                } else if (arrchild[j].type == 'img-txt') {
                   dd += '<p>' + arrchild[j].text + '</p>'
                 } else if (arrchild[j].type == 'image') {
                   dd += "<div class ='img_text'> <img src='https://crm.meihualife.com" + arrchild[j].dispath + "' alt=''><p>" + arrchild[j].text + "'</p> </div>"
@@ -1050,11 +1043,7 @@ export default {
           _this.speechList = arr
         } else if (data.rows.length == 0) {
           _this.speechList = []
-          // _this.$message({
-          //   type: "success",
-          //   duration: 2000,
-          //   message: "查询话术成功",
-          // });
+      
         }
       })
 
@@ -1107,9 +1096,11 @@ export default {
       // 赋值标题
       this.titleCon = item.title
       // 赋值权限
-     
+
       this.quanxian = item.teampermission
-      this.$refs.tree.setCheckedKeys((item.teampermission).split(','));
+      if (this.activeName == '01') {
+        this.$refs.tree.setCheckedKeys((item.teampermission).split(','));
+      }
       this.teamNames = item.teampermission_names
 
       this.dataList = []
@@ -1121,7 +1112,7 @@ export default {
 
           this.dataList.push({
             mainType: "text",
-            wenzimain: itemMain.text.replace(new RegExp(/&nbsp;/g), ' ')   ,
+            wenzimain: itemMain.text.replace(new RegExp(/&nbsp;/g), ' '),
             image: {
               uploadFilePath: [item],
               imgmain: "",
@@ -1167,7 +1158,7 @@ export default {
         }
         else if (itemMain.type == 'img-txt') {
           this.dataList.push({
-            mainType: "text",
+            mainType: "img-txt",
             wenzimain: '',
             image: {
               uploadFilePath: '',
@@ -1361,15 +1352,14 @@ export default {
           })
         }
       }
-      console.log(this.dataList)
-      console.log(item)
+  
     },
     deletePopup(item) {
       var _this = this
       var params = {
         itemid: item.itemid
       }
-      // deleteTalkTempleteContent
+  
       this.$confirm('确认删除此话术吗？').then(_ => {
         api.deleteTalkTempleteContent(params).then((data) => {
           if (data.code == '0') {
@@ -1390,13 +1380,7 @@ export default {
       })
 
     },
-    // change(data) {
-    // //   let nodes = this.$refs.tree.getCheckedNodes()
-    // //  var checkedKeys = nodes.map(item => {
-    // //     return item.id
-    // //   })
-    // //   console.log(checkedKeys);
-    // },
+
 
     // 勾选团队时，统计团队ID
     checkTeam(data, checked, indeterminate) {
@@ -1410,26 +1394,30 @@ export default {
     },
     // 取消所选团队
     team_cancel() {
-      this.$refs.disTeam.hide();
+      if (this.$refs.disTeam) {
+        this.$refs.disTeam.hide();
+      }
+
       this.myList = "";
       this.teamListId = "";
       this.teamNames = "团队选择";
       this.teamid = "";
 
-      this.$refs.tree.setCheckedKeys([]);
+      if (this.$refs.tree) {
+        this.$refs.tree.setCheckedKeys([]);
+      }
       this.queryflag = true;
-      // this.staffValue = "";
-
       this.quanxian = ''
-      // this.dataList[index].quanxian = "";
-      // this.searchUser(this.teamAllid)
     },
 
     // 确认所选团队
     team_sure() {
       let _this = this;
-      this.$refs.disTeam.hide();
-      // this.staffValue = "";
+      if (this.$refs.disTeam) {
+        this.$refs.disTeam.hide();
+      }
+
+   
       if (this.myList == null || this.myList == "" || this.myList == "1") {
         this.queryflag = true;
         this.queryflagString = "01";
@@ -1439,7 +1427,7 @@ export default {
         this.queryflagString = "02";
       }
       this.quanxian = this.teamListId;
-      // _this.searchUser(this.teamListId, this.staffValue)
+     
     },
     // 获取该团队权限下的员工
     yewu() {
@@ -1466,7 +1454,6 @@ export default {
           }
           // 权限内的所有人员
           _this.teamAllid = idStr;
-          // _this.searchUser(idStr)
         }
       });
     },
@@ -1490,10 +1477,9 @@ export default {
   /* padding: 0rem 0.3rem 0.3rem; */
   display: flex;
   border: 0.3rem solid rgba(244, 244, 244, 1);
-    border-top: 0;
+  border-top: 0;
 }
-.teamLanguage{
-  
+.teamLanguage {
 }
 
 .mainBox {
@@ -1554,8 +1540,8 @@ export default {
   /* border: 1px solid #909399; */
   position: relative;
   padding: 0;
-border-left: 0.2rem  solid #f5f5f5;
-overflow: auto;
+  border-left: 0.2rem solid #f5f5f5;
+  overflow: auto;
 }
 
 ::v-deep .el-input__inner {

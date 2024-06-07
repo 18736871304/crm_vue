@@ -102,25 +102,26 @@
     <el-dialog title="修改密码" :visible.sync="iseditDialog" width="25%" center :close-on-click-modal="false">
 
       <div class="editPassword">
-        
+
         <Form>
-          <div class="demo-input-suffix">
 
-            账号：
-            <el-input placeholder="请输入账号" prefix-icon="el-icon-user-solid" v-model="zhanghu" autocomplete="new-password">
-            </el-input>
-
-          </div>
           <div class="demo-input-suffix">
             原密码：
             <el-input placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="oldPassword" show-password autocomplete="new-password">
             </el-input>
           </div>
           <div class="demo-input-suffix">
-            新密码确认：
+            新密码：
             <el-input placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="newPassword" show-password autocomplete="new-password">
             </el-input>
           </div>
+          <div class="demo-input-suffix">
+            新密码确认：
+            <el-input placeholder="请输确认密码" prefix-icon="el-icon-unlock" v-model="newPasswordValue" show-password autocomplete="new-password">
+            </el-input>
+
+          </div>
+
         </Form>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -157,7 +158,7 @@ export default {
     return {
       oldPassword: '',
       newPassword: '',
-      zhanghu: '',
+      newPasswordValue: '',
       iseditDialog: false,
       isPhoneLogin: false, //是否登录电话
       extensionNumber: "", //分机号码
@@ -340,8 +341,20 @@ export default {
     //确认修改密码
     editDialog() {
       var _this = this
+
+      if (this.newPassword != this.newPasswordValue) {
+        _this.$message({
+          duration: 3000,
+          showClose: true,
+          message: "两次密码输入不一致，请重新输入",
+          type: "error",
+          center: true,
+        });
+        return
+      }
+
       var params = {
-        usercode: this.zhanghu,
+        // usercode: this.newPasswordValue,
         yuanpassword: hex_md5(this.oldPassword).toUpperCase(),
         password: hex_md5(this.newPassword).toUpperCase()
       }
@@ -351,12 +364,16 @@ export default {
         console.log(data)
         if (data.code == 0) {
           _this.$message({
-            duration: 3000,
+            duration: 2500,
             showClose: true,
             message: "修改成功，退出后请重新登录",
-            type: "error",
+            type: "success",
             center: true,
           });
+          setTimeout(() => {
+            _this.SignOut()
+          }, 2500)
+          
         } else {
           // data.msg
           _this.$message({
@@ -433,8 +450,8 @@ export default {
       }
       if (command == 'a') {
         this.oldPassword = ''
+        this.newPasswordValue = ''
         this.newPassword = ''
-        this.zhanghu = ''
         this.iseditDialog = true
       }
     },
@@ -805,36 +822,38 @@ export default {
 ::v-deep .editPassword .el-input__inner {
   height: 0.3rem;
   line-height: 0.3rem;
-    font-size: 0.14rem;
+  font-size: 0.14rem;
   padding-left: 40px !important;
 }
-::v-deep .editPassword  .el-input__icon {
-   line-height: 0.3rem;
+::v-deep .editPassword .el-input__icon {
+  line-height: 0.3rem;
 }
 .editPassword .demo-input-suffix {
   margin-bottom: 0.3rem;
   font-size: 0.14rem;
 }
 
-.editPassword .demo-input-suffix  .el-input{
-   margin-top: 0.1rem;
+.editPassword .demo-input-suffix .el-input {
+  margin-top: 0.1rem;
 }
 
-::v-deep .editPassword .demo-input-suffix  .el-input  .el-input__suffix
-{
+::v-deep .editPassword .demo-input-suffix .el-input .el-input__suffix {
   margin-right: 0.15rem;
 }
 
 ::v-deep .el-dialog__footer .dialog-footer .sure_edit:hover,
 ::v-deep .el-dialog__footer .dialog-footer .sure_edit:focus {
   color: #fff;
-  background: #409eff;
-  border: 1px solid #409eff;
+  background: #dc220d;
+  border: 0px solid #dc220d;
 }
 ::v-deep .el-dialog__footer .dialog-footer .sure_edit {
+  border-radius: 3px;
+  cursor: pointer;
+  background: #dc220d;
+  font-size: 0.14rem;
   color: #fff;
-  background-color: #409eff;
-  border-color: #409eff;
+  border: 0px solid #dc220d;
 }
 
 .dianhuaaa {
@@ -851,9 +870,9 @@ export default {
     color: #606266;
 } */
 
-::v-deep  input::-webkit-input-placeholder {
-    color: #aab2bd;
-    font-size: 0.13rem;
-    line-height: 0.3rem;
+::v-deep input::-webkit-input-placeholder {
+  color: #aab2bd;
+  font-size: 0.13rem;
+  line-height: 0.3rem;
 }
 </style>

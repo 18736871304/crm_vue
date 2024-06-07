@@ -80,13 +80,13 @@
               <div class="enclosure-list">
                 <div class="jilu_content" v-html="item.uwcontent">{{item.uwcontent}}
                 </div>
-                <!-- <div v-if="item.filelist.length"> -->
+          
                 <div class="item" v-for="(obj,index) in item.filelist" :key="index">
                   <div class="name"><i :class="fileTypeFun(obj.filetype)"></i>&nbsp;&nbsp;{{obj.filename}}</div>
                   <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + obj.fileid" class="download-btn"
                     :download="obj.filename">下载</a>
                 </div>
-                <!-- </div> -->
+      
 
               </div>
             </div>
@@ -173,7 +173,6 @@ export default {
       });
       //资源删除的权限
       getData('post', my_url + '/crm/auth/getZongPermission.do', function (data) {
-        console.log(data)
         if (data.code == 0) {
           _this.dis_Pz_up = true;
         } else {
@@ -322,7 +321,6 @@ export default {
       var parms = {
         uwid: item.uwid
       }
-      console.log(parms)
       getData('post', my_url + '/crm/policyuw/policyUwDelete.do', function (data) {
         if (data.code = '0') {
           _this.search(1)
@@ -408,27 +406,7 @@ export default {
         console.log(res)
       });
     },
-    //核保完成
-    // heChange() {
-    //   var _this = this
-    //   _this.isfinish = true
-    //   var parms = {
-    //     uwid: this.uwid
-    //   }
-    //   getData('post', my_url + '/crm/policyuw/policyUwClose.do', function (data) {
-    //     if (data.code == '0') {
-    //       _this.$message({
-    //         showClose: true,
-    //         message: '预核保已经完成了，再次发送信息无效哦',
-    //         duration: 3000,
-    //         type: 'success'
-    //       });
-    //     }
-    //     _this.search(1)
-    //   }, parms);
-    // },
-
-    //fenye
+  
     pageClick(page) { //点击分页
       this.pageNum = page;
       this.search(page)

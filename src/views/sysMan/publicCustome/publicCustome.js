@@ -12,15 +12,11 @@ export default {
   data() {
     return {
       dis_Pz_up: false, //资源删除
-      planid: '渠道类型', //广告计划ID
-      planidBatchno: '',
-      planidValue: '', //广告计划ID
-      batchnoValue: '', //批次号
       channelValue: '', //渠道类型
+      sourceValue:'',
       channelList: [],
+      sourceList:[],
       channelOptions: [],
-      batchno: '', //批次号
-
       sable: false,
       inputUserform1: [],
       inputUserform2: [], //储存记忆
@@ -109,7 +105,7 @@ export default {
       },
 
       callSum: '',
-      selectTime: '',
+      selectTime:'',
       selectTimeCusdeal: '',
       Salesman: '',
       mobile: '',
@@ -323,10 +319,7 @@ export default {
       var nowYear = now.getYear(); // 当前年
       var start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay - 29));
       var end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
-      // this.overviewForm.startDate = ;
-      // this.overviewForm.endDate = ;
-      // this.selectTime = [start, end]
-      this.selectTime = ['','' ]
+      this.selectTime = [start, end]
       this.hotlineStartDate = start; //线索开始时间
       this.hotlineEndDate = end;
       this.search(1); //table数据	
@@ -360,14 +353,42 @@ export default {
 
   },
   methods: {
+ 
+
+
+    //渠道类型
     getchannelNameList() {
       let _this = this;
-      getData('post', my_url + '/crm/channel/getChannelData.do', function (data) {
+      getData('post', my_url + '/crm/common/getDictList.do', function (data) {
         if (data.code == 0) {
-          _this.channelList = data.channelList;
+          _this.channelList = data.dictList;
         }
+      }, {
+        dict_type: 'source'
       });
     },
+
+    channelSelect() {
+      var _this = this
+      this.sourceValue = ''
+      getData('post', my_url + '/crm/common/getDictList.do', function (data) {
+        if (data.code == 0) {
+          _this.sourceList = data.dictList;
+        }
+      }, {
+        dict_type: 'sourcedetail_' + this.channelValue,
+        special: 'dis'
+      });
+    },
+
+
+
+
+
+
+
+
+
 
 
     tableHeard() {
@@ -422,11 +443,8 @@ export default {
       this.mobile = '';
       this.username = '';
       this.examstate = '';
-      this.batchno = '';
-      this.batchnoValue = ''; //批次号
+      this.sourceValue = ''; //流量来源
       this.channelValue = ''; //渠道类型
-      this.planidValue = ''; //计划ID
-      this.planidBatchno = '';
       this.sourcelevel = '';
       this.hotlineStartDate = ''; //线索开始时间
       this.hotlineEndDate = '';
@@ -469,32 +487,7 @@ export default {
         this.phonewxno = '';
         this.mobile = this.phoneWxnoValue
       }
-      var channelListSum = this.channelList.concat(this.channelOptions)
-      if (this.planid == '广告计划ID') {
-        this.batchnoValue = ''
-        this.channelValue = ''
-        this.planidValue = this.planidBatchno
-      } else if (this.planid == '渠道类型') {
-        this.planidValue = ''
-        this.batchnoValue = ''
-        this.channelValue = this.planidBatchno
-        var channeldetail = ''
-        var channel = ''
-        channelListSum.forEach(res => {
-          if (res.dd_value == this.planidBatchno) {
-            if (res.dd_key.length < 5) {
-              channel = res.dd_key
-            } else {
-              channeldetail = res.dd_key
-            }
-          }
-        })
-
-      } else if (this.planid == '批次号') {
-        this.channelValue = ''
-        this.planidValue = ''
-        this.batchnoValue = this.planidBatchno
-      }
+  
 
 
       let params = {
@@ -515,12 +508,12 @@ export default {
         order: order,
         menutype: this.activeName,
         examstate: this.examstate, //审核状态,
-        batchno: this.batchnoValue, //批次号
-        channeldetail: channeldetail, //渠道类型
-        channel: channel,
-        planid: this.planidValue, //计划ID
+        channel: this.channelValue,
+        appname:this.sourceValue,
         wxno: this.phonewxno
       };
+
+     
       this.loading = true;
       this.getTableData(params); //table数据
     },
@@ -531,9 +524,6 @@ export default {
         return
       }
       var ids = [];
-      console.log(_this.multipleSelection.forEach(item => {
-        ids.push(item.activityserialno)
-      }))
       getData('post', my_url + '/crm/activity/passExam.do', function (data) {
         if (data.code == 0) {
           _this.$message({
@@ -557,9 +547,7 @@ export default {
         return
       }
       var ids = [];
-      console.log(_this.multipleSelection.forEach(item => {
-        ids.push(item.activityserialno)
-      }))
+
       getData('post', my_url + '/crm/activity/noPassExam.do', function (data) {
         if (data.code == 0) {
           _this.$message({
@@ -686,7 +674,6 @@ export default {
       }, null);
       //资源删除的权限
       getData('post', my_url + '/crm/auth/getZongPermission.do', function (data) { //其他库 
-        console.log(data)
         if (data.code == 0) {
           _this.dis_Pz_up = true;
         } else {
@@ -899,15 +886,7 @@ export default {
       this.mobilecity = row.mobilecity != undefined ? row.mobilecity : '';
       this.mobilecountry = row.mobilecountry != undefined ? row.mobilecountry : '';
       this.address = row.address != undefined ? row.address : '';
-      // this.address = row.address != undefined ?row.mobileprovince+row.mobilecity+ row.mobilecountry+row.address : '';
-      // this.clueid=row.clueid != undefined ? row.clueid:'';
-      // this.advertiserid=row.advertiserid != undefined ? row.advertiserid:'';
-      // this.advertiserName=row.advertiserName != undefined ? row.advertiserName:'';
-      // this.planid=row.planid != undefined ? row.planid:'';
-      // this.aplanName=row.planName != undefined ? row.planName:'';
-      // this.componentid=row.componentid != undefined ? row.componentid:'';
-      // this.componentName=row.componentName != undefined ? row.componentName:'';
-      // this.autoCity=row.autoCity != undefined ? row.autoCity:'';
+  
 
       this.idoverage = row.idoverage != undefined ? row.idoverage : '';
       this.ispeer = row.ispeer != undefined ? row.ispeer : '';
@@ -1337,15 +1316,10 @@ export default {
         rows.forEach(res => {
           res.name = _this.detailsInfo.name;
           res.remark = res.remark.replace(/:/g, '：');
-          // res.makedate = _this.formatDate(res.makedate, 'yyyy-MM-dd HH:ss:mm');
+  
         })
         _this.records = rows;
-        // _this.records = [{
-        //   remark: "sdadafasdada",
-        //   oprname: "sssfa",
-        //   makedate: '2019-9-10',
-        //   remarkid: 1
-        // }]
+   
       }, params);
     },
     deleteRemark(id) {
@@ -1412,48 +1386,48 @@ export default {
         }
       }, params);
     },
-    inputUserSubmit() {
-      let _this = this;
-      if (!_this.inputUserform.wxno && !_this.inputUserform.mobile) {
-        _this.$message({
-          type: 'waring',
-          duration: 3000,
-          message: "电话和微信至少填写一个！"
-        })
-        return
-      }
-      if (_this.inputUserform.mobile != null && _this.inputUserform.mobile != '' && !/^1[3456789]\d{9}$/.test(_this.inputUserform.mobile)) {
-        _this.$message({
-          type: 'waring',
-          duration: 3000,
-          message: "请填写正确的电话号码！"
-        })
-        _this.inputUserform.mobile = ""
-        return
-      }
-      getData('post', my_url + '/crm/activity/pageActivityInsert.do', function (data) {
-        if (data.code == '0') {
-          _this.$message({
-            type: 'success',
-            duration: 3000,
-            message: "录入成功！"
-          })
-          _this.inputUserform.name = "";
-          _this.inputUserform.mobile = "";
-          _this.inputUserform.wxno = "";
-          _this.inputUserform.batchno = "";
-          _this.inputUserform.sourcelevel = "B";
-          _this.inputUserVisable = false;
-          _this.search();
-        } else {
-          _this.$message({
-            type: 'waring',
-            duration: 3000,
-            message: data.msg
-          })
-        }
-      }, _this.inputUserform);
-    },
+    // inputUserSubmit() {
+    //   let _this = this;
+    //   if (!_this.inputUserform.wxno && !_this.inputUserform.mobile) {
+    //     _this.$message({
+    //       type: 'waring',
+    //       duration: 3000,
+    //       message: "电话和微信至少填写一个！"
+    //     })
+    //     return
+    //   }
+    //   if (_this.inputUserform.mobile != null && _this.inputUserform.mobile != '' && !/^1[3456789]\d{9}$/.test(_this.inputUserform.mobile)) {
+    //     _this.$message({
+    //       type: 'waring',
+    //       duration: 3000,
+    //       message: "请填写正确的电话号码！"
+    //     })
+    //     _this.inputUserform.mobile = ""
+    //     return
+    //   }
+    //   getData('post', my_url + '/crm/activity/pageActivityInsert.do', function (data) {
+    //     if (data.code == '0') {
+    //       _this.$message({
+    //         type: 'success',
+    //         duration: 3000,
+    //         message: "录入成功！"
+    //       })
+    //       _this.inputUserform.name = "";
+    //       _this.inputUserform.mobile = "";
+    //       _this.inputUserform.wxno = "";
+    //       _this.inputUserform.batchno = "";
+    //       _this.inputUserform.sourcelevel = "B";
+    //       _this.inputUserVisable = false;
+    //       _this.search();
+    //     } else {
+    //       _this.$message({
+    //         type: 'waring',
+    //         duration: 3000,
+    //         message: data.msg
+    //       })
+    //     }
+    //   }, _this.inputUserform);
+    // },
     inputUserCancel() {
       this.sable = false;
       this.inputUserform1 = this.inputUserform2
@@ -1526,7 +1500,6 @@ export default {
       userid.push(this.resourceDeployform.userid)
       this.resourceDeployform.activityid = activityid.join(',')
       this.resourceDeployform.userid = userid.join(',')
-      console.log(this.resourceDeployform)
       getData('post', my_url + '/crm/activity/activityTransfer.do', function (data) {
         if (data.code == '0') {
           _this.$message({
@@ -1578,13 +1551,6 @@ export default {
           _this.disTeamAll = true;
         }
         _this.teamDataList = data.teamList;
-        // tempData = [{
-        //   id: 1,
-        //   label: '团队选择',
-        //   children: data.teamList
-        // }]
-
-        // _this.teamData = tempData;
 
       });
     },
@@ -1738,13 +1704,7 @@ export default {
               phone: item
             })
           })
-          console.log(mobilelist)
           _this.mobileList = mobilelist;
-          // _this.mobileList = [
-          //   { id: 1, phone: '13244442222' },
-          //   { id: 2, phone: '13244442223' },
-          //   { id: 3, phone: '13244442224' },
-          // ];
         }
       }, {
         activityid: activityid
@@ -1875,12 +1835,6 @@ export default {
     },
     saveRecord() { //保存记录
       let _this = this;
-      // if(_this.birthday!=""){
-      //   var birthdays = new Date(_this.birthday.replace(/-/g, "/"));
-      //   var d = new Date();
-      //   var age = d.getFullYear() - birthdays.getFullYear() - (d.getMonth() < birthdays.getMonth() || (d
-      //   .getMonth() == birthdays.getMonth() && d.getDate() < birthdays.getDate()) ? 1 : 0);
-      // }
       if (this.email != null && this.email != '') {
         if (!checkEmail(this.email)) {
           _this.$message({

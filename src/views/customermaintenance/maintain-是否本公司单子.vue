@@ -825,7 +825,7 @@ export default {
               // tabData['state'] = "70','72','73','75"  //72犹豫期退保
               tabData['state'] = "70','73','75"
             }
-            inteUrl = crm_url + 'insure.meihualife.com/crm_web/getPolicyList.do'
+            inteUrl = crm_url + 'insure.meihualife.com/crm_web/getPolicyList_New.do'
           }
           getData('post', inteUrl, function (data) {
             _this.loading = false
