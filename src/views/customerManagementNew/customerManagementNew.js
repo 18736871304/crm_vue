@@ -47,13 +47,13 @@ export default {
       sable: false,
       inputUserform1: [],
       inputUserform2: [], //储存记忆
-      channelList: [],//渠道类型
-      sourceList:[],//流量来源
+      channelList: [], //渠道类型
+      sourceList: [], //流量来源
       channelOptions: [],
       planid: '渠道类型', //广告计划ID
       batchnoValue: '',
       channelValue: '',
-      sourceValue:'',//流量来源
+      sourceValue: '', //流量来源
       birthday: '',
       cjgcontent: '保单检视',
       cjgtype: '',
@@ -337,7 +337,7 @@ export default {
       crm_url: '',
       audioShow: false,
       adLabelselect: '06'
-  
+
     };
   },
 
@@ -357,8 +357,8 @@ export default {
         ismyUse: true,
         followupstep: '99',
         menutype: '75000000',
-        channelValue:'',
-        sourceValue:'',
+        channelValue: '',
+        sourceValue: '',
         // sourcelevel: '',
         // planid: this.planidValue,
         batchno: this.batchnoValue
@@ -405,9 +405,9 @@ export default {
   methods: {
     remarktop(data) {
       var _this = this
-     
+
       getData('post', my_url + '/crm/activity/setRemarkTop.do', function (data) {
-    
+
         if (data.code == '0') {
           _this.$message({
             showClose: true,
@@ -451,7 +451,7 @@ export default {
     dataEntry(aa) {
       var _this = this
       this.dialogVisible = true
-   
+
       if (aa != 1) {
         this.from.recorddate = moment().format('YYYY-MM-DD 00:00:00')
       }
@@ -515,7 +515,7 @@ export default {
         return
       }
 
-   
+
       if (Number(_this.monthTarget) < Number(_this.weekTarget)) {
         _this.$message({
           showClose: true,
@@ -593,7 +593,7 @@ export default {
 
     channelSelect() {
       var _this = this
-      this.sourceValue=''
+      this.sourceValue = ''
       getData('post', my_url + '/crm/common/getDictList.do', function (data) {
         if (data.code == 0) {
           _this.sourceList = data.dictList;
@@ -658,7 +658,7 @@ export default {
       this.wxno = '';
       this.username = '';
       this.queryflag = true;
-      this.queryflagString='01'
+      this.queryflagString = '01'
       this.hotlineStartDate = ''; //线索开始时间
       this.hotlineEndDate = '';
       this.cusdealStartDate = '';
@@ -709,13 +709,13 @@ export default {
         }
         var channelListSum = this.channelList.concat(this.channelOptions)
 
-      
+
 
 
         let params = {
           hotlineStartDate: hotlineStartDate, //线索开始时间
           hotlineEndDate: hotlineEndDate, //线索终止时间
-     
+
           name: Salesman, //客户姓名
           userid: this.overviewForm.userid, //业务员姓名
           mobile: this.mobile,
@@ -725,11 +725,11 @@ export default {
           pageSize: this.pageSize,
           queryflag: this.queryflagString,
           menutype: '75000000',
- 
+
           teamid: this.overviewForm.teamid,
           prop: prop,
           order: order,
-  
+
           channel: this.channelValue,
           appname: this.sourceValue
         };
@@ -840,7 +840,7 @@ export default {
             dd_key: "99",
             dd_value: "新资源"
           })
-      
+
           _this.select_steps = select_dictList;
 
           var add_dictList = JSON.parse(JSON.stringify(data.dictList))
@@ -1184,7 +1184,7 @@ export default {
       //已成交处理
       this.isDealed = (this.followupstep == "07")
     },
- 
+
     //点击成交单子，查看详情
     showEdit(item) {
       var arr = []
@@ -1198,7 +1198,7 @@ export default {
         mobile: row.mobilestr,
         activityid: row.activityserialno
       });
-      
+
     },
     phonecall_page() {
       if (this.dis_save == true) {
@@ -1206,7 +1206,7 @@ export default {
           mobile: this.detailsInfo.mobilestr,
           activityid: this.detailsInfo.activityserialno
         });
-        
+
       }
     },
     phonecall(activityid, phoneStr) {
@@ -1892,7 +1892,7 @@ export default {
           _this.disTeamAll = true;
         }
         _this.teamDataList = data.teamList;
-      
+
 
       });
     },
@@ -1919,13 +1919,13 @@ export default {
       this.my_list = '';
       this.teamList = '';
       this.teamNames = "团队选择";
-    
+
     },
     my_sure() {
       let _this = this;
       this.$refs.disTeam.hide();
       if (this.my_list == null || this.my_list == '' || this.my_list == '1') {
-     
+
       }
       this.teamNames = this.my_list;
       //获取业务员列表
@@ -2029,19 +2029,23 @@ export default {
           _this.isrefresh = false;
         }, 1000);
       }
-    
+
       getData('post', my_url + '/crm/activity/getActivityDataView.do', function (data) {
-        // data.today_Y_List.type = "今日已回访"
-        data.sumData_List.type = "总数量";
+        data.activityTodayTj.type = "今日薪增量"
+        data.activityTj.type = "总数量";
         data.today_X_List.type = "今日需回访"
         data.tomorrow_X_List.type = "明日需回访"
+        data.activityTodayTj.yesterday = "昨日回访";
+          data.today_X_List.yesterday = "本月跟丢"
 
-        data.sumData_List.yesterday = "昨日回访";
-        data.today_X_List.yesterday = data.yesterday_visit
-        // data.today_Y_List.yesterday = "本月跟丢"
+        data.activityTj.yesterday = data.yesterday_visit
         data.tomorrow_X_List.yesterday = data.month06count
-        // tableDataOverview.push(data.today_Y_List)
-        tableDataOverview.push(data.sumData_List)
+        data.activityTj['hotlinecount'] = data.activityTj.sumcount
+        data.activityTodayTj['hotlinecount'] = data.activityTodayTj.sumcount
+
+
+        tableDataOverview.push(data.activityTodayTj)
+        tableDataOverview.push(data.activityTj)
         tableDataOverview.push(data.today_X_List)
         tableDataOverview.push(data.tomorrow_X_List)
         _this.tableDataOverview = tableDataOverview
@@ -2080,7 +2084,7 @@ export default {
             })
           })
           _this.mobileList = mobilelist;
-     
+
         }
       }, {
         activityid: activityid
