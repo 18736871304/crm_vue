@@ -48,9 +48,9 @@
           <div class="userbox" style="width:35%">
             <img src="../../../static/images/qunavatar.png" alt="" class="avatar" />
             <div class="pBox" style="width: auto;">
-              <p style="font-size: 0.15rem;">{{ selectfirstName }}</p>
+              <p style="font-size: 0.15rem;">{{ selectfirstName}} - {{  qunNamneNum }} </p>
             </div>
-            <i class="el-icon-user qunUser" @click="qunDetail"></i>
+            <i class="el-icon-user qunUser" @click="openqunDetail"></i>
           </div>
           <div class="select-content chatRightHead" style="width:25%">
             <div class="searchName" style="width: 100%;">
@@ -218,12 +218,11 @@
         <div class="drawerTitle">
           <diV class="titleBox">
             <img src="../../../static/images/qunavatar.png" alt="">
-            <p style="height: 0.5rem;">{{ oneitem.name }}</p>
-
+            <div>
+              <p class="ellipsis" style="width: 2.5rem;">{{ oneitem.name }}</p>
+              <p style="font-size: 0.14rem;"> 群主：{{ qunLeader.name }}</p>
+            </div>
           </diV>
-          <div>
-            <p style="font-size: 0.14rem; margin-left: 0.7rem"> 群主：{{ qunLeader.name }}</p>
-          </div>
         </div>
 
         <div class="drawerbigbox">
@@ -266,6 +265,7 @@ export default {
       inqunList: [],
       exqunList: [],
       qwQunList: [],
+      qunNamneNum: '',//群聊人数
       // drawerName: '群聊标题',
       qunLeader: '',
       drawer: false,
@@ -292,6 +292,7 @@ export default {
       secondAllName: [],//所有同事名字
       thirdAllName: [],//所有群聊名字
       requestDataList: [],//聊天记录
+      queryuuid:'',//查询ID
       teamNameList: [],
 
       SalesmanIdBox: [],
@@ -430,8 +431,12 @@ export default {
     handleClose(done) {
       this.drawer = false
     },
-    qunDetail() {
+    openqunDetail() {
       this.drawer = true
+    },
+
+    qunDetail() {
+
       this.inqunList = []
       this.exqunList = []
       var params = {
@@ -439,6 +444,9 @@ export default {
       }
       api.getAllqunUser(params).then((data) => {
         var allqunList = data.qwQunMemberList
+
+        this.qunNamneNum = allqunList.length
+
         for (var i = 0; i < allqunList.length; i++) {
           if (allqunList[i].isowner == 'Y') {
             allqunList[i]['manage'] = '群主'
@@ -468,7 +476,7 @@ export default {
       api.getAllqun(params).then((data) => {
         var arr = data.qwQunList
         for (var i = 0; i < arr.length; i++) {
-        //   arr[i].last_msgtime = this.timestampFormat(Date.parse(arr[i].last_msgtime) / 1000)
+          //   arr[i].last_msgtime = this.timestampFormat(Date.parse(arr[i].last_msgtime) / 1000)
 
 
 
@@ -533,7 +541,10 @@ export default {
       const scrollview = this.$refs['list'];
       scrollview.removeEventListener('scroll', this.handleScroll, true)
       // 请求聊天记录
+      this.queryuuid=''
       this.requestData(this.isqwuserid, this.isfirstselect, '')
+
+      this.qunDetail()
     },
 
 
@@ -589,10 +600,15 @@ export default {
         jiekouUrl = "/crm/qwMan/getQwQunTalkData.do"
       }
 
+      if (this.queryuuid != '') {
+                params['queryuuid'] = this.queryuuid
+            }
 
 
 
       getDataOne("post", my_url + jiekouUrl, function (data) {
+        _this.queryuuid = data.queryuuid
+        var data = data.talkDataList
         if (data.length > 0) {
           _this.seq = data[data.length - 1].seq
           if (_this.funhuiValue && lookupdown && lookupdown != '') {
@@ -662,6 +678,8 @@ export default {
             }
             if (searchmsg && searchmsg != '' && !_this.funhuiValue) {
               _this.requestSearchList.unshift(data[i])
+
+              console.log( _this.requestSearchList)
             } else if (_this.funhuiValue) {
               _this.requestDataList.unshift(data[i])//push 数据到数组中
             } else {
@@ -741,6 +759,7 @@ export default {
         this.searchText = false
       }
       this.searchMsgValue = item
+        this.queryuuid = ''
       this.requestData(this.isqwuserid, this.isfirstselect, '', item)
     }, 1000),
 
@@ -748,12 +767,14 @@ export default {
       this.requestDataList = []
       this.seq = ''
       this.noChathistory = true
+        this.queryuuid = ''
       this.requestData(this.isqwuserid, this.isfirstselect, '', this.searchMsgValue, this.selectTime)
     }, 1000),
 
 
     lookupdown: _.debounce(function (item) {
       this.requestDataList = []
+
       this.requestData(this.isqwuserid, this.isfirstselect, item.seq, '', '', item)
       this.searchText = true
       this.funhuiValue = true
@@ -1563,7 +1584,7 @@ export default {
 }
 
 .exUser {
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
   font-size: 0.14rem;
   color: rgba(0, 0, 0, 0.45);
 }
@@ -1583,7 +1604,8 @@ export default {
   -webkit-box-pack: start;
   justify-content: flex-start;
   padding-left: 8px;
-  margin-top: 0.2rem;
+  margin-top: 0.05rem;
+  margin-bottom: 0.2rem;
 }
 
 .userItemName {
@@ -1598,7 +1620,7 @@ export default {
 .userItem .userItemState {
   font-size: 0.14rem;
   margin-left: 20%;
-  width: 0.6rem;
+  width: 0.7rem;
   text-align: center;
   color: #1890ff;
   border: 1px solid #1890ff;
@@ -1606,5 +1628,13 @@ export default {
 
 ::v-deep .el-date-editor .el-range__icon {
   margin-left: 0px;
+}
+
+.titleBox .ellipsis {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

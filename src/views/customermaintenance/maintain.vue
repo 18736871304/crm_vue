@@ -357,7 +357,7 @@
                 </el-table-column>
                 <el-table-column prop="isconnect" width="70" align="center" label="接通">
                 </el-table-column>
-                <el-table-column prop="timeduration" label="时长" align="center" width="70" :show-overflow-tooltip="true">
+                <el-table-column prop="timeduration" label="时长" align="center" width="100" :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column align="center" label="录音" width="70">
                   <template slot-scope="scope" v-if="scope.row.recordurl">

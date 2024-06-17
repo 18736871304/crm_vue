@@ -851,7 +851,7 @@ export default {
   border-radius: 3px;
   cursor: pointer;
   background: #dc220d;
-  font-size: 0.14rem;
+  font-size: 12px;
   color: #fff;
   border: 0px solid #dc220d;
 }
@@ -864,11 +864,11 @@ export default {
 .dianhuaaa .el-dropdown-menu__item {
   font-size: 0.14rem;
 }
-/* ::v-deep .el-button:hover{
+::v-deep .el-button:hover{
   background: #FFF;
     border: 1px solid #DCDFE6;
     color: #606266;
-} */
+}
 
 ::v-deep input::-webkit-input-placeholder {
   color: #aab2bd;

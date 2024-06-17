@@ -1061,7 +1061,7 @@
           </el-table-column>
           <el-table-column prop="mobile" align="center" label="电话号码" width="120">
           </el-table-column>
-          <el-table-column prop="wexin" align="center" label="微信号" width="120">
+          <el-table-column prop="wexin" align="center" label="微信号" width="120" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="followupstepname" align="center" label="跟进步骤" width="110">
           </el-table-column>

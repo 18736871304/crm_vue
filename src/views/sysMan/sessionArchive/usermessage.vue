@@ -123,7 +123,7 @@
                         <img :src="selectfirstPhoto" alt="" class="avatar" />
                         <div class="pBox" style="width: auto;">
                             <p style="font-size: 0.15rem">{{ selectfirstName }}</p>
-                            <p v-if="tablabel == '客户'" style=" color: #bababa;">备注名：{{ selectfirstRemakeName }}</p>
+                            <p v-if="tablabel == '客户'" style="color: #807e7e;">备注名：{{ selectfirstRemakeName }}</p>
                         </div>
                         <i v-if="tablabel == '群聊' && firstAllName.length > 0" class="el-icon-user qunUser"
                             @click="qunDetail"></i>
@@ -276,7 +276,8 @@
                                         <p v-if="item.msgtype == 'sphfeed'" class="chatContent">【视频号转发】</p>
                                         <p v-if="item.msgtype == 'mixed'" class="chatContent">【引用数据】</p>
                                         <p v-if="item.msgtype == 'card'" class="chatContent">【名片】</p>
-                                        <p v-if="item.msgtype == 'meeting_notification'" class="chatContent">暂不支持查看「meeting」类型消息</p>
+                                        <p v-if="item.msgtype == 'meeting_notification'" class="chatContent">
+                                            暂不支持查看「meeting」类型消息</p>
                                         <p v-if="item.msgtype == 'meeting'" class="chatContent">暂不支持查看「meeting」类型消息</p>
 
 
@@ -372,7 +373,8 @@
                                         <p v-if="item.msgtype == 'sphfeed'" class="chatContent">【视频号转发】</p>
                                         <p v-if="item.msgtype == 'mixed'" class="chatContent">【引用数据】</p>
                                         <p v-if="item.msgtype == 'card'" class="chatContent">【名片】</p>
-                                        <p v-if="item.msgtype == 'meeting_notification'" class="chatContent">暂不支持查看「meeting」类型消息</p>
+                                        <p v-if="item.msgtype == 'meeting_notification'" class="chatContent">
+                                            暂不支持查看「meeting」类型消息</p>
                                         <p v-if="item.msgtype == 'meeting'" class="chatContent">暂不支持查看「meeting」类型消息</p>
 
 
@@ -454,7 +456,7 @@
     </div>
 </template>
 <script>
-import { getData,getDataOne, my_url } from "../../../static/js/ajax.js";
+import { getData, getDataOne, my_url } from "../../../static/js/ajax.js";
 import api from "../../../utils/api.js";
 import { formatDate } from "../../../static/js/common.js";
 import BenzAMRRecorder from 'benz-amr-recorder';
@@ -703,7 +705,7 @@ export default {
                 if (this.seq == '' && this.selectTime != '' || this.seq == '' && this.searchMsgValue != '') {
                     return
                 } else {
-                    this.requestData(this.isqwuserid, this.isfirstselect, this.seq, this.searchMsgValue, this.selectTime)
+                    this.requestData(this.isqwuserid, this.isfirstselect, this.seq, this.searchMsgValue, this.selectTime, '')
                 }
             }
         },
@@ -749,10 +751,17 @@ export default {
                 }
                 jiekouUrl = "/crm/qwMan/getQwTalkData.do"
             }
-
+        
+            if (this.queryuuid != '') {
+                params['queryuuid'] = this.queryuuid
+            }
 
 
             getDataOne("post", my_url + jiekouUrl, function (data) {
+                // talkDataList
+                _this.queryuuid = data.queryuuid
+                var data = data.talkDataList
+
                 if (data.length > 0) {
                     _this.seq = data[data.length - 1].seq
                     if (_this.funhuiValue && lookupdown && lookupdown != '') {
@@ -780,7 +789,7 @@ export default {
                         if (data[i].msgtype == "revoke") {
                             data.splice(i, 1)
                         }
-              
+
                         if (data[i].msgtype == "link") {
                             var fileData = JSON.parse(data[i].text)
                             data[i]["link_url"] = fileData.link_url
@@ -971,7 +980,7 @@ export default {
                         qwalias: res.qwalias,
                         qwuserid: res.qwuserid,
                         qwuserurl: res.qwuserurl,
-                        usertype:res.usertype
+                        usertype: res.usertype
                     });
                 });
                 _this.selectOneName(data.userList[0], this.tablabel)
@@ -1010,6 +1019,8 @@ export default {
             this.searchMsgValue = ''
             this.selectTime = ''
             // 更改最上面的固定头像
+            this.queryuuid = ''
+
             if (this.tablabel == '群聊') {
                 this.getQwCustomer(item.qwuserid, this.pageNumber, this.pageSize, first, this.activeValue)
             } else {
@@ -1098,7 +1109,8 @@ export default {
             const scrollview = this.$refs['list'];
             scrollview.removeEventListener('scroll', this.handleScroll, true)
             // 请求聊天记录
-            this.requestData(this.isqwuserid, this.isfirstselect, '')
+            this.queryuuid = ''
+            this.requestData(this.isqwuserid, this.isfirstselect, '', '', '', '', this.queryuuid)
 
         },
 
@@ -1173,7 +1185,7 @@ export default {
                     qwalias: res.qwalias,
                     qwuserid: res.qwuserid,
                     qwuserurl: res.qwuserurl,
-                    usertype:res.usertype
+                    usertype: res.usertype
                 })
             });
             _this.teamNameList = arr
@@ -1195,23 +1207,33 @@ export default {
                 this.searchText = false
             }
             this.searchMsgValue = item
-            this.requestData(this.isqwuserid, this.isfirstselect, '', item)
+            this.queryuuid = ''
+            this.requestData(this.isqwuserid, this.isfirstselect, '', item, '', '')
         }, 1000),
 
         searchDate: _.debounce(function (item) {
             this.requestDataList = []
             this.seq = ''
             this.noChathistory = true
-            this.requestData(this.isqwuserid, this.isfirstselect, '', this.searchMsgValue, this.selectTime)
+            this.queryuuid = ''
+            this.requestData(this.isqwuserid, this.isfirstselect, '', this.searchMsgValue, this.selectTime, '')
         }, 1000),
 
 
-        lookupdown: _.debounce(function (item) {
+        // lookupdown: _.debounce(function (item) {
+        //     this.requestDataList = []
+        //     this.queryuuid = ''
+        //     this.requestData(this.isqwuserid, this.isfirstselect, item.seq, '', '', item, this.queryuuid)
+        //     this.searchText = true
+        //     this.funhuiValue = true
+        // }, 2000),
+        lookupdown (item) {
             this.requestDataList = []
+            this.queryuuid = ''
             this.requestData(this.isqwuserid, this.isfirstselect, item.seq, '', '', item)
             this.searchText = true
             this.funhuiValue = true
-        }, 1000),
+        },
         fanhui() {
             this.funhuiValue = false
             this.searchText = false
@@ -1472,6 +1494,7 @@ export default {
 .pBox p:last-child {
     font-size: 0.13rem;
     margin-top: 5px;
+
 }
 
 ::v-deep .el-tree-node__content {
@@ -1539,9 +1562,11 @@ export default {
     padding: 0.2rem 0.2rem 0;
     height: 1.6rem;
 }
+
 .searchName {
     width: 100%;
 }
+
 ::v-deep .searchName .el-input .el-input__inner {
     border: 0px;
     height: 0.33rem;

@@ -51,7 +51,7 @@
         </div>
         <div class="table-overview">
           <el-table :data="tableDataOverview" border style="width: 100%">
-            <el-table-column align="center" prop="type" label="数据类型" width="120">
+            <el-table-column align="center" prop="type" label="数据类型" width="120" :show-overflow-tooltip="true">
             </el-table-column>
             <el-table-column align="center" prop="hotlinecount" label="新资源">
             </el-table-column>
@@ -87,8 +87,8 @@
             </div>
 
             <div class="common-select">
-              <div class="select-title" style="width: 1.38rem">渠道类型</div>
-              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+              <div class="select-title" style="width: 1.28rem">渠道类型</div>
+              <div class="select-content" style="width:3.2rem; height: 0.3rem; border: none">
                 <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
                   <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
                   </el-option>
@@ -96,8 +96,8 @@
               </div>
             </div>
             <div class="common-select">
-              <div class="select-title" style="width: 1.38rem">流量来源</div>
-              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+              <div class="select-title" style="width: 1.28rem">流量来源</div>
+              <div class="select-content" style="width:3.2rem; height: 0.3rem; border: none">
                 <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="请选择流量来源" clearable>
                   <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
                   </el-option>
@@ -498,14 +498,14 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.8rem">非话务时长（分钟）</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.nocallcentertime" align="right" size="mini" :disabled="true" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.nocallcentertime" align="right" size="mini"  clearable></el-input>
           </div>
           <em class="sign">可修改</em>
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">总时长（分钟）</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.sumtime" align="right" size="mini" :disabled="true" clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.sumtime" align="right" size="mini"  clearable></el-input>
           </div>
         </div>
 
@@ -928,7 +928,7 @@
                 </el-table-column>
                 <el-table-column prop="isconnect" width="70" align="center" label="接通">
                 </el-table-column>
-                <el-table-column prop="timeduration" label="时长" align="center" width="70" :show-overflow-tooltip="true">
+                <el-table-column prop="timeduration" label="时长" align="center" width="100" :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column align="center" label="录音" width="70">
                   <template slot-scope="scope" v-if="scope.row.recordurl">

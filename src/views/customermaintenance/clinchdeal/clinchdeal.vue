@@ -30,7 +30,7 @@
 
         <div class="common-select">
           <div class="select-title" style="width: 1.28rem">渠道类型</div>
-          <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+          <div class="select-content" style="width: calc(100% - 1.28rem); height: 0.3rem; border: none">
             <el-select class="el-select-inners" v-model="searchChannel" size="mini" placeholder="" clearable>
               <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>

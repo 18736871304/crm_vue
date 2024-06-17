@@ -364,7 +364,7 @@ export default {
         batchno: this.batchnoValue
       };
       this.getTableData(params); //table数据	
-      this.getUserIdData();
+      // this.getUserIdData();
     })
     var now = new Date(); // 当前日期
     var nowDay = now.getDate(); // 当前日
@@ -918,6 +918,14 @@ export default {
         } else {
           _this.dis_P4_up = false;
         }
+
+
+
+
+
+
+
+
       }, null);
 
       //资源删除的权限
@@ -927,6 +935,11 @@ export default {
         } else {
           _this.dis_Pz_up = false;
         }
+
+        _this.getUserIdData()
+
+
+
       }, null);
     },
     articleData(page) {
@@ -1884,7 +1897,7 @@ export default {
     getTeamList() {
       let _this = this;
       //设置当前用户的团队列表参数
-      getData('post', my_url + '/crm/auth/getTeamList.do', function (data) {
+      getData('post', my_url + '/crm/auth/getTalkTeamList.do', function (data) {
         let tempData = [];
         if (data.teamList == null || data.teamList == '') {
           _this.disTeamAll = false;
@@ -2031,12 +2044,12 @@ export default {
       }
 
       getData('post', my_url + '/crm/activity/getActivityDataView.do', function (data) {
-        data.activityTodayTj.type = "今日薪增量"
-        data.activityTj.type = "总数量";
+        data.activityTodayTj.type = "今日新增量"
+        data.activityTj.type = "累计总数量";
         data.today_X_List.type = "今日需回访"
         data.tomorrow_X_List.type = "明日需回访"
         data.activityTodayTj.yesterday = "昨日回访";
-          data.today_X_List.yesterday = "本月跟丢"
+        data.today_X_List.yesterday = "本月跟丢"
 
         data.activityTj.yesterday = data.yesterday_visit
         data.tomorrow_X_List.yesterday = data.month06count
@@ -2189,17 +2202,33 @@ export default {
     },
     getUserIdData() {
       let _this = this;
-      getData('post', my_url + '/crm/auth/getUserIdNameList.do', function (data) { //渠道类型
-        if (data.code == 0) {
-          let nameList = data.namelist;
-          nameList.forEach(res => {
-            _this.SalesmanIdBox.push({
-              "value": res.username,
-              "id": res.userid
-            });
-          })
-        }
-      });
+  
+      if (this.dis_Pz_up) {
+        getData('post', my_url + '/crm/auth/getUserIdNameList.do', function (data) { //渠道类型
+          if (data.code == 0) {
+            let nameList = data.namelist;
+            nameList.forEach(res => {
+              _this.SalesmanIdBox.push({
+                "value": res.username,
+                "id": res.userid
+              });
+            })
+          }
+        });
+      } else {
+        getData('post', my_url + '/crm/auth/getAllUserIdNameList.do', function (data) { //渠道类型
+          if (data.code == 0) {
+            let nameList = data.namelist;
+            nameList.forEach(res => {
+              _this.SalesmanIdBox.push({
+                "value": res.username,
+                "id": res.userid
+              });
+            })
+          }
+        });
+      }
+
     },
     saveRecord() { //保存记录
       let _this = this;

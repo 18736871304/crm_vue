@@ -1015,4 +1015,8 @@ export default {
 .el-table tr {
   height: 0.3rem !important;
 }
+
+.step-list {
+   padding: 0rem;
+}
 </style>

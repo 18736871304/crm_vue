@@ -14,27 +14,27 @@
             </div>
 
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">客户姓名</div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <div class="select-title" style="width: 1.38rem">客户姓名</div>
+              <div class="select-content" style="width: calc(100% - 1.38rem);">
                 <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder=""></el-input>
               </div>
             </div>
 
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
+            <div class="common-select" >
+              <div class="select-title" style="width: 1.38rem">
                 <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
                   <el-option label="电话号码" value="电话号码"></el-option>
                   <el-option label="微信号" value="微信号"></el-option>
                 </el-select>
               </div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <div class="select-content" style="width: calc(100% - 1.38rem);">
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
 
-            <div class="common-select" style="margin-right: 6%;">
-              <div class="select-title" style="width: 1.38rem">渠道类型</div>
-              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+            <div class="common-select" style="width: 30%">
+              <div class="select-title" style="width: 1.15rem">渠道类型</div>
+              <div class="select-content" style="width: calc(100% - 1.65rem); height: 0.3rem; border: none">
                 <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
                   <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
                   </el-option>
@@ -88,9 +88,9 @@
               </div>
             </div>
 
-            <div class="common-select" style="margin-right: 6%;">
-              <div class="select-title" style="width: 1.38rem">渠道类型</div>
-              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+            <div class="common-select" style="width: 30%;">
+              <div class="select-title" style="width: 1.15rem">渠道类型</div>
+              <div class="select-content" style="width: calc(100% - 1.65rem); height: 0.3rem; border: none">
                 <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
                   <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
                   </el-option>
@@ -619,7 +619,7 @@
                 </el-table-column>
                 <el-table-column prop="isconnect" width="70" align="center" label="接通">
                 </el-table-column>
-                <el-table-column prop="timeduration" label="时长" align="center" width="70" :show-overflow-tooltip="true">
+                <el-table-column prop="timeduration" label="时长" align="center" width="100" :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column align="center" label="录音" width="70">
                   <template slot-scope="scope" v-if="scope.row.recordurl">
@@ -975,5 +975,9 @@ export default {
   display: flex;
   height: 100%;
   align-items: center;
+}
+
+a {
+   color: #8f9198;
 }
 </style>

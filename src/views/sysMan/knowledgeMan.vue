@@ -3,6 +3,22 @@
     <div class="search-header">
       <div class="add-btn" @click="showAddCJGDetailDialog($event)"> + 新建</div>
       <div class="search-box clearfix">
+       
+        <div class="common-select" v-if="CJGselectValue === '解答疑义'" style="width: 30%">
+          <div class="select-title" style="width: 1.54rem">修改时间</div>
+          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.54rem); border: none">
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+            </el-date-picker>
+          </div>
+        </div>
+
+        <div class="common-select" v-else style="width: 30%">
+          <div class="select-title" style="width: 1.54rem">修改时间</div>
+          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.54rem); border: none">
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+            </el-date-picker>
+          </div>
+        </div>
         <div class="common-select" v-if="CJGselectValue === '保单检视'">
           <div class="select-title" style="width: 1.28rem">保险公司</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
@@ -16,6 +32,7 @@
             <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入关键字"></el-autocomplete>
           </div>
         </div>
+
         <div class="common-select" v-if="false">
           <div class="select-title" style="width: 1.28rem">跟进步骤</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
@@ -54,20 +71,9 @@
             </el-dropdown>
           </div>
         </div>
-        <div class="common-select" v-if="CJGselectValue === '解答疑义'" style="width: 30%">
-          <div class="select-title" style="width: 1.54rem">修改时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.54rem); border: none">
-            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
-            </el-date-picker>
-          </div>
-        </div>
-        <div class="common-select" v-else style="width: 30%">
-          <div class="select-title" style="width: 1.54rem">修改时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.54rem); border: none">
-            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
-            </el-date-picker>
-          </div>
-        </div>
+
+       
+
         <div class="common-select" v-if="CJGselectValue === '疾病核保'">
           <div class="search-btn" @click="search">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
@@ -116,7 +122,7 @@
       </el-pagination>
     </div>
     <!-- 藏经阁-->
-    <el-dialog :title="'新建-' + CJGselectValue" :visible.sync="addCJGItemVisible" width="1100px" :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
+    <el-dialog :title="'新建 - ' + CJGselectValue" :visible.sync="addCJGItemVisible" width="1100px" :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
       <div class="step-list wei-step-list" v-if="CJGselectValue === '保单检视'">
         <div class="item-section">
           <label>标题</label>
@@ -1466,3 +1472,9 @@ export default {
 }
 </script>
 <style src="../../static/css/knowledgeMan.css"></style>
+
+<style>
+.step-list {
+   padding: 0rem;
+}
+</style>

@@ -10,6 +10,16 @@
         </div>
 
         <div class="common-select">
+          <div class="select-title" style="width: 1.28rem">保单状态</div>
+          <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
+            <el-select v-model="policyStatus" size="mini" placeholder="" class="el-select-inners">
+              <el-option v-for="(item, index) in policyStatusList" :key="index" :label="item.dd_value" :value="item.dd_key">
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+
+        <div class="common-select">
           <div class="select-title" style="width: 1.28rem">客户姓名</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
             <el-input class="el-input-inners" v-model="cusname" align="right" size="mini" clearable></el-input>
@@ -28,7 +38,7 @@
           </div>
         </div>
 
-        <div class="common-select">
+        <div class="common-select"  style=" float: right; width: 11.5%;">
           <div class="search-btn" @click="search(1)">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="screenReset">重置</div>
         </div>
@@ -122,6 +132,8 @@ export default {
       cusmobile: '电话号码', //显示的电话号码
       cusMobileWxno: '', //客户电话号码或者微信值
       cusname: '', //客户姓名
+      policyStatus: '40', //保单状态
+      policyStatusList: '', //保单状态列表
       //查看编辑弹窗
       showEditPopupDialogVisible: false,
       detailObj: {},
@@ -129,7 +141,7 @@ export default {
     }
   },
   mounted: function () {
-
+    this.abpolisystate()
   },
   methods: {
     // 筛选查询保单   /crm_web/getPolicyList.do
@@ -141,6 +153,12 @@ export default {
         cusmobile = this.cusMobileWxno.trim()
       } else {
         cuswxno = this.cusMobileWxno
+      }
+      var policyStatus = ''
+      if (this.policyStatus == '40') {
+        policyStatus = "80','81','82','40"
+      } else {
+        policyStatus = this.policyStatus
       }
       getData('post', my_url + '/crm/auth/getToken.do', data => {
         if (data.code == 0) {
@@ -154,7 +172,8 @@ export default {
             pageNumber: page,
             pageSize: this.pageSize,
             has_coefficient: "N",
-            kuaflag: "Y"
+            kuaflag: "Y",
+            state: policyStatus, //保单状态
           }
           getData('post', crm_url + 'insure.meihualife.com/crm_web/getPolicyList_New.do', function (data) {
             let {
@@ -168,7 +187,25 @@ export default {
         }
       });
     },
-
+  //保单状态
+  abpolisystate() {
+      getData('post', my_url + '/crm/common/getDictList.do', data => {
+        if (data.code == 0) {
+          var array = data.dictList
+          var stateList = []
+          array.forEach(function (item, key) {
+            if (item.dd_value == '签单成功' || item.dd_value == '犹豫期退保' || item.dd_value == '正常退保' || item
+              .dd_value == '协议退保' || item.dd_value == '保单失效' || item.dd_value == '理赔终止' || item
+              .dd_value == '冲正') {
+              stateList.push(item)
+            }
+          });
+          this.policyStatusList = stateList
+        }
+      }, {
+        dict_type: 'abpolicystate'
+      });
+    },
     // 重置
     screenReset() {
       this.contno = '';
