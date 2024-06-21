@@ -46,7 +46,7 @@
       </el-table-column>
       <el-table-column key="17" align="center" prop="reusername" label="出单业务员" width="100"> </el-table-column>
       <el-table-column key="18" align="center" prop="serviceusername" label="服务人员" width="100"> </el-table-column>
-      <el-table-column key="19" align="center" label="查看详情" width="100">
+      <el-table-column key="19" align="center" label="查看详情" width="110">
         <template slot-scope="scope">
           <span class="edit option" style="color: #4985e5; cursor: pointer" @click="showEditPopup(scope.row)">查看详情</span>
         </template>

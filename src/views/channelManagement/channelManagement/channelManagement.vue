@@ -45,8 +45,9 @@
             </div>
           </div>
           <div class="sure-footer" style="padding-bottom: 0;">
-            <div class="my-sure" @click="inputUserSubmit">确定</div>
+           
             <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
+            <div class="my-sure" @click="inputUserSubmit">确定</div>
           </div>
         </el-popover>
 
@@ -150,8 +151,9 @@
         <el-popover  popper-class="entry-customer-popper" v-show="dis_Pz_up" placement="bottom-start" width="3.31rem" trigger="click" style="float: right;" v-model="deleteSourceVisable">
           <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源删除</div>
           <div class="sure-footer" style="padding-bottom: 0;">
-            <div class="my-sure" @click="deleteSourceSubmit">确定</div>
+            
             <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="deleteSourceCancel">取消</div>
+            <div class="my-sure" @click="deleteSourceSubmit">确定</div>
           </div>
         </el-popover>
         <el-popover  popper-class="entry-customer-popper" v-show="dis_P4_up" placement="bottom-start" width="3.31rem" trigger="click" style="float: right;" v-model="resourceDeployVisable" @show="resourceDeployShow">
@@ -172,8 +174,9 @@
             </div>
           </div>
           <div class="sure-footer" style="padding-bottom: 0;">
-            <div class="my-sure" @click="resourceDeploySubmit">确定</div>
+            
             <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="resourceDeployCancel">取消</div>
+            <div class="my-sure" @click="resourceDeploySubmit">确定</div>
           </div>
         </el-popover>
       </div>

@@ -18,8 +18,9 @@
                     <el-tree @check="handleCheckChange2" :data="teamDataList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps">
                     </el-tree>
                     <div class="sure-footer">
-                      <div class="my-sure" @click="my_sure2">确定</div>
+                     
                       <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
+                      <div class="my-sure" @click="my_sure2">确定</div>
                     </div>
                   </el-dropdown-menu>
                 </el-dropdown>
@@ -199,8 +200,10 @@
             </div>
           </div>
           <div class="sure-footer" style="padding-bottom: 0;">
-            <div class="my-sure" @click="inputUserSubmit">确定</div>
+            
+           
             <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
+            <div class="my-sure" @click="inputUserSubmit">确定</div>
           </div>
         </el-popover>
    
@@ -222,16 +225,18 @@
             </div>
           </div>
           <div class="sure-footer" style="padding-bottom: 0;">
-            <div class="my-sure" @click="resourceDeploySubmit">确定</div>
+           
             <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="resourceDeployCancel">取消</div>
+            <div class="my-sure" @click="resourceDeploySubmit">确定</div>
           </div>
         </el-popover>
         <el-popover popper-class="entry-customer-popper" v-show="dis_Pz_up" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
           <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源删除
           </div>
           <div class="sure-footer" style="padding-bottom: 0;">
-            <div class="my-sure" @click="deleteSourceSubmit">确定</div>
+          
             <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="deleteSourceCancel">取消</div>
+            <div class="my-sure" @click="deleteSourceSubmit">确定</div>
           </div>
         </el-popover>
       </div>
@@ -265,8 +270,9 @@
             <el-checkbox label="area">自动定位城市</el-checkbox>
             <el-checkbox label="pageurl">推广页面</el-checkbox>
             <div class="sure-footer" style="border-top: 1px solid rgba(221, 221, 221, 1); margin-top: 0.15rem;">
-              <div class="my-sure" @click="checkedSure">确定</div>
+             
               <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
+              <div class="my-sure" @click="checkedSure">确定</div>
             </div>
           </el-checkbox-group>
         </el-popover>
@@ -568,8 +574,9 @@
         </div>
       </div>
       <div class="sure-footer">
-        <div class="my-sure" @click="sureData">提交</div>
+       
         <div class="my-sure" style="background: #fff;border: 1px solid rgba(221, 221, 221, 1);color: #686868;" @click="dialogVisible = false">取消</div>
+        <div class="my-sure" @click="sureData">提交</div>
       </div>
     </el-dialog>
     <el-dialog :title="CJGselectValue" :visible.sync="cjgdrawer" width="1100px" class="cjg-dialog">

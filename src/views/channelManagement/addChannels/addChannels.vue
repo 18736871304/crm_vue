@@ -115,8 +115,9 @@
             </div>
         </div>
         <div slot="footer" class="dialog-footer" style="padding: 0;">
-          <div class="search-btn" @click="sure">确定</div>
+          
           <div class="search-btn" style="background: #fff;border: 1px solid rgba(221, 221, 221, 1);color: #686868;" @click="cancel">取消</div>
+          <div class="search-btn" @click="sure">确定</div>
         </div>
     </el-dialog>  
   </div>

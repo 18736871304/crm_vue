@@ -294,7 +294,7 @@
           ></a>
         </template>
       </el-table-column>
-      <el-table-column key="26" align="center" label="查看详情" width="100px">
+      <el-table-column key="26" align="center" label="查看详情" width="110px">
         <template slot-scope="scope">
           <span
             class="edit option"

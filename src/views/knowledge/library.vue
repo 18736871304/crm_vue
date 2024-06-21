@@ -9,30 +9,36 @@
 
     <div class="newAdd">
       <div class="addpatter" @click="dialoghuashu = true">
-        <el-button plain>新建话术</el-button>
+        <div> + 新建</div>
       </div>
-      <div class="addgroup" @click="dialogGroup = true">
-        <el-button plain>添加分组</el-button>
-      </div>
+
     </div>
 
     <div class="teamLanguage">
       <div class="productList" v-loading="loading">
-        <el-tree :data="options" :props="GroupdefaultProps" node-key="id" :default-checked-keys="[1]" :expand-on-click-node="true" ref="tree" @node-click="handleNodeClick" :highlight-current="true" :default-expand-all='true'>
+
+        <div class="addgroup" @click="dialogGroup = true">
+          <i class="el-icon-circle-plus"></i>
+          <p>添加分组</p>
+        </div>
+
+        <el-tree style=" padding-top: 0rem;" :data="options" :props="GroupdefaultProps" node-key="id" :default-checked-keys="[1]" :expand-on-click-node="false" ref="tree" @node-click="handleNodeClick" :highlight-current="true" :default-expand-all='false'>
           <span class="custom-tree-node" slot-scope="{ node, data }">
-            <span class="tree-lable">{{ data.groupname }}</span>
+            <span class="tree-lable">{{ data.groupname }} <span v-if="data.child">（{{ data.child.length}}）</span> </span>
             <span class="groupLeft">
-              <el-button type="text" size="mini">
+              <div type="text" size="mini" class="crty">
                 <el-popover placement="right" trigger="hover" popper-class="groupPopover">
                   <ul class="groupTan">
                     <li @click.prevent="modifyGroup(data)">编辑</li>
                     <li @click.prevent="deleteGroup(data)">删除</li>
+                    <li @click.prevent="groupUp(data)">上移</li>
+                    <li @click.prevent="groupDown(data)">下移</li>
                   </ul>
                   <!-- 下面是显示在树形控件的元素 -->
                   <i slot="reference" class="el-icon-more"></i>
 
                 </el-popover>
-              </el-button>
+              </div>
             </span>
           </span>
         </el-tree>
@@ -41,34 +47,67 @@
 
       <div class="teamMain table-box">
         <el-table :data="speechList" border style="width: 100%">
-          <el-table-column key="1" align="center" type="index" label="序号">
-          </el-table-column>
-          <el-table-column key="2" align="center" label="话术内容" width="290">
+          <el-table-column key="2" align="center" label="话术内容" width="auto">
             <template slot-scope="scope">
-              <div class="huashuMain" v-html="scope.row.main"></div>
+              <!-- <div v-for=" (item,index) in scope.row.talkContent" :key='index'>
+               
+                <div class='msgText' v-if="item.type=='text'">
+                  <p class=' ' v-html="item.text"> </p>
+                  <div class='zhedie' @click='openSmall(item)'>
+                    <span>展开</span>
+                    <i class='el-icon-arrow-down'></i>
+                  </div>
+                </div>
+
+                <div class='img_text' v-if="item.type=='img-txt'">
+              
+                  <img :src='JSON.parse(item.text).imgUrl' alt=''>
+                  <div class='imgTxt'>
+                    <p> {{JSON.parse(item.text).title}} </p>
+                    <p> {{JSON.parse(item.text).desc}}</p>
+                  </div>
+                </div>
+
+                <div class='img_text'  v-if="item.type=='image'">
+                  {{ item .dispath}}
+                   <img src='https://crm.meihualife.com'+item.dispath  alt=''>
+                  <p>{{item.text}} </p>
+                </div>
+
+              </div> -->
+              <div v-html="scope.row.main" :class="['huashuMain', {'unhuashuMain':scope.row.isopen==true}]"></div>
+              <div class='zhedie' @click="open(scope.row)" v-if="!scope.row.isopen"> <span>展开</span> <i class='el-icon-arrow-down'></i> 共{{ (scope.row.talkContent).length }}条</div>
+              <div class='zhedie' @click="open(scope.row)" v-else><span>收起</span> <i class='el-icon-arrow-up'></i>共{{ (scope.row.talkContent).length }}条 </div>
+
             </template>
           </el-table-column>
           <el-table-column key="3" align="center" prop="title" label="标题" width="120">
           </el-table-column>
           <el-table-column key="4" align="center" prop="sendcount" sortable label="发送次数" width='110'>
           </el-table-column>
-          <el-table-column key="5" align="left" prop="username" label="创建人" width='90'>
+          <el-table-column key="5" align="center" prop="username" label="创建人" width='90'>
           </el-table-column>
-          <el-table-column key="6" align="left" prop="makedate" sortable label="创建时间" width="160">
+          <el-table-column key="6" align="center" prop="makedate" sortable label="创建时间" width="160">
           </el-table-column>
           <el-table-column key="7" align="center" label="类型" width="80">
             <template slot-scope="scope">
               <div v-if="(scope.row.talkContent).length>1"> 复合类型</div>
-              <div v-else-if="(scope.row.talkContent).length==1">{{ scope.row.talkContent[0].type}}</div>
+              <div v-else-if="(scope.row.talkContent).length==1">{{ scope.row.talkContent[0].msgType}}</div>
               <div v-else>无类型</div>
             </template>
           </el-table-column>
-          <el-table-column key="8" align="left" prop="teampermission_names" label="使用团队" width="120">
+          <el-table-column key="8" v-if="activeName=='01'" align="center" prop="teampermission_names" label="使用团队" width="120">
           </el-table-column>
-          <el-table-column key="9" align="center" label="操作" width="auto">
+          <el-table-column key="9" align="center" label="操作" width="140">
             <template slot-scope="scope">
-              <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
-              <a class="edit option" href="javascript:void(0);" @click="deletePopup(scope.row)">删除</a>
+              <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>
+              <a class=" declet" href="javascript:void(0);" @click="deletePopup(scope.row)">删除</a>
+            </template>
+          </el-table-column>
+          <el-table-column key="10" align="center" label="移动" width="140">
+            <template slot-scope="scope">
+              <a class="edit option" href="javascript:void(0);" @click="itemUp(scope.row)">上移</a>
+              <a class="edit" href="javascript:void(0);" @click="itemDown(scope.row)">下移</a>
             </template>
           </el-table-column>
 
@@ -77,24 +116,24 @@
       </div>
     </div>
 
-    <el-dialog title="新建话术" :visible.sync="dialoghuashu" width="30%" :before-close="data_cencle" :close-on-click-modal="false" append-to-body>
+    <el-dialog :title="digTitle" :visible.sync="dialoghuashu" width="1100px" :before-close="data_cencle" :close-on-click-modal="false" append-to-body>
       <div v-loading="addloading">
 
         <div class="titleBox">
-          <div>
+          <div class="selectMain">
             <p>分组</p>
             <div class="block">
               <el-cascader v-model="groupValue" :options="options" :props="newDefaultProps" @change="handleChange" placeholder="请选择分组" clearable></el-cascader>
             </div>
           </div>
-          <div>
+          <div class="selectMain" style="margin-top: 10px">
             <p>标题</p>
-            <el-input v-model="titleCon" placeholder="请输入内容"></el-input>
+            <el-input class="block" v-model="titleCon" placeholder="请输入内容"></el-input>
           </div>
 
-          <div style="margin-top: 10px" v-if="activeName=='01'">
+          <div class="selectMain" style="margin-top: 10px" v-if="activeName=='01'">
             <p>话术权限</p>
-            <div class="select-content">
+            <div class="select-content block">
               <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
                 <p class="el-dropdown-inners" clearable>
                   <span>{{ teamNames }}</span>
@@ -103,8 +142,9 @@
                 <el-dropdown-menu class="asd" slot="dropdown">
                   <el-tree @check="checkTeam" :data="teamDataList" ref="tree" show-checkbox node-key="id" :default-checked-keys="teamIdCheck" :props="defaultProps"> </el-tree>
                   <div class="sure-footer">
-                    <div class="my-sure" @click="team_sure()">确定</div>
                     <div class="my-sure cancel" @click="team_cancel()">取消</div>
+                    <div class="my-sure" @click="team_sure()">确定</div>
+
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -116,15 +156,13 @@
           <div class="mainBox">
             <div class="listMain">
               <div>话术内容{{ index + 1 }}</div>
-              <div class="listDelete" @click="clickDelete(index)">
-                <i class="el-icon-delete"></i>
-              </div>
+
             </div>
 
-            <el-tabs v-model="item.mainType" @tab-click="mainClick">
+            <el-tabs class="zhongjiantab" v-model="item.mainType" @tab-click="mainClick">
               <el-tab-pane label="文字" name="text">
                 <div class="listMainbox">
-                  <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 4 }" placeholder="在此输入回复内容" v-model="item.wenzimain"> </el-input>
+                  <el-input type="textarea" autosize placeholder="在此输入回复内容" v-model="item.wenzimain" style="min-height: 120px;"> </el-input>
                 </div>
               </el-tab-pane>
 
@@ -143,7 +181,7 @@
                       <i slot="default" class="el-icon-plus"></i>
 
                       <div slot="file" slot-scope="{ file }">
-                        <img class="el-upload-list__item-thumbnail" :src="item.image.file.refilepath" alt="" />
+                        <img class="el-upload-list__item-thumbnail" :src="'https://crm.meihualife.com/'+item.image.file.refilepath" alt="" />
                         <span class="el-upload-list__item-actions">
                           <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(item, index)">
                             <i class="el-icon-zoom-in"></i>
@@ -160,8 +198,11 @@
                       <p>{{ item.image.file.filename }}</p>
 
                     </div>
+                    <div class="imgNameSize" v-else>
+                      <p>*文件需在10M以内</p>
+                    </div>
                     <el-dialog :visible.sync="item.image.dialogVisible" append-to-body>
-                      <img width="100%" :src="item.image.file.refilepath" alt="" />
+                      <img width="100%" :src="'https://crm.meihualife.com/'+item.image.file.refilepath" alt="" />
                     </el-dialog>
                   </div>
                 </div>
@@ -209,7 +250,10 @@
                       <div class="pdfNameSize" v-if="item.pdf.file.filename != ''">
 
                         <p>{{ item.pdf.file.filename }}</p>
-                        <p>{{ (item.pdf.file.size / 1048576).toFixed(2) }}M</p>
+                        <!-- <p>{{ (item.pdf.file.size / 1048576).toFixed(2) }}M</p> -->
+                      </div>
+                      <div class="pdfNameSize" v-else>
+                        <p>*文件需在10M以内</p>
                       </div>
                     </div>
                   </div>
@@ -242,7 +286,10 @@
 
                       <div class="pdfNameSize" v-if="item.video.file.filename != ''">
                         <p>{{ item.video.file.filename }}</p>
-                        <p>{{ (item.video.file.size / 1048576).toFixed(2) }}M {{ item.video.dialogVisible }}</p>
+                        <!-- <p>{{ (item.video.file.size / 1048576).toFixed(2) }}M {{ item.video.dialogVisible }}</p> -->
+                      </div>
+                      <div class="pdfNameSize" v-else>
+                        <p>*文件需在10M以内</p>
                       </div>
 
                       <el-dialog :visible.sync="item.video.dialogVisible" append-to-body>
@@ -253,17 +300,21 @@
                 </div>
               </el-tab-pane>
             </el-tabs>
+            <div class="listDelete" @click="clickDelete(index)">
+              <i class="el-icon-delete"></i>
+            </div>
+
           </div>
         </div>
 
         <div @click="addmain" class="addTemplate">
           <p><i class="el-icon-circle-plus-outline"></i> 添加内容</p>
-          <p>(添加多个内容可以一键发送)</p>
+          <p>（ 添加多个内容可以一键发送 ）</p>
         </div>
 
         <span slot="footer" class="dialog-footer">
-          <el-button @click="data_cencle">取 消</el-button>
-          <el-button type="primary" @click="data_sure">确 定</el-button>
+          <div class="my-sure cancel" @click="data_cencle">取 消</div>
+          <div class=" my-sure" type="primary" @click="data_sure">确 定</div>
         </span>
       </div>
     </el-dialog>
@@ -289,8 +340,8 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button @click="group_cencle">取 消</el-button>
-        <el-button type="primary" @click="group_sure">确 定</el-button>
+        <div class="my-sure cancel" @click="group_cencle">取 消</div>
+        <div class="my-sure" type="primary" @click="group_sure">确 定</div>
       </span>
     </el-dialog>
 
@@ -306,8 +357,8 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button @click="modifydialogGroup = false">取 消</el-button>
-        <el-button type="primary" @click="modifygroup_sure">确 定</el-button>
+        <div class="my-sure cancel" @click="modifydialogGroup = false">取 消</div>
+        <div class="my-sure" type="primary" @click="modifygroup_sure">确 定</div>
       </span>
     </el-dialog>
 
@@ -324,6 +375,7 @@ import { getData, getPhoneData, my_url } from "../../static/js/ajax.js";
 export default {
   data() {
     return {
+      digTitle: '新建 - 团队话术',
       loading: false,
       isLeader: 'Y',//判断是否是团队长
       // 团队话术01  个人话术02
@@ -435,6 +487,7 @@ export default {
   mounted() {
     this.teamLedar()
     this.yewu();
+    window.openSmall = this.openSmall;
   },
   watch: {
 
@@ -459,6 +512,9 @@ export default {
 
     // 选择团队话术或者个人话术
     handleClick(tab, event) {
+      console.log(tab, event)
+      console.log(tab._props.label)
+      this.digTitle = '新建 - ' + tab._props.label
       this.options = []
       this.groupOptions = []
       this.speechList = []
@@ -694,6 +750,7 @@ export default {
           if (fileType == "pdf") {
             data.refilepath = "https://crm.meihualife.com/images/pdf.jpg";
           } else {
+          console.log(data.refilepath)
             data.refilepath = data.refilepath.slice(9);
           }
 
@@ -716,14 +773,16 @@ export default {
             message: data.msg + '，删除后重新上传',
           });
         }
-      })
-        .fail(function (res) {
-          _this.$message({
-            type: "error",
-            duration: 2000,
-            message: "上传失败!",
-          });
+      }).fail(function (res) {
+        _this.$message({
+          type: "error",
+          duration: 2000,
+          message: "上传失败!",
         });
+      });
+
+
+
     },
 
     clickDelete(data) {
@@ -885,7 +944,11 @@ export default {
           },
         },
       }];
-
+      if (this.activeName == '01') {
+        this.digTitle = "新建 - 团队话术"
+      } else {
+        this.digTitle = "新建 - 个人话术"
+      }
       this.dialoghuashu = false
     },
 
@@ -980,13 +1043,13 @@ export default {
           }
 
           _this.addloading = false
-        }).catch((msg)=>{
+        }).catch((msg) => {
           _this.$message({
-              type: "error",
-              duration: 3000,
-              message: '请检查内容，文字中不允许有表情和颜文字',
-            });
-            _this.addloading = false
+            type: "error",
+            duration: 3000,
+            message: '请检查内容，文字中不允许有表情和颜文字',
+          });
+          _this.addloading = false
 
         })
 
@@ -1020,6 +1083,14 @@ export default {
             message: data.msg,
           });
         }
+        if (_this.activeName == '01') {
+          _this.digTitle = "新建 - 团队话术"
+        } else {
+          _this.digTitle = "新建 - 个人话术"
+        }
+
+
+
         _this.addloading = false
       })
 
@@ -1050,28 +1121,47 @@ export default {
         if (data.rows.length > 0) {
           var arr = data.rows
           for (var i = 0; i < arr.length; i++) {
+            arr[i]['isopen'] = false
             var arrchild = arr[i].talkContent
 
             var dd = ''
             if (arrchild.length > 0) {
               for (var j = 0; j < arrchild.length; j++) {
+                arrchild[j]['isopen'] = false
 
                 if (arrchild[j].type == 'text') {
-                  dd += '<p>' + arrchild[j].text + '</p>'
+                  arrchild[j]['msgType'] = '文字'
+                  // if (arrchild[j].isopen) {
+                  //   var classNames = ['huashuMain', 'unhuashuMain'];
+                  // } else {
+                  //   var classNames = ['huashuMain'];
+                  // }
+                  arrchild[j].text = ((arrchild[j].text).replace(/\n/g, '<br>'))
+                  dd += "<div class='msgText'> <p>" + (arrchild[j].text).replace(/\n/g, '<br>') + " </p>  </div> "
+                  // dd += `<div class='msgText'><p  class='${classNames.join(' ')}'> ${(arrchild[j].text).replace(/\n/g, '<br>')} </p>    <div class='zhedie' onClick = 'openSmall(${JSON.stringify(arrchild[j])})' > <span>展开</span> <i class='el-icon-arrow-down'></i> </div>   </div> `
                 } else if (arrchild[j].type == 'img-txt') {
+                  arrchild[j]['msgType'] = '图文'
                   var objdata = JSON.parse(arrchild[j].text)
                   dd += "<div class ='img_text'> <img src='" + objdata.imgUrl + "' alt=''>  <div class ='imgTxt'>  <p>" + objdata.title + "</p><p>" + objdata.desc + "</p> </div></div>  </div>"
                 } else if (arrchild[j].type == 'image') {
+                  arrchild[j]['msgType'] = '图片'
                   dd += "<div class ='img_text'> <img src='https://crm.meihualife.com" + arrchild[j].dispath + "' alt=''><p>" + arrchild[j].text + "'</p> </div>"
                 } else if (arrchild[j].type == 'pdf') {
+                  arrchild[j]['msgType'] = 'PDF文件'
                   dd += "<div class ='img_text'> <img src='https://crm.meihualife.com/images/pdf.jpg' alt=''><p>" + arrchild[j].text + "</p> </div>"
                 } if (arrchild[j].type == 'video') {
+                  arrchild[j]['msgType'] = '视频'
                   var videoImg = 'https://crm.meihualife.com' + arrchild[j].dispath
                   dd += "<div class ='img_text'> <video src=" + videoImg + "></video><p>" + arrchild[j].text + "</p> </div>"
                 }
+
+                // dd += " <div class='zhedie'> <i class='el-icon-arrow-down'></i> <span>展开</span> </div>"
+
               }
               arr[i]['main'] = dd
             }
+
+
           }
           _this.speechList = arr
         } else if (data.rows.length == 0) {
@@ -1111,6 +1201,11 @@ export default {
       this.dialoghuashu = true
       this.isEdit = true
       this.editId = item.itemid
+      if (this.activeName == '01') {
+        this.digTitle = '编辑 - 团队话术'
+      } else {
+        this.digTitle = '编辑 - 个人话术'
+      }
 
       var groupList = []
       // 赋值分组
@@ -1140,12 +1235,62 @@ export default {
       for (var i = 0; i < item.talkContent.length; i++) {
 
         var itemMain = item.talkContent[i]
+        if (itemMain.type == 'video') {
 
-        if (itemMain.type == 'text') {
-
+          this.getvideoImg("https://crm.meihualife.com/" + itemMain.dispath, itemMain, function (videoImg, itemMain) {
+            _this.dataList.push({
+              mainType: "video",
+              wenzimain: "",
+              image: {
+                uploadFilePath: [],
+                imgmain: "",
+                dialogVisible: false,
+                disabled: false,
+                num: "",
+                file: {
+                  refilepath: "",
+                  size: "",
+                  filename: "",
+                },
+              },
+              imgText: {
+                text: "",
+                desc: "",
+                title: "",
+                imgUrl: "",
+              },
+              pdf: {
+                uploadFilePath: [],
+                disabled: false,
+                num: "",
+                file: {
+                  refilepath: "",
+                  size: "",
+                  filename: "",
+                },
+              },
+              video: {
+                uploadFilePath: [itemMain],
+                dialogvideoimgUrl: "",
+                dialogVisible: false,
+                disabled: false,
+                videoImg: videoImg,
+                num: 1,
+                file: {
+                  fileid: itemMain.fileid,
+                  filename: itemMain.text,
+                  filetype: itemMain.type,
+                  refilepath: itemMain.dispath
+                },
+              },
+            },)
+          })
+        }
+        else if (itemMain.type == 'text') {
+          var dd = ((itemMain.text).replace(/<br>/g, '\n'))
           this.dataList.push({
             mainType: "text",
-            wenzimain: itemMain.text.replace(new RegExp(/&nbsp;/g), ' '),
+            wenzimain: dd.replace(new RegExp(/&nbsp;/g), ' '),
             image: {
               uploadFilePath: [item],
               imgmain: "",
@@ -1334,57 +1479,7 @@ export default {
             },
           },)
         }
-        else if (itemMain.type == 'video') {
 
-          this.getvideoImg("https://crm.meihualife.com/" + itemMain.dispath, itemMain, function (videoImg, itemMain) {
-            _this.dataList.push({
-              mainType: "video",
-              wenzimain: "",
-              image: {
-                uploadFilePath: [],
-                imgmain: "",
-                dialogVisible: false,
-                disabled: false,
-                num: "",
-                file: {
-                  refilepath: "",
-                  size: "",
-                  filename: "",
-                },
-              },
-              imgText: {
-                text: "",
-                desc: "",
-                title: "",
-                imgUrl: "",
-              },
-              pdf: {
-                uploadFilePath: [],
-                disabled: false,
-                num: "",
-                file: {
-                  refilepath: "",
-                  size: "",
-                  filename: "",
-                },
-              },
-              video: {
-                uploadFilePath: [itemMain],
-                dialogvideoimgUrl: "",
-                dialogVisible: false,
-                disabled: false,
-                videoImg: videoImg,
-                num: 1,
-                file: {
-                  fileid: itemMain.fileid,
-                  filename: itemMain.text,
-                  filetype: itemMain.type,
-                  refilepath: itemMain.dispath
-                },
-              },
-            },)
-          })
-        }
       }
     },
     deletePopup(item) {
@@ -1490,6 +1585,150 @@ export default {
         }
       });
     },
+
+
+    open(data) {
+      var speechList = this.speechList
+      console.log(data)
+      speechList.forEach(item => {
+        console.log(item)
+        if (item.itemid == data.itemid) {
+          item.isopen = !item.isopen
+        }
+      })
+
+    },
+    openSmall(data) {
+      console.log(data)
+      var speechList = this.speechList
+      speechList.forEach(item => {
+        var arr = item.talkContent
+        arr.forEach(obj => {
+          if (obj.contentid == data.contentid) {
+            console.log(data)
+            console.log(obj)
+            obj.isopen = !obj.isopen
+          }
+        })
+      })
+    },
+
+
+    //   itemUp,
+    // itemDown,
+    // groupUp,
+    // groupDown
+
+    groupUp(data) {
+      console.log(data)
+      var _this = this
+      var params = {
+        groupid: data.groupid
+      }
+      api.groupUp(params).then((data) => {
+        console.log(data)
+        if (data.code == '0') {
+          _this.$message({
+            type: "success",
+            duration: 2000,
+            message: "上移成功!",
+          });
+          _this.getTalkTempleteGroup()
+        } else {
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: data.msg,
+          });
+        }
+      })
+    },
+    groupDown(data) {
+      console.log(data)
+      var _this = this
+      var params = {
+        groupid: data.groupid
+      }
+      api.groupDown(params).then((data) => {
+        console.log(data)
+        if (data.code == '0') {
+          _this.$message({
+            type: "success",
+            duration: 2000,
+            message: "下移成功!",
+          });
+          _this.getTalkTempleteGroup()
+        } else {
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: data.msg,
+          });
+        }
+      })
+    },
+    itemUp(data) {
+      console.log(data)
+      var _this = this
+      var params = {
+        itemid: data.itemid
+      }
+      api.itemUp(params).then((data) => {
+        console.log(data)
+        if (data.code == '0') {
+          _this.$message({
+            type: "success",
+            duration: 2000,
+            message: "上移成功!",
+          });
+          _this.handleNodeClick(_this.selectTree)
+        } else {
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: data.msg,
+          });
+        }
+      })
+    },
+    itemDown(data) {
+      console.log(data)
+      var _this = this
+      var params = {
+        itemid: data.itemid
+      }
+      api.itemDown(params).then((data) => {
+        console.log(data)
+        if (data.code == '0') {
+          _this.$message({
+            type: "success",
+            duration: 2000,
+            message: "下移成功!",
+          });
+          _this.handleNodeClick(_this.selectTree)
+        } else {
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: data.msg,
+          });
+        }
+      })
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   },
 };
 </script>
@@ -1502,6 +1741,7 @@ export default {
 .eltabs {
   padding: 0rem 0.3rem 0rem;
   font-size: 0.36rem;
+  height: 0.58rem;
   /* border-bottom: 0.1rem solid rgba(244, 244, 244, 1); */
 }
 
@@ -1509,7 +1749,7 @@ export default {
 .personLanguage {
   /* padding: 0rem 0.3rem 0.3rem; */
   display: flex;
-  border: 0.3rem solid rgba(244, 244, 244, 1);
+  border: 0.4rem solid #fff;
   border-top: 0;
 }
 .teamLanguage {
@@ -1518,7 +1758,10 @@ export default {
 .mainBox {
   background: #fff;
   padding: 0.2rem;
-  margin-top: 10px;
+  /* margin-top: 10px; */
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .titleBox {
@@ -1528,21 +1771,38 @@ export default {
 }
 
 ::v-deep .el-dialog__body {
-  padding: 10px 20px 20px;
-  background: #fafafa;
+  padding: 10px 30px 20px;
+  background: #fff;
 }
-
+::v-deep .el-tabs__nav .is-active {
+  color: #dc240f;
+}
+::v-deep .el-tabs__active-bar {
+  background: #dc240f;
+}
 .newAdd {
   display: flex;
   justify-content: left;
   align-items: center;
-  padding: 0.2rem 0.3rem;
-  border: 0.3rem solid #f5f5f5;
-  border-bottom: 2px solid #f5f5f5;
+  padding: 0.1rem 0.3rem;
+  border-top: 0.1rem solid #f5f5f5;
+  border-bottom: 1px solid #fff;
+  /* border-left: 0.4rem solid #FFF; */
+  border-right: 0.4rem solid #fff;
 }
 
 .addpatter {
-  padding-right: 0.3rem;
+  /* padding-right: 0.3rem; */
+  line-height: 0.3rem;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 3px;
+  font-size: 0.14rem;
+  padding: 0 16px;
+  border: 1px solid rgb(220, 36, 15);
+  cursor: pointer;
+  text-align: center;
+  color: #dc220d;
+  display: inline-block;
 }
 
 .newAdd .is-plain:hover {
@@ -1564,8 +1824,11 @@ export default {
   /* border: 1px solid #909399; */
   position: relative;
   overflow: auto;
+  overflow-x: hidden;
 }
-
+::v-deep .el-table__row td:nth-child(1) {
+  background: #fff;
+}
 .teamMain,
 .personMain {
   width: 82%;
@@ -1573,8 +1836,9 @@ export default {
   /* border: 1px solid #909399; */
   position: relative;
   padding: 0;
-  border-left: 0.2rem solid #f5f5f5;
+  border-left: 0.1rem solid #f5f5f5;
   overflow: auto;
+  padding-right: 0.3rem;
 }
 
 ::v-deep .el-input__inner {
@@ -1614,17 +1878,27 @@ export default {
 }
 
 .listMain {
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; */
 }
-
+.listMain div {
+  line-height: 40px;
+  width: 0.8rem;
+  font-size: 0.14rem;
+}
+.zhongjiantab {
+  width: 88%;
+  margin-top: -0.04rem;
+}
 .listMainbox {
   margin-top: 0.15rem;
   background: #fafafa;
   padding: 0.1rem;
 }
-
+.listDelete {
+  line-height: 40px;
+}
 ::v-deep .jinyong .el-upload--picture-card {
   display: none;
 }
@@ -1638,10 +1912,10 @@ export default {
 }
 
 ::v-deep .el-tree-node__content .el-tree-node__label {
-  font-size: 0.18rem;
+  /* font-size: 0.18rem; */
 }
 
-::v-deep .el-tree-node__content {
+::v-deep .productList .el-tree-node__content {
   height: 0.45rem;
 }
 
@@ -1651,6 +1925,9 @@ export default {
 
 ::v-deep .el-cascader {
   width: 100%;
+}
+::v-deep .select-content .el-icon-arrow-down {
+  font-size: 0.16rem;
 }
 
 /* .el-tree-node .el-tree-node__content  .el-tree-node__label */
@@ -1728,9 +2005,7 @@ export default {
   -o-object-fit: cover;
   object-fit: cover;
 }
-</style>
 
-<style>
 .asd .el-tree .el-tree-node .el-tree-node__content .el-tree-node__label {
   font-size: 0.14rem;
 }
@@ -1745,14 +2020,23 @@ export default {
 .el-icon-more {
   /* display: none; */
   transform: rotate(90deg);
+  color: #b9bfc3;
+  font-size: 0.15rem;
+  margin-right: 0.15rem;
 }
-.groupLeft button {
-  border: 0px solid red;
+.crty {
+  font-size: 0.15rem;
+}
+
+/* .groupLeft button {
+  border: 0px ;
   color: #b9bfc3;
 }
 .groupLeft button:hover {
-  color: #b9bfc3;
-}
+  color: #b9bfc3 !important;
+  border-color: transparent !important;
+  background-color: transparent!important;
+} */
 .groupTan li {
   cursor: pointer;
   margin: 0.1rem;
@@ -1781,6 +2065,13 @@ export default {
 }
 .huashuMain {
   padding: 0.1rem;
+  height: 0.85rem;
+  overflow: hidden;
+  text-align: left;
+}
+
+.unhuashuMain {
+  height: unset;
 }
 .huashuMain p {
   text-align: left;
@@ -1790,9 +2081,16 @@ export default {
   text-overflow: ellipsis;
   display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
   -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-  -webkit-line-clamp: 2; /** 显示的行数 **/
+  /** -webkit-line-clamp: 2;显示的行数 **/
   overflow: hidden; /** 隐藏超出的内容 **/
 }
+
+.zhedie {
+  text-align: left;
+  margin-left: 0.1rem;
+  cursor: pointer;
+}
+
 .huashuMain .img_text {
   margin-bottom: 0.1rem;
 }
@@ -1819,5 +2117,98 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
+}
+
+.listMainbox .el-textarea .el-textarea__inner {
+  min-height: 120px !important;
+  /* height: auto!important; */
+}
+::v-deep .listMainbox .el-textarea .el-textarea__inner {
+  min-height: 120px !important;
+}
+.addgroup {
+  margin-left: 0.2rem;
+  cursor: pointer;
+  display: flex;
+  margin-top: 0.15rem;
+}
+
+.addgroup p {
+  height: 0.45rem;
+  line-height: 0.45rem;
+  color: #606266;
+  font-size: 0.14rem;
+}
+.el-button:hover {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.el-icon-circle-plus {
+  line-height: 0.45rem;
+  margin: 0 0.1rem;
+  font-size: 0.2rem;
+  color: #606266;
+}
+.cancel {
+  background: rgb(255, 255, 255);
+  color: rgb(220, 36, 15);
+  border: 0.01rem solid rgb(220, 36, 15);
+}
+
+.selectMain {
+  display: flex;
+  align-items: center;
+}
+
+.selectMain .block {
+  width: 60%;
+}
+
+.selectMain p {
+  width: 0.7rem;
+  /* margin-top: 0.06rem; */
+  margin-right: 0.08rem;
+  font-size: 0.14rem;
+  text-align: right;
+}
+
+table .edit {
+  display: inline-block;
+  margin: 0 0.15rem;
+  color: #4985e5;
+}
+table .declet {
+  display: inline-block;
+  margin: 0 0.15rem;
+  color: #dc220d;
+}
+</style>
+
+
+<style>
+.img_text {
+  display: flex;
+  align-items: center;
+}
+.img_text img,
+.img_text video {
+  width: 0.6rem;
+  height: 0.6rem;
+}
+
+.msgText p {
+  margin-bottom: 0.15rem;
+  text-align: left;
+  /* border-bottom: 1px solid #f5f5f5; */
+}
+
+.tree-lable {
+  width: 1.9rem;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

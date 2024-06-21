@@ -207,7 +207,7 @@
           </div>
         </div>
         <div class="sure-footer" style="padding: 0; justify-content: center">
-          <div class="my-sure" @click="mindMapEnter">确定</div>
+         
           <div class="my-sure" style="
               background: #fff;
               color: #dc240f;
@@ -215,6 +215,7 @@
             " @click="mindMapCancle">
             取消
           </div>
+          <div class="my-sure" @click="mindMapEnter">确定</div>
         </div>
       </div>
     </el-dialog>

@@ -4,8 +4,8 @@
       <div class="add-btn" @click="showAddNoticeDialogVisible">+ 新建</div>
       <div class="search-box clearfix">
         <div class="common-select" style="width: 30%;">
-          <div class="select-title" style="width: 1.28rem">创建时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.28rem); border: none">
+          <div class="select-title" style="width: 1.65rem">创建时间</div>
+          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
@@ -88,8 +88,9 @@
         </div>
       </div>
       <div class="dialog-footer">
-        <div class="search-btn" @click="updateItem">确定</div>
+       
         <div class="search-btn" style="background: #fff;border: 1px solid rgba(221, 221, 221, 1);color: #686868;" @click="hideaddNoticeDialogVisible">取消</div>
+        <div class="search-btn" @click="updateItem">确定</div>
       </div>
     </el-dialog>
   </div>

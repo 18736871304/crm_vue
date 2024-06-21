@@ -113,8 +113,9 @@
                     <el-tree @check="handleCheckChange3" :data="teamDataList2" ref="tree3" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps2" style="padding-right: 0px;">
                     </el-tree>
                     <div class="sure-footer">
-                      <div class="my-sure" @click="my_sure3">确定</div>
+                    
                       <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne3">取消</div>
+                      <div class="my-sure" @click="my_sure3">确定</div>
                     </div>
                   </el-dropdown-menu>
                 </el-dropdown>
@@ -279,8 +280,10 @@
                     <el-tree @check="handleCheckChange2" :data="teamDataList2" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps2" style="padding-right: 0px;">
                     </el-tree>
                     <div class="sure-footer">
-                      <div class="my-sure" @click="my_sure2">确定</div>
+                      <!-- <div class="my-sure" @click="my_sure2">确定</div> -->
+                      
                       <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
+                      <div class="my-sure" @click="my_sure2">确定</div>
                     </div>
                   </el-dropdown-menu>
                 </el-dropdown>
@@ -557,8 +560,9 @@
                   <el-tree @check="handleCheckChange1" :data="teamDataList1" ref="tree1" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps1" style="padding-right: 0px;">
                   </el-tree>
                   <div class="sure-footer">
-                    <div class="my-sure" @click="my_sure1">确定</div>
+                
                     <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne1">取消</div>
+                    <div class="my-sure" @click="my_sure1">确定</div>
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -978,8 +982,10 @@
                   <el-tree @check="handleCheckChange5" :data="teamDataList5" ref="tree5" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps2" style="padding-right: 0px;">
                   </el-tree>
                   <div class="sure-footer">
-                    <div class="my-sure" @click="my_sure5">确定</div>
+                   
+                    
                     <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne5">取消</div>
+                    <div class="my-sure" @click="my_sure5">确定</div>
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>

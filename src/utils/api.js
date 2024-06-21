@@ -237,70 +237,88 @@ function getQwQunTalkData(params) {
   return POST(params, '/crm/qwMan/getQwQunTalkData.do')
 }
 // 获取企业所有的客户
-function getAllcustom(params){
+function getAllcustom(params) {
   return POST(params, '/crm/qwMan/getQwCustomer.do')
 }
 // 获取客户所对应的员工
-function getcustomTouser(params){
+function getcustomTouser(params) {
   return POST(params, '/crm/qwMan/getQwUserByCustomer.do')
 }
 
 // 获取所有的群
-function getAllqun(params){
+function getAllqun(params) {
   return POST(params, '/crm/qwMan/getQunList.do')
 }
 // 获取群中所有的员工
-function getAllqunUser(params){
+function getAllqunUser(params) {
   return POST(params, '/crm/qwMan/getQunMemberList.do')
 }
 
 // 会话消息存档员工 群 统计
-function getQwTj(params){
+function getQwTj(params) {
   return POST(params, '/crm/qwMan/getQwTj.do')
 }
 
 // 查询分组
-function getTalkTempleteGroup(params){
+function getTalkTempleteGroup(params) {
   return POST(params, '/crm/talktemplete/getTalkTempleteGroup.do')
 }
 // 创建分组
-function addTalkTempleteGroup(params){
+function addTalkTempleteGroup(params) {
   return POST(params, '/crm/talktemplete/addTalkTempleteGroup.do')
 }
 // 编辑分组
-function modifyTalkTempleteGroup(params){
+function modifyTalkTempleteGroup(params) {
   return POST(params, '/crm/talktemplete/modifyTalkTempleteGroup.do')
 }
 // 删除分组
-function deleteTalkTempleteGroup(params){
+function deleteTalkTempleteGroup(params) {
   return POST(params, '/crm/talktemplete/deleteTalkTempleteGroup.do')
 }
 // 新建话术库
-function addTalkTempleteContent(params){
+function addTalkTempleteContent(params) {
   return POST(params, '/crm/talktemplete/addTalkTempleteContent.do')
 }
 // 查询话术库
-function getTalkItemList(params){
+function getTalkItemList(params) {
   return POST(params, '/crm/talktemplete/getTalkItemList.do')
 }
 
 // 编辑话术库
-function modifyTalkTempleteContent(params){
+function modifyTalkTempleteContent(params) {
   return POST(params, '/crm/talktemplete/modifyTalkTempleteContent.do')
 }
 // 删除话术库
-function deleteTalkTempleteContent(params){
+function deleteTalkTempleteContent(params) {
   return POST(params, '/crm/talktemplete/deleteTalkTempleteContent.do')
 }
 // 是否是团队长
-function isLeader(params){
+function isLeader(params) {
   return POST(params, '/crm/auth/isLeader.do')
 }
 
 // 解析链接
-function parseUrl(params){
+function parseUrl(params) {
   return POST(params, '/crm/qw/talktemplete/parseUrl.do')
 }
+
+// 解析链接
+function itemUp(params) {
+  return POST(params, '/crm/talktemplete/itemUp.do')
+}
+
+function itemDown(params) {
+  return POST(params, '/crm/talktemplete/itemDown.do')
+}
+
+function groupUp(params) {
+  return POST(params, '/crm/talktemplete/groupUp.do')
+}
+
+function groupDown(params) {
+  return POST(params, '/crm/talktemplete/groupDown.do')
+}
+
 
 
 export default {
@@ -364,5 +382,9 @@ export default {
   modifyTalkTempleteContent,
   deleteTalkTempleteContent,
   isLeader,
-  parseUrl
+  parseUrl,
+  itemUp,
+  itemDown,
+  groupUp,
+  groupDown
 }

@@ -16,8 +16,9 @@
                 :default-expanded-keys="[1]" :props="defaultProps">
               </el-tree>
               <div class="sure-footer">
-                <div class="my-sure" @click="team_sure">确定</div>
+                
                 <div class="my-sure cancel" @click="team_cancel">取消</div>
+                <div class="my-sure" @click="team_sure">确定</div>
               </div>
             </el-dropdown-menu>
           </el-dropdown>

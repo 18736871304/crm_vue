@@ -69,7 +69,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column key="7" align="center" prop="serusername[0]" label="服务人员" width="100">
+        <el-table-column key="7" align="center" prop="serusername[0]" label="服务人员" width="110">
           <template slot-scope="scope">
             <div class="edit option tan_seruser" style="display: flex;justify-content: center;color: #8f9198;">
               <div v-if="scope.row.serusername.length > 1" style="margin-right:2px">
@@ -126,7 +126,7 @@
 
         <el-table-column key="16" align="center" prop="reusername" label="出单业务员" width="100" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="60" align="center" prop='serviceusername' label="服务人员" width="100" :show-overflow-tooltip="true">
+        <el-table-column key="60" align="center" prop='serviceusername' label="服务人员" width="110" :show-overflow-tooltip="true">
         </el-table-column>
 
         <el-table-column key="18" align="center" prop="contno" label="保单号" width="150" :show-overflow-tooltip="true">
@@ -170,7 +170,7 @@
             <a v-else class="edit option" target="_blank" :href="scope.row.policyurl"></a>
           </template>
         </el-table-column>
-        <el-table-column key="32" align="center" label="查看详情" width="100">
+        <el-table-column key="32" align="center" label="查看详情" width="110">
           <template slot-scope="scope">
             <a class="edit option" href="javascript:void(0);" style="color: #4985E5;" @click="showEditPopup(scope.row)">查看详情</a>
           </template>

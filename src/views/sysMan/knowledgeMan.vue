@@ -45,8 +45,9 @@
                 <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree3" show-checkbox node-key="id" :default-expanded-keys="['01', '02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
                 </el-tree>
                 <div class="sure-footer">
-                  <div class="my-sure" @click="my_sure3">确定</div>
+                  
                   <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne3">取消</div>
+                  <div class="my-sure" @click="my_sure3">确定</div>
                 </div>
               </el-dropdown-menu>
             </el-dropdown>
@@ -64,8 +65,9 @@
                 <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree4" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
                 </el-tree>
                 <div class="sure-footer">
-                  <div class="my-sure" @click="my_sure4">确定</div>
+                  
                   <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne4">取消</div>
+                  <div class="my-sure" @click="my_sure4">确定</div>
                 </div>
               </el-dropdown-menu>
             </el-dropdown>
@@ -283,8 +285,9 @@
                   <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree1" show-checkbox node-key="id" :default-expanded-keys="['01', '02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
                   </el-tree>
                   <div class="sure-footer">
-                    <div class="my-sure" @click="my_sure1">确定</div>
+                    
                     <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne1">取消</div>
+                    <div class="my-sure" @click="my_sure1">确定</div>
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -304,8 +307,9 @@
                   <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
                   </el-tree>
                   <div class="sure-footer">
-                    <div class="my-sure" @click="my_sure2">确定</div>
+                    
                     <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
+                    <div class="my-sure" @click="my_sure2">确定</div>
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -354,8 +358,9 @@
 
       </div>
       <div class="dialog-footer" style="margin-top: 0.2rem; padding: 0;">
-        <div class="search-btn" @click="updateCJGitem">确定</div>
+    
         <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="hideaddCJGFIrstVisible">取消</div>
+        <div class="search-btn" @click="updateCJGitem">确定</div>
       </div>
     </el-dialog>
   </div>
@@ -1476,5 +1481,6 @@ export default {
 <style>
 .step-list {
    padding: 0rem;
+   overflow: auto;
 }
 </style>

@@ -8,8 +8,8 @@
         </div>
 
         <p class="add_detele">
-          <span>今日新增 - {{ parentData.addcount }}，</span>
-          <span>今日流失 - {{ parentData.deletecount }}</span>
+          <span>今日新增（{{ parentData.addcount }}） </span>
+          <span>今日流失（{{ parentData.deletecount }}）</span>
         </p>
 
         <div class="select-content" style="margin-top: 0.1rem; ">
@@ -777,6 +777,9 @@ export default {
           if (_this.funhuiValue && lookupdown && lookupdown != '') {
             data.push(lookupdown)
           }
+          data= data.filter(function (num) {
+            return num.msgtype != "revoke";
+          });
           for (var i = 0; i < data.length; i++) {
             var aa = i;
             var upaa = i - 1
@@ -2051,7 +2054,7 @@ export default {
 }
 
 .add_detele {
-  font-size: 0.14rem;
+  font-size: 0.12rem;
   margin: 0.05rem 0;
 }
 

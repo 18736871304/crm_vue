@@ -495,7 +495,7 @@
 
 
     <div class="dialog-footer">
-      <div class="search-btn" @click="insertItem">确定</div>
+   
       <div class="search-btn" style="
             background: #fff;
             border: 1px solid rgba(221, 221, 221, 1);
@@ -503,6 +503,7 @@
           " @click="hideaddNoticeDialogVisible">
         取消
       </div>
+      <div class="search-btn" @click="insertItem">确定</div>
     </div>
 
   </div>

@@ -15,7 +15,9 @@
       <div v-loading="paneloading" style="    margin-top: 1.2rem;">
         <template v-if="qwQunList != ''">
           <div class="staffList staffListBottom" ref="first">
-            <div :class="isfirstselect == item.qunid ? 'selectname staffName' : 'staffName'" v-for="(item, index) of qwQunList" :key="index" :label="item.name" :value="item.qunid" @click="selectFirstName(item)">
+            <div :class="isfirstselect == item.qunid ? 'selectname staffName' : 'staffName'"
+              v-for="(item, index) of qwQunList" :key="index" :label="item.name" :value="item.qunid"
+              @click="selectFirstName(item)">
               <div class="userbox">
                 <img src="../../../static/images/qunavatar.png" alt="" class="avatar" />
                 <div class="pBox">
@@ -48,19 +50,22 @@
           <div class="userbox" style="width:35%">
             <img src="../../../static/images/qunavatar.png" alt="" class="avatar" />
             <div class="pBox" style="width: auto;">
-              <p style="font-size: 0.15rem;">{{ selectfirstName}} - {{  qunNamneNum }} </p>
+              <p style="font-size: 0.15rem;">{{ selectfirstName }} - {{ qunNamneNum }} </p>
             </div>
             <i class="el-icon-user qunUser" @click="openqunDetail"></i>
           </div>
           <div class="select-content chatRightHead" style="width:25%">
             <div class="searchName" style="width: 100%;">
-              <el-input placeholder="搜索消息" @input="searchMsg" v-model="searchMsgValue" clearable suffix-icon="el-icon-search">
+              <el-input placeholder="搜索消息" @input="searchMsg" v-model="searchMsgValue" clearable
+                suffix-icon="el-icon-search">
               </el-input>
             </div>
           </div>
           <div class="common-select" style="width:25%">
             <div class="select-content" style="height: 0.34rem; width: 3.2rem;  border: none">
-              <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" :disabled="dateVale" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions" @change="searchDate" value-format="yyyy-MM-dd">
+              <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right"
+                :disabled="dateVale" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间"
+                end-placeholder="结束时间" :picker-options="pickerOptions" @change="searchDate" value-format="yyyy-MM-dd">
               </el-date-picker>
             </div>
           </div>
@@ -74,7 +79,8 @@
 
         <div class="staffList" ref="list" style="margin-top: 0;  height: calc(100vh - 2.7rem);">
           <template v-if="requestDataList.length > 0 && searchText">
-            <div class='staffName' style="margin-top: 0.2rem;" v-for="item of requestDataList" :key="item.userid" :label="item.username" :value="item.userid">
+            <div class='staffName' style="margin-top: 0.2rem;" v-for="item of requestDataList" :key="item.userid"
+              :label="item.username" :value="item.userid">
               <div>
                 <!-- 聊天记录 开始 -->
                 <div class="userbox_middle" v-if="item.addtime">
@@ -94,19 +100,23 @@
                       {{ item.cusname + item.msgtime }}
                     </div>
                     <div v-else class="timeLeft">{{ item.msgtime }}</div>
+
                     <div style="display: flex;" v-if="item.msgtype == 'text'">
                       <p class="chatContent">{{ item.text }}</p>
                       <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                     </div>
                     <!-- 图片 -->
                     <viewer v-if="item.msgtype == 'image' || item.msgtype == 'emotion'">
-                      <img :src="'https://talk.meihualife.com' + item.text" :key="item.text" class="chatLeftImg" alt="" />
+                      <img :src="'https://talk.meihualife.com' + item.text" :key="item.text" class="chatLeftImg"
+                        alt="" />
                       <span v-if="item.state == 'revoke'" class="revokeRightCss"> 撤销</span>
                     </viewer>
                     <!--语音 -->
                     <div v-if="item.msgtype == 'voice'" style="display: flex;">
                       <div class="chatContent">
-                        <div :class="voiceId == item.seq ? 'chatContent  chatVoice playAudioVoice' : 'chatContent  chatVoice'" @click="playAudio(item)">
+                        <div
+                          :class="voiceId == item.seq ? 'chatContent  chatVoice playAudioVoice' : 'chatContent  chatVoice'"
+                          @click="playAudio(item)">
                           <img src="../../../static/images/voice_left.png" alt="" class="chatVoiceImg">
                           <p>{{ item.play_length }}</p>
                         </div>
@@ -117,7 +127,8 @@
                     <div v-if="item.msgtype == 'voiptext'" style="display: flex;">
                       <div class="chatContent">
                         <div class="chatContent  chatVoice">
-                          <img src="../../../static/images/voice_phone.png" alt="" class="chatVoiceImg" style="width: 35px;">
+                          <img src="../../../static/images/voice_phone.png" alt="" class="chatVoiceImg"
+                            style="width: 35px;">
                           <p>{{ item.play_length }}</p>
                         </div>
                       </div>
@@ -151,7 +162,7 @@
                           <div class="fileMain">
                             <span class="FileTitle">{{ item.title }}</span>
                             <span class="FileSize FileSizeleft">{{ item.description
-                                                            }}</span>
+                              }}</span>
                           </div>
                           <img :src="item.image_url" alt="">
                         </a>
@@ -183,7 +194,8 @@
 
           <!-- 搜索内容 -->
           <template v-else-if="!searchText">
-            <div class='staffName' style="margin-top: 0.2rem;" v-for="item of requestSearchList" :key="item.userid" :label="item.username" :value="item.userid">
+            <div class='staffName' style="margin-top: 0.2rem;" v-for="item of requestSearchList" :key="item.userid"
+              :label="item.username" :value="item.userid">
               <div class="userbox_left">
                 <img v-if="item.from == isqwuserid" :src="selectStaffPhoto" alt="" class="avatar" />
                 <img v-if="item.from == isfirstselect" :src="selectfirstPhoto" alt="" class="avatar" />
@@ -292,7 +304,7 @@ export default {
       secondAllName: [],//所有同事名字
       thirdAllName: [],//所有群聊名字
       requestDataList: [],//聊天记录
-      queryuuid:'',//查询ID
+      queryuuid: '',//查询ID
       teamNameList: [],
 
       SalesmanIdBox: [],
@@ -512,6 +524,7 @@ export default {
           this.selectFirstName(data.qwQunList[0])
         }
         this.pageNumber = this.pageNumber + 1
+        _this.paneloading = false;
       }).catch((err) => {
         _this.paneloading = false;
         console.log(err)
@@ -541,7 +554,7 @@ export default {
       const scrollview = this.$refs['list'];
       scrollview.removeEventListener('scroll', this.handleScroll, true)
       // 请求聊天记录
-      this.queryuuid=''
+      this.queryuuid = ''
       this.requestData(this.isqwuserid, this.isfirstselect, '')
 
       this.qunDetail()
@@ -601,8 +614,8 @@ export default {
       }
 
       if (this.queryuuid != '') {
-                params['queryuuid'] = this.queryuuid
-            }
+        params['queryuuid'] = this.queryuuid
+      }
 
 
 
@@ -614,6 +627,10 @@ export default {
           if (_this.funhuiValue && lookupdown && lookupdown != '') {
             data.push(lookupdown)
           }
+         data= data.filter(function (num) {
+            return num.msgtype != "revoke";
+          });
+         
           for (var i = 0; i < data.length; i++) {
             var aa = i;
             var upaa = i - 1
@@ -632,10 +649,21 @@ export default {
             if (86400 > timestampValue > 300 || 604800 > timestampValue > 86400 || timestampValue > 604800) {
               data[upaa]['addtime'] = data[upaa].msgtime
             }
-            if (data[i].msgtype == "revoke") {
-              data.splice(i, 1)
-            }
-            if (data[i].msgtype == "link") {
+
+
+            // if (data[i].msgtype == "revoke") {
+            //   data.splice(i, 1)
+            //   console.log(data)
+            // }
+
+
+            // console.log(data[i])
+            // if (data[i].msgtype == null) {
+            //   console.log(data[i], i, data.length)
+            //   console.log(data[i].msgtype, i, data.length)
+            // }
+            console.log(data[i].msgtype && data[i].msgtype == "link")
+            if (data[i].msgtype && data[i].msgtype == "link") {
               var fileData = JSON.parse(data[i].text)
               data[i]["link_url"] = fileData.link_url
               data[i]["title"] = fileData.title
@@ -676,10 +704,14 @@ export default {
               data[i]['title'] = chatrecordData.title
               data[i]['play_length'] = chatrecordData.item.length
             }
+
+
+
+
             if (searchmsg && searchmsg != '' && !_this.funhuiValue) {
               _this.requestSearchList.unshift(data[i])
 
-              console.log( _this.requestSearchList)
+              console.log(_this.requestSearchList)
             } else if (_this.funhuiValue) {
               _this.requestDataList.unshift(data[i])//push 数据到数组中
             } else {
@@ -759,7 +791,7 @@ export default {
         this.searchText = false
       }
       this.searchMsgValue = item
-        this.queryuuid = ''
+      this.queryuuid = ''
       this.requestData(this.isqwuserid, this.isfirstselect, '', item)
     }, 1000),
 
@@ -767,7 +799,7 @@ export default {
       this.requestDataList = []
       this.seq = ''
       this.noChathistory = true
-        this.queryuuid = ''
+      this.queryuuid = ''
       this.requestData(this.isqwuserid, this.isfirstselect, '', this.searchMsgValue, this.selectTime)
     }, 1000),
 
@@ -885,7 +917,7 @@ export default {
   font-size: 20px;
 }
 
-::v-deep .el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
+::v-deep .el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
   color: #dc220d;
   background: rgba(244, 244, 244, 1) !important;
   border-left: 0.03rem solid #dc220d;
@@ -1016,7 +1048,7 @@ export default {
   line-height: 0.36rem;
 }
 
-.select-content .el-dropdown-inners > span {
+.select-content .el-dropdown-inners>span {
   width: 1.8rem;
 }
 
@@ -1456,7 +1488,7 @@ export default {
   margin-top: -1px;
 }
 
-::v-deep .select-content .el-date-picker-inners > input {
+::v-deep .select-content .el-date-picker-inners>input {
   height: 0.34rem;
   font-size: 0.14rem;
 }

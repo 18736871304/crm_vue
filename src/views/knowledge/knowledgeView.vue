@@ -26,8 +26,9 @@
                 <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree1" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
                 </el-tree>
                 <div class="sure-footer">
-                  <div class="my-sure" @click="my_sure1">确定</div>
+                 
                   <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne1">取消</div>
+                  <div class="my-sure" @click="my_sure1">确定</div>
                 </div>
               </el-dropdown-menu>
             </el-dropdown>
@@ -45,15 +46,17 @@
                 <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
                 </el-tree>
                 <div class="sure-footer">
-                  <div class="my-sure" @click="my_sure2">确定</div>
+                  
+                
                   <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
+                  <div class="my-sure" @click="my_sure2">确定</div>
                 </div>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
         </div>
         <div class="common-select" v-if="CJGselectValue === '解答疑义'" style="width: 28%">
-          <div class="select-title" style="width: 1.2rem">最后修改时间</div>
+          <div class="select-title" style="width: 1.6rem">最后修改时间</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.2rem); border: none">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd HH:mm:ss" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
@@ -1018,5 +1021,6 @@ export default {
 
 .step-list {
    padding: 0rem;
+   overflow: auto;
 }
 </style>

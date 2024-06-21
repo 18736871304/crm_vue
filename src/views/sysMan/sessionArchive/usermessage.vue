@@ -17,8 +17,9 @@
                                 :default-checked-keys="[1]" :props="defaultProps">
                             </el-tree>
                             <div class="sure-footer">
-                                <div class="my-sure" @click="team_sure">确定</div>
+                                
                                 <div class="my-sure cancel" @click="team_cancel">取消</div>
+                                <div class="my-sure" @click="team_sure">确定</div>
                             </div>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -768,6 +769,9 @@ export default {
                         data.push(lookupdown)
                     }
                     _this.loading = false;
+                    data= data.filter(function (num) {
+            return num.msgtype != "revoke";
+          });
                     for (var i = 0; i < data.length; i++) {
                         var aa = i;
                         var upaa = i - 1
