@@ -446,7 +446,7 @@ export default {
 }
 
 .noticeMan-step-list .item-section label {
-  width: 0.7rem;
+  width: 0.55rem;
   margin-top: 0.06rem;
   margin-right: 0.18rem;
   font-size: 0.14rem;

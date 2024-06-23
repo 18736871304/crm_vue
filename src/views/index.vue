@@ -123,11 +123,12 @@
           </div>
 
         </Form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="iseditDialog = false">取 消</el-button>
-        <el-button type="primary" size="small" @click="editDialog" class="sure_edit">确 定</el-button>
+           <span slot="footer" class="dialog-footer">
+        <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;"   @click="iseditDialog = false">取 消</div>
+        <div  @click="editDialog" class="sure_edit my-sure">确 定</div>
       </span>
+      </div>
+   
     </el-dialog>
 
   </div>
@@ -813,7 +814,7 @@ export default {
 }
 
 .editPassword {
-  padding: 30px 30px 0;
+  padding: 30px 20px;
   color: #606266;
   font-size: 14px;
   word-break: break-all;
@@ -823,18 +824,19 @@ export default {
   height: 0.3rem;
   line-height: 0.3rem;
   font-size: 0.14rem;
+  margin-left: 0.01rem;
   padding-left: 40px !important;
 }
 ::v-deep .editPassword .el-input__icon {
   line-height: 0.3rem;
 }
 .editPassword .demo-input-suffix {
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.15rem;
   font-size: 0.14rem;
 }
 
 .editPassword .demo-input-suffix .el-input {
-  margin-top: 0.1rem;
+  margin-top: 0.08rem;
 }
 
 ::v-deep .editPassword .demo-input-suffix .el-input .el-input__suffix {
@@ -876,3 +878,4 @@ export default {
   line-height: 0.3rem;
 }
 </style>
+

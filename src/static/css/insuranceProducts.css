@@ -472,6 +472,7 @@
   overflow-y: scroll;
   padding-top: 0.1rem;
   padding-left: 0.05rem;
+  overflow: auto;
 }
 
 .step-list .item-section {

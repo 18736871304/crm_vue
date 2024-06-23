@@ -785,11 +785,11 @@ export default {
 }
 
 .el-dialog-box .el-dialog__body {
-  padding-top: 0;
+  /* padding-top: 0; */
 }
 
 .nav-title {
-  margin-top: 0.2rem;
+  /* margin-top: 0.2rem; */
   padding: 0px 5px;
   border-left: 4px solid #dc240f;
 }

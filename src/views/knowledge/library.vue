@@ -1,15 +1,67 @@
 <template>
   <div class="scriptLibrary">
-    <div class="eltabs">
+    <!-- <div class="eltabs">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane v-if="isLeader =='Y'" label="团队话术" name="01"></el-tab-pane>
         <el-tab-pane label="个人话术" name="02"></el-tab-pane>
       </el-tabs>
-    </div>
+    </div> -->
 
-    <div class="newAdd">
-      <div class="addpatter" @click="dialoghuashu = true">
-        <div> + 新建</div>
+    <div class="search-header" style="padding: 0">
+      <div class="search-box clearfix">
+        <el-tabs class="nav" v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane v-if="isLeader =='Y'" label="团队话术" name="01"></el-tab-pane>
+          <el-tab-pane label="个人话术" name="02"></el-tab-pane>
+
+        </el-tabs>
+
+      </div>
+    </div>
+    <div>
+      <div class="newAdd">
+        <div class="addpatter" @click="dialoghuashu = true">
+          <div> + 新建</div>
+        </div>
+        <div class="search-box clearfix"  style="display: none;">
+
+          <div class="common-select">
+            <div class="select-title" style="width: 1.28rem">关键字搜索</div>
+            <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <el-autocomplete class="el-input-inners" v-model="huashuCon" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入关键字"></el-autocomplete>
+            </div>
+          </div>
+          <!-- <div class="fr"  > -->
+          <div class="common-select" v-show="dis_P4_up">
+            <div class="select-title" style="width: 1.28rem">选择团队</div>
+            <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <el-dropdown trigger="click" placement="bottom" ref="disTeam2" style="width: 100%;">
+                <p class="el-dropdown-inners" clearable>
+                  <span>{{ teamNames2 }}</span>
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </p>
+                <el-dropdown-menu class="" slot="dropdown">
+                  <el-tree @check="handleCheckChange2" :data="teamDataList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps">
+                  </el-tree>
+                  <div class="sure-footer">
+
+                    <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
+                    <div class="my-sure" @click="my_sure2">确定</div>
+                  </div>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </div>
+          <div class="common-select" v-show="dis_P4_up">
+            <div class="select-title" style="width: 1.28rem">业务员姓名</div>
+            <div class="select-content" style="width: calc(100% - 1.28rem);border: none">
+              <el-select class="el-select-inners" placeholder="请选择" size="mini" v-model="overviewForm.userid" @change="userNameChange" clearable>
+                <el-option v-for="item in userNameOptions" :key="item.userid" :label="item.username" :value="item.userid">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+
+        </div>
       </div>
 
     </div>
@@ -123,15 +175,15 @@
           <div class="selectMain">
             <p>分组</p>
             <div class="block">
-              <el-cascader v-model="groupValue" :options="options" :props="newDefaultProps" @change="handleChange" placeholder="请选择分组" clearable></el-cascader>
+              <el-cascader v-model="groupValue" :options="options" :props="newDefaultProps" @change="handleChange" placeholder="请选择分组" popper-class="changeSize" clearable></el-cascader>
             </div>
           </div>
-          <div class="selectMain" style="margin-top: 10px">
+          <div class="selectMain">
             <p>标题</p>
             <el-input class="block" v-model="titleCon" placeholder="请输入内容"></el-input>
           </div>
 
-          <div class="selectMain" style="margin-top: 10px" v-if="activeName=='01'">
+          <div class="selectMain" v-if="activeName=='01'">
             <p>话术权限</p>
             <div class="select-content block">
               <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
@@ -155,7 +207,7 @@
         <div v-for="(item, index) in dataList" :key="index">
           <div class="mainBox">
             <div class="listMain">
-              <div>话术内容{{ index + 1 }}</div>
+              <div>内容{{ index + 1 }}</div>
 
             </div>
 
@@ -337,12 +389,13 @@
             <el-input placeholder="请输入子分组名称" v-model="subgroupName" clearable> </el-input>
           </div>
         </div>
+
+        <span slot="footer" class="dialog-footer">
+          <div class="my-sure cancel" @click="group_cencle">取 消</div>
+          <div class="my-sure" type="primary" @click="group_sure">确 定</div>
+        </span>
       </div>
 
-      <span slot="footer" class="dialog-footer">
-        <div class="my-sure cancel" @click="group_cencle">取 消</div>
-        <div class="my-sure" type="primary" @click="group_sure">确 定</div>
-      </span>
     </el-dialog>
 
     <el-dialog title="修改分组" :visible.sync="modifydialogGroup" width="30%" :before-close="handleClose" :close-on-click-modal="false" append-to-body>
@@ -353,13 +406,12 @@
             <el-input placeholder="请输入分组名称" v-model="modifygroupName" clearable> </el-input>
           </div>
         </div>
-
+        <span slot="footer" class="dialog-footer">
+          <div class="my-sure cancel" @click="modifydialogGroup = false">取 消</div>
+          <div class="my-sure" type="primary" @click="modifygroup_sure">确 定</div>
+        </span>
       </div>
 
-      <span slot="footer" class="dialog-footer">
-        <div class="my-sure cancel" @click="modifydialogGroup = false">取 消</div>
-        <div class="my-sure" type="primary" @click="modifygroup_sure">确 定</div>
-      </span>
     </el-dialog>
 
   </div>
@@ -375,6 +427,22 @@ import { getData, getPhoneData, my_url } from "../../static/js/ajax.js";
 export default {
   data() {
     return {
+
+      // 筛选
+      huashuCon: '',
+      dis_P4_up: true,
+      userNameOptions: '',
+      overviewForm: {
+        teamid: '',
+        userid: '',
+        startDate: '',
+        endDate: '',
+        time: '1'
+      },
+      teamNames2: "团队选择",
+      teamList2: '',
+      my_list2: '',
+
       digTitle: '新建 - 团队话术',
       loading: false,
       isLeader: 'Y',//判断是否是团队长
@@ -487,12 +555,85 @@ export default {
   mounted() {
     this.teamLedar()
     this.yewu();
-    window.openSmall = this.openSmall;
+    // window.openSmall = this.openSmall;
   },
   watch: {
 
   },
   methods: {
+    // 查询内容
+    // 传content内容搜索
+    // teampermission，团队搜索
+    createFilter(queryString) {
+      return (SalesmanBox) => {
+        return (SalesmanBox.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+      };
+    },
+    querySearch(queryString, cb) {
+      var SalesmanBox = this.SalesmanBox;
+      var results = queryString ? SalesmanBox.filter(this.createFilter(queryString)) : SalesmanBox;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    handleCheckChange2(data, checked, indeterminate) {
+      let teamListName = [];
+      checked.checkedNodes.forEach(function (item) {
+        teamListName.push(item.label)
+      })
+      this.my_list2 = teamListName.join(',');
+      this.teamList2 = (checked.checkedKeys).join(',');
+      this.overviewForm.teamid = this.teamList2;
+    },
+    my_sureOne2() {
+      this.$refs.disTeam2.hide();
+      this.my_list2 = '';
+      this.teamList2 = '';
+      this.teamNames2 = "团队选择";
+      this.overviewForm.teamid = '';
+      this.$refs.tree2.setCheckedKeys([]);
+      this.queryflag = true;
+      // this.search();
+      // this.refresh();
+    },
+    my_sure2() {
+      let _this = this;
+      this.$refs.disTeam2.hide();
+
+      console.log(this.my_list2)
+
+      if (this.my_list2 == null || this.my_list2 == '' || this.my_list2 == '1') {
+        this.queryflag = true;
+        this.queryflagString = "01"
+      } else {
+        console.log(this.my_list2)
+        this.teamNames2 = this.my_list2;
+        this.queryflag = false;
+        this.queryflagString = "02"
+      }
+
+      // this.search();
+      // this.refresh();
+      //获取业务员列表
+      getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
+        _this.userNameOptions = data.namelist
+      }, {
+        teamid: this.teamList2
+      });
+    },
+
+
+    userNameChange() {
+      this.queryflag = false;
+      this.queryflagString = "02"
+      // this.search();
+      // this.refresh();
+    },
+
+
+
+
+
+
     //是否是团队账长isLeader
     teamLedar() {
       var _this = this
@@ -537,11 +678,16 @@ export default {
           }
 
         } else {
-          _this.$message({
-            type: "error",
-            duration: 2000,
-            message: data.msg,
-          });
+          if (data.msg == '还没有定义话术组') {
+
+          } else {
+            _this.$message({
+              type: "error",
+              duration: 2000,
+              message: data.msg,
+            });
+          }
+
         }
         this.loading = false
       })
@@ -750,7 +896,7 @@ export default {
           if (fileType == "pdf") {
             data.refilepath = "https://crm.meihualife.com/images/pdf.jpg";
           } else {
-          console.log(data.refilepath)
+            console.log(data.refilepath)
             data.refilepath = data.refilepath.slice(9);
           }
 
@@ -1116,6 +1262,8 @@ export default {
       var parms = {
         groupid: data.groupid,
         groupidStr: groupidStr + data.groupid,
+        // teampermission:this.teamList2,
+        // content:this.huashuCon
       }
       api.getTalkItemList(parms).then((data) => {
         if (data.rows.length > 0) {
@@ -1224,12 +1372,17 @@ export default {
       // 赋值标题
       this.titleCon = item.title
       // 赋值权限
-
+  
       this.quanxian = item.teampermission
-      if (this.activeName == '01') {
-        this.$refs.tree.setCheckedKeys((item.teampermission).split(','));
+    
+      if (item.teampermission ) {
+        console.log(item.teampermission)
+        if (this.activeName == '01') {
+          this.$refs.tree.setCheckedKeys((item.teampermission).split(','));
+        }
+        this.teamNames = item.teampermission_names
       }
-      this.teamNames = item.teampermission_names
+
 
       this.dataList = []
       for (var i = 0; i < item.talkContent.length; i++) {
@@ -1598,20 +1751,20 @@ export default {
       })
 
     },
-    openSmall(data) {
-      console.log(data)
-      var speechList = this.speechList
-      speechList.forEach(item => {
-        var arr = item.talkContent
-        arr.forEach(obj => {
-          if (obj.contentid == data.contentid) {
-            console.log(data)
-            console.log(obj)
-            obj.isopen = !obj.isopen
-          }
-        })
-      })
-    },
+    // openSmall(data) {
+    //   console.log(data)
+    //   var speechList = this.speechList
+    //   speechList.forEach(item => {
+    //     var arr = item.talkContent
+    //     arr.forEach(obj => {
+    //       if (obj.contentid == data.contentid) {
+    //         console.log(data)
+    //         console.log(obj)
+    //         obj.isopen = !obj.isopen
+    //       }
+    //     })
+    //   })
+    // },
 
 
     //   itemUp,
@@ -1742,14 +1895,14 @@ export default {
   padding: 0rem 0.3rem 0rem;
   font-size: 0.36rem;
   height: 0.58rem;
-  /* border-bottom: 0.1rem solid rgba(244, 244, 244, 1); */
 }
 
 .teamLanguage,
 .personLanguage {
-  /* padding: 0rem 0.3rem 0.3rem; */
   display: flex;
-  border: 0.4rem solid #fff;
+  /* border: 0.4rem solid #fff; */
+  padding: 30px 20px;
+
   border-top: 0;
 }
 .teamLanguage {
@@ -1757,8 +1910,7 @@ export default {
 
 .mainBox {
   background: #fff;
-  padding: 0.2rem;
-  /* margin-top: 10px; */
+  padding-top: 0.2rem;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -1766,12 +1918,11 @@ export default {
 
 .titleBox {
   background: #fff;
-  padding: 0.2rem;
-  /* margin-top: 10px; */
+  font-size: 0.14rem;
 }
 
 ::v-deep .el-dialog__body {
-  padding: 10px 30px 20px;
+  padding: 30px 20px;
   background: #fff;
 }
 ::v-deep .el-tabs__nav .is-active {
@@ -1781,14 +1932,10 @@ export default {
   background: #dc240f;
 }
 .newAdd {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  padding: 0.1rem 0.3rem;
-  border-top: 0.1rem solid #f5f5f5;
+  padding: 30px 20px;
   border-bottom: 1px solid #fff;
-  /* border-left: 0.4rem solid #FFF; */
   border-right: 0.4rem solid #fff;
+  padding-bottom: 0;
 }
 
 .addpatter {
@@ -1836,11 +1983,17 @@ export default {
   /* border: 1px solid #909399; */
   position: relative;
   padding: 0;
-  border-left: 0.1rem solid #f5f5f5;
+  border-left: 1px solid #f5f5f5;
   overflow: auto;
   padding-right: 0.3rem;
 }
-
+::v-deep .el-tabs__item {
+  font-size: 0.14rem;
+}
+::v-deep .zhongjiantab .el-tabs__item {
+  font-size: 0.14rem;
+  line-height: 40px;
+}
 ::v-deep .el-input__inner {
   /* -webkit-appearance: none; */
   background-color: #fff;
@@ -1849,7 +2002,7 @@ export default {
   box-sizing: border-box;
   color: #606266;
   display: inline-block;
-  font-size: inherit;
+  font-size: 0.14rem;
   height: 35px;
   line-height: 35px;
   outline: 0;
@@ -1878,18 +2031,21 @@ export default {
 }
 
 .listMain {
-  /* display: flex;
+  margin-right: 0.08rem;
+  /*  
+   display: flex;  
   justify-content: space-between;
   align-items: center; */
 }
 .listMain div {
   line-height: 40px;
-  width: 0.8rem;
+  width: 0.55rem;
   font-size: 0.14rem;
+  text-align: right;
 }
 .zhongjiantab {
-  width: 88%;
-  margin-top: -0.04rem;
+  width: 92%;
+  /* margin-top: -0.04rem; */
 }
 .listMainbox {
   margin-top: 0.15rem;
@@ -1940,7 +2096,10 @@ export default {
   width: 100%;
   height: 35px;
 }
-
+.search-box .select-content .el-dropdown-inners {
+  height: unset;
+  border: 0;
+}
 .imgupload,
 .pdfupload,
 .videoupload {
@@ -2130,7 +2289,6 @@ export default {
   margin-left: 0.2rem;
   cursor: pointer;
   display: flex;
-  margin-top: 0.15rem;
 }
 
 .addgroup p {
@@ -2166,7 +2324,7 @@ export default {
 }
 
 .selectMain p {
-  width: 0.7rem;
+  width: 0.55rem;
   /* margin-top: 0.06rem; */
   margin-right: 0.08rem;
   font-size: 0.14rem;
@@ -2182,6 +2340,29 @@ table .declet {
   display: inline-block;
   margin: 0 0.15rem;
   color: #dc220d;
+}
+
+.nav {
+  height: 0.58rem;
+  width: 40%;
+  padding-left: 0.4rem;
+  background-color: #fff;
+  float: left;
+}
+
+.nav .el-tabs__active-bar {
+  background-color: #dc240f;
+}
+
+.nav .el-tabs__item {
+  font-size: 0.14rem;
+  height: 0.58rem;
+  line-height: 0.58rem;
+  color: #979797;
+}
+
+.nav .el-tabs__item.is-active {
+  color: #dc240f;
 }
 </style>
 
@@ -2210,5 +2391,12 @@ table .declet {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+.block {
+  margin-top: 0.08rem;
+}
+
+.changeSize .el-cascader-node__label {
+  font-size: 0.14rem;
 }
 </style>

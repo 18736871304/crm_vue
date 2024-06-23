@@ -433,7 +433,7 @@
     line-height: 24px;
     font-size: 0.18rem;
     color: #282828;
-    margin-left: 0.24rem;
+    margin-left:20px;
 }
 
 .el-dialog__headerbtn {
@@ -721,6 +721,7 @@
     max-height: 700px;
     overflow-y: scroll;
     font-size: 0.12rem;
+    overflow: auto;
 }
 
 .step-list .item-section {
@@ -728,7 +729,7 @@
 }
 
 .step-list .item-section label {
-    width: 0.7rem;
+    width: 0.55rem;
     margin-top: 0.06rem;
     margin-right: 0.08rem;
     font-size: 0.12rem;
@@ -967,6 +968,7 @@
 }
 
 .wei-step-list {
+    padding: 0;
     max-height: none;
     overflow: hidden;
 }
@@ -1247,7 +1249,7 @@
 .dateTime .cancel,
 .dateTime .determine {
     width: 0.5rem;
-    height: 0.25rem;
+    /* height: 0.25rem; */
     border: 1px solid rgba(221, 221, 221, 1);
     text-align: center;
     line-height: 0.25rem;

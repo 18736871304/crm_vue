@@ -261,7 +261,8 @@ function getQwTj(params) {
 
 // 查询分组
 function getTalkTempleteGroup(params) {
-  return POST(params, '/crm/talktemplete/getTalkTempleteGroup.do')
+  // return POST(params, '/crm/talktemplete/getTalkTempleteGroup.do')
+  return POST(params, '/crm/talktemplete/getAllTalkTempleteGroup.do')
 }
 // 创建分组
 function addTalkTempleteGroup(params) {

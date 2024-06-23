@@ -26,12 +26,15 @@
 
           </div>
         </div>
+
+        
         <div class="common-select">
           <div class="select-title" style="width: 1.28rem">关键字搜索</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
             <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入关键字"></el-autocomplete>
           </div>
         </div>
+
 
         <div class="common-select" v-if="false">
           <div class="select-title" style="width: 1.28rem">跟进步骤</div>
@@ -357,7 +360,7 @@
         </div>
 
       </div>
-      <div class="dialog-footer" style="margin-top: 0.2rem; padding: 0;">
+      <div class="dialog-footer" style="margin-top: 0.2rem; ">
     
         <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="hideaddCJGFIrstVisible">取消</div>
         <div class="search-btn" @click="updateCJGitem">确定</div>

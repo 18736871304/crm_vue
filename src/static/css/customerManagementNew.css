@@ -365,6 +365,7 @@ overflow: hidden;
   max-height: 700px;
   overflow-y: scroll;
   font-size: 0.14rem;
+  overflow: auto;
 }
 
 .step-list .item-section {
@@ -372,7 +373,7 @@ overflow: hidden;
 }
 
 .step-list .item-section label {
-  width: 0.7rem;
+  width: 0.55rem;
   margin-top: 0.06rem;
   margin-right: 0.08rem;
   font-size: 0.14rem;
