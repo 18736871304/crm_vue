@@ -38,7 +38,7 @@
       <el-table :data="tableData" border style="width: 100%">
         <el-table-column align="center" type="index" label="序号">
         </el-table-column>
-        <el-table-column align="center" sortable prop="makedate" label="创建时间" width="150px">
+        <el-table-column align="center" sortable prop="makedate" label="创建时间" width="155">
         </el-table-column>
         <el-table-column align="center" prop="oprname" label="创建人" width="120px">
         </el-table-column>
@@ -446,9 +446,9 @@ export default {
 }
 
 .noticeMan-step-list .item-section label {
-  width: 0.55rem;
+  width: 0.75rem;
   margin-top: 0.06rem;
-  margin-right: 0.18rem;
+  margin-right: 0.08rem;
   font-size: 0.14rem;
 }
 

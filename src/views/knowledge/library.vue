@@ -12,9 +12,7 @@
         <el-tabs class="nav" v-model="activeName" @tab-click="handleClick">
           <el-tab-pane v-if="isLeader =='Y'" label="团队话术" name="01"></el-tab-pane>
           <el-tab-pane label="个人话术" name="02"></el-tab-pane>
-
         </el-tabs>
-
       </div>
     </div>
     <div>
@@ -22,14 +20,8 @@
         <div class="addpatter" @click="dialoghuashu = true">
           <div> + 新建</div>
         </div>
-        <div class="search-box clearfix"  style="display: none;">
+        <div class="search-box clearfix" style="display: block;">
 
-          <div class="common-select">
-            <div class="select-title" style="width: 1.28rem">关键字搜索</div>
-            <div class="select-content" style="width: calc(100% - 1.28rem);">
-              <el-autocomplete class="el-input-inners" v-model="huashuCon" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入关键字"></el-autocomplete>
-            </div>
-          </div>
           <!-- <div class="fr"  > -->
           <div class="common-select" v-show="dis_P4_up">
             <div class="select-title" style="width: 1.28rem">选择团队</div>
@@ -43,7 +35,6 @@
                   <el-tree @check="handleCheckChange2" :data="teamDataList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps">
                   </el-tree>
                   <div class="sure-footer">
-
                     <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
                     <div class="my-sure" @click="my_sure2">确定</div>
                   </div>
@@ -51,7 +42,7 @@
               </el-dropdown>
             </div>
           </div>
-          <div class="common-select" v-show="dis_P4_up">
+          <div class="common-select" v-if="dis_P4_up&& activeName=='02'">
             <div class="select-title" style="width: 1.28rem">业务员姓名</div>
             <div class="select-content" style="width: calc(100% - 1.28rem);border: none">
               <el-select class="el-select-inners" placeholder="请选择" size="mini" v-model="overviewForm.userid" @change="userNameChange" clearable>
@@ -59,6 +50,17 @@
                 </el-option>
               </el-select>
             </div>
+          </div>
+          <div class="common-select">
+            <div class="select-title" style="width: 1.28rem">关键字搜索</div>
+            <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <el-input class="el-input-inners" v-model="huashuCon" size="mini" placeholder="请输入关键字" clearable></el-input>
+            </div>
+          </div>
+
+          <div class="common-select" style="float: right;width: 11.5%;">
+            <div class="search-btn" @click="getAllTalkTempleteGroup">搜索</div>
+            <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
           </div>
 
         </div>
@@ -105,7 +107,7 @@
                
                 <div class='msgText' v-if="item.type=='text'">
                   <p class=' ' v-html="item.text"> </p>
-                  <div class='zhedie' @click='openSmall(item)'>
+                  <div class='zhedi e' @click='openSmall(item)'>
                     <span>展开</span>
                     <i class='el-icon-arrow-down'></i>
                   </div>
@@ -265,16 +267,56 @@
                   <div style="margin-bottom: 0.15rem">
                     <el-input placeholder="请输入内容" @input="imgTextSelect(item,index)" v-model="item.imgText.text" clearable> </el-input>
                   </div>
-                  <div v-if="item.imgText.title">
-                    <div class="recordFile">
-                      <div class="fileMain">
-                        <span class="FileTitle">{{ item.imgText.title }}</span>
-                        <span class="FileSize FileSizeleft">{{ item.imgText.desc }}</span>
-                      </div>
-                      <img :src="item.imgText.imgUrl" alt="" />
 
+                  <div v-if="item.imgText.title">
+                    <div class="selectMain">
+                      <p>图文标题</p>
+                      <el-input class="block" v-model="item.imgText.title" placeholder="请输入标题内容"></el-input>
                     </div>
+                    <div class="selectMain">
+                      <p>图文描述</p>
+                      <el-input class="block" v-model="item.imgText.desc" placeholder="请输入描述内容"></el-input>
+                    </div>
+                    <div class="selectMain">
+                      <p>图文封面</p>
+                      <div class="imgupload" style="margin-top: 0.08rem;">
+                        <el-upload accept="image/*" action="#" ref="imgupload" list-type="picture-card" :auto-upload="false" :limit="1" :file-list="item.imgText.uploadFilePath" :on-change="
+                      (file) => { return imgTextSaveToUrl(file,index); } " :class="item.imgText.num =='1' ? 'pdfjinyong' : ''">
+                          <i slot="default" class="el-icon-plus"></i>
+
+                          <div slot="file" slot-scope="{ file }">
+                            <img class="el-upload-list__item-thumbnail" :src="'https://crm.meihualife.com/'+item.imgText.imgUrl" alt="" />
+                            <span class="el-upload-list__item-actions">
+                              <span class="el-upload-list__item-preview" @click="handleimgTextview(item,index)">
+                                <i class="el-icon-zoom-in"></i>
+                              </span>
+                              <span v-if="item.imgText.num!=''" class="el-upload-list__item-delete" @click="handleimgTextRemove(item,index)">
+                                <i class="el-icon-delete"></i>
+                              </span>
+                            </span>
+                          </div>
+                        </el-upload>
+
+                        <el-dialog :visible.sync="item.imgText.dialogVisible" append-to-body>
+                          <img width="100%" :src="'https://crm.meihualife.com/'+item.imgText.imgUrl" alt="" />
+                        </el-dialog>
+                      </div>
+                    </div>
+                    <div v-if="item.imgText.title">
+                      <div class="recordFile">
+                        <div class="fileMain">
+                          <span class="FileTitle">{{ item.imgText.title }}</span>
+                          <span class="FileSize FileSizeleft">{{ item.imgText.desc }}</span>
+                        </div>
+
+                        <img v-if="item.imgText.imgUrl.slice(0, 13) == 'crmfileupload'"    :src="'https://crm.meihualife.com/'+item.imgText.imgUrl" alt="" style="margin-left:0.1rem" />
+                        <img :src="item.imgText.imgUrl" v-else alt="" style="margin-left:0.1rem" />
+
+                      </div>
+                    </div>
+
                   </div>
+
                 </div>
               </el-tab-pane>
 
@@ -354,6 +396,13 @@
             </el-tabs>
             <div class="listDelete" @click="clickDelete(index)">
               <i class="el-icon-delete"></i>
+            </div>
+
+            <div class="listDelete" @click="clickup(index)">
+              <i class="el-icon-upload2"></i>
+            </div>
+            <div class="listDelete" @click="clickDown(index)">
+              <i class="el-icon-download"></i>
             </div>
 
           </div>
@@ -497,6 +546,9 @@ export default {
             desc: "",
             title: "",
             imgUrl: "",
+            num: "",
+            uploadFilePatht: [],
+            dialogVisible: false,
           },
           pdf: {
             uploadFilePath: [],
@@ -561,20 +613,19 @@ export default {
 
   },
   methods: {
-    // 查询内容
-    // 传content内容搜索
-    // teampermission，团队搜索
-    createFilter(queryString) {
-      return (SalesmanBox) => {
-        return (SalesmanBox.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
-      };
+    // 重置筛选项
+    reset() {
+      this.my_sureOne2();
+      this.overviewForm = {
+        teamid: '',
+        userid: '',
+        startDate: '',
+        endDate: '',
+        time: '1'
+      }
+      this.huashuCon = ''
     },
-    querySearch(queryString, cb) {
-      var SalesmanBox = this.SalesmanBox;
-      var results = queryString ? SalesmanBox.filter(this.createFilter(queryString)) : SalesmanBox;
-      // 调用 callback 返回建议列表的数据
-      cb(results);
-    },
+
     handleCheckChange2(data, checked, indeterminate) {
       let teamListName = [];
       checked.checkedNodes.forEach(function (item) {
@@ -592,14 +643,14 @@ export default {
       this.overviewForm.teamid = '';
       this.$refs.tree2.setCheckedKeys([]);
       this.queryflag = true;
-      // this.search();
+      this.getAllTalkTempleteGroup();
       // this.refresh();
     },
     my_sure2() {
       let _this = this;
       this.$refs.disTeam2.hide();
 
-      console.log(this.my_list2)
+
 
       if (this.my_list2 == null || this.my_list2 == '' || this.my_list2 == '1') {
         this.queryflag = true;
@@ -610,9 +661,11 @@ export default {
         this.queryflag = false;
         this.queryflagString = "02"
       }
-
-      // this.search();
+      console.log(this.my_list2)
+      console.log(this.overviewForm.teamid)
+      this.getAllTalkTempleteGroup();
       // this.refresh();
+
       //获取业务员列表
       getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
         _this.userNameOptions = data.namelist
@@ -625,6 +678,7 @@ export default {
     userNameChange() {
       this.queryflag = false;
       this.queryflagString = "02"
+      this.getAllTalkTempleteGroup()
       // this.search();
       // this.refresh();
     },
@@ -644,7 +698,7 @@ export default {
           } else {
             _this.activeName = '02'
           }
-          _this.getTalkTempleteGroup()
+          _this.getAllTalkTempleteGroup()
           _this.isLeader = data.isLeader
         }
 
@@ -655,20 +709,34 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event)
       console.log(tab._props.label)
+
       this.digTitle = '新建 - ' + tab._props.label
       this.options = []
       this.groupOptions = []
       this.speechList = []
-      this.getTalkTempleteGroup()
+      this.getAllTalkTempleteGroup()
+      this.reset()
     },
     // 查询分组
-    getTalkTempleteGroup() {
+    getAllTalkTempleteGroup() {
       this.loading = true
       var _this = this
       var params = {
         grouptype: this.activeName,
       }
-      api.getTalkTempleteGroup(params).then((data) => {
+      if (this.activeName == '01' && this.overviewForm.teamid != '') {
+        params['teamIdStr'] = this.overviewForm.teamid
+      }
+      if (this.activeName == '02' && this.overviewForm.userid != '') {
+        params['userIdStr'] = this.overviewForm.userid
+      }
+      if (this.activeName == '02' && this.overviewForm.teamid != '' && this.overviewForm.userid == '') {
+        this.loading = false
+        return
+      }
+
+
+      api.getAllTalkTempleteGroup(params).then((data) => {
         if (data.code == '0') {
           _this.options = data.talkTempleteGroup
           _this.groupOptions = data.talkTempleteGroup
@@ -679,6 +747,9 @@ export default {
 
         } else {
           if (data.msg == '还没有定义话术组') {
+
+            _this.options = []
+            _this.speechList = []
 
           } else {
             _this.$message({
@@ -737,7 +808,7 @@ export default {
                 });
                 _this.subgroupName = '',
                   _this.groupName = '',
-                  _this.getTalkTempleteGroup()
+                  _this.getAllTalkTempleteGroup()
               }
 
             })
@@ -750,7 +821,7 @@ export default {
             });
             _this.subgroupName = '',
               _this.groupName = '',
-              _this.getTalkTempleteGroup()
+              _this.getAllTalkTempleteGroup()
           }
         }
       });
@@ -786,7 +857,7 @@ export default {
             message: "修改成功!",
           });
 
-          _this.getTalkTempleteGroup()
+          _this.getAllTalkTempleteGroup()
         }
       })
     },
@@ -805,7 +876,7 @@ export default {
               duration: 2000,
               message: "删除成功!",
             });
-            _this.getTalkTempleteGroup()
+            _this.getAllTalkTempleteGroup()
           } else {
             _this.$message({
               type: "error",
@@ -848,6 +919,9 @@ export default {
           desc: "",
           title: "",
           imgUrl: "",
+          uploadFilePatht: [],
+          dialogVisible: false,
+          num: "",
         },
         pdf: {
           uploadFilePath: [],
@@ -907,6 +981,12 @@ export default {
           _this.dataList[index][fileType].uploadFilePath.push(data)
           _this.dataList[index][fileType]["file"] = data;
           _this.dataList[index][fileType].num = 1;
+
+          if (fileType == "imgText") {
+            _this.dataList[index][fileType].imgUrl = _this.dataList[index][fileType].file.refilepath
+          }
+
+          console.log(_this.dataList[index][fileType])
           _this.$message({
             type: "success",
             duration: 2000,
@@ -966,6 +1046,8 @@ export default {
       this.dataList[index].image.dialogVisible = true;
     },
 
+
+
     // 上传PDF
     pdfSaveToUrl(file, index) {
       this.uploadfile(file.raw, "pdf", index);
@@ -999,6 +1081,35 @@ export default {
         console.log("地址输入错误");
       }
     },
+
+
+
+    // 删除上传图文img
+    handleimgTextRemove(file, index) {
+      let filelist = this.$refs.imgupload[index].uploadFiles;
+      let indexaa = filelist.findIndex((fileItem) => {
+        return fileItem.uid === file.uid;
+      });
+      filelist.splice(indexaa, 1);
+      this.dataList[index].imgText.file = {};
+      this.dataList[index].imgText.imgUrl = "";
+      this.dataList[index].imgText.num = "";
+      this.dataList[index].imgText.uploadFilePath = [];
+      this.dataList[index].imgText.dialogVisible = false;
+    },
+    // 上传图文封面
+    imgTextSaveToUrl(file, index) {
+      this.uploadfile(file.raw, "imgText", index);
+
+    },
+    // 放大图片
+    handleimgTextview(file, index) {
+      this.dataList[index].imgText.dialogVisible = true;
+    },
+
+
+
+
 
     // 上传视频
     videoSaveToUrl(file, index) {
@@ -1066,6 +1177,9 @@ export default {
           desc: "",
           title: "",
           imgUrl: "",
+          num: "",
+          uploadFilePatht: [],
+          dialogVisible: false,
         },
         pdf: {
           uploadFilePath: [],
@@ -1178,7 +1292,7 @@ export default {
               message: "新建话术成功",
             });
             _this.dialoghuashu = false
-            _this.getTalkTempleteGroup()
+            _this.getAllTalkTempleteGroup()
             _this.data_cencle()
           } else {
             _this.$message({
@@ -1263,7 +1377,9 @@ export default {
         groupid: data.groupid,
         groupidStr: groupidStr + data.groupid,
         // teampermission:this.teamList2,
-        // content:this.huashuCon
+        content: this.huashuCon,
+        pageNumber: 1,
+        pageSize: 1000,
       }
       api.getTalkItemList(parms).then((data) => {
         if (data.rows.length > 0) {
@@ -1290,7 +1406,13 @@ export default {
                 } else if (arrchild[j].type == 'img-txt') {
                   arrchild[j]['msgType'] = '图文'
                   var objdata = JSON.parse(arrchild[j].text)
-                  dd += "<div class ='img_text'> <img src='" + objdata.imgUrl + "' alt=''>  <div class ='imgTxt'>  <p>" + objdata.title + "</p><p>" + objdata.desc + "</p> </div></div>  </div>"
+
+                  var srcUrl=objdata.imgUrl
+                  if(srcUrl.slice(0, 13) == 'crmfileupload'){
+                    srcUrl='https://crm.meihualife.com/'+srcUrl
+                  }
+
+                  dd += "<div class ='img_text'> <img src='" + srcUrl + "' alt=''>  <div class ='imgTxt'>  <p>" + objdata.title + "</p><p>" + objdata.desc + "</p> </div></div>  </div>"
                 } else if (arrchild[j].type == 'image') {
                   arrchild[j]['msgType'] = '图片'
                   dd += "<div class ='img_text'> <img src='https://crm.meihualife.com" + arrchild[j].dispath + "' alt=''><p>" + arrchild[j].text + "'</p> </div>"
@@ -1372,10 +1494,10 @@ export default {
       // 赋值标题
       this.titleCon = item.title
       // 赋值权限
-  
+
       this.quanxian = item.teampermission
-    
-      if (item.teampermission ) {
+
+      if (item.teampermission) {
         console.log(item.teampermission)
         if (this.activeName == '01') {
           this.$refs.tree.setCheckedKeys((item.teampermission).split(','));
@@ -1411,6 +1533,9 @@ export default {
                 desc: "",
                 title: "",
                 imgUrl: "",
+                num: "",
+                uploadFilePatht: [],
+                dialogVisible: false,
               },
               pdf: {
                 uploadFilePath: [],
@@ -1461,6 +1586,9 @@ export default {
               desc: "",
               title: "",
               imgUrl: "",
+              num: "",
+              uploadFilePatht: [],
+              dialogVisible: false,
             },
             pdf: {
               uploadFilePath: [],
@@ -1496,7 +1624,7 @@ export default {
               imgmain: "",
               dialogVisible: false,
               disabled: false,
-              num: 1,
+              num: '',
               file: {
                 refilepath: "",
                 size: "",
@@ -1508,7 +1636,10 @@ export default {
               text: JSON.parse(itemMain.text).text,
               desc: JSON.parse(itemMain.text).desc,
               title: JSON.parse(itemMain.text).title,
-              imgUrl: JSON.parse(itemMain.text).imgUrl
+              imgUrl: JSON.parse(itemMain.text).imgUrl,
+              num: '',
+              uploadFilePatht: [],
+              dialogVisible: false,
             },
             pdf: {
               uploadFilePath: [],
@@ -1557,6 +1688,9 @@ export default {
               desc: "",
               title: "",
               imgUrl: "",
+              num: "",
+              uploadFilePatht: [],
+              dialogVisible: false,
             },
             pdf: {
               uploadFilePath: [],
@@ -1604,6 +1738,9 @@ export default {
               desc: "",
               title: "",
               imgUrl: "",
+              num: "",
+              uploadFilePatht: [],
+              dialogVisible: false,
             },
             pdf: {
               uploadFilePath: [itemMain],
@@ -1786,7 +1923,7 @@ export default {
             duration: 2000,
             message: "上移成功!",
           });
-          _this.getTalkTempleteGroup()
+          _this.getAllTalkTempleteGroup()
         } else {
           _this.$message({
             type: "error",
@@ -1810,7 +1947,7 @@ export default {
             duration: 2000,
             message: "下移成功!",
           });
-          _this.getTalkTempleteGroup()
+          _this.getAllTalkTempleteGroup()
         } else {
           _this.$message({
             type: "error",
@@ -1873,15 +2010,45 @@ export default {
 
 
 
+    clickDown(index) {
+
+      var arr = ["image", "imgText", "mainType", "pdf", "video", "wenzimain"]
+      if (index + 1 < this.dataList.length) {
+        for (let i = 0; i < arr.length; i++) {
+          var item = this.dataList[index][arr[i]];
+          this.dataList[index][arr[i]] = this.dataList[index + 1][arr[i]];
+          this.dataList[index + 1][arr[i]] = item;
+        }
+
+      } else {
+        this.$message({
+          type: "error",
+          duration: 2000,
+          message: '已经是最下面的一个了',
+        });
+      }
 
 
+    },
+    clickup(index) {
+      console.log(index)
+      console.log(this.dataList)
+      var arr = ["image", "imgText", "mainType", "pdf", "video", "wenzimain"]
+      if (index > 0) {
+        for (let i = 0; i < arr.length; i++) {
+          var item = this.dataList[index][arr[i]];
+          this.dataList[index][arr[i]] = this.dataList[index - 1][arr[i]];
+          this.dataList[index - 1][arr[i]] = item;
+        }
+      } else {
+        this.$message({
+          type: "error",
+          duration: 2000,
+          message: "已经是最上面的一个了",
+        });
 
-
-
-
-
-
-
+      }
+    },
   },
 };
 </script>
@@ -1901,7 +2068,7 @@ export default {
 .personLanguage {
   display: flex;
   /* border: 0.4rem solid #fff; */
-  padding: 30px 20px;
+  padding: 0.3rem;
 
   border-top: 0;
 }
@@ -1932,7 +2099,7 @@ export default {
   background: #dc240f;
 }
 .newAdd {
-  padding: 30px 20px;
+  padding: 0.3rem;
   border-bottom: 1px solid #fff;
   border-right: 0.4rem solid #fff;
   padding-bottom: 0;
@@ -2027,7 +2194,7 @@ export default {
 }
 
 ::v-deep .el-textarea__inner {
-  background: #fafafa;
+  background: #fff;
 }
 
 .listMain {
@@ -2039,7 +2206,7 @@ export default {
 }
 .listMain div {
   line-height: 40px;
-  width: 0.55rem;
+  width: 0.75rem;
   font-size: 0.14rem;
   text-align: right;
 }
@@ -2049,11 +2216,14 @@ export default {
 }
 .listMainbox {
   margin-top: 0.15rem;
-  background: #fafafa;
+  background: #fff;
   padding: 0.1rem;
+  border: 1px solid rgba(216, 216, 216, 1);
 }
 .listDelete {
+  cursor: pointer;
   line-height: 40px;
+  margin-left: 0.1rem;
 }
 ::v-deep .jinyong .el-upload--picture-card {
   display: none;
@@ -2144,6 +2314,10 @@ export default {
   justify-content: space-between;
   box-sizing: border-box;
   text-decoration: none;
+}
+.recordFile img {
+  width: 0.6rem;
+  height: 0.6rem;
 }
 
 .recordFile a :hover {
@@ -2266,7 +2440,13 @@ export default {
 .imgTxt p:first-child {
   font-size: 0.15rem;
 }
-
+.imgTxt p:last-child {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .imgTxt p {
   text-align: left;
   margin: 0;
@@ -2324,7 +2504,7 @@ export default {
 }
 
 .selectMain p {
-  width: 0.55rem;
+  width: 0.75rem;
   /* margin-top: 0.06rem; */
   margin-right: 0.08rem;
   font-size: 0.14rem;
@@ -2345,7 +2525,7 @@ table .declet {
 .nav {
   height: 0.58rem;
   width: 40%;
-  padding-left: 0.4rem;
+  padding-left: 0.3rem;
   background-color: #fff;
   float: left;
 }
@@ -2398,5 +2578,47 @@ table .declet {
 
 .changeSize .el-cascader-node__label {
   font-size: 0.14rem;
+}
+.FileSizeleft {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.FileTitle {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.imgTxt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  margin-left: 0.1rem;
+}
+.imgTxt p:first-child {
+  font-size: 0.15rem;
+}
+.imgTxt p:last-child {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.imgTxt p {
+  text-align: left;
+  margin: 0;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 </style>

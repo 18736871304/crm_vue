@@ -260,7 +260,7 @@ function getQwTj(params) {
 }
 
 // 查询分组
-function getTalkTempleteGroup(params) {
+function getAllTalkTempleteGroup(params) {
   // return POST(params, '/crm/talktemplete/getTalkTempleteGroup.do')
   return POST(params, '/crm/talktemplete/getAllTalkTempleteGroup.do')
 }
@@ -303,24 +303,32 @@ function parseUrl(params) {
   return POST(params, '/crm/qw/talktemplete/parseUrl.do')
 }
 
-// 解析链接
+// 话术上移
 function itemUp(params) {
   return POST(params, '/crm/talktemplete/itemUp.do')
 }
-
+// 话术下移
 function itemDown(params) {
   return POST(params, '/crm/talktemplete/itemDown.do')
 }
-
+// 组上移
 function groupUp(params) {
   return POST(params, '/crm/talktemplete/groupUp.do')
 }
-
+// 组下移
 function groupDown(params) {
   return POST(params, '/crm/talktemplete/groupDown.do')
 }
 
+// 添加雷达
+function addRadar(params) {
+  return POST(params, '/crm/qwRadar/addRadar.do')
+}
 
+// 查询雷达
+function getRadarList(params) {
+  return POST(params, '/crm/qwRadar/getRadarList.do')
+}
 
 export default {
   getTempToken,
@@ -377,7 +385,7 @@ export default {
   addTalkTempleteGroup,
   modifyTalkTempleteGroup,
   deleteTalkTempleteGroup,
-  getTalkTempleteGroup,
+  getAllTalkTempleteGroup,
   addTalkTempleteContent,
   getTalkItemList,
   modifyTalkTempleteContent,
@@ -387,5 +395,9 @@ export default {
   itemUp,
   itemDown,
   groupUp,
-  groupDown
+  groupDown,
+  getRadarList,
+  addRadar
+
 }
+
