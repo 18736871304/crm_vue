@@ -4,11 +4,11 @@
       <el-tab-pane label="员工检索" name="userValue">
         <usermessage :parentData="countList"></usermessage>
       </el-tab-pane>
-      <el-tab-pane label="客户检索" name="customValue">
+      <el-tab-pane label="客户检索" name="customValue" v-if="dis_P4_up">
         <custommessage :parentData="countList"></custommessage>
       </el-tab-pane>
 
-      <el-tab-pane label="群聊检索" name="qunValue">
+      <el-tab-pane label="群聊检索" name="qunValue" v-if="dis_P4_up">
         <qunmessage :parentData="countList"></qunmessage>
       </el-tab-pane>
     </el-tabs>
@@ -19,12 +19,14 @@ import api from "../../../utils/api.js";
 import usermessage from "./usermessage.vue";
 import custommessage from "./custommessage.vue";
 import qunmessage from "./qunmessage.vue";
+import { getData, my_url, } from '../../../static/js/ajax.js';
 
 export default {
   data() {
     return {
       bigTabValue: "userValue",
-      countList: {}
+      countList: {},
+      dis_P4_up: false
     };
   },
   components: {
@@ -38,10 +40,25 @@ export default {
     this.init();
   },
   methods: {
+
+
+
     init() {
+      var _this = this
       api.getQwTj().then((data) => {
-        this.countList = data.qwTj
+        _this.countList = data.qwTj
       });
+      getData('post', my_url + '/crm/auth/getManagePermission.do', function (data) { //其他库 
+        if (data.code == 0) {
+          _this.dis_P4_up = true;
+        } else {
+          _this.dis_P4_up = false;
+        }
+      }, null);
+
+
+
+
     },
     bigClick() { },
   },
@@ -72,8 +89,8 @@ export default {
   margin-left: 0.3rem;
   margin-right: 0.3rem;
 }
-::v-deep .el-tabs__item{
-   font-size: 0.15rem;
+::v-deep .el-tabs__item {
+  font-size: 0.15rem;
 }
 
 .qunUser {

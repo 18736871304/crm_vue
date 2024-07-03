@@ -330,6 +330,31 @@ function getRadarList(params) {
   return POST(params, '/crm/qwRadar/getRadarList.do')
 }
 
+// 编辑雷达
+function modifyRadar(params) {
+  return POST(params, '/crm/qwRadar/modifyRadar.do')
+}
+
+// 删除雷达
+function deleteRadar(params) {
+  return POST(params, '/crm/qwRadar/deleteRadar.do')
+}
+
+// 雷达上移
+function radarUp(params) {
+  return POST(params, '/crm/qwRadar/radarUp.do')
+}
+
+// 雷达下移
+function radarDown(params) {
+  return POST(params, '/crm/qwRadar/radarDown.do')
+}
+
+
+
+
+
+
 export default {
   getTempToken,
   getPageHeaderInfo,
@@ -397,7 +422,10 @@ export default {
   groupUp,
   groupDown,
   getRadarList,
-  addRadar
-
+  addRadar,
+  modifyRadar,
+  deleteRadar,
+  radarUp,
+  radarDown
 }
 

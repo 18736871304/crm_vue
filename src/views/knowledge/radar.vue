@@ -11,10 +11,10 @@
     </div>
     <div>
       <div class="newAdd">
-        <div class="addpatter" @click="dialoghuashu = true">
+        <div class="addpatter" @click="dialogleida = true">
           <div> + 新建</div>
         </div>
-        <div class="search-box clearfix" style="display: block;">
+        <div class="search-box clearfix" style="display: none;">
 
           <div class="common-select" v-show="dis_P4_up">
             <div class="select-title" style="width: 1.28rem">选择团队</div>
@@ -48,7 +48,7 @@
           <div class="common-select">
             <div class="select-title" style="width: 1.28rem">关键字搜索</div>
             <div class="select-content" style="width: calc(100% - 1.28rem);">
-              <el-autocomplete class="el-input-inners" v-model="leidaMain" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入关键字"></el-autocomplete>
+              <el-input class="el-input-inners" v-model="leidaMain" size="mini" placeholder="请输入关键字" clearable></el-input>
             </div>
           </div>
           <div class="common-select" style="float: right;width: 11.5%;">
@@ -66,56 +66,65 @@
         <el-table :data="speechList" border style="width: 100%">
           <el-table-column key="2" align="center" label="雷达内容" width="auto">
             <template slot-scope="scope">
-
-              <div v-html="scope.row.main" :class="['huashuMain', {'unhuashuMain':scope.row.isopen==true}]"></div>
-              <div class='zhedie' @click="open(scope.row)" v-if="!scope.row.isopen"> <span>展开</span> <i class='el-icon-arrow-down'></i> 共{{ (scope.row.talkContent).length }}条</div>
-              <div class='zhedie' @click="open(scope.row)" v-else><span>收起</span> <i class='el-icon-arrow-up'></i>共{{ (scope.row.talkContent).length }}条 </div>
+              <!-- {{ scope.row }} -->
+              <div class='img_text'>
+                <img  v-if="scope.row.link_image_url.slice(0, 13) == 'crmfileupload'"  :src='"https://crm.meihualife.com/"+scope.row.link_image_url' alt=''>
+                <img  v-else  :src='scope.row.link_image_url' alt=''>
+                <div class='imgTxt'>
+                  <p>{{scope.row.link_title}} </p>
+                  <p>{{ scope.row.link_description }}</p>
+                </div>
+              </div>
 
             </template>
           </el-table-column>
-          <el-table-column key="3" align="center" prop="title" label="标题" width="120">
+          <el-table-column key="3" align="center" prop="title" label="标题" width="220" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="4" align="center" prop="sendcount" sortable label="发送次数" width='110'>
+          <el-table-column key="4" align="center" prop="clickcount" sortable label="点击次数" width='110'>
           </el-table-column>
           <el-table-column key="5" align="center" prop="username" label="创建人" width='90'>
           </el-table-column>
-          <el-table-column key="6" align="center" prop="makedate" sortable label="创建时间" width="160">
+          <el-table-column key="6" align="center" prop="makedatestr" sortable label="创建时间" width="160">
           </el-table-column>
           <el-table-column key="7" align="center" label="类型" width="80">
             <template slot-scope="scope">
-              <div v-if="(scope.row.talkContent).length>1"> 复合类型</div>
-              <div v-else-if="(scope.row.talkContent).length==1">{{ scope.row.talkContent[0].msgType}}</div>
-              <div v-else>无类型</div>
+              <!-- <div v-if="(scope.row.talkContent).length>1"> 复合类型</div>
+              <div v-else-if="(scope.row.talkContent).length==1">{{ scope.row.talkContent[0].msgType}}</div> -->
+              <div>图文</div>
             </template>
           </el-table-column>
-          <el-table-column key="8" v-if="activeName=='01'" align="center" prop="teampermission_names" label="使用团队" width="120">
-          </el-table-column>
-          <el-table-column key="9" align="center" label="操作" width="140">
+          <!-- <el-table-column key="8" align="center" prop="teampermission_names" label="使用团队" width="120">
+          </el-table-column> -->
+          <el-table-column key="9" align="center" label="操作" width="280">
             <template slot-scope="scope">
               <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>
               <a class=" declet" href="javascript:void(0);" @click="deletePopup(scope.row)">删除</a>
+              <el-button-group class="base-info-botton-group updown">
+                <el-button size="mini" @click="itemUp(scope.row)" type="primary" icon="iconfont icon-my-up">
+                </el-button>
+                <el-button size="mini" @click="itemDown(scope.row)" type="primary" icon="iconfont icon-my-down"></el-button>
+              </el-button-group>
             </template>
           </el-table-column>
-          <el-table-column key="10" align="center" label="移动" width="140">
+          <!-- <el-table-column key="10" align="center" label="移动" width="140">
             <template slot-scope="scope">
               <a class="edit option" href="javascript:void(0);" @click="itemUp(scope.row)">上移</a>
               <a class="edit" href="javascript:void(0);" @click="itemDown(scope.row)">下移</a>
             </template>
-          </el-table-column>
+          </el-table-column> -->
 
         </el-table>
-
       </div>
     </div>
 
-    <el-dialog :title="digTitle" :visible.sync="dialoghuashu" width="1100px" :before-close="data_cencle" :close-on-click-modal="false" append-to-body>
+    <el-dialog :title="digTitle" :visible.sync="dialogleida" width="1100px" :before-close="data_cencle" :close-on-click-modal="false" append-to-body>
       <div v-loading="addloading">
 
         <div class="titleBox">
 
           <div class="selectMain">
             <p>雷达标题</p>
-            <el-input class="block" v-model="titleCon" placeholder="请输入内容"></el-input>
+            <el-input class="block" v-model="titleCon" placeholder="此标题将在企微中显示"></el-input>
           </div>
 
         </div>
@@ -127,7 +136,7 @@
 
           <el-tabs class="zhongjiantab" v-model="PDFimgTxt" @tab-click="mainClick">
 
-            <el-tab-pane label="链接" name="img-txt">
+            <el-tab-pane label="链接" name="img-txt" >
               <div class="listMainbox">
                 <div style="margin-bottom: 0.15rem">
                   <el-input placeholder="请输入链接" @input="imgTextSelect()" v-model="imgTxt.link" clearable> </el-input>
@@ -225,7 +234,13 @@
         </span>
       </div>
     </el-dialog>
-
+    <el-dialog title="提示" :visible.sync="deldialogVisible" width="25%" :before-close="handleClose">
+      <span>确认删除此话术吗？</span>
+      <span slot="footer" class="dialog-footer">
+        <div @click="dialogVisible = false" class="cancel my-sure">取 消</div>
+        <div type="primary" @click="delItemleida" class="my-sure">确 定</div>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -239,7 +254,8 @@ import { getData, getPhoneData, my_url } from "../../static/js/ajax.js";
 export default {
   data() {
     return {
-
+      delitem: '',
+      deldialogVisible: false,
       // 筛选
       leidaMain: '',
       dis_P4_up: true,
@@ -271,7 +287,7 @@ export default {
 
       // 新建雷达 
       addloading: false,
-      dialoghuashu: false,
+      dialogleida: false,
       titleCon: "",//标题
       PDFimgTxt: "img-txt",
 
@@ -345,22 +361,23 @@ export default {
 
 
 
+    reset() {
+      this.my_sureOne2();
+      this.overviewForm = {
+        teamid: '',
+        userid: '',
+        startDate: '',
+        endDate: '',
+        time: '1'
+      }
+      this.leidaMain = ''
+    },
 
 
     // 查询内容
     // 传content内容搜索
     // teampermission，团队搜索
-    createFilter(queryString) {
-      return (SalesmanBox) => {
-        return (SalesmanBox.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
-      };
-    },
-    querySearch(queryString, cb) {
-      var SalesmanBox = this.SalesmanBox;
-      var results = queryString ? SalesmanBox.filter(this.createFilter(queryString)) : SalesmanBox;
-      // 调用 callback 返回建议列表的数据
-      cb(results);
-    },
+
     handleCheckChange2(data, checked, indeterminate) {
       let teamListName = [];
       checked.checkedNodes.forEach(function (item) {
@@ -385,7 +402,6 @@ export default {
       let _this = this;
       this.$refs.disTeam2.hide();
 
-      console.log(this.my_list2)
 
       if (this.my_list2 == null || this.my_list2 == '' || this.my_list2 == '1') {
         this.queryflag = true;
@@ -397,8 +413,9 @@ export default {
         this.queryflagString = "02"
       }
 
+
       // this.search();
-      // this.refresh();
+
       //获取业务员列表
       getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
         _this.userNameOptions = data.namelist
@@ -411,7 +428,7 @@ export default {
     userNameChange() {
       this.queryflag = false;
       this.queryflagString = "02"
-      // this.search();
+      this.search();
       // this.refresh();
     },
 
@@ -422,42 +439,27 @@ export default {
     search() {
       var _this = this
       var params = {
-        title: '',
+        title: this.leidaMain,
         radartype: '02', //01企业，02个人
-        pageSize: 1,
-        pageNumber: 20
+        pageSize: 1000,
+        pageNumber: 1
       }
       api.getRadarList(params).then((data) => {
         console.log(data)
-        if (data.code == '0') {
-
-
+        if (data.rows.length > 0) {
+          _this.speechList = data.rows
+          console.log(_this.speechList)
         } else {
-          // _this.$message({
-          //   type: "error",
-          //   duration: 2000,
-          //   message: data.msg,
-          // });
+          _this.speechList = []
         }
+
+
 
         _this.addloading = false
       })
     },
 
 
-
-
-    reset() {
-      this.my_sureOne2();
-      this.overviewForm = {
-        teamid: '',
-        userid: '',
-        startDate: '',
-        endDate: '',
-        time: '1'
-      }
-      this.leidaMain = ''
-    },
 
 
 
@@ -616,14 +618,14 @@ export default {
 
     // 取消新建话术
     data_cencle() {
-      this.dialoghuashu = false
+      this.dialogleida = false
       this.titleCon = ''
       this.isEdit = false
       this.editId = ''
 
 
       this.imgTxt = {
-        link: 'https://meihualife.feishu.cn/sheets/shtcnKYr41GHDXXKehLqSTinoBk?sheet=rcrE1F',
+        link: '',
         link_title: '',
         link_description: '',
         link_image_url: '',
@@ -683,11 +685,6 @@ export default {
       }
 
 
-
-
-
-
-
       if (this.isEdit == true) {
         this.edit_sure(params)
         return
@@ -700,9 +697,11 @@ export default {
               duration: 2000,
               message: "新建雷达成功",
             });
-            // _this.dialoghuashu = false
-            // _this.getTalkTempleteGroup()
-            // _this.data_cencle()
+            _this.dialogleida = false
+
+            _this. resetEdit()
+
+            _this.search()
           } else {
             _this.$message({
               type: "error",
@@ -726,23 +725,27 @@ export default {
 
     },
 
-    // 修改话术
+    // 修改雷达
     edit_sure(params) {
+
+      console.log(params)
 
       var _this = this
       _this.addloading = true
 
-      params['itemid'] = this.editId
-      api.modifyTalkTempleteContent(params).then((data) => {
+
+      // deleteRadar
+      params['id'] = this.editId
+      api.modifyRadar(params).then((data) => {
         if (data.code == '0') {
-          _this.dialoghuashu = false
+          _this.dialogleida = false
           _this.$message({
             type: "success",
             duration: 2000,
             message: "修改成功!",
           });
-          _this.handleNodeClick(_this.selectTree)
-          _this.data_cencle()
+          _this.resetEdit()
+          _this.search()
 
         } else {
           _this.$message({
@@ -751,21 +754,33 @@ export default {
             message: data.msg,
           });
         }
-        if (_this.activeName == '01') {
-          _this.digTitle = "新建 - 团队话术"
-        } else {
-          _this.digTitle = "新建 - 个人话术"
-        }
+        _this.digTitle = "新建 - 个人雷达"
 
-
-
-        _this.addloading = false
       })
 
-
+      _this.addloading = false
 
     },
 
+
+    resetEdit() {
+      this.titleCon = ''
+      this.imgTxt = {
+        link: '',
+        link_title: '',
+        link_description: '',
+        link_image_url: '',
+        bigimgUrl: false,
+        fileList: [],
+      }
+
+      this.pdf = {
+        link: '',
+        link_title: '',
+        link_image_url: '',
+        pdfList: [],
+      }
+    },
 
     handleClose(done) {
       done();
@@ -773,122 +788,56 @@ export default {
 
 
 
-    handleNodeClick(data) {
-      var _this = this
-      console.log(data)
-
-      this.selectTree = data
-      var groupidStr = ''
-      if (data.child && data.child.length > 0) {
-        for (var i = 0; i < data.child.length; i++) {
-          groupidStr += data.child[i].groupid + ','
-        }
-      }
-      var parms = {
-        groupid: data.groupid,
-        groupidStr: groupidStr + data.groupid,
-        // teampermission:this.teamList2,
-        // content:this.leidaMain
-      }
-      api.getTalkItemList(parms).then((data) => {
-        if (data.rows.length > 0) {
-          var arr = data.rows
-          for (var i = 0; i < arr.length; i++) {
-            arr[i]['isopen'] = false
-            var arrchild = arr[i].talkContent
-
-            var dd = ''
-            if (arrchild.length > 0) {
-              for (var j = 0; j < arrchild.length; j++) {
-                arrchild[j]['isopen'] = false
-
-                if (arrchild[j].type == 'text') {
-                  arrchild[j]['msgType'] = '文字'
-                  // if (arrchild[j].isopen) {
-                  //   var classNames = ['huashuMain', 'unhuashuMain'];
-                  // } else {
-                  //   var classNames = ['huashuMain'];
-                  // }
-                  arrchild[j].text = ((arrchild[j].text).replace(/\n/g, '<br>'))
-                  dd += "<div class='msgText'> <p>" + (arrchild[j].text).replace(/\n/g, '<br>') + " </p>  </div> "
-                  // dd += `<div class='msgText'><p  class='${classNames.join(' ')}'> ${(arrchild[j].text).replace(/\n/g, '<br>')} </p>    <div class='zhedie' onClick = 'openSmall(${JSON.stringify(arrchild[j])})' > <span>展开</span> <i class='el-icon-arrow-down'></i> </div>   </div> `
-                } else if (arrchild[j].type == 'img-txt') {
-                  arrchild[j]['msgType'] = '图文'
-                  var objdata = JSON.parse(arrchild[j].text)
-                  dd += "<div class ='img_text'> <img src='" + objdata.imgUrl + "' alt=''>  <div class ='imgTxt'>  <p>" + objdata.title + "</p><p>" + objdata.desc + "</p> </div></div>  </div>"
-                } else if (arrchild[j].type == 'image') {
-                  arrchild[j]['msgType'] = '图片'
-                  dd += "<div class ='img_text'> <img src='https://crm.meihualife.com" + arrchild[j].dispath + "' alt=''><p>" + arrchild[j].text + "'</p> </div>"
-                } else if (arrchild[j].type == 'pdf') {
-                  arrchild[j]['msgType'] = 'PDF文件'
-                  dd += "<div class ='img_text'> <img src='https://crm.meihualife.com/images/pdf.jpg' alt=''><p>" + arrchild[j].text + "</p> </div>"
-                } if (arrchild[j].type == 'video') {
-                  arrchild[j]['msgType'] = '视频'
-                  var videoImg = 'https://crm.meihualife.com' + arrchild[j].dispath
-                  dd += "<div class ='img_text'> <video src=" + videoImg + "></video><p>" + arrchild[j].text + "</p> </div>"
-                }
-
-                // dd += " <div class='zhedie'> <i class='el-icon-arrow-down'></i> <span>展开</span> </div>"
-
-              }
-              arr[i]['main'] = dd
-            }
-
-
-          }
-          _this.speechList = arr
-        } else if (data.rows.length == 0) {
-          _this.speechList = []
-
-        }
-      })
-
-
-
-    },
 
 
 
 
     showEditPopup(item) {
       var _this = this
-      this.dialoghuashu = true
+      this.dialogleida = true
       this.isEdit = true
-      this.editId = item.itemid
-      if (this.activeName == '01') {
-        this.digTitle = '编辑 - 团队话术'
-      } else {
-        this.digTitle = '编辑 - 个人话术'
-      }
+      this.editId = item.id
 
+      this.titleCon = item.title
 
+      this.imgTxt.link = item.link
+      this.imgTxt.link_title = item.link_title
+      this.imgTxt.link_description = item.link_description
+      this.imgTxt.link_image_url = item.link_image_url
 
-
+      this.digTitle = '编辑 - 个人雷达'
     },
+
+
     deletePopup(item) {
+      this.delitem = item
+      this.deldialogVisible = true
+    },
+
+    delItemleida() {
       var _this = this
       var params = {
-        itemid: item.itemid
+        id: this.delitem.id
       }
 
-      this.$confirm('确认删除此话术吗？').then(_ => {
-        api.deleteTalkTempleteContent(params).then((data) => {
-          if (data.code == '0') {
-            _this.$message({
-              type: "success",
-              duration: 2000,
-              message: "删除成功!",
-            });
-            _this.handleNodeClick(_this.selectTree)
-          } else {
-            _this.$message({
-              type: "error",
-              duration: 2000,
-              message: data.msg,
-            });
-          }
-        })
+      api.deleteRadar(params).then((data) => {
+        if (data.code == '0') {
+          _this.$message({
+            type: "success",
+            duration: 2000,
+            message: "删除成功!",
+          });
+          this.deldialogVisible = false
+          _this.search()
+        } else {
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: data.msg,
+          });
+        }
       })
+
 
     },
 
@@ -970,74 +919,28 @@ export default {
     },
 
 
-    open(data) {
-      var speechList = this.speechList
-      console.log(data)
-      speechList.forEach(item => {
-        console.log(item)
-        if (item.itemid == data.itemid) {
-          item.isopen = !item.isopen
-        }
-      })
+    // open(data) {
+    //   var speechList = this.speechList
+    //   console.log(data)
+    //   speechList.forEach(item => {
+    //     console.log(item)
+    //     if (item.id == data.id) {
+    //       item.isopen = !item.isopen
+    //     }
+    //   })
 
-    },
+    // },
 
 
-    groupUp(data) {
-      console.log(data)
-      var _this = this
-      var params = {
-        groupid: data.groupid
-      }
-      api.groupUp(params).then((data) => {
-        console.log(data)
-        if (data.code == '0') {
-          _this.$message({
-            type: "success",
-            duration: 2000,
-            message: "上移成功!",
-          });
 
-        } else {
-          _this.$message({
-            type: "error",
-            duration: 2000,
-            message: data.msg,
-          });
-        }
-      })
-    },
-    groupDown(data) {
-      console.log(data)
-      var _this = this
-      var params = {
-        groupid: data.groupid
-      }
-      api.groupDown(params).then((data) => {
-        console.log(data)
-        if (data.code == '0') {
-          _this.$message({
-            type: "success",
-            duration: 2000,
-            message: "下移成功!",
-          });
 
-        } else {
-          _this.$message({
-            type: "error",
-            duration: 2000,
-            message: data.msg,
-          });
-        }
-      })
-    },
     itemUp(data) {
       console.log(data)
       var _this = this
       var params = {
-        itemid: data.itemid
+        id: data.id
       }
-      api.itemUp(params).then((data) => {
+      api.radarUp(params).then((data) => {
         console.log(data)
         if (data.code == '0') {
           _this.$message({
@@ -1045,7 +948,7 @@ export default {
             duration: 2000,
             message: "上移成功!",
           });
-          _this.handleNodeClick(_this.selectTree)
+          _this.search()
         } else {
           _this.$message({
             type: "error",
@@ -1059,9 +962,9 @@ export default {
       console.log(data)
       var _this = this
       var params = {
-        itemid: data.itemid
+        id: data.id
       }
-      api.itemDown(params).then((data) => {
+      api.radarDown(params).then((data) => {
         console.log(data)
         if (data.code == '0') {
           _this.$message({
@@ -1069,7 +972,7 @@ export default {
             duration: 2000,
             message: "下移成功!",
           });
-          _this.handleNodeClick(_this.selectTree)
+          _this.search()
         } else {
           _this.$message({
             type: "error",
@@ -1101,8 +1004,8 @@ export default {
   display: flex;
   /* border: 0.4rem solid #fff; */
   padding: 0.3rem;
-
   border-top: 0;
+  padding-top: 0.18rem;
 }
 .teamLanguage {
 }
@@ -1177,7 +1080,7 @@ export default {
 }
 .teamMain,
 .personMain {
-  width: 82%;
+  width: 100%;
   height: calc(100vh - 3rem);
   /* border: 1px solid #909399; */
   position: relative;
@@ -1202,8 +1105,8 @@ export default {
   color: #606266;
   display: inline-block;
   font-size: 0.14rem;
-  height: 35px;
-  line-height: 35px;
+  height: 28px;
+  line-height: 28px;
   outline: 0;
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
@@ -1243,13 +1146,14 @@ export default {
   text-align: right;
 }
 .zhongjiantab {
-  width: 92%;
+  width: 93%;
   /* margin-top: -0.04rem; */
 }
 .listMainbox {
   margin-top: 0.15rem;
   background: #fff;
   padding: 0.1rem;
+  border: 1px solid rgba(216, 216, 216, 1);
 }
 .listDelete {
   line-height: 40px;
@@ -1293,7 +1197,7 @@ export default {
 .select-content .el-dropdown-inners {
   border: 1px solid #dcdfe6;
   width: 100%;
-  height: 35px;
+  height: 28px;
 }
 .search-box .select-content .el-dropdown-inners {
   height: unset;
@@ -1418,6 +1322,7 @@ export default {
 .img_text {
   display: flex;
   align-items: center;
+  padding: 0.15rem;
 }
 .img_text img,
 .img_text video {
@@ -1565,6 +1470,12 @@ table .declet {
 
 .nav .el-tabs__item.is-active {
   color: #dc240f;
+}
+.updown .el-button:hover {
+  border-color: #bdbdbd;
+}
+.updown {
+  margin: 0 0.15rem;
 }
 </style>
 

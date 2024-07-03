@@ -152,16 +152,15 @@
           </el-table-column>
           <el-table-column key="8" v-if="activeName=='01'" align="center" prop="teampermission_names" label="使用团队" width="120">
           </el-table-column>
-          <el-table-column key="9" align="center" label="操作" width="140">
+          <el-table-column key="9" align="center" label="操作" width="280">
             <template slot-scope="scope">
               <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>
               <a class=" declet" href="javascript:void(0);" @click="deletePopup(scope.row)">删除</a>
-            </template>
-          </el-table-column>
-          <el-table-column key="10" align="center" label="移动" width="140">
-            <template slot-scope="scope">
-              <a class="edit option" href="javascript:void(0);" @click="itemUp(scope.row)">上移</a>
-              <a class="edit" href="javascript:void(0);" @click="itemDown(scope.row)">下移</a>
+              <el-button-group class="base-info-botton-group updown">
+                <el-button size="mini" @click="itemUp(scope.row)" type="primary" icon="iconfont icon-my-up">
+                </el-button>
+                <el-button size="mini" @click="itemDown(scope.row)" type="primary" icon="iconfont icon-my-down"></el-button>
+              </el-button-group>
             </template>
           </el-table-column>
 
@@ -309,7 +308,7 @@
                           <span class="FileSize FileSizeleft">{{ item.imgText.desc }}</span>
                         </div>
 
-                        <img v-if="item.imgText.imgUrl.slice(0, 13) == 'crmfileupload'"    :src="'https://crm.meihualife.com/'+item.imgText.imgUrl" alt="" style="margin-left:0.1rem" />
+                        <img v-if="item.imgText.imgUrl.slice(0, 13) == 'crmfileupload'" :src="'https://crm.meihualife.com/'+item.imgText.imgUrl" alt="" style="margin-left:0.1rem" />
                         <img :src="item.imgText.imgUrl" v-else alt="" style="margin-left:0.1rem" />
 
                       </div>
@@ -463,6 +462,22 @@
 
     </el-dialog>
 
+    <el-dialog title="提示" :visible.sync="deldialogVisible" width="25%" :before-close="handleClose">
+      <span>确认删除此话术吗？</span>
+      <span slot="footer" class="dialog-footer">
+        <div @click="dialogVisible = false" class="cancel my-sure">取 消</div>
+        <div type="primary" @click="delItemhuashu" class="my-sure">确 定</div>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="提示" :visible.sync="deldiaGroup" width="25%" :before-close="handleClose">
+      <span>确认删除此分组吗？</span>
+      <span slot="footer" class="dialog-footer">
+        <div @click="dialogVisible = false" class="cancel my-sure">取 消</div>
+        <div type="primary" @click="delGrouphuashu" class="my-sure">确 定</div>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -476,7 +491,11 @@ import { getData, getPhoneData, my_url } from "../../static/js/ajax.js";
 export default {
   data() {
     return {
+      delGroup: "",
+      deldiaGroup: false,
 
+      delitem: '',
+      deldialogVisible: false,
       // 筛选
       huashuCon: '',
       dis_P4_up: true,
@@ -651,7 +670,6 @@ export default {
       this.$refs.disTeam2.hide();
 
 
-
       if (this.my_list2 == null || this.my_list2 == '' || this.my_list2 == '1') {
         this.queryflag = true;
         this.queryflagString = "01"
@@ -661,8 +679,7 @@ export default {
         this.queryflag = false;
         this.queryflagString = "02"
       }
-      console.log(this.my_list2)
-      console.log(this.overviewForm.teamid)
+
       this.getAllTalkTempleteGroup();
       // this.refresh();
 
@@ -684,10 +701,6 @@ export default {
     },
 
 
-
-
-
-
     //是否是团队账长isLeader
     teamLedar() {
       var _this = this
@@ -707,9 +720,6 @@ export default {
 
     // 选择团队话术或者个人话术
     handleClick(tab, event) {
-      console.log(tab, event)
-      console.log(tab._props.label)
-
       this.digTitle = '新建 - ' + tab._props.label
       this.options = []
       this.groupOptions = []
@@ -740,7 +750,6 @@ export default {
         if (data.code == '0') {
           _this.options = data.talkTempleteGroup
           _this.groupOptions = data.talkTempleteGroup
-          console.log(data.talkTempleteGroup[0])
           if (data.talkTempleteGroup[0]) {
             _this.handleNodeClick(data.talkTempleteGroup[0])
           }
@@ -864,32 +873,36 @@ export default {
 
     // 删除分组
     deleteGroup(data) {
+      this.delGroup = data
+      this.deldiaGroup = true
+    },
+    delGrouphuashu() {
       var _this = this
       var parms = {
-        groupid: data.groupid
+        groupid: this.delGroup.groupid
       }
-      this.$confirm('确认删除此分组和其下所有话术吗？').then(_ => {
-        api.deleteTalkTempleteGroup(parms).then((data) => {
-          if (data.code == '0') {
-            _this.$message({
-              type: "success",
-              duration: 2000,
-              message: "删除成功!",
-            });
-            _this.getAllTalkTempleteGroup()
-          } else {
-            _this.$message({
-              type: "error",
-              duration: 2000,
-              message: data.msg,
-            });
-          }
+      api.deleteTalkTempleteGroup(parms).then((data) => {
+        if (data.code == '0') {
+          _this.$message({
+            type: "success",
+            duration: 2000,
+            message: "删除成功!",
+          });
+          _this.deldiaGroup = false
+          _this.getAllTalkTempleteGroup()
+        } else {
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: data.msg,
+          });
+        }
 
-        })
       })
-        .catch(_ => { });
-
     },
+
+
+
 
     // 选择分组
     handleChange(value) {
@@ -1407,9 +1420,9 @@ export default {
                   arrchild[j]['msgType'] = '图文'
                   var objdata = JSON.parse(arrchild[j].text)
 
-                  var srcUrl=objdata.imgUrl
-                  if(srcUrl.slice(0, 13) == 'crmfileupload'){
-                    srcUrl='https://crm.meihualife.com/'+srcUrl
+                  var srcUrl = objdata.imgUrl
+                  if (srcUrl.slice(0, 13) == 'crmfileupload') {
+                    srcUrl = 'https://crm.meihualife.com/' + srcUrl
                   }
 
                   dd += "<div class ='img_text'> <img src='" + srcUrl + "' alt=''>  <div class ='imgTxt'>  <p>" + objdata.title + "</p><p>" + objdata.desc + "</p> </div></div>  </div>"
@@ -1772,32 +1785,38 @@ export default {
 
       }
     },
+
     deletePopup(item) {
+      this.delitem = item
+      this.deldialogVisible = true
+    },
+    delItemhuashu() {
       var _this = this
       var params = {
-        itemid: item.itemid
+        itemid: this.delitem.itemid
       }
-
-      this.$confirm('确认删除此话术吗？').then(_ => {
-        api.deleteTalkTempleteContent(params).then((data) => {
-          if (data.code == '0') {
-            _this.$message({
-              type: "success",
-              duration: 2000,
-              message: "删除成功!",
-            });
-            _this.handleNodeClick(_this.selectTree)
-          } else {
-            _this.$message({
-              type: "error",
-              duration: 2000,
-              message: data.msg,
-            });
-          }
-        })
+      api.deleteTalkTempleteContent(params).then((data) => {
+        if (data.code == '0') {
+          _this.$message({
+            type: "success",
+            duration: 2000,
+            message: "删除成功!",
+          });
+          _this.deldialogVisible = false
+          _this.handleNodeClick(_this.selectTree)
+        } else {
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: data.msg,
+          });
+          _this.deldialogVisible = false
+        }
       })
-
     },
+
+
+
 
 
     // 勾选团队时，统计团队ID
@@ -2170,8 +2189,8 @@ export default {
   color: #606266;
   display: inline-block;
   font-size: 0.14rem;
-  height: 35px;
-  line-height: 35px;
+  height: 28px;
+  line-height: 28px;
   outline: 0;
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
@@ -2256,6 +2275,10 @@ export default {
   font-size: 0.16rem;
 }
 
+.updown .el-button:hover {
+  border-color: #bdbdbd;
+}
+
 /* .el-tree-node .el-tree-node__content  .el-tree-node__label */
 .asd .el-tree .el-tree-node .el-tree-node__content .el-tree-node__label {
   font-size: 0.14rem;
@@ -2264,7 +2287,7 @@ export default {
 .select-content .el-dropdown-inners {
   border: 1px solid #dcdfe6;
   width: 100%;
-  height: 35px;
+  height: 28px;
 }
 .search-box .select-content .el-dropdown-inners {
   height: unset;
@@ -2390,6 +2413,7 @@ export default {
 .img_text {
   display: flex;
   align-items: center;
+  margin-bottom: 0.2rem;
 }
 .img_text img,
 .img_text video {
@@ -2544,6 +2568,10 @@ table .declet {
 .nav .el-tabs__item.is-active {
   color: #dc240f;
 }
+
+.updown {
+  margin: 0 0.15rem;
+}
 </style>
 
 
@@ -2551,6 +2579,7 @@ table .declet {
 .img_text {
   display: flex;
   align-items: center;
+  margin-bottom: 0.1rem;
 }
 .img_text img,
 .img_text video {
