@@ -68,8 +68,8 @@
             <template slot-scope="scope">
               <!-- {{ scope.row }} -->
               <div class='img_text'>
-                <img  v-if="scope.row.link_image_url.slice(0, 13) == 'crmfileupload'"  :src='"https://crm.meihualife.com/"+scope.row.link_image_url' alt=''>
-                <img  v-else  :src='scope.row.link_image_url' alt=''>
+                <img v-if="scope.row.link_image_url.slice(0, 13) == 'crmfileupload'" :src='"https://crm.meihualife.com/"+scope.row.link_image_url' alt=''>
+                <img v-else :src='scope.row.link_image_url' alt=''>
                 <div class='imgTxt'>
                   <p>{{scope.row.link_title}} </p>
                   <p>{{ scope.row.link_description }}</p>
@@ -93,8 +93,6 @@
               <div>图文</div>
             </template>
           </el-table-column>
-          <!-- <el-table-column key="8" align="center" prop="teampermission_names" label="使用团队" width="120">
-          </el-table-column> -->
           <el-table-column key="9" align="center" label="操作" width="280">
             <template slot-scope="scope">
               <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>
@@ -106,13 +104,6 @@
               </el-button-group>
             </template>
           </el-table-column>
-          <!-- <el-table-column key="10" align="center" label="移动" width="140">
-            <template slot-scope="scope">
-              <a class="edit option" href="javascript:void(0);" @click="itemUp(scope.row)">上移</a>
-              <a class="edit" href="javascript:void(0);" @click="itemDown(scope.row)">下移</a>
-            </template>
-          </el-table-column> -->
-
         </el-table>
       </div>
     </div>
@@ -136,30 +127,28 @@
 
           <el-tabs class="zhongjiantab" v-model="PDFimgTxt" @tab-click="mainClick">
 
-            <el-tab-pane label="链接" name="img-txt" >
+            <el-tab-pane label="链接" name="img-txt">
               <div class="listMainbox">
-                <div style="margin-bottom: 0.15rem">
+                <div class="selectMain mainleft">
+                  <p>链接地址</p>
                   <el-input placeholder="请输入链接" @input="imgTextSelect()" v-model="imgTxt.link" clearable> </el-input>
                 </div>
 
                 <div v-if="imgTxt.link">
-                  <div class="selectMain">
+                  <div class="selectMain mainleft">
                     <p>链接标题</p>
-                    <el-input class="block" v-model="imgTxt.link_title" placeholder="请输入内容"></el-input>
+                    <el-input v-model="imgTxt.link_title" placeholder="请输入内容"></el-input>
                   </div>
-                  <div class="selectMain">
-                    <p>链接描述</p>
-                    <el-input class="block" v-model="imgTxt.link_description" placeholder="请输入内容"></el-input>
-                  </div>
-                  <div class="selectMain">
-                    <p>链接封面</p>
-                    <div class="imgupload" style="margin-top: 0.08rem;">
+
+                  <div class="selectMain DescTitle">
+                    <!-- <p>链接封面</p> -->
+                    <div class="imgupload">
                       <el-upload accept="image/*" action="#" ref="imgupload" list-type="picture-card" :auto-upload="false" :limit="1" :file-list="imgTxt.fileList" :on-change="
                       (file) => { return imgSaveToUrl(file); } " :class="imgTxt.fileList.length=='1' ? 'pdfjinyong' : ''">
                         <i slot="default" class="el-icon-plus"></i>
-
                         <div slot="file" slot-scope="{ file }">
-                          <img class="el-upload-list__item-thumbnail" :src="'https://crm.meihualife.com/'+imgTxt.link_image_url" alt="" />
+                          <img class="el-upload-list__item-thumbnail" v-if="imgTxt.link_image_url.slice(0, 13) == 'crmfileupload'" :src="'https://crm.meihualife.com/'+imgTxt.link_image_url" alt="" />
+                          <img class="el-upload-list__item-thumbnail" v-else :src="imgTxt.link_image_url" alt="" />
                           <span class="el-upload-list__item-actions">
                             <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(imgTxt)">
                               <i class="el-icon-zoom-in"></i>
@@ -170,23 +159,23 @@
                           </span>
                         </div>
                       </el-upload>
-
                       <el-dialog :visible.sync="imgTxt.bigimgUrl" append-to-body>
-                        <img width="100%" :src="'https://crm.meihualife.com/'+imgTxt.link_image_url" alt="" />
+                        <img width="100%" v-if="imgTxt.link_image_url.slice(0, 13) == 'crmfileupload'" :src="'https://crm.meihualife.com/'+imgTxt.link_image_url" alt="" />
+                        <img width="100%" v-else :src="imgTxt.link_image_url" alt="" />
                       </el-dialog>
                     </div>
+                    <el-input type="textarea" :rows="2" placeholder="请输入链接详情" class="block block_desc" v-model="imgTxt.link_description">
+                    </el-input>
                   </div>
-
-                  <div v-if="imgTxt.link" style="margin-top: 0.08rem;">
+                  <!-- <div v-if="imgTxt.link" style="margin-top: 0.08rem;">
                     <div class="recordFile">
                       <div class="fileMain">
                         <span class="FileTitle">{{imgTxt.link_title}}</span>
                         <span class="FileSize FileSizeleft">{{ imgTxt.link_description}}</span>
                       </div>
                       <img :src="imgTxt.link_image_url" alt="" style="margin-left: 0.1rem;" />
-
                     </div>
-                  </div>
+                  </div> -->
                 </div>
 
               </div>
@@ -194,10 +183,18 @@
             <el-tab-pane label="PDF" name="pdf">
               <div class="listMainbox">
                 <div style="margin-bottom: 0.15rem">
-                  <div class="pdfupload">
-                    <el-upload accept=".pdf" action="#" ref="pdfupload" list-type="picture-card" :auto-upload="false" :file-list="pdf.pdfList" :limit="1" :on-change="
+                  <!-- <div class="selectMain mainleft">
+                    <p>PDF链接</p>
+                    <el-input v-model="pdf.link" placeholder="请输入内容"></el-input>
+                  </div> -->
+                  <div class="selectMain mainleft">
+                    <p>PDF标题</p>
+                    <el-input v-model="pdf.link_title" placeholder="请输入内容"></el-input>
+                  </div>
+                  <div class="pdfupload" style='margin-top: 0.08rem;'>
+                    <el-upload accept=".pdf" action="#" ref="pdfupload" list-type="picture-card" :auto-upload="false" :file-list="pdf.fileList" :limit="1" :on-change="
                         (file) => { return pdfSaveToUrl(file); }
-                      " :class="pdf.pdfList.length == '1' ? 'pdfjinyong' : ''">
+                      " :class="pdf.fileList.length == '1' ? 'pdfjinyong pdfup' : 'pdfup'">
                       <i slot="default" class="el-icon-plus"></i>
 
                       <div slot="file" slot-scope="{ file }">
@@ -209,24 +206,21 @@
                         </span>
                       </div>
                     </el-upload>
-
-                    <div class="pdfNameSize" v-if="pdf.link!=''">
-                      <p>{{ pdf.link_title}}</p>
+                    <div class="pdfNameSize"  v-if="pdf.link">
+                          <p>{{ pdf.link_title }}</p>
                     </div>
-                    <div class="pdfNameSize" v-else>
-                      <p>*文件需在10M以内</p>
+                    <div class="pdfNameSize"  v-else>
+                          <p>*文件需在10M以内</p>
                     </div>
                   </div>
+
                 </div>
               </div>
             </el-tab-pane>
           </el-tabs>
         </div>
 
-        <!-- <div @click="addmain" class="addTemplate">
-          <p><i class="el-icon-circle-plus-outline"></i> 添加内容</p>
-          <p>（ 添加多个内容可以一键发送 ）</p>
-        </div> -->
+  
 
         <span slot="footer" class="dialog-footer">
           <div class="my-sure cancel" @click="data_cencle">取 消</div>
@@ -303,8 +297,9 @@ export default {
       pdf: {
         link: '',
         link_title: '',
+        link_description: '',
         link_image_url: '',
-        pdfList: [],
+        fileList: [],
       },
 
 
@@ -519,12 +514,23 @@ export default {
           data.refilepath = data.refilepath.slice(9);
           if (fileType == "pdf") {
             _this.pdf.link = "https://crm.meihualife.com/" + data.refilepath;
-            _this.pdf.pdfList.push(data)
+            _this.pdf.fileList = []
+            _this.pdf.fileList.push(
+              {
+                name: '1',
+                link_image_url: "https://crm.meihualife.com/" + data.refilepath
+              }
+            )
             _this.pdf.link_image_url = "https://crm.meihualife.com/images/pdf.jpg"
 
             _this.pdf.link_title = data.filename
           } else {
-            _this.imgTxt.fileList.push(data)
+            _this.imgTxt.fileList = []
+            console.log(data)
+            _this.imgTxt.fileList.push({
+              name: '1',
+              link_image_url: "https://crm.meihualife.com/" + data.refilepath
+            })
             _this.imgTxt.link_image_url = data.refilepath
           }
 
@@ -566,7 +572,7 @@ export default {
       filelist.splice(indexaa, 1);
 
       this.pdf.link_image_url = '';
-      this.pdf.pdfList = ''
+      this.pdf.fileList = []
     },
     // https://meihualife.feishu.cn/sheets/shtcnKYr41GHDXXKehLqSTinoBk?sheet=rcrE1F
     // 上传图文
@@ -585,6 +591,22 @@ export default {
             // this.imgTxt.text = this.imgTxt.link
             _this.imgTxt.link_description = data.description && data.description != '' ? data.description : '详细介绍'
             _this.imgTxt.link_image_url = data.imageurl && data.imageurl != '' ? data.imageurl : "https://assets.weibanzhushou.com/default-cover.png"
+            _this.imgTxt.fileList = []
+            if (data.imageurl != '') {
+              var gg = {
+                name: '1',
+                link_image_url: data.imageurl
+              }
+              _this.imgTxt.fileList.push(gg)
+            } else {
+              var gg = {
+                name: '1',
+                link_image_url: "https://assets.weibanzhushou.com/default-cover.png"
+              }
+              _this.imgTxt.fileList.push(gg)
+              // _this.imgTxt.fileList.push("https://assets.weibanzhushou.com/default-cover.png")
+            }
+
           }
         })
       } else {
@@ -607,7 +629,7 @@ export default {
       });
       filelist.splice(indexaa, 1);
       this.imgTxt.link_image_url = '';
-      this.imgTxt.fileList = ''
+      this.imgTxt.fileList = []
     },
 
 
@@ -636,7 +658,7 @@ export default {
         link: '',
         link_title: '',
         link_image_url: '',
-        pdfList: [],
+        fileList: [],
       }
 
 
@@ -678,7 +700,7 @@ export default {
           title: this.titleCon,
           link: this.pdf.link,
           link_title: this.pdf.link_title,
-          link_description: '',
+          link_description: this.pdf.link_description,
           link_image_url: this.pdf.link_image_url,
           radartype: '02', //01企业，02个人
         }
@@ -699,7 +721,7 @@ export default {
             });
             _this.dialogleida = false
 
-            _this. resetEdit()
+            _this.resetEdit()
 
             _this.search()
           } else {
@@ -778,7 +800,7 @@ export default {
         link: '',
         link_title: '',
         link_image_url: '',
-        pdfList: [],
+        fileList: [],
       }
     },
 
@@ -793,6 +815,8 @@ export default {
 
 
     showEditPopup(item) {
+
+
       var _this = this
       this.dialogleida = true
       this.isEdit = true
@@ -800,11 +824,36 @@ export default {
 
       this.titleCon = item.title
 
-      this.imgTxt.link = item.link
-      this.imgTxt.link_title = item.link_title
-      this.imgTxt.link_description = item.link_description
-      this.imgTxt.link_image_url = item.link_image_url
 
+      var aa = (item.link).slice(-3);
+      if (aa == 'pdf') {
+        this.PDFimgTxt = "pdf"
+        this.pdf.link = item.link
+        this.pdf.link_title = item.link_title
+        this.pdf.link_description = item.link_description
+        this.pdf.link_image_url = item.link_image_url
+        var gg = {
+          name: '1',
+          link_image_url: item.link_image_url
+        }
+        _this.pdf.fileList.push(gg)
+
+      } else {
+        this.PDFimgTxt = "img-txt"
+        this.imgTxt.link = item.link
+        this.imgTxt.link_title = item.link_title
+        this.imgTxt.link_description = item.link_description
+        this.imgTxt.link_image_url = item.link_image_url
+        var gg = {
+          name: '1',
+          link_image_url: item.link_image_url
+        }
+        _this.imgTxt.fileList.push(gg)
+
+      }
+
+
+      // this.imgTextSelect()
       this.digTitle = '编辑 - 个人雷达'
     },
 
@@ -1437,6 +1486,11 @@ export default {
   font-size: 0.14rem;
   text-align: right;
 }
+.selectMain .block_desc {
+  margin-top: 0rem;
+  width: 100%;
+  height: 100%;
+}
 
 table .edit {
   display: inline-block;
@@ -1477,6 +1531,29 @@ table .declet {
 .updown {
   margin: 0 0.15rem;
 }
+
+.DescTitle {
+  border: 1px solid #dcdfe6;
+  margin-top: 0.08rem;
+}
+::v-deep .el-upload {
+  /* width: 1.23rem;
+  height: 1.23rem;*/
+  /* border: 0px solid #dcdfe6; */
+  background-color: #fff;
+}
+.mainleft{
+   margin-top: 0.08rem;
+}
+.mainleft p {
+  text-align: left;
+}
+.pdfNameSize{
+  width: 100%;
+}
+.imgupload,.pdfup{
+   border-right:1px solid #dcdfe6 ;
+}
 </style>
 
 
@@ -1507,6 +1584,8 @@ table .declet {
 }
 .block {
   margin-top: 0.08rem;
+  width: 100%;
+  height: 100%;
 }
 
 .changeSize .el-cascader-node__label {
@@ -1519,5 +1598,9 @@ table .declet {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.el-upload-list--picture-card .el-upload-list__item {
+  margin: 0;
 }
 </style>
