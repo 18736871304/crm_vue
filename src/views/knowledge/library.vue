@@ -982,13 +982,25 @@ export default {
       var parms = {
         groupid: this.modifyGroupData.groupid,
         groupname: this.modifygroupName,
-
       }
       if (this.activeName == '01' && this.modifyChild) {
         parms['teampermission'] = this.quanxian
       }
 
+      if(this.modifyGroupData.upgroupid){
+        parms['upgroupid'] = this.modifyGroupData.upgroupid
+      }else{
+        parms['upgroupid'] =''
+      }
       console.log(parms)
+
+      if(parms.teampermission==''){
+        _this.$message({
+            type: "error",
+            duration: 2000,
+            message: "请选择话术权限!",
+          });
+      }
 
       api.modifyTalkTempleteGroup(parms).then((data) => {
         if (data.code == '0') {
@@ -1621,6 +1633,7 @@ export default {
 
 
     showEditPopup(item) {
+      console.log(item)
       var _this = this
       this.dialoghuashu = true
       this.isEdit = true
@@ -1651,13 +1664,13 @@ export default {
 
       this.quanxian = item.teampermission
 
-      if (item.teampermission) {
-        console.log(item.teampermission)
-        if (this.activeName == '01') {
-          this.$refs.tree.setCheckedKeys((item.teampermission).split(','));
-        }
-        this.teamNames = item.teampermission_names
-      }
+      // if (item.teampermission) {
+      //   console.log(item.teampermission)
+      //   if (this.activeName == '01') {
+      //     this.$refs.tree.setCheckedKeys((item.teampermission).split(','));
+      //   }
+      //   this.teamNames = item.teampermission_names
+      // }
 
 
       this.dataList = []
