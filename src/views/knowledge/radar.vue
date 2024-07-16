@@ -4,18 +4,19 @@
     <div class="search-header" style="padding: 0">
       <div class="search-box clearfix">
         <el-tabs class="nav" v-model="activeName" @tab-click="handleClick">
-          <!-- <el-tab-pane v-if="isLeader =='Y'" label="团队雷达" name="01"></el-tab-pane> -->
+          <el-tab-pane v-if="isLeader =='Y'" label="团队雷达" name="01"></el-tab-pane>
           <el-tab-pane label="个人雷达" name="02"></el-tab-pane>
         </el-tabs>
       </div>
     </div>
+
     <div>
       <div class="newAdd">
         <div class="addpatter" @click="dialogleida = true">
           <div> + 新建</div>
         </div>
-        <div class="search-box clearfix" style="display: none;">
 
+        <div class="search-box clearfix" style="display: none;">
           <div class="common-select" v-show="dis_P4_up">
             <div class="select-title" style="width: 1.28rem">选择团队</div>
             <div class="select-content" style="width: calc(100% - 1.28rem);">
@@ -36,7 +37,7 @@
               </el-dropdown>
             </div>
           </div>
-          <div class="common-select" v-show="dis_P4_up">
+          <div class="common-select" v-show="dis_P4_up" v-if="activeName=='02'">
             <div class="select-title" style="width: 1.28rem">业务员姓名</div>
             <div class="select-content" style="width: calc(100% - 1.28rem);border: none">
               <el-select class="el-select-inners" placeholder="请选择" size="mini" v-model="overviewForm.userid" @change="userNameChange" clearable>
@@ -55,14 +56,43 @@
             <div class="search-btn" @click="search">搜索</div>
             <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
           </div>
-
         </div>
+
       </div>
 
     </div>
 
     <div class="teamLanguage">
-      <div class="teamMain table-box">
+      <div class="productList" v-loading="loading">
+
+        <div class="addgroup" @click="dialogGroup = true" v-if="activeName=='01'">
+          <i class="el-icon-circle-plus"></i>
+          <p>添加分组</p>
+        </div>
+
+        <el-tree style=" padding-top: 0rem;" :data="options" :props="GroupdefaultProps" node-key="id" :default-checked-keys="[1]" :expand-on-click-node="false" ref="tree" @node-click="handleNodeClick" :highlight-current="true" :default-expand-all='false'>
+          <span class="custom-tree-node" slot-scope="{ node, data }">
+            <span class="tree-lable">{{ data.groupname }} <span v-if="data.children">（{{ data.children.length}}）</span> </span>
+            <span class="groupLeft">
+              <div type="text" size="mini" class="crty">
+                <el-popover placement="right" trigger="hover" popper-class="groupPopover" v-if="activeName=='01'">
+                  <ul class="groupTan" v-if="activeName=='01'">
+                    <li @click.prevent="modifyGroup(data)">编辑</li>
+                    <li @click.prevent="deleteGroup(data)">删除</li>
+                    <li @click.prevent="groupUp(data)">上移</li>
+                    <li @click.prevent="groupDown(data)">下移</li>
+                  </ul>
+                  <i slot="reference" class="el-icon-more"></i>
+                </el-popover>
+                <i slot="reference" class="el-icon-more" v-if="activeName=='02'"></i>
+              </div>
+            </span>
+          </span>
+        </el-tree>
+
+      </div>
+
+      <div class="teamMain table-box" :class="activeName=='01'?'teamMain table-box':'teamMain table-box activeName' ">
         <el-table :data="speechList" border style="width: 100%">
           <el-table-column key="2" align="center" label="雷达内容" width="auto">
             <template slot-scope="scope">
@@ -72,13 +102,13 @@
                 <img v-else :src='scope.row.link_image_url' alt=''>
                 <div class='imgTxt'>
                   <p>{{scope.row.link_title}} </p>
-                  <p>{{ scope.row.link_description }}</p>
+                  <!-- <p>{{ scope.row.link_description }}</p> -->
                 </div>
               </div>
 
             </template>
           </el-table-column>
-          <el-table-column key="3" align="center" prop="title" label="标题" width="220" :show-overflow-tooltip="true">
+          <el-table-column key="3" align="center" prop="title" label="雷达标题" width="220" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="4" align="center" prop="clickcount" sortable label="点击次数" width='110'>
           </el-table-column>
@@ -88,15 +118,14 @@
           </el-table-column>
           <el-table-column key="7" align="center" label="类型" width="80">
             <template slot-scope="scope">
-              <!-- <div v-if="(scope.row.talkContent).length>1"> 复合类型</div>
-              <div v-else-if="(scope.row.talkContent).length==1">{{ scope.row.talkContent[0].msgType}}</div> -->
-              <div>图文</div>
+              <div v-if="(scope.row.link).slice(-3)=='pdf'">PDF</div>
+              <div v-else>链接</div>
             </template>
           </el-table-column>
-          <el-table-column key="9" align="center" label="操作" width="280">
+          <el-table-column key="9" align="center" label="操作" width="220">
             <template slot-scope="scope">
               <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>
-              <a class=" declet" href="javascript:void(0);" @click="deletePopup(scope.row)">删除</a>
+              <a class=" declet" href="javascript:void(0);" @click="deleteItem(scope.row)">删除</a>
               <el-button-group class="base-info-botton-group updown">
                 <el-button size="mini" @click="itemUp(scope.row)" type="primary" icon="iconfont icon-my-up">
                 </el-button>
@@ -113,6 +142,11 @@
 
         <div class="titleBox">
 
+          <div class="selectMain" v-if="activeName=='01'">
+            <p>分组</p>
+            <el-cascader class="block" v-model="groupValue" :options="options" :props="newDefaultProps" @change="handleChange" placeholder="请选择分组" popper-class="changeSize" clearable></el-cascader>
+          </div>
+
           <div class="selectMain">
             <p>雷达标题</p>
             <el-input class="block" v-model="titleCon" placeholder="此标题将在企微中显示"></el-input>
@@ -126,7 +160,6 @@
           </div>
 
           <el-tabs class="zhongjiantab" v-model="PDFimgTxt" @tab-click="mainClick">
-
             <el-tab-pane label="链接" name="img-txt">
               <div class="listMainbox">
                 <div class="selectMain mainleft">
@@ -141,7 +174,7 @@
                   </div>
 
                   <div class="selectMain DescTitle">
-                    <!-- <p>链接封面</p> -->
+
                     <div class="imgupload">
                       <el-upload accept="image/*" action="#" ref="imgupload" list-type="picture-card" :auto-upload="false" :limit="1" :file-list="imgTxt.fileList" :on-change="
                       (file) => { return imgSaveToUrl(file); } " :class="imgTxt.fileList.length=='1' ? 'pdfjinyong' : ''">
@@ -182,7 +215,7 @@
             </el-tab-pane>
             <el-tab-pane label="PDF" name="pdf">
               <div class="listMainbox">
-                <div style="margin-bottom: 0.15rem">
+                <div>
                   <!-- <div class="selectMain mainleft">
                     <p>PDF链接</p>
                     <el-input v-model="pdf.link" placeholder="请输入内容"></el-input>
@@ -206,11 +239,11 @@
                         </span>
                       </div>
                     </el-upload>
-                    <div class="pdfNameSize"  v-if="pdf.link">
-                          <p>{{ pdf.link_title }}</p>
+                    <div class="pdfNameSize" v-if="pdf.link">
+                      <p>{{ pdf.link_title }}</p>
                     </div>
-                    <div class="pdfNameSize"  v-else>
-                          <p>*文件需在10M以内</p>
+                    <div class="pdfNameSize" v-else>
+                      <p>*文件需在10M以内</p>
                     </div>
                   </div>
 
@@ -220,21 +253,67 @@
           </el-tabs>
         </div>
 
-  
-
         <span slot="footer" class="dialog-footer">
-          <div class="my-sure cancel" @click="data_cencle">取 消</div>
-          <div class=" my-sure" type="primary" @click="data_sure">确 定</div>
+          <div class="my-sure cancel" @click="data_cencle()">取 消</div>
+          <div class=" my-sure" type="primary" @click="data_sure()">确 定</div>
         </span>
       </div>
     </el-dialog>
+
+    <el-dialog title="新建分组" :visible.sync="dialogGroup" width="30%" :before-close="handleGroupClose" :close-on-click-modal="false" append-to-body>
+      <div class="titleBox">
+        <div class="selectMain  mainleft" style="display: flex;">
+          <p>分组名称</p>
+          <div style="width: 85%;">
+            <el-input placeholder="请输入内容" v-model="groupName" clearable>
+            </el-input>
+          </div>
+        </div>
+
+        <div class="selectMain mainleft" v-if="activeName=='01'">
+          <p>雷达权限</p>
+          <div class="select-content " style="width: 85%">
+            <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
+              <p class="el-dropdown-inners" clearable>
+                <span>{{ teamNames }}</span>
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </p>
+              <el-dropdown-menu class="asd" slot="dropdown">
+                <el-tree @check="checkTeam" :data="teamDataList" ref="tree" show-checkbox node-key="id" :default-checked-keys="teamIdCheck" :props="defaultProps"> </el-tree>
+                <div class="sure-footer">
+                  <div class="my-sure cancel" @click="team_cancel()">取消</div>
+                  <div class="my-sure" @click="team_sure()">确定</div>
+
+                </div>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+        </div>
+
+        <span slot="footer" class="dialog-footer">
+          <div class="my-sure cancel" @click="group_cencle()">取 消</div>
+          <div class="my-sure" type="primary" @click="group_sure()">确 定</div>
+        </span>
+      </div>
+
+    </el-dialog>
+
     <el-dialog title="提示" :visible.sync="deldialogVisible" width="25%" :before-close="handleClose">
-      <span>确认删除此话术吗？</span>
+      <span>确认删除此雷达吗？</span>
       <span slot="footer" class="dialog-footer">
-        <div @click="dialogVisible = false" class="cancel my-sure">取 消</div>
-        <div type="primary" @click="delItemleida" class="my-sure">确 定</div>
+        <div @click="deldialogVisible = false" class="cancel my-sure">取 消</div>
+        <div type="primary" @click="delItemleida()" class="my-sure">确 定</div>
       </span>
     </el-dialog>
+
+    <el-dialog title="提示" :visible.sync="deldiaGroup" width="25%" :before-close="handleClose">
+      <span>确认删除此分组吗？</span>
+      <span slot="footer" class="dialog-footer">
+        <div @click="deldiaGroup = false" class="cancel my-sure">取 消</div>
+        <div type="primary" @click="delGroupradar()" class="my-sure">确 定</div>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -248,6 +327,16 @@ import { getData, getPhoneData, my_url } from "../../static/js/ajax.js";
 export default {
   data() {
     return {
+
+
+      // 团队雷达
+      deldiaGroup: false,
+      delGroup: '',
+      groupName: '',
+      modifyGroupData: '',
+
+      dialogGroup: false,
+
       delitem: '',
       deldialogVisible: false,
       // 筛选
@@ -268,10 +357,10 @@ export default {
       digTitle: '新建 - 个人雷达',
       loading: false,
       isLeader: 'Y',//判断是否是团队长
-      // 团队话术01  个人话术02
+      // 团队雷达01  个人雷达02
       activeName: "02",
-      // options: [], //分组列表
-      speechList: [],//话术列表
+      options: [], //分组列表
+      speechList: [],//雷达列表
       // 分组显示
       visibles: [],
       // 当前选中的分组
@@ -283,6 +372,7 @@ export default {
       addloading: false,
       dialogleida: false,
       titleCon: "",//标题
+      groupValue: '',
       PDFimgTxt: "img-txt",
 
       imgTxt: {
@@ -315,8 +405,8 @@ export default {
         value: 'groupid',
       },
       GroupdefaultProps: {
-        children: "child",
-        label: "groupname",
+        children: "children",
+        label: "groupName",
       },
 
       SalesmanIdBox: [],
@@ -334,7 +424,9 @@ export default {
 
   mounted() {
     this.init()
-    this.search()
+    this.getAllTalkTempleteGroup()
+
+
     // this.teamLedar()
     this.yewu();
   },
@@ -344,6 +436,27 @@ export default {
   methods: {
     // 权限
     init() {
+
+      if (this.activeName == '02') {
+        this.options = [
+          {
+            groupid: "90000000000000000001",
+            groupname: "PDF"
+          },
+          {
+            groupid: "90000000000000000002",
+            groupname: "链接"
+          }
+        ]
+        this.search({
+          groupid: "",
+          groupname: ""
+        });
+      }
+
+
+
+
       var _this = this
       getData('post', my_url + '/crm/auth/getManagePermission.do', function (data) { //查看客户的权限
         if (data.code == 0) {
@@ -402,7 +515,6 @@ export default {
         this.queryflag = true;
         this.queryflagString = "01"
       } else {
-        console.log(this.my_list2)
         this.teamNames2 = this.my_list2;
         this.queryflag = false;
         this.queryflagString = "02"
@@ -420,10 +532,23 @@ export default {
     },
 
 
+
+
+
+
+
+
     userNameChange() {
       this.queryflag = false;
       this.queryflagString = "02"
-      this.search();
+      if (this.selectTree != '') {
+        this.search(this.selectTree)
+      } else {
+        this.search({
+          groupid: "",
+          groupname: ""
+        })
+      }
       // this.refresh();
     },
 
@@ -431,19 +556,27 @@ export default {
 
 
 
-    search() {
+    search(item) {
       var _this = this
       var params = {
         title: this.leidaMain,
-        radartype: '02', //01企业，02个人
+        radartype: this.activeName, //01企业，02个人
         pageSize: 1000,
-        pageNumber: 1
+        pageNumber: 1,
+        groupclass: "02",
+        groupid: ''
       }
+
+      if (this.activeName == '01' && item) {
+        params.groupid = item.groupid
+      } else if (this.activeName == '02') {
+        params.groupid = item.groupid
+      }
+
       api.getRadarList(params).then((data) => {
-        console.log(data)
         if (data.rows.length > 0) {
           _this.speechList = data.rows
-          console.log(_this.speechList)
+
         } else {
           _this.speechList = []
         }
@@ -475,14 +608,37 @@ export default {
       })
     },
 
-    // 选择团队话术或者个人话术
+    // 选择团队雷达或者个人雷达
     handleClick(tab, event) {
-      // console.log(tab, event)
-      // console.log(tab._props.label)
-      // this.digTitle = '新建 - ' + tab._props.label
-      // this.options = []
+      this.selectTree = ''
+      this.digTitle = '新建 - ' + tab._props.label
+      this.options = []
       // this.groupOptions = []
-      // this.speechList = []
+      this.speechList = []
+      if (this.activeName == '01') {
+        this.getAllTalkTempleteGroup()
+
+      } else {
+
+        this.options = [
+          {
+            groupid: "90000000000000000001",
+            groupname: "PDF"
+          },
+          {
+            groupid: "90000000000000000002",
+            groupname: "链接"
+          }
+        ]
+        console.log(this.options[0])
+        this.search({
+          groupid: "",
+          groupname: ""
+        });
+
+      }
+
+
 
     },
 
@@ -526,7 +682,6 @@ export default {
             _this.pdf.link_title = data.filename
           } else {
             _this.imgTxt.fileList = []
-            console.log(data)
             _this.imgTxt.fileList.push({
               name: '1',
               link_image_url: "https://crm.meihualife.com/" + data.refilepath
@@ -571,6 +726,8 @@ export default {
       });
       filelist.splice(indexaa, 1);
 
+      this.pdf.link = ''
+      this.pdf.link_title = ''
       this.pdf.link_image_url = '';
       this.pdf.fileList = []
     },
@@ -582,8 +739,6 @@ export default {
         var params = {
           webUrl: this.imgTxt.link
         }
-
-        console.log(this.imgTxt)
         api.parseUrl(params).then((data) => {
           if (data.code == '0') {
 
@@ -638,13 +793,14 @@ export default {
     },
 
 
-    // 取消新建话术
+    // 取消新建雷达
     data_cencle() {
       this.dialogleida = false
       this.titleCon = ''
       this.isEdit = false
       this.editId = ''
-
+      this.groupValue = ''
+      this.PDFimgTxt = "img-txt"
 
       this.imgTxt = {
         link: '',
@@ -660,14 +816,15 @@ export default {
         link_image_url: '',
         fileList: [],
       }
-
-
-      this.digTitle = "新建 - 个人雷达"
-
+      if (this.activeName == '01') {
+        this.digTitle = "新建 - 团队雷达"
+      } else {
+        this.digTitle = "新建 - 个人雷达"
+      }
 
     },
 
-    // 确认新建话术
+    // 确认新建雷达
     data_sure() {
       var _this = this
       _this.addloading = true
@@ -693,7 +850,7 @@ export default {
           link_title: this.imgTxt.link_title,
           link_description: this.imgTxt.link_description,
           link_image_url: this.imgTxt.link_image_url,
-          radartype: '02', //01企业，02个人
+          radartype: this.activeName, //01企业，02个人
         }
       } else {
         params = {
@@ -702,10 +859,20 @@ export default {
           link_title: this.pdf.link_title,
           link_description: this.pdf.link_description,
           link_image_url: this.pdf.link_image_url,
-          radartype: '02', //01企业，02个人
+          radartype: this.activeName, //01企业，02个人
         }
       }
+      if (this.activeName == '01') {
+        params['groupid'] = this.groupValue[0]
+      }
+      else {
+        if ((params.link).slice(-3) == 'pdf') {
+          params['groupid'] = '90000000000000000001'
+        } else {
+          params['groupid'] = '90000000000000000002'
+        }
 
+      }
 
       if (this.isEdit == true) {
         this.edit_sure(params)
@@ -713,6 +880,8 @@ export default {
       } else {
         api.addRadar(params).then((data) => {
           console.log(data)
+
+          console.log(data.code == '0')
           if (data.code == '0') {
             _this.$message({
               type: "success",
@@ -722,8 +891,14 @@ export default {
             _this.dialogleida = false
 
             _this.resetEdit()
-
-            _this.search()
+            if (_this.selectTree != '') {
+              _this.search(_this.selectTree)
+            } else {
+              _this.search({
+                groupid: "",
+                groupname: ""
+              })
+            }
           } else {
             _this.$message({
               type: "error",
@@ -733,15 +908,17 @@ export default {
           }
 
           _this.addloading = false
-        }).catch((msg) => {
-          _this.$message({
-            type: "error",
-            duration: 3000,
-            message: '请检查内容，部分内容不符合',
-          });
-          _this.addloading = false
-
         })
+
+        // .catch((msg) => {
+        //   _this.$message({
+        //     type: "error",
+        //     duration: 3000,
+        //     message: '请检查内容，部分内容不符合',
+        //   });
+        //   _this.addloading = false
+
+        // })
 
       }
 
@@ -749,13 +926,8 @@ export default {
 
     // 修改雷达
     edit_sure(params) {
-
-      console.log(params)
-
       var _this = this
       _this.addloading = true
-
-
       // deleteRadar
       params['id'] = this.editId
       api.modifyRadar(params).then((data) => {
@@ -767,7 +939,14 @@ export default {
             message: "修改成功!",
           });
           _this.resetEdit()
-          _this.search()
+          if (_this.selectTree != '') {
+            _this.search(_this.selectTree)
+          } else {
+            _this.search({
+              groupid: "",
+              groupname: ""
+            })
+          }
 
         } else {
           _this.$message({
@@ -787,6 +966,9 @@ export default {
 
     resetEdit() {
       this.titleCon = ''
+      this.isEdit = false
+      this.editId = ''
+      this.groupValue = ''
       this.imgTxt = {
         link: '',
         link_title: '',
@@ -802,9 +984,21 @@ export default {
         link_image_url: '',
         fileList: [],
       }
+      this.PDFimgTxt = "img-txt"
+      if (this.activeName == '01') {
+        this.digTitle = "新建 - 团队雷达"
+      } else {
+        this.digTitle = "新建 - 个人雷达"
+      }
+
+
+
     },
 
     handleClose(done) {
+      done();
+    },
+    handleGroupClose(done) {
       done();
     },
 
@@ -813,10 +1007,9 @@ export default {
 
 
 
-
     showEditPopup(item) {
 
-
+      console.log(item)
       var _this = this
       this.dialogleida = true
       this.isEdit = true
@@ -852,13 +1045,19 @@ export default {
 
       }
 
+      if (this.activeName == '01') {
+        this.groupValue = item.groupid
+        this.digTitle = '编辑 - 团队雷达'
+      } else {
+        this.digTitle = '编辑 - 个人雷达'
+      }
 
       // this.imgTextSelect()
-      this.digTitle = '编辑 - 个人雷达'
+
     },
 
 
-    deletePopup(item) {
+    deleteItem(item) {
       this.delitem = item
       this.deldialogVisible = true
     },
@@ -877,7 +1076,16 @@ export default {
             message: "删除成功!",
           });
           this.deldialogVisible = false
-          _this.search()
+          if (_this.selectTree != '') {
+            _this.search(_this.selectTree)
+          } else {
+            _this.search({
+              groupid: "",
+              groupname: ""
+            })
+          }
+
+
         } else {
           _this.$message({
             type: "error",
@@ -890,6 +1098,11 @@ export default {
 
     },
 
+
+    // 选择分组
+    handleChange(value) {
+
+    },
 
     // 勾选团队时，统计团队ID
     checkTeam(data, checked, indeterminate) {
@@ -938,6 +1151,15 @@ export default {
       this.quanxian = this.teamListId;
 
     },
+
+
+
+
+
+
+
+
+
     // 获取该团队权限下的员工
     yewu() {
       let _this = this;
@@ -970,9 +1192,7 @@ export default {
 
     // open(data) {
     //   var speechList = this.speechList
-    //   console.log(data)
     //   speechList.forEach(item => {
-    //     console.log(item)
     //     if (item.id == data.id) {
     //       item.isopen = !item.isopen
     //     }
@@ -982,22 +1202,26 @@ export default {
 
 
 
-
     itemUp(data) {
-      console.log(data)
       var _this = this
       var params = {
         id: data.id
       }
       api.radarUp(params).then((data) => {
-        console.log(data)
         if (data.code == '0') {
           _this.$message({
             type: "success",
             duration: 2000,
             message: "上移成功!",
           });
-          _this.search()
+          if (_this.selectTree != '') {
+            _this.search(_this.selectTree)
+          } else {
+            _this.search({
+              groupid: "",
+              groupname: ""
+            })
+          }
         } else {
           _this.$message({
             type: "error",
@@ -1008,20 +1232,25 @@ export default {
       })
     },
     itemDown(data) {
-      console.log(data)
       var _this = this
       var params = {
         id: data.id
       }
       api.radarDown(params).then((data) => {
-        console.log(data)
         if (data.code == '0') {
           _this.$message({
             type: "success",
             duration: 2000,
             message: "下移成功!",
           });
-          _this.search()
+          if (_this.selectTree != '') {
+            _this.search(_this.selectTree)
+          } else {
+            _this.search({
+              groupid: "",
+              groupname: ""
+            })
+          }
         } else {
           _this.$message({
             type: "error",
@@ -1031,6 +1260,214 @@ export default {
         }
       })
     },
+
+
+
+    // 团队雷达
+
+    // 添加分组
+    group_sure() {
+      if (this.modifyGroupData == '') {
+        var params = {
+          upgroupid: "",
+          groupname: this.groupName,
+          grouptype: this.activeName,
+          groupclass: '02',
+          teampermission: this.quanxian
+        }
+
+        var _this = this
+        api.addTalkTempleteGroup(params).then((data) => {
+
+          if (data.code == '0') {
+            _this.$message({
+              type: "success",
+              duration: 2000,
+              message: "添加成功!",
+            });
+            _this.getAllTalkTempleteGroup()
+            _this.groupName = ''
+            _this.team_cancel()
+          } else {
+            _this.$message({
+              type: "error",
+              duration: 2000,
+              message: data.msg,
+            });
+          }
+          _this.dialogGroup = false
+        })
+
+      } else {
+        var _this = this
+        var params = {
+          groupid: this.modifyGroupData.groupid,
+          groupname: this.groupName,
+
+        }
+        if (this.activeName == '01') {
+          params['teampermission'] = this.quanxian
+        }
+        api.modifyTalkTempleteGroup(params).then((data) => {
+          if (data.code == '0') {
+            _this.dialogGroup = false
+            _this.$message({
+              type: "success",
+              duration: 2000,
+              message: "修改成功!",
+            });
+            _this.getAllTalkTempleteGroup()
+            _this.groupName = ''
+            _this.team_cancel()
+
+          } else {
+            _this.$message({
+              type: "error",
+              duration: 2000,
+              message: data.msg,
+            });
+          }
+
+        })
+
+        this.modifyGroupData = ''
+
+
+      }
+
+    },
+
+
+    // 取消添加分组
+    group_cencle() {
+      this.dialogGroup = false
+      this.groupName = ''
+      this.modifyGroupData = ''
+      this.team_cancel()
+    },
+
+
+    // 查询分组
+    getAllTalkTempleteGroup() {
+      // this.loading = true
+      var _this = this
+      var params = {
+        grouptype: this.activeName,
+        groupclass: '02',
+      }
+      api.getAllTalkTempleteGroup(params).then((data) => {
+        if (data.code == '0') {
+          _this.options = data.talkTempleteGroup
+          _this.search()
+        }else if(data.code == '1' && _this.activeName=='01' && data.msg=='还没有定义话术组'){
+          _this.options =[]
+        }
+
+      })
+    },
+
+    // 点击分组
+    handleNodeClick(data) {
+      var _this = this
+      console.log(data)
+      this.selectTree = data
+      this.search(data)
+    },
+
+
+    // 打开修改分组弹窗
+    modifyGroup(item) {
+      this.groupName = item.groupname
+      this.modifyGroupData = item
+      this.quanxian = item.teampermission
+      if (item.teampermission) {
+        if (this.activeName == '01') {
+          this.$nextTick(() => {
+            this.$refs.tree.setCheckedKeys((item.teampermission).split(','));
+          })
+        }
+        this.teamNames = item.teampermission_names
+      }
+      this.dialogGroup = true
+    },
+
+    // 组上下移动
+    groupUp(data) {
+      var _this = this
+      var params = {
+        groupid: data.groupid
+      }
+      api.groupUp(params).then((data) => {
+        if (data.code == '0') {
+          _this.$message({
+            type: "success",
+            duration: 2000,
+            message: "上移成功!",
+          });
+          _this.getAllTalkTempleteGroup()
+        } else {
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: data.msg,
+          });
+        }
+      })
+    },
+    groupDown(data) {
+      var _this = this
+      var params = {
+        groupid: data.groupid
+      }
+      api.groupDown(params).then((data) => {
+        if (data.code == '0') {
+          _this.$message({
+            type: "success",
+            duration: 2000,
+            message: "下移成功!",
+          });
+          _this.getAllTalkTempleteGroup()
+        } else {
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: data.msg,
+          });
+        }
+      })
+    },
+
+    // 删除分组
+    deleteGroup(data) {
+      this.delGroup = data
+      this.deldiaGroup = true
+    },
+    // 删除分组
+    delGroupradar() {
+      var _this = this
+      var parms = {
+        groupid: this.delGroup.groupid
+      }
+      api.deleteTalkTempleteGroup(parms).then((data) => {
+        if (data.code == '0') {
+          _this.$message({
+            type: "success",
+            duration: 2000,
+            message: "删除成功!",
+          });
+          _this.deldiaGroup = false
+          _this.getAllTalkTempleteGroup()
+        } else {
+          _this.$message({
+            type: "error",
+            duration: 2000,
+            message: data.msg,
+          });
+        }
+
+      })
+    },
+
 
 
   },
@@ -1054,7 +1491,7 @@ export default {
   /* border: 0.4rem solid #fff; */
   padding: 0.3rem;
   border-top: 0;
-  padding-top: 0.18rem;
+  /* padding-top: 0.18rem; */
 }
 .teamLanguage {
 }
@@ -1129,7 +1566,7 @@ export default {
 }
 .teamMain,
 .personMain {
-  width: 100%;
+  width: 82%;
   height: calc(100vh - 3rem);
   /* border: 1px solid #909399; */
   position: relative;
@@ -1138,6 +1575,10 @@ export default {
   overflow: auto;
   padding-right: 0.3rem;
 }
+
+/* .activeName {
+  width: 100%;
+} */
 ::v-deep .el-tabs__item {
   font-size: 0.14rem;
 }
@@ -1430,7 +1871,7 @@ export default {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   overflow: hidden;
 }
 
@@ -1542,17 +1983,24 @@ table .declet {
   /* border: 0px solid #dcdfe6; */
   background-color: #fff;
 }
-.mainleft{
-   margin-top: 0.08rem;
+.mainleft {
+  margin-top: 0.08rem;
 }
 .mainleft p {
   text-align: left;
 }
-.pdfNameSize{
+.pdfNameSize {
   width: 100%;
 }
-.imgupload,.pdfup{
-   border-right:1px solid #dcdfe6 ;
+.imgupload,
+.pdfup {
+  border-right: 1px solid #dcdfe6;
+}
+
+.select-content .el-dropdown-inners {
+  border: 1px solid #dcdfe6;
+  width: 100%;
+  height: 28px;
 }
 </style>
 

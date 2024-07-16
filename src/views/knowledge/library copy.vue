@@ -135,7 +135,7 @@
 
             </template>
           </el-table-column>
-          <el-table-column key="3" align="center" prop="title" label="话术标题" width="120">
+          <el-table-column key="3" align="center" prop="title" label="标题" width="120">
           </el-table-column>
           <el-table-column key="4" align="center" prop="sendcount" sortable label="发送次数" width='110'>
           </el-table-column>
@@ -150,9 +150,9 @@
               <div v-else>无类型</div>
             </template>
           </el-table-column>
-          <!-- <el-table-column key="8" v-if="activeName=='01'" align="center" prop="teampermission_names" label="使用团队" width="120">
-          </el-table-column> -->
-          <el-table-column key="9" align="center" label="操作" width="220">
+          <el-table-column key="8" v-if="activeName=='01'" align="center" prop="teampermission_names" label="使用团队" width="120">
+          </el-table-column>
+          <el-table-column key="9" align="center" label="操作" width="280">
             <template slot-scope="scope">
               <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>
               <a class=" declet" href="javascript:void(0);" @click="deletePopup(scope.row)">删除</a>
@@ -184,7 +184,7 @@
             <el-input class="block" v-model="titleCon" placeholder="请输入内容"></el-input>
           </div>
 
-          <!-- <div class="selectMain" v-if="activeName=='01'">
+          <div class="selectMain" v-if="activeName=='01'">
             <p>话术权限</p>
             <div class="select-content block">
               <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
@@ -202,8 +202,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
-          </div> -->
-
+          </div>
         </div>
 
         <div v-for="(item, index) in dataList" :key="index">
@@ -273,6 +272,8 @@
                     <el-input v-model="item.imgText.title" placeholder="请输入标题内容"></el-input>
                   </div>
 
+          
+                  
                   <div v-if="item.imgText.title">
                     <div class="selectMain DescTitle">
                       <div class="imgupload">
@@ -282,7 +283,7 @@
 
                           <div slot="file" slot-scope="{ file }">
                             <img class="el-upload-list__item-thumbnail" v-if="item.imgText.imgUrl.slice(0, 13) == 'crmfileupload'" :src="'https://crm.meihualife.com/'+item.imgText.imgUrl" alt="" />
-                            <img class="el-upload-list__item-thumbnail" v-else :src="item.imgText.imgUrl" alt="" />
+                            <img class="el-upload-list__item-thumbnail"  v-else :src="item.imgText.imgUrl" alt="" />
                             <span class="el-upload-list__item-actions">
                               <span class="el-upload-list__item-preview" @click="handleimgTextview(item,index)">
                                 <i class="el-icon-zoom-in"></i>
@@ -301,7 +302,7 @@
                       <el-input type="textarea" :rows="2" placeholder="请输入图文详情" class=" block_desc" v-model="item.imgText.desc">
                       </el-input>
                     </div>
-
+               
                   </div>
 
                 </div>
@@ -312,9 +313,9 @@
                   <div style="margin-bottom: 0.15rem">
 
                     <div class="selectMain mainleft">
-                      <p>PDF标题</p>
-                      <el-input placeholder="请输入内容" v-model="item.pdf.file.filename" clearable> </el-input>
-                    </div>
+                    <p>PDF标题</p>
+                    <el-input placeholder="请输入内容"   v-model="item.pdf.file.filename" clearable> </el-input>
+                  </div>
                     <div class="pdfupload">
                       <el-upload accept=".pdf" action="#" ref="pdfupload" list-type="picture-card" :auto-upload="false" :file-list="item.pdf.uploadFilePath" :limit="1" :on-change="
                         (file) => {
@@ -414,46 +415,26 @@
 
     <el-dialog title="新建分组" :visible.sync="dialogGroup" width="30%" :before-close="handleClose" :close-on-click-modal="false" append-to-body>
       <div class="titleBox">
-        <div class="groupBox">
+        <div>
           <p>分组名称</p>
           <div class="block">
-            <el-select v-model="groupName" @change="selectValue()" filterable allow-create default-first-option placeholder="请输入分组名称">
+            <el-select v-model="groupName" filterable allow-create default-first-option placeholder="请输入分组名称">
               <el-option v-for="item in groupOptions" :key="item.groupid" :label="item.groupname" :value="item.groupname">
               </el-option>
             </el-select>
 
           </div>
         </div>
-        <div class="groupBox">
+        <div style="margin-top: 0.3rem">
           <p>子分组名称</p>
           <div class="block">
             <el-input placeholder="请输入子分组名称" v-model="subgroupName" clearable> </el-input>
           </div>
         </div>
 
-        <div class="groupBox" v-if="activeName=='01' && addquxian">
-          <p>话术权限</p>
-          <div class="select-content block">
-            <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
-              <p class="el-dropdown-inners" clearable>
-                <span>{{ teamNames }}</span>
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </p>
-              <el-dropdown-menu class="asd" slot="dropdown">
-                <el-tree @check="checkTeam" :data="teamDataList" ref="tree" show-checkbox node-key="id" :default-checked-keys="teamIdCheck" :props="defaultProps"> </el-tree>
-                <div class="sure-footer">
-                  <div class="my-sure cancel" @click="team_cancel()">取消</div>
-                  <div class="my-sure" @click="team_sure()">确定</div>
-
-                </div>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-        </div>
-
         <span slot="footer" class="dialog-footer">
-          <div class="my-sure cancel" @click="group_cencle()">取 消</div>
-          <div class="my-sure" type="primary" @click="group_sure()">确 定</div>
+          <div class="my-sure cancel" @click="group_cencle">取 消</div>
+          <div class="my-sure" type="primary" @click="group_sure">确 定</div>
         </span>
       </div>
 
@@ -461,35 +442,15 @@
 
     <el-dialog title="修改分组" :visible.sync="modifydialogGroup" width="30%" :before-close="handleClose" :close-on-click-modal="false" append-to-body>
       <div class="titleBox">
-        <div class="groupBox">
+        <div>
           <p>分组名称</p>
           <div class="block">
             <el-input placeholder="请输入分组名称" v-model="modifygroupName" clearable> </el-input>
           </div>
         </div>
-
-        <div class="groupBox" v-if=" modifyChild">
-          <p>话术权限</p>
-          <div class="select-content block">
-            <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
-              <p class="el-dropdown-inners" clearable>
-                <span>{{ teamNames }}</span>
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </p>
-              <el-dropdown-menu class="asd" slot="dropdown">
-                <el-tree @check="checkTeam" :data="teamDataList" ref="tree" show-checkbox node-key="id" :default-checked-keys="teamIdCheck" :props="defaultProps"> </el-tree>
-                <div class="sure-footer">
-                  <div class="my-sure cancel" @click="team_cancel()">取消</div>
-                  <div class="my-sure" @click="team_sure()">确定</div>
-                </div>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-        </div>
-
         <span slot="footer" class="dialog-footer">
-          <div class="my-sure cancel" @click="modifydiaCancelGroup()">取 消</div>
-          <div class="my-sure" type="primary" @click="modifygroup_sure()">确 定</div>
+          <div class="my-sure cancel" @click="modifydialogGroup = false">取 消</div>
+          <div class="my-sure" type="primary" @click="modifygroup_sure">确 定</div>
         </span>
       </div>
 
@@ -498,7 +459,7 @@
     <el-dialog title="提示" :visible.sync="deldialogVisible" width="25%" :before-close="handleClose">
       <span>确认删除此话术吗？</span>
       <span slot="footer" class="dialog-footer">
-        <div @click="deldialogVisible = false" class="cancel my-sure">取 消</div>
+        <div @click="dialogVisible = false" class="cancel my-sure">取 消</div>
         <div type="primary" @click="delItemhuashu" class="my-sure">确 定</div>
       </span>
     </el-dialog>
@@ -506,8 +467,8 @@
     <el-dialog title="提示" :visible.sync="deldiaGroup" width="25%" :before-close="handleClose">
       <span>确认删除此分组吗？</span>
       <span slot="footer" class="dialog-footer">
-        <div @click="deldiaGroup = false" class="cancel my-sure">取 消</div>
-        <div type="primary" @click="delGrouphuashu()" class="my-sure">确 定</div>
+        <div @click="dialogVisible = false" class="cancel my-sure">取 消</div>
+        <div type="primary" @click="delGrouphuashu" class="my-sure">确 定</div>
       </span>
     </el-dialog>
 
@@ -551,14 +512,12 @@ export default {
       activeName: "01",
       options: [], //分组列表
       speechList: [],//话术列表
-
       // 分组显示
       visibles: [],
       // 当前选中的分组
       selectTree: '',
 
       // 新建分组
-      addquxian: false,//判断新建一级分组还是二级分组
       dialogGroup: false,
       groupName: "",
       groupOptions: [],
@@ -567,7 +526,6 @@ export default {
       modifyGroupData: '',//储存要修改的内容
       modifydialogGroup: false,
       modifygroupName: '',
-      modifyChild: false,//判断是否是二级分组
 
 
       // 话术页面
@@ -809,53 +767,20 @@ export default {
       })
     },
 
-
-    selectValue(event) {
-      var parms = {
-        upgroupid: "",
-        groupname: this.groupName,
-        grouptype: this.activeName,
-        groupclass: '01',
-      }
-      for (var i = 0; i < this.groupOptions.length; i++) {
-        if (this.groupOptions[i].groupname == this.groupName) {
-          parms.upgroupid = this.groupOptions[i].groupid
-          parms.groupname = this.subgroupName
-        }
-      }
-
-      console.log(parms.upgroupid)
-      console.log(parms.upgroupid != '')
-      if (parms.upgroupid != '') {
-        this.addquxian = false
-      } else {
-        this.addquxian = true
-      }
-
-      this.team_cancel()
-
-    },
-
     // 确认添加分组
     group_sure() {
       var _this = this
       var parms = {
         upgroupid: "",
         groupname: this.groupName,
-        grouptype: this.activeName,
-        groupclass: '01',
+        grouptype: this.activeName
       }
-
-
 
       for (var i = 0; i < this.groupOptions.length; i++) {
         if (this.groupOptions[i].groupname == this.groupName) {
           parms.upgroupid = this.groupOptions[i].groupid
           parms.groupname = this.subgroupName
         }
-      }
-      if (_this.activeName == '01' && parms.upgroupid == '') {
-        parms['teampermission'] = this.quanxian
       }
       if (parms.upgroupid != '' && parms.groupname == '') {
         _this.$message({
@@ -865,45 +790,16 @@ export default {
         });
         return
       }
-      // if (_this.quanxian == '') {
-      //   _this.$message({
-      //     type: "error",
-      //     duration: 2000,
-      //     message: "请填写分组权限",
-      //   });
-      //   return
-      // }
 
 
-      
+
       api.addTalkTempleteGroup(parms).then((data) => {
         if (data.code == '0') {
           if (parms.upgroupid == '') {
-            // if (_this.activeName == '01') {
-            //   dd['teampermission'] = _this.quanxian
-            // }
-            if (_this.subgroupName == '') {
-              _this.$message({
-                type: "error",
-                duration: 2000,
-                message: "请填写子分组名称",
-              });
-              return
-            }
-
-            if (_this.quanxian == '' && _this.activeName == '01') {
-              _this.$message({
-                type: "error",
-                duration: 2000,
-                message: "请填写分组权限",
-              });
-              return
-            }
             var dd = {
               upgroupid: data.groupid,
-              groupname: _this.subgroupName,
-              grouptype: _this.activeName,
-              groupclass: '01',
+              groupname: this.subgroupName,
+              grouptype: this.activeName
             }
             api.addTalkTempleteGroup(dd).then((data) => {
               if (data.code == '0') {
@@ -913,9 +809,8 @@ export default {
                   duration: 3000,
                   message: "新建成功!",
                 });
-                _this.subgroupName = ''
-                  _this.groupName = ''  
-                  _this.team_cancel()
+                _this.subgroupName = '',
+                  _this.groupName = '',
                   _this.getAllTalkTempleteGroup()
               }
 
@@ -927,10 +822,9 @@ export default {
               duration: 2000,
               message: "新建成功!",
             });
-            _this.subgroupName = ''
-            _this.groupName = ''
-            _this.team_cancel()
-            _this.getAllTalkTempleteGroup()
+            _this.subgroupName = '',
+              _this.groupName = '',
+              _this.getAllTalkTempleteGroup()
           }
         }
       });
@@ -940,39 +834,13 @@ export default {
     },
     // 取消添加分组
     group_cencle() {
-      this.groupName=''
-      this.subgroupName=''
-      this.modifygroupName=''
-      this.team_cancel()
       this.dialogGroup = false
     },
-    modifydiaCancelGroup(){
-      this.groupName=''
-      this.subgroupName=''
-      this.modifygroupName=''
-      this.team_cancel()
-      this.modifydialogGroup = false
-    },
+
 
     // 打开修改分组弹窗
     modifyGroup(data) {
-      console.log(data)
       this.modifygroupName = data.groupname
-      this.quanxian = data.teampermission
-      if (data.child && this.activeName == '01') {
-        this.modifyChild = true
-        console.log(data.teampermission)
-        if (data.teampermission) {
-          console.log(this.$refs)
-          this.$nextTick(() => {
-            this.$refs.tree.setCheckedKeys((data.teampermission).split(','));
-          })
-          this.teamNames = data.teampermission_names
-        }
-      } else {
-        this.modifyChild = false
-
-      }
       this.modifyGroupData = data
       this.modifydialogGroup = true
     },
@@ -982,14 +850,7 @@ export default {
       var parms = {
         groupid: this.modifyGroupData.groupid,
         groupname: this.modifygroupName,
-
       }
-      if (this.activeName == '01' && this.modifyChild) {
-        parms['teampermission'] = this.quanxian
-      }
-
-      console.log(parms)
-
       api.modifyTalkTempleteGroup(parms).then((data) => {
         if (data.code == '0') {
           _this.modifydialogGroup = false
@@ -998,7 +859,7 @@ export default {
             duration: 2000,
             message: "修改成功!",
           });
-          _this.team_cancel()
+
           _this.getAllTalkTempleteGroup()
         }
       })
@@ -1221,7 +1082,7 @@ export default {
             this.dataList[index].imgText.text = item.imgText.text
             this.dataList[index].imgText.desc = data.description != '' && data.description ? data.description : '详细介绍'
             this.dataList[index].imgText.imgUrl = data.imageurl != '' && data.imageurl ? data.imageurl : "https://assets.weibanzhushou.com/default-cover.png"
-            this.dataList[index].imgText.num = 1
+            this.dataList[index].imgText.num=1
             this.dataList[index].imgText.uploadFilePath = [{
               text: item.imgText.text,
               desc: data.description != '' && data.description ? data.description : '详细介绍',
@@ -1428,7 +1289,7 @@ export default {
       var params = {
         groupid: this.groupValue[1],
         title: this.titleCon,
-        // teampermission: this.quanxian,
+        teampermission: this.quanxian,
         contentJson: JSON.stringify(arr)
       }
 
@@ -1476,7 +1337,6 @@ export default {
 
       var _this = this
       _this.addloading = true
-
 
       params['itemid'] = this.editId
       api.modifyTalkTempleteContent(params).then((data) => {
@@ -2626,7 +2486,6 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
-  margin-left: 0.1rem;
 }
 
 .listMainbox .el-textarea .el-textarea__inner {
@@ -2804,19 +2663,5 @@ table .declet {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
-}
-
-.groupBox {
-  display: flex;
-  align-items: center;
-}
-.groupBox p {
-  text-align: right;
-  width: 0.75rem;
-  margin-right: 0.08rem;
-  font-size: 0.14rem;
-}
-.groupBox .block {
-  width: 75%;
 }
 </style>

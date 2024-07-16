@@ -102,6 +102,14 @@ export default {
         //     dd_key: "4",
         //     dd_value: '户口本'
         // }
+        , {
+          dd_key: "1",
+          dd_value: '护照'
+      }
+      , {
+        dd_key: "f",
+        dd_value: '港、澳、台通行证'
+    }
       ],
       //投保人
       applicantName: '', //投保人姓名
@@ -1146,7 +1154,7 @@ export default {
 
 
 
-      } else {
+      } else if (this.applicantType == '0') {
         if (!(/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(this.applicantIDCard)) || !(/^[a-zA-Z0-9]{5,21}$/.test(this.applicantIDCard))) {
           this.$message({
             showClose: true,
@@ -1284,7 +1292,7 @@ export default {
 
 
 
-        } else {
+        } else  if (this.insuredType == '0') {
           if (!(/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(this.insuredIDCard))) {
             this.$message({
               showClose: true,
