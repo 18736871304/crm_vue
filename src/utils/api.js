@@ -351,6 +351,11 @@ function radarDown(params) {
 }
 
 
+// 获取代理营业部  
+function getDailiTeamList(params) {
+  return POST(params, '/crm/auth/getDailiTeamList.do')
+}
+
 
 
 
@@ -426,6 +431,7 @@ export default {
   modifyRadar,
   deleteRadar,
   radarUp,
-  radarDown
+  radarDown,
+  getDailiTeamList
 }
 

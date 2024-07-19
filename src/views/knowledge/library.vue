@@ -699,6 +699,7 @@ export default {
       this.$refs.tree2.setCheckedKeys([]);
       this.queryflag = true;
       this.getAllTalkTempleteGroup();
+      this.userNameOptions=''
       // this.refresh();
     },
     my_sure2() {
@@ -715,8 +716,18 @@ export default {
         this.queryflag = false;
         this.queryflagString = "02"
       }
+      if (this.activeName == '02') {
+        this.options = []
+        this.speechList = []
+        this.$message({
+            type: "",
+            duration: 2000,
+            message: '请选择业务员',
+          });
+      } else {
+        this.getAllTalkTempleteGroup();
+      }
 
-      this.getAllTalkTempleteGroup();
       // this.refresh();
 
       //获取业务员列表
@@ -731,6 +742,16 @@ export default {
     userNameChange() {
       this.queryflag = false;
       this.queryflagString = "02"
+      if (this.overviewForm.userid == '') {
+        this.options = []
+        this.speechList = []
+        this.$message({
+          type: "",
+          duration: 2000,
+          message: '请选择业务员',
+        });
+        return
+      }
       this.getAllTalkTempleteGroup()
       // this.search();
       // this.refresh();
@@ -875,7 +896,7 @@ export default {
       // }
 
 
-      
+
       api.addTalkTempleteGroup(parms).then((data) => {
         if (data.code == '0') {
           if (parms.upgroupid == '') {
@@ -914,9 +935,9 @@ export default {
                   message: "新建成功!",
                 });
                 _this.subgroupName = ''
-                  _this.groupName = ''  
-                  _this.team_cancel()
-                  _this.getAllTalkTempleteGroup()
+                _this.groupName = ''
+                _this.team_cancel()
+                _this.getAllTalkTempleteGroup()
               }
 
             })
@@ -940,16 +961,16 @@ export default {
     },
     // 取消添加分组
     group_cencle() {
-      this.groupName=''
-      this.subgroupName=''
-      this.modifygroupName=''
+      this.groupName = ''
+      this.subgroupName = ''
+      this.modifygroupName = ''
       this.team_cancel()
       this.dialogGroup = false
     },
-    modifydiaCancelGroup(){
-      this.groupName=''
-      this.subgroupName=''
-      this.modifygroupName=''
+    modifydiaCancelGroup() {
+      this.groupName = ''
+      this.subgroupName = ''
+      this.modifygroupName = ''
       this.team_cancel()
       this.modifydialogGroup = false
     },
@@ -974,6 +995,8 @@ export default {
 
       }
       this.modifyGroupData = data
+
+
       this.modifydialogGroup = true
     },
     // 确认修改分组
@@ -987,19 +1010,20 @@ export default {
         parms['teampermission'] = this.quanxian
       }
 
-      if(this.modifyGroupData.upgroupid){
+      if (this.modifyGroupData.upgroupid) {
         parms['upgroupid'] = this.modifyGroupData.upgroupid
-      }else{
-        parms['upgroupid'] =''
+      } else {
+        parms['upgroupid'] = ''
       }
       console.log(parms)
 
-      if(parms.teampermission==''){
+      if (parms.teampermission == '') {
         _this.$message({
-            type: "error",
-            duration: 2000,
-            message: "请选择话术权限!",
-          });
+          type: "error",
+          duration: 2000,
+          message: "请选择话术权限!",
+        });
+        return
       }
 
       api.modifyTalkTempleteGroup(parms).then((data) => {
@@ -2032,6 +2056,11 @@ export default {
       api.getTalkTeamList().then((data) => {
         if (data.code == 0) {
           _this.teamDataList = data.teamList;
+          api.getDailiTeamList().then((data) => {
+            if (data.code == 0) {
+              _this.teamDataList = _this.teamDataList.concat(data.teamList)
+            }
+          })
           for (var i = 0; i < _this.teamDataList.length; i++) {
             idStr += _this.teamDataList[i].id + ",";
             if (_this.teamDataList[i].children) {

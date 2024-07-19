@@ -16,7 +16,7 @@
           <div> + 新建</div>
         </div>
 
-        <div class="search-box clearfix" style="display: none;">
+        <div class="search-box clearfix" style="display: block;">
           <div class="common-select" v-show="dis_P4_up">
             <div class="select-title" style="width: 1.28rem">选择团队</div>
             <div class="select-content" style="width: calc(100% - 1.28rem);">
@@ -30,8 +30,8 @@
                   </el-tree>
                   <div class="sure-footer">
 
-                    <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
-                    <div class="my-sure" @click="my_sure2">确定</div>
+                    <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2()">取消</div>
+                    <div class="my-sure" @click="my_sure2()">确定</div>
                   </div>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -57,9 +57,7 @@
             <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
           </div>
         </div>
-
       </div>
-
     </div>
 
     <div class="teamLanguage">
@@ -470,7 +468,7 @@ export default {
 
 
     reset() {
-      this.my_sureOne2();
+
       this.overviewForm = {
         teamid: '',
         userid: '',
@@ -479,6 +477,10 @@ export default {
         time: '1'
       }
       this.leidaMain = ''
+      this.my_sureOne2();
+      if (this.activeName == '01') {
+        this.getAllTalkTempleteGroup()
+      }
     },
 
 
@@ -499,10 +501,19 @@ export default {
       this.$refs.disTeam2.hide();
       this.my_list2 = '';
       this.teamList2 = '';
+      this.userNameOptions=''
       this.teamNames2 = "团队选择";
       this.overviewForm.teamid = '';
       this.$refs.tree2.setCheckedKeys([]);
       this.queryflag = true;
+      if (this.activeName == '01') {
+        this.getAllTalkTempleteGroup()
+      } else {
+        this.search({
+          groupid: "",
+          groupname: ""
+        })
+      }
       // this.search();
       // this.refresh();
     },
@@ -519,9 +530,19 @@ export default {
         this.queryflag = false;
         this.queryflagString = "02"
       }
+      console.log(this.my_list2)
+      if (this.activeName == '01') {
+        this.getAllTalkTempleteGroup()
+      } else {
+        // this.options = []
+        this.speechList = []
+        this.$message({
+          type: "",
+          duration: 2000,
+          message: '请选择业务员',
+        });
+      }
 
-
-      // this.search();
 
       //获取业务员列表
       getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
@@ -541,6 +562,18 @@ export default {
     userNameChange() {
       this.queryflag = false;
       this.queryflagString = "02"
+
+
+      if (this.overviewForm.userid == '') {
+        // this.options = []
+        this.speechList = []
+        this.$message({
+          type: "",
+          duration: 2000,
+          message: '请选择业务员',
+        });
+        return
+      }
       if (this.selectTree != '') {
         this.search(this.selectTree)
       } else {
@@ -564,7 +597,9 @@ export default {
         pageSize: 1000,
         pageNumber: 1,
         groupclass: "02",
-        groupid: ''
+        groupid: '',
+        // teamIdStr: this.teamList2,
+        // userIdStr: this.overviewForm.userid
       }
 
       if (this.activeName == '01' && item) {
@@ -572,7 +607,16 @@ export default {
       } else if (this.activeName == '02') {
         params.groupid = item.groupid
       }
+      if (this.activeName == '02' && this.overviewForm.userid != '') {
+        params['teamIdStr'] = this.teamList2
+        params['userIdStr'] = this.overviewForm.userid
+      }
+      if (this.activeName == '01' && this.teamList2 != '') {
+        params['teamIdStr'] = this.teamList2
+        // params['userIdStr'] = this.overviewForm.userid
+      }
 
+      console.log(params)
       api.getRadarList(params).then((data) => {
         if (data.rows.length > 0) {
           _this.speechList = data.rows
@@ -613,13 +657,13 @@ export default {
       this.selectTree = ''
       this.digTitle = '新建 - ' + tab._props.label
       this.options = []
+      console.log('取消内容')
+      this.my_sureOne2()
       // this.groupOptions = []
       this.speechList = []
       if (this.activeName == '01') {
         this.getAllTalkTempleteGroup()
-
       } else {
-
         this.options = [
           {
             groupid: "90000000000000000001",
@@ -630,7 +674,6 @@ export default {
             groupname: "链接"
           }
         ]
-        console.log(this.options[0])
         this.search({
           groupid: "",
           groupname: ""
@@ -863,7 +906,12 @@ export default {
         }
       }
       if (this.activeName == '01') {
-        params['groupid'] = this.groupValue[0]
+        if (this.isEdit == true) {
+          params['groupid'] = this.groupValue
+        } else {
+          params['groupid'] = this.groupValue[0]
+        }
+
       }
       else {
         if ((params.link).slice(-3) == 'pdf') {
@@ -1167,6 +1215,12 @@ export default {
       api.getTalkTeamList().then((data) => {
         if (data.code == 0) {
           _this.teamDataList = data.teamList;
+          api.getDailiTeamList().then((data) => {
+            if (data.code == 0) {
+              _this.teamDataList = _this.teamDataList.concat(data.teamList)
+              console.log(_this.teamDataList)
+            }
+          })
           for (var i = 0; i < _this.teamDataList.length; i++) {
             idStr += _this.teamDataList[i].id + ",";
             if (_this.teamDataList[i].children) {
@@ -1267,6 +1321,9 @@ export default {
 
     // 添加分组
     group_sure() {
+
+      console.log(this.modifyGroupData)
+      console.log(this.modifyGroupData == '')
       if (this.modifyGroupData == '') {
         var params = {
           upgroupid: "",
@@ -1354,13 +1411,18 @@ export default {
       var params = {
         grouptype: this.activeName,
         groupclass: '02',
+        // teamIdStr:this.teamList2
+      }
+      if (this.teamList2 != '') {
+        params['teamIdStr'] = this.teamList2
       }
       api.getAllTalkTempleteGroup(params).then((data) => {
         if (data.code == '0') {
           _this.options = data.talkTempleteGroup
           _this.search()
-        }else if(data.code == '1' && _this.activeName=='01' && data.msg=='还没有定义话术组'){
-          _this.options =[]
+        } else if (data.code == '1' && _this.activeName == '01' && data.msg == '还没有定义话术组') {
+          _this.options = []
+          _this.speechList = []
         }
 
       })
@@ -1859,6 +1921,7 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
+  margin-left: 0.1rem;
 }
 .imgTxt p:first-child {
   font-size: 0.15rem;
