@@ -277,11 +277,10 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </p>
               <el-dropdown-menu class="asd" slot="dropdown">
-                <el-tree @check="checkTeam" :data="teamDataList" ref="tree" show-checkbox node-key="id" :default-checked-keys="teamIdCheck" :props="defaultProps"> </el-tree>
+                <el-tree @check="checkTeam" :data="teamDataList1" ref="tree" show-checkbox node-key="id" :default-checked-keys="teamIdCheck" :props="defaultProps"> </el-tree>
                 <div class="sure-footer">
                   <div class="my-sure cancel" @click="team_cancel()">取消</div>
                   <div class="my-sure" @click="team_sure()">确定</div>
-
                 </div>
               </el-dropdown-menu>
             </el-dropdown>
@@ -363,6 +362,7 @@ export default {
       visibles: [],
       // 当前选中的分组
       selectTree: '',
+      InitteamNames: '',
 
 
 
@@ -415,6 +415,7 @@ export default {
       teamNames: "团队选择",
       teamListId: "",
       teamDataList: [],
+      teamDataList1: [],
       teamid: "",
       myList: ''
     };
@@ -501,7 +502,7 @@ export default {
       this.$refs.disTeam2.hide();
       this.my_list2 = '';
       this.teamList2 = '';
-      this.userNameOptions=''
+      this.userNameOptions = ''
       this.teamNames2 = "团队选择";
       this.overviewForm.teamid = '';
       this.$refs.tree2.setCheckedKeys([]);
@@ -530,16 +531,15 @@ export default {
         this.queryflag = false;
         this.queryflagString = "02"
       }
-      console.log(this.my_list2)
       if (this.activeName == '01') {
         this.getAllTalkTempleteGroup()
       } else {
         // this.options = []
         this.speechList = []
         this.$message({
-          type: "",
+          type: "info",
           duration: 2000,
-          message: '请选择业务员',
+          message: '请选择业务员！',
         });
       }
 
@@ -568,9 +568,9 @@ export default {
         // this.options = []
         this.speechList = []
         this.$message({
-          type: "",
+          type: "info",
           duration: 2000,
-          message: '请选择业务员',
+          message: '请选择业务员！',
         });
         return
       }
@@ -613,20 +613,13 @@ export default {
       }
       if (this.activeName == '01' && this.teamList2 != '') {
         params['teamIdStr'] = this.teamList2
-        // params['userIdStr'] = this.overviewForm.userid
       }
-
-      console.log(params)
       api.getRadarList(params).then((data) => {
         if (data.rows.length > 0) {
           _this.speechList = data.rows
-
         } else {
           _this.speechList = []
         }
-
-
-
         _this.addloading = false
       })
     },
@@ -657,9 +650,7 @@ export default {
       this.selectTree = ''
       this.digTitle = '新建 - ' + tab._props.label
       this.options = []
-      console.log('取消内容')
       this.my_sureOne2()
-      // this.groupOptions = []
       this.speechList = []
       if (this.activeName == '01') {
         this.getAllTalkTempleteGroup()
@@ -735,20 +726,20 @@ export default {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "上传成功!",
+            message: "上传成功！",
           });
         } else {
           _this.$message({
             type: "error",
             duration: 2000,
-            message: data.msg + '，删除后重新上传',
+            message: data.msg + '，删除后重新上传！',
           });
         }
       }).fail(function (res) {
         _this.$message({
           type: "error",
           duration: 2000,
-          message: "上传失败!",
+          message: "上传失败！",
         });
       });
 
@@ -802,7 +793,6 @@ export default {
                 link_image_url: "https://assets.weibanzhushou.com/default-cover.png"
               }
               _this.imgTxt.fileList.push(gg)
-              // _this.imgTxt.fileList.push("https://assets.weibanzhushou.com/default-cover.png")
             }
 
           }
@@ -880,7 +870,7 @@ export default {
         this.$message({
           type: "error",
           duration: 2000,
-          message: '请填写雷达内容后再提交',
+          message: '请填写雷达内容后再提交！',
         });
         _this.addloading = false
         return
@@ -927,14 +917,11 @@ export default {
         return
       } else {
         api.addRadar(params).then((data) => {
-          console.log(data)
-
-          console.log(data.code == '0')
           if (data.code == '0') {
             _this.$message({
               type: "success",
               duration: 2000,
-              message: "新建雷达成功",
+              message: "新建雷达成功！",
             });
             _this.dialogleida = false
 
@@ -984,7 +971,7 @@ export default {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "修改成功!",
+            message: "修改成功！",
           });
           _this.resetEdit()
           if (_this.selectTree != '') {
@@ -1056,8 +1043,6 @@ export default {
 
 
     showEditPopup(item) {
-
-      console.log(item)
       var _this = this
       this.dialogleida = true
       this.isEdit = true
@@ -1121,7 +1106,7 @@ export default {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "删除成功!",
+            message: "删除成功！",
           });
           this.deldialogVisible = false
           if (_this.selectTree != '') {
@@ -1146,10 +1131,8 @@ export default {
 
     },
 
-
     // 选择分组
     handleChange(value) {
-
     },
 
     // 勾选团队时，统计团队ID
@@ -1178,6 +1161,13 @@ export default {
       }
       this.queryflag = true;
       this.quanxian = ''
+      if (this.teamIdCheck[0] != '') {
+        this.myList = this.teamIdCheck[0]
+        this.teamListId = this.teamIdCheck[0]
+        this.quanxian = this.teamIdCheck[0]
+        this.$refs.tree.setCheckedKeys(this.teamIdCheck)
+        this.teamNames = this.InitteamNames
+      }
     },
 
     // 确认所选团队
@@ -1203,7 +1193,18 @@ export default {
 
 
 
+    dealTreeOnceChecked(arrMenus) {
+      arrMenus === undefined ? arrMenus = [] : ''
+      if (arrMenus.length > 0) {
+        //let disarr = [];
+        arrMenus.forEach(item => {
+          let arrChildren = item.children
+          if (arrChildren !== null) this.dealTreeOnceChecked(arrChildren)
+          item.id === this.teamIdCheck[0] ? item["disabled"] = true : '';
 
+        })
+      }
+    },
 
 
 
@@ -1215,30 +1216,51 @@ export default {
       api.getTalkTeamList().then((data) => {
         if (data.code == 0) {
           _this.teamDataList = data.teamList;
+          // _this.teamDataList1 = data.teamList;
           api.getDailiTeamList().then((data) => {
             if (data.code == 0) {
               _this.teamDataList = _this.teamDataList.concat(data.teamList)
-              console.log(_this.teamDataList)
+              // 堆和栈的区别， 改变其中一个另一个不变
+              _this.teamDataList1 = JSON.parse(JSON.stringify(_this.teamDataList));
+
+              getData('post', my_url + '/crm/auth/getTeamId.do', function (data) { //查看客户的权限
+                if (data.code == 0) {
+                  _this.teamIdCheck.push(data.teamid)
+                  _this.myList = data.teamid
+                  _this.teamListId = data.teamid
+                  _this.quanxian = data.teamid
+                  // _this.$refs.tree.setCheckedKeys(this.teamIdCheck)
+                  _this.teamNames = data.teamname
+                  _this.InitteamNames = data.teamname
+                  _this.dealTreeOnceChecked(_this.teamDataList1)
+                }
+              }, null);
             }
           })
-          for (var i = 0; i < _this.teamDataList.length; i++) {
-            idStr += _this.teamDataList[i].id + ",";
-            if (_this.teamDataList[i].children) {
-              for (var j = 0; j < this.teamDataList[i].children.length; j++) {
-                idStr += _this.teamDataList[i].children[j].id + ",";
-                if (this.teamDataList[i].children[j].children) {
-                  for (var s = 0; s < this.teamDataList[i].children[j].children.length; s++) {
-                    idStr += _this.teamDataList[i].children[j].children[s].id + ",";
-                  }
-                }
-              }
-            }
-          }
-          if (idStr != "") {
-            idStr = idStr.slice(0, -1);
-          }
-          // 权限内的所有人员
-          _this.teamAllid = idStr;
+
+
+
+
+          // for (var i = 0; i < _this.teamDataList.length; i++) {
+          //   idStr += _this.teamDataList[i].id + ",";
+          //   if (_this.teamDataList[i].children) {
+          //     for (var j = 0; j < this.teamDataList[i].children.length; j++) {
+          //       idStr += _this.teamDataList[i].children[j].id + ",";
+          //       if (this.teamDataList[i].children[j].children) {
+          //         for (var s = 0; s < this.teamDataList[i].children[j].children.length; s++) {
+          //           idStr += _this.teamDataList[i].children[j].children[s].id + ",";
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
+
+
+          // if (idStr != "") {
+          //   idStr = idStr.slice(0, -1);
+          // }
+          // // 权限内的所有人员
+          // _this.teamAllid = idStr;
         }
       });
     },
@@ -1266,7 +1288,7 @@ export default {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "上移成功!",
+            message: "上移成功！",
           });
           if (_this.selectTree != '') {
             _this.search(_this.selectTree)
@@ -1295,7 +1317,7 @@ export default {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "下移成功!",
+            message: "下移成功！",
           });
           if (_this.selectTree != '') {
             _this.search(_this.selectTree)
@@ -1321,9 +1343,6 @@ export default {
 
     // 添加分组
     group_sure() {
-
-      console.log(this.modifyGroupData)
-      console.log(this.modifyGroupData == '')
       if (this.modifyGroupData == '') {
         var params = {
           upgroupid: "",
@@ -1332,15 +1351,13 @@ export default {
           groupclass: '02',
           teampermission: this.quanxian
         }
-
         var _this = this
         api.addTalkTempleteGroup(params).then((data) => {
-
           if (data.code == '0') {
             _this.$message({
               type: "success",
               duration: 2000,
-              message: "添加成功!",
+              message: "添加成功！",
             });
             _this.getAllTalkTempleteGroup()
             _this.groupName = ''
@@ -1371,7 +1388,7 @@ export default {
             _this.$message({
               type: "success",
               duration: 2000,
-              message: "修改成功!",
+              message: "修改成功！",
             });
             _this.getAllTalkTempleteGroup()
             _this.groupName = ''
@@ -1431,7 +1448,6 @@ export default {
     // 点击分组
     handleNodeClick(data) {
       var _this = this
-      console.log(data)
       this.selectTree = data
       this.search(data)
     },
@@ -1464,7 +1480,7 @@ export default {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "上移成功!",
+            message: "上移成功！",
           });
           _this.getAllTalkTempleteGroup()
         } else {
@@ -1486,7 +1502,7 @@ export default {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "下移成功!",
+            message: "下移成功！",
           });
           _this.getAllTalkTempleteGroup()
         } else {
@@ -1515,7 +1531,7 @@ export default {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "删除成功!",
+            message: "删除成功！",
           });
           _this.deldiaGroup = false
           _this.getAllTalkTempleteGroup()

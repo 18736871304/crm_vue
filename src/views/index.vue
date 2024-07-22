@@ -347,7 +347,7 @@ export default {
         _this.$message({
           duration: 3000,
           showClose: true,
-          message: "两次密码输入不一致，请重新输入",
+          message: "两次密码输入不一致，请重新输入！",
           type: "error",
           center: true,
         });
@@ -367,7 +367,7 @@ export default {
           _this.$message({
             duration: 2500,
             showClose: true,
-            message: "修改成功，退出后请重新登录",
+            message: "修改成功，退出后请重新登录！",
             type: "success",
             center: true,
           });

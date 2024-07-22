@@ -174,7 +174,7 @@ export default {
           } else if (aa == '03') {
             this.$message({
               type: 'info',
-              message: '此轮将不会分配线索给你'
+              message: '此轮将不会分配线索给你！'
             });
           }
 

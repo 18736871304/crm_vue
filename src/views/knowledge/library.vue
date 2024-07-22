@@ -440,7 +440,7 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </p>
               <el-dropdown-menu class="asd" slot="dropdown">
-                <el-tree @check="checkTeam" :data="teamDataList" ref="tree" show-checkbox node-key="id" :default-checked-keys="teamIdCheck" :props="defaultProps"> </el-tree>
+                <el-tree @check="checkTeam" :data="teamDataList1" ref="tree" show-checkbox node-key="id" :default-checked-keys="teamIdCheck" :props="defaultProps"> </el-tree>
                 <div class="sure-footer">
                   <div class="my-sure cancel" @click="team_cancel()">取消</div>
                   <div class="my-sure" @click="team_sure()">确定</div>
@@ -477,7 +477,7 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </p>
               <el-dropdown-menu class="asd" slot="dropdown">
-                <el-tree @check="checkTeam" :data="teamDataList" ref="tree" show-checkbox node-key="id" :default-checked-keys="teamIdCheck" :props="defaultProps"> </el-tree>
+                <el-tree @check="checkTeam" :data="teamDataList1" ref="tree" show-checkbox node-key="id" :default-checked-keys="teamIdCheck" :props="defaultProps"> </el-tree>
                 <div class="sure-footer">
                   <div class="my-sure cancel" @click="team_cancel()">取消</div>
                   <div class="my-sure" @click="team_sure()">确定</div>
@@ -556,7 +556,7 @@ export default {
       visibles: [],
       // 当前选中的分组
       selectTree: '',
-
+      InitteamNames: '',
       // 新建分组
       addquxian: false,//判断新建一级分组还是二级分组
       dialogGroup: false,
@@ -654,6 +654,7 @@ export default {
       teamNames: "团队选择",
       teamListId: "",
       teamDataList: [],
+      teamDataList1: [],
       teamid: "",
       myList: ''
     };
@@ -699,7 +700,7 @@ export default {
       this.$refs.tree2.setCheckedKeys([]);
       this.queryflag = true;
       this.getAllTalkTempleteGroup();
-      this.userNameOptions=''
+      this.userNameOptions = ''
       // this.refresh();
     },
     my_sure2() {
@@ -711,7 +712,6 @@ export default {
         this.queryflag = true;
         this.queryflagString = "01"
       } else {
-        console.log(this.my_list2)
         this.teamNames2 = this.my_list2;
         this.queryflag = false;
         this.queryflagString = "02"
@@ -720,10 +720,10 @@ export default {
         this.options = []
         this.speechList = []
         this.$message({
-            type: "",
-            duration: 2000,
-            message: '请选择业务员',
-          });
+          type: "info",
+          duration: 2000,
+          message: '请选择业务员！',
+        });
       } else {
         this.getAllTalkTempleteGroup();
       }
@@ -746,9 +746,9 @@ export default {
         this.options = []
         this.speechList = []
         this.$message({
-          type: "",
+          type: "info",
           duration: 2000,
-          message: '请选择业务员',
+          message: '请选择业务员！',
         });
         return
       }
@@ -781,7 +781,7 @@ export default {
       this.options = []
       this.groupOptions = []
       this.speechList = []
-      this.getAllTalkTempleteGroup()
+      // this.getAllTalkTempleteGroup()
       this.reset()
     },
     // 查询分组
@@ -844,19 +844,13 @@ export default {
           parms.groupname = this.subgroupName
         }
       }
-
-      console.log(parms.upgroupid)
-      console.log(parms.upgroupid != '')
       if (parms.upgroupid != '') {
         this.addquxian = false
       } else {
         this.addquxian = true
       }
-
       this.team_cancel()
-
     },
-
     // 确认添加分组
     group_sure() {
       var _this = this
@@ -866,9 +860,6 @@ export default {
         grouptype: this.activeName,
         groupclass: '01',
       }
-
-
-
       for (var i = 0; i < this.groupOptions.length; i++) {
         if (this.groupOptions[i].groupname == this.groupName) {
           parms.upgroupid = this.groupOptions[i].groupid
@@ -882,32 +873,18 @@ export default {
         _this.$message({
           type: "error",
           duration: 2000,
-          message: "请填写子分组名称",
+          message: "请填写子分组名称！",
         });
         return
       }
-      // if (_this.quanxian == '') {
-      //   _this.$message({
-      //     type: "error",
-      //     duration: 2000,
-      //     message: "请填写分组权限",
-      //   });
-      //   return
-      // }
-
-
-
       api.addTalkTempleteGroup(parms).then((data) => {
         if (data.code == '0') {
           if (parms.upgroupid == '') {
-            // if (_this.activeName == '01') {
-            //   dd['teampermission'] = _this.quanxian
-            // }
             if (_this.subgroupName == '') {
               _this.$message({
                 type: "error",
                 duration: 2000,
-                message: "请填写子分组名称",
+                message: "请填写子分组名称！",
               });
               return
             }
@@ -916,7 +893,7 @@ export default {
               _this.$message({
                 type: "error",
                 duration: 2000,
-                message: "请填写分组权限",
+                message: "请填写分组权限！",
               });
               return
             }
@@ -932,7 +909,7 @@ export default {
                 _this.$message({
                   type: "success",
                   duration: 3000,
-                  message: "新建成功!",
+                  message: "新建成功！",
                 });
                 _this.subgroupName = ''
                 _this.groupName = ''
@@ -946,7 +923,7 @@ export default {
             _this.$message({
               type: "success",
               duration: 2000,
-              message: "新建成功!",
+              message: "新建成功！",
             });
             _this.subgroupName = ''
             _this.groupName = ''
@@ -977,14 +954,11 @@ export default {
 
     // 打开修改分组弹窗
     modifyGroup(data) {
-      console.log(data)
       this.modifygroupName = data.groupname
       this.quanxian = data.teampermission
       if (data.child && this.activeName == '01') {
         this.modifyChild = true
-        console.log(data.teampermission)
         if (data.teampermission) {
-          console.log(this.$refs)
           this.$nextTick(() => {
             this.$refs.tree.setCheckedKeys((data.teampermission).split(','));
           })
@@ -1015,13 +989,11 @@ export default {
       } else {
         parms['upgroupid'] = ''
       }
-      console.log(parms)
-
       if (parms.teampermission == '') {
         _this.$message({
           type: "error",
           duration: 2000,
-          message: "请选择话术权限!",
+          message: "请选择话术权限！",
         });
         return
       }
@@ -1152,7 +1124,6 @@ export default {
           if (fileType == "pdf") {
             data.refilepath = "https://crm.meihualife.com/images/pdf.jpg";
           } else {
-            console.log(data.refilepath)
             data.refilepath = data.refilepath.slice(9);
           }
 
@@ -1167,8 +1138,6 @@ export default {
           if (fileType == "imgText") {
             _this.dataList[index][fileType].imgUrl = _this.dataList[index][fileType].file.refilepath
           }
-
-          console.log(_this.dataList[index][fileType])
           _this.$message({
             type: "success",
             duration: 2000,
@@ -1178,14 +1147,14 @@ export default {
           _this.$message({
             type: "error",
             duration: 2000,
-            message: data.msg + '，删除后重新上传',
+            message: data.msg + '，删除后重新上传！',
           });
         }
       }).fail(function (res) {
         _this.$message({
           type: "error",
           duration: 2000,
-          message: "上传失败!",
+          message: "上传失败！",
         });
       });
 
@@ -1200,7 +1169,7 @@ export default {
         this.dataList = copiedArr;
       } else {
         this.$message({
-          message: "最少保留一条话术",
+          message: "最少保留一条话术！",
           type: "warning",
         });
       }
@@ -1446,7 +1415,7 @@ export default {
         this.$message({
           type: "error",
           duration: 2000,
-          message: '请填写分组',
+          message: '请填写分组！',
         });
         _this.addloading = false
         return
@@ -1456,7 +1425,7 @@ export default {
         this.$message({
           type: "error",
           duration: 2000,
-          message: '请填写话术内容后再提交',
+          message: '请填写话术内容后再提交！',
         });
         _this.addloading = false
         return
@@ -1478,7 +1447,7 @@ export default {
             _this.$message({
               type: "success",
               duration: 2000,
-              message: "新建话术成功",
+              message: "新建话术成功！",
             });
             _this.dialoghuashu = false
             _this.getAllTalkTempleteGroup()
@@ -1496,7 +1465,7 @@ export default {
           _this.$message({
             type: "error",
             duration: 3000,
-            message: '请检查内容，文字中不允许有表情和颜文字',
+            message: '请检查内容，文字中不允许有表情和颜文字！',
           });
           _this.addloading = false
 
@@ -1521,7 +1490,7 @@ export default {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "修改成功!",
+            message: "修改成功！",
           });
           _this.handleNodeClick(_this.selectTree)
           _this.data_cencle()
@@ -1554,8 +1523,6 @@ export default {
     },
     handleNodeClick(data) {
       var _this = this
-      console.log(data)
-
       this.selectTree = data
       var groupidStr = ''
       if (data.child && data.child.length > 0) {
@@ -1657,7 +1624,6 @@ export default {
 
 
     showEditPopup(item) {
-      console.log(item)
       var _this = this
       this.dialoghuashu = true
       this.isEdit = true
@@ -1685,24 +1651,12 @@ export default {
       // 赋值标题
       this.titleCon = item.title
       // 赋值权限
-
       this.quanxian = item.teampermission
-
-      // if (item.teampermission) {
-      //   console.log(item.teampermission)
-      //   if (this.activeName == '01') {
-      //     this.$refs.tree.setCheckedKeys((item.teampermission).split(','));
-      //   }
-      //   this.teamNames = item.teampermission_names
-      // }
-
-
       this.dataList = []
       for (var i = 0; i < item.talkContent.length; i++) {
 
         var itemMain = item.talkContent[i]
         if (itemMain.type == 'video') {
-
           this.getvideoImg("https://crm.meihualife.com/" + itemMain.dispath, itemMain, function (videoImg, itemMain) {
             _this.dataList.push({
               mainType: "video",
@@ -1983,7 +1937,7 @@ export default {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "删除成功!",
+            message: "删除成功！",
           });
           _this.deldialogVisible = false
           _this.handleNodeClick(_this.selectTree)
@@ -2028,6 +1982,16 @@ export default {
       }
       this.queryflag = true;
       this.quanxian = ''
+
+      if (this.teamIdCheck[0] != '') {
+        this.myList = this.teamIdCheck[0]
+        this.teamListId = this.teamIdCheck[0]
+        this.quanxian = this.teamIdCheck[0]
+        if (this.addquxian) {
+          this.$refs.tree.setCheckedKeys(this.teamIdCheck)
+        }
+        this.teamNames = this.InitteamNames
+      }
     },
 
     // 确认所选团队
@@ -2049,6 +2013,22 @@ export default {
       this.quanxian = this.teamListId;
 
     },
+
+
+
+    dealTreeOnceChecked(arrMenus) {
+      arrMenus === undefined ? arrMenus = [] : ''
+      if (arrMenus.length > 0) {
+        //let disarr = [];
+        arrMenus.forEach(item => {
+          let arrChildren = item.children
+          if (arrChildren !== null) this.dealTreeOnceChecked(arrChildren)
+          item.id === this.teamIdCheck[0] ? item["disabled"] = true : '';
+
+        })
+      }
+    },
+
     // 获取该团队权限下的员工
     yewu() {
       let _this = this;
@@ -2059,26 +2039,23 @@ export default {
           api.getDailiTeamList().then((data) => {
             if (data.code == 0) {
               _this.teamDataList = _this.teamDataList.concat(data.teamList)
+              // 堆和栈的区别， 改变其中一个另一个不变
+              _this.teamDataList1 = JSON.parse(JSON.stringify(_this.teamDataList));
+              getData('post', my_url + '/crm/auth/getTeamId.do', function (data) { //查看客户的权限
+                if (data.code == 0) {
+                  _this.teamIdCheck.push(data.teamid)
+                  _this.myList = data.teamid
+                  _this.teamListId = data.teamid
+                  _this.quanxian = data.teamid
+                  // _this.$refs.tree.setCheckedKeys(this.teamIdCheck)
+                  _this.teamNames = data.teamname
+                  _this.InitteamNames = data.teamname
+                  _this.dealTreeOnceChecked(_this.teamDataList1)
+                }
+              }, null);
+
             }
           })
-          for (var i = 0; i < _this.teamDataList.length; i++) {
-            idStr += _this.teamDataList[i].id + ",";
-            if (_this.teamDataList[i].children) {
-              for (var j = 0; j < this.teamDataList[i].children.length; j++) {
-                idStr += _this.teamDataList[i].children[j].id + ",";
-                if (this.teamDataList[i].children[j].children) {
-                  for (var s = 0; s < this.teamDataList[i].children[j].children.length; s++) {
-                    idStr += _this.teamDataList[i].children[j].children[s].id + ",";
-                  }
-                }
-              }
-            }
-          }
-          if (idStr != "") {
-            idStr = idStr.slice(0, -1);
-          }
-          // 权限内的所有人员
-          _this.teamAllid = idStr;
         }
       });
     },
@@ -2086,49 +2063,25 @@ export default {
 
     open(data) {
       var speechList = this.speechList
-      console.log(data)
       speechList.forEach(item => {
-        console.log(item)
         if (item.itemid == data.itemid) {
           item.isopen = !item.isopen
         }
       })
 
     },
-    // openSmall(data) {
-    //   console.log(data)
-    //   var speechList = this.speechList
-    //   speechList.forEach(item => {
-    //     var arr = item.talkContent
-    //     arr.forEach(obj => {
-    //       if (obj.contentid == data.contentid) {
-    //         console.log(data)
-    //         console.log(obj)
-    //         obj.isopen = !obj.isopen
-    //       }
-    //     })
-    //   })
-    // },
-
-
-    //   itemUp,
-    // itemDown,
-    // groupUp,
-    // groupDown
 
     groupUp(data) {
-      console.log(data)
       var _this = this
       var params = {
         groupid: data.groupid
       }
       api.groupUp(params).then((data) => {
-        console.log(data)
         if (data.code == '0') {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "上移成功!",
+            message: "上移成功！",
           });
           _this.getAllTalkTempleteGroup()
         } else {
@@ -2141,18 +2094,16 @@ export default {
       })
     },
     groupDown(data) {
-      console.log(data)
       var _this = this
       var params = {
         groupid: data.groupid
       }
       api.groupDown(params).then((data) => {
-        console.log(data)
         if (data.code == '0') {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "下移成功!",
+            message: "下移成功！",
           });
           _this.getAllTalkTempleteGroup()
         } else {
@@ -2165,18 +2116,16 @@ export default {
       })
     },
     itemUp(data) {
-      console.log(data)
       var _this = this
       var params = {
         itemid: data.itemid
       }
       api.itemUp(params).then((data) => {
-        console.log(data)
         if (data.code == '0') {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "上移成功!",
+            message: "上移成功！",
           });
           _this.handleNodeClick(_this.selectTree)
         } else {
@@ -2189,18 +2138,16 @@ export default {
       })
     },
     itemDown(data) {
-      console.log(data)
       var _this = this
       var params = {
         itemid: data.itemid
       }
       api.itemDown(params).then((data) => {
-        console.log(data)
         if (data.code == '0') {
           _this.$message({
             type: "success",
             duration: 2000,
-            message: "下移成功!",
+            message: "下移成功！",
           });
           _this.handleNodeClick(_this.selectTree)
         } else {
@@ -2231,15 +2178,13 @@ export default {
         this.$message({
           type: "error",
           duration: 2000,
-          message: '已经是最下面的一个了',
+          message: '已经是最下面的一个了！',
         });
       }
 
 
     },
     clickup(index) {
-      console.log(index)
-      console.log(this.dataList)
       var arr = ["image", "imgText", "mainType", "pdf", "video", "wenzimain"]
       if (index > 0) {
         for (let i = 0; i < arr.length; i++) {
@@ -2251,7 +2196,7 @@ export default {
         this.$message({
           type: "error",
           duration: 2000,
-          message: "已经是最上面的一个了",
+          message: "已经是最上面的一个了！",
         });
 
       }

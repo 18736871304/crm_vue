@@ -411,7 +411,7 @@ export default {
         if (data.code == '0') {
           _this.$message({
             showClose: true,
-            message: '跟进记录置顶成功',
+            message: '跟进记录置顶成功！',
             duration: 3000,
             type: 'success'
           });
@@ -489,7 +489,7 @@ export default {
       if (this.from.nocallcentertime > 300 || this.from.nocallcentertime < 0) {
         _this.$message({
           showClose: true,
-          message: '非话务时长 0<X<300 ',
+          message: '非话务时长 0<X<300 ！',
           duration: 3000,
           type: 'error'
         });
@@ -498,7 +498,7 @@ export default {
       if (isNaN(_this.monthTarget) || isNaN(_this.weekTarget)) {
         _this.$message({
           showClose: true,
-          message: '目标标保必须为数值',
+          message: '目标标保必须为数值！',
           duration: 3000,
           type: 'error'
         });
@@ -508,7 +508,7 @@ export default {
       if (_this.monthTarget == '' || _this.weekTarget == '') {
         _this.$message({
           showClose: true,
-          message: '目标标保为必填值',
+          message: '目标标保为必填值！',
           duration: 3000,
           type: 'error'
         });
@@ -519,7 +519,7 @@ export default {
       if (Number(_this.monthTarget) < Number(_this.weekTarget)) {
         _this.$message({
           showClose: true,
-          message: '本月目标必须大于本周目标',
+          message: '本月目标必须大于本周目标！',
           duration: 3000,
           type: 'error'
         });

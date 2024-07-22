@@ -456,7 +456,7 @@ export default {
             } else {
               this.$message({
                 showClose: true,
-                message: '未录入保额配置数据，不允许录单',
+                message: '未录入保额配置数据，不允许录单！',
                 duration: 3000,
                 type: 'warning'
               });
@@ -687,7 +687,7 @@ export default {
                 _this.loading = false
                 this.$message({
                   showClose: true,
-                  message: "保单已录入，请等待管理员进行审核",
+                  message: "保单已录入，请等待管理员进行审核！",
                   duration: 3000,
                   type: 'success'
                 });
@@ -724,7 +724,7 @@ export default {
       if (this.applicantType == '' || this.applicantType == null) {
         this.$message({
           showClose: true,
-          message: "投保人证件类型不能为空",
+          message: "投保人证件类型不能为空！",
           duration: 3000,
           type: 'error'
         });
@@ -734,7 +734,7 @@ export default {
       if (this.applicantIDCard == '' || this.applicantIDCard == null) {
         this.$message({
           showClose: true,
-          message: "投保人证件号不能为空",
+          message: "投保人证件号不能为空！",
           duration: 3000,
           type: 'error'
         });
@@ -744,7 +744,7 @@ export default {
         if (!(/^[a-zA-Z0-9]{5,21}$/.test(this.applicantIDCard))) {
           this.$message({
             showClose: true,
-            message: "投保人证件号不符合规定",
+            message: "投保人证件号不符合规定！",
             duration: 3000,
             type: 'error'
           });
@@ -754,7 +754,7 @@ export default {
         if (!(/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(this.applicantIDCard)) || !(/^[a-zA-Z0-9]{5,21}$/.test(this.applicantIDCard))) {
           this.$message({
             showClose: true,
-            message: "投保人证件号不符合规定",
+            message: "投保人证件号不符合规定！",
             duration: 3000,
             type: 'error'
           });
@@ -765,7 +765,7 @@ export default {
       if (this.inpeople == '' || this.inpeople == null) {
         this.$message({
           showClose: true,
-          message: "投被保人是否是同一个人",
+          message: "投被保人是否是同一个人！",
           duration: 3000,
           type: 'error'
         });
@@ -777,7 +777,7 @@ export default {
         if (this.applicantName == this.insuredName || this.applicantIDCard == this.insuredIDCard) {
           this.$message({
             showClose: true,
-            message: "投被保人不应该为同一个人",
+            message: "投被保人不应该为同一个人！",
             duration: 3000,
             type: 'error'
           });
@@ -787,7 +787,7 @@ export default {
         if (this.relatoapp == '' || this.relatoapp == null) {
           this.$message({
             showClose: true,
-            message: "请选择投保人和被保人的关系",
+            message: "请选择投保人和被保人的关系！",
             duration: 3000,
             type: 'error'
           });
@@ -796,7 +796,7 @@ export default {
         if (this.insuredName == '' || this.insuredName == null) {
           this.$message({
             showClose: true,
-            message: "请填写被保人姓名",
+            message: "请填写被保人姓名！",
             duration: 3000,
             type: 'error'
           });
@@ -810,7 +810,7 @@ export default {
           if (!(/^(13|14|15|16|17|18|19)[0-9]{9}$/.test(this.insuredPhone))) {
             this.$message({
               showClose: true,
-              message: "被保人手机号不符合规定",
+              message: "被保人手机号不符合规定！",
               duration: 3000,
               type: 'error'
             });
@@ -823,7 +823,7 @@ export default {
         if (this.insuredType == '' || this.insuredType == null) {
           this.$message({
             showClose: true,
-            message: "请选择被保人证件类型",
+            message: "请选择被保人证件类型！",
             duration: 3000,
             type: 'error'
           });
@@ -832,7 +832,7 @@ export default {
         if (this.insuredIDCard == '' || this.insuredIDCard == null) {
           this.$message({
             showClose: true,
-            message: "请填写被保人证件号",
+            message: "请填写被保人证件号！",
             duration: 3000,
             type: 'error'
           });
@@ -842,7 +842,7 @@ export default {
           if (!(/^[a-zA-Z0-9]{5,21}$/.test(this.insuredIDCard))) {
             this.$message({
               showClose: true,
-              message: "被保人证件号不符合规定",
+              message: "被保人证件号不符合规定！",
               duration: 3000,
               type: 'error'
             });
@@ -851,7 +851,7 @@ export default {
           if (this.birthData == '' || this.birthData == null) {
             this.$message({
               showClose: true,
-              message: "被保人出生日期不能为空",
+              message: "被保人出生日期不能为空！",
               duration: 3000,
               type: 'error'
             });
@@ -860,7 +860,7 @@ export default {
           if (this.insex == '' || this.insex == null) {
             this.$message({
               showClose: true,
-              message: "被保人性别不能为空",
+              message: "被保人性别不能为空！",
               duration: 3000,
               type: 'error'
             });
@@ -873,7 +873,7 @@ export default {
           if (!(/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(this.insuredIDCard))) {
             this.$message({
               showClose: true,
-              message: "被保人证件号不符合规定",
+              message: "被保人证件号不符合规定！",
               duration: 3000,
               type: 'error'
             });
@@ -887,7 +887,7 @@ export default {
           if (appage <= insage) {
             this.$message({
               showClose: true,
-              message: "投被保人关系不正确",
+              message: "投被保人关系不正确！",
               duration: 3000,
               type: 'error'
             });
@@ -898,7 +898,7 @@ export default {
           if (appage >= insage) {
             this.$message({
               showClose: true,
-              message: "投被保人关系不正确",
+              message: "投被保人关系不正确！",
               duration: 3000,
               type: 'error'
             });
@@ -909,7 +909,7 @@ export default {
           if (appage <= insage) {
             this.$message({
               showClose: true,
-              message: "投被保人关系不正确",
+              message: "投被保人关系不正确！",
               duration: 3000,
               type: 'error'
             });

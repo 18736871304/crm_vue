@@ -2697,7 +2697,7 @@ export default {
         if (!data.homeRrprotData.length) {
           _this.$message({
             showClose: true,
-            message: '该类型暂无数据',
+            message: '该类型暂无数据！',
             duration: 3000,
             type: 'warning'
           });
@@ -3038,7 +3038,7 @@ export default {
       if (this.downStartTime == '' && this.downEndTime == '') {
         _this.$message({
           showClose: true,
-          message: '请选择时间周期',
+          message: '请选择时间周期！',
           duration: 3000,
           type: 'error'
         });
