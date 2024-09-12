@@ -131,7 +131,7 @@
         </el-table-column>
         <el-table-column key="12" align="center" prop="appname" label="流量来源" width="100" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="13" align="center" label="操作" width="auto"  >
+        <el-table-column key="13" align="center" label="操作" width="180"  >
           <template slot-scope="scope">
             <!-- <a href="javascript:void(0);" class="editColor" @click="EditPopup(scope.row)">加入黑名单</a> -->
             <a href="javascript:void(0);" class="editColor"  @click="openChatItem(scope.row)">聊天记录</a>
