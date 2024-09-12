@@ -650,10 +650,10 @@ export default {
       var scrollHeight = e.target.scrollHeight;
       var windowHeight = e.target.clientHeight;
       if (scrollTop + 1 >= scrollHeight - windowHeight) {
-        console.log(this.isAllselect,this.isqwuserid)
+        console.log(this.isAllselect, this.isqwuserid)
 
         if (this.tablabel == '群聊') {
-          this.getQwCustomer(this.isqwuserid, this.pageNumber, this.pageSize,  this.tablabel, this.activeValue)
+          this.getQwCustomer(this.isqwuserid, this.pageNumber, this.pageSize, this.tablabel, this.activeValue)
         } else {
           this.getQwCustomer(this.isAllselect, this.pageNumber, this.pageSize, this.tablabel, this.activeValue)
         }
@@ -909,6 +909,11 @@ export default {
       var idStr = ''
       api.getTalkTeamList().then((data) => {
         if (data.code == 0) {
+          // data.teamList.push({
+          //   id: "536367686e5a11ef8aaf00163e1ccaeb",
+          //   label: "其他"
+          // })
+          console.log(data.teamList)
           _this.teamDataList = data.teamList;
           for (var i = 0; i < _this.teamDataList.length; i++) {
             idStr += _this.teamDataList[i].id + ','
@@ -935,13 +940,16 @@ export default {
     },
 
     // 模糊查询员工
-    searchUser(teamid, keyword) {
+    searchUser(teamid, keyword,pageNumber,pageSize) {
       var _this = this
       var params = {
         teamid: teamid,
         realname: keyword ? keyword : '',
+        pageNumber: pageNumber,
+        pageSize: pageSize,
       }
-      api.getQwUser(params).then((data) => {
+      // api.getNewQwUser(params).then((data) => {//分页
+      api.getQwUser(params).then((data) => {//不分页
         _this.teamNameList = data.userList;
         _this.SalesmanIdBox = [];
         data.userList.forEach((res) => {

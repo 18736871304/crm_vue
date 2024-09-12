@@ -105,7 +105,7 @@ export default {
         , {
           dd_key: "1",
           dd_value: '护照'
-      }
+       }
       , {
         dd_key: "f",
         dd_value: '港、澳、台通行证'

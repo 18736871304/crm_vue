@@ -209,9 +209,13 @@ function getLogonUserInfo(params) {
 function getTalkTeamList(params) {
   return POST(params, '/crm/auth/getTalkTeamList.do')
 }
-//获取团队中用户信息
+//获取团队中用户信息（不分页）
 function getQwUser(params) {
   return POST(params, '/crm/qwMan/getQwUser.do')
+}
+//获取团队中用户信息(分页)
+function getNewQwUser(params) {
+  return POST(params, '/crm/qwMan/getNewQwUser.do')
 }
 //获取用户的客户信息
 function getQwCustomerByUser(params) {
@@ -357,6 +361,26 @@ function getDailiTeamList(params) {
 }
 
 
+//获取当前客户的头像， 昵称， 标签等基本信息
+function getOneQwCustomer(params) {
+  return POST(params, '/crm/qwMan/getOneQwCustomer.do')
+}
+
+//获取当前客户的动态信息
+function getCustomerTraceList(params) {
+  return POST(params, '/crm/qwMan/getCustomerTraceList.do')
+}
+
+
+// 
+function getTags(params) {
+  return POST(params, '/crm/qwMan/getTags.do')
+}
+
+
+
+
+
 
 
 
@@ -402,6 +426,7 @@ export default {
   getLogonUserInfo,
   getTalkTeamList,
   getQwUser,
+  getNewQwUser,
   getQwCustomerByUser,
   getQwTalkData,
   getQwColleagueByUser,
@@ -432,6 +457,9 @@ export default {
   deleteRadar,
   radarUp,
   radarDown,
-  getDailiTeamList
+  getDailiTeamList,
+  getOneQwCustomer,
+  getCustomerTraceList,
+  getTags
 }
 

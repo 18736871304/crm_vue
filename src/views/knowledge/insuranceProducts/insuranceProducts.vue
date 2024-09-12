@@ -43,6 +43,7 @@
         <div class="product-item-left">
           <p class="product-item-title">
             {{ item.title }} &nbsp;&nbsp;&nbsp;&nbsp;
+            <el-tag class="paragraph intpro" v-show="item.jointype == '01'" type="warning">互联网产品</el-tag>
             <el-tag class="paragraph" style="color: #578ee7" v-show="item.emailuw == 'Y'" @click="handleParagraph(item.riskcode)">人工核保</el-tag>
             <el-tag class="paragraph" v-show="item.aiuw == 'Y'" type="warning">智能核保</el-tag>
           </p>
@@ -207,7 +208,7 @@
           </div>
         </div>
         <div class="sure-footer" style="padding: 0; justify-content: center">
-         
+
           <div class="my-sure" style="
               background: #fff;
               color: #dc240f;
@@ -1195,5 +1196,12 @@ export default {
 .el-select .el-input.is-focus .el-input__inner,
 .el-select .el-input__inner:focus {
   border-color: #dcdfe6;
+}
+
+.product-item-title .intpro {
+  background: #ffecea;
+  border-radius: 5px;
+  border: 1px solid #ffdcd8;
+  color: #dc220d;
 }
 </style>

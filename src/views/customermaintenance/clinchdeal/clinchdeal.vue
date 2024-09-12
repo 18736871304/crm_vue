@@ -300,7 +300,7 @@
           </div>
         </div>
 
-        <div class="nav-title">投保人信息</div>
+        <div class="nav-title" style=" margin-top: .18rem;">投保人信息</div>
         <div class="search-box clearfix">
           <div class="common-select">
             <div class="select-title" style="width: 1.38rem">投保人姓名</div>
@@ -370,7 +370,7 @@
         </div>
 
         <div class="dan" v-if="!disabled">
-          <div class="nav-title">被保人信息</div>
+          <div class="nav-title" style=" margin-top: .18rem;">被保人信息</div>
           <div class="search-box clearfix">
             <div class="common-select">
               <div class="select-title" style="width: 1.38rem">
@@ -519,7 +519,7 @@
 
         <div class="more" v-if="disabled">
           <div v-for="(item, index) in moreBaodan" :key="index">
-            <div class="nav-title" v-if="moreBaodan.length>1">被保人信息【{{item.titleNum }}】</div>
+            <div class="nav-title"  style=" margin-top: .18rem;"  v-if="moreBaodan.length>1">被保人信息【{{item.titleNum }}】</div>
             <div class="nav-title" v-else>被保人信息{{item.titleNum }}</div>
             <div class="search-box clearfix">
               <div class="common-select">
@@ -672,7 +672,7 @@
         </div>
       </div>
 
-      <div class="nav-title">资源来源</div>
+      <div class="nav-title" style=" margin-top: .18rem;">资源来源</div>
       <div class="search-box clearfix">
         <div class="common-select">
           <div class="select-title" style="width: 1.38rem">渠道类型</div>

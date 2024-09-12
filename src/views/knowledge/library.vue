@@ -130,8 +130,8 @@
 
               </div> -->
               <div v-html="scope.row.main" :class="['huashuMain', {'unhuashuMain':scope.row.isopen==true}]"></div>
-              <div class='zhedie' @click="open(scope.row)" v-if="!scope.row.isopen"> <span>展开</span> <i class='el-icon-arrow-down'></i> 共{{ (scope.row.talkContent).length }}条</div>
-              <div class='zhedie' @click="open(scope.row)" v-else><span>收起</span> <i class='el-icon-arrow-up'></i>共{{ (scope.row.talkContent).length }}条 </div>
+              <div class='zhedie' @click="open(scope.row)" v-if="!scope.row.isopen"> <span>展开</span>&nbsp;<i class='el-icon-arrow-down'></i>&nbsp;共{{ (scope.row.talkContent).length }}条</div>
+              <div class='zhedie' @click="open(scope.row)" v-else><span>收起</span>&nbsp;<i class='el-icon-arrow-up'></i>&nbsp;共{{ (scope.row.talkContent).length }}条 </div>
 
             </template>
           </el-table-column>
@@ -1402,7 +1402,7 @@ export default {
             }
             arr.push({
               type: dataList[i].mainType,
-              text: dataList[i][dataList[i].mainType].file.filename,
+              text: (dataList[i][dataList[i].mainType].file.filename).replace(" ", ""),
               filetype: dataList[i][dataList[i].mainType].file.filetype,
               fileid: dataList[i][dataList[i].mainType].file.fileid
             })
@@ -1701,7 +1701,7 @@ export default {
                 num: 1,
                 file: {
                   fileid: itemMain.fileid,
-                  filename: itemMain.text,
+                  filename: (itemMain.text).replace(" ", ""),
                   filetype: itemMain.type,
                   refilepath: itemMain.dispath
                 },
@@ -1784,9 +1784,9 @@ export default {
               imgUrl: JSON.parse(itemMain.text).imgUrl,
               num: 1,
               uploadFilePath: [{
-                text: JSON.parse(itemMain.text).text,
+                text: (JSON.parse(itemMain.text).title).replace(" ", ""),
                 desc: JSON.parse(itemMain.text).desc,
-                title: JSON.parse(itemMain.text).title,
+                title: (JSON.parse(itemMain.text).title).replace(" ", ""),
                 imgUrl: JSON.parse(itemMain.text).imgUrl,
               }],
               dialogVisible: false,
@@ -1828,7 +1828,7 @@ export default {
               num: 1,
               file: {
                 fileid: itemMain.fileid,
-                filename: itemMain.text,
+                filename: (itemMain.text).replace(" ", ""),    
                 filetype: itemMain.type,
                 refilepath: itemMain.dispath
               },
@@ -1898,7 +1898,7 @@ export default {
               num: 1,
               file: {
                 fileid: itemMain.fileid,
-                filename: itemMain.text,
+                filename: (itemMain.text).replace(" ", ""),
                 filetype: itemMain.type,
                 refilepathY: itemMain.dispath,
                 refilepath: "https://crm.meihualife.com/images/pdf.jpg"
@@ -1921,6 +1921,7 @@ export default {
         }
 
       }
+      console.log(  _this.dataList)
     },
 
     deletePopup(item) {
@@ -1984,7 +1985,7 @@ export default {
       this.quanxian = ''
 
       if (this.teamIdCheck[0] != '') {
-        this.myList = this.teamIdCheck[0]
+        this.myList = this.InitteamNames
         this.teamListId = this.teamIdCheck[0]
         this.quanxian = this.teamIdCheck[0]
         if (this.addquxian) {
@@ -2044,7 +2045,7 @@ export default {
               getData('post', my_url + '/crm/auth/getTeamId.do', function (data) { //查看客户的权限
                 if (data.code == 0) {
                   _this.teamIdCheck.push(data.teamid)
-                  _this.myList = data.teamid
+                  _this.myList = data.teamname
                   _this.teamListId = data.teamid
                   _this.quanxian = data.teamid
                   // _this.$refs.tree.setCheckedKeys(this.teamIdCheck)
@@ -2116,9 +2117,11 @@ export default {
       })
     },
     itemUp(data) {
+    console.log(data)
       var _this = this
       var params = {
-        itemid: data.itemid
+        itemid: data.itemid,
+        // groupid:data.groupid
       }
       api.itemUp(params).then((data) => {
         if (data.code == '0') {
@@ -2140,7 +2143,8 @@ export default {
     itemDown(data) {
       var _this = this
       var params = {
-        itemid: data.itemid
+        itemid: data.itemid,
+        // groupid:data.groupid
       }
       api.itemDown(params).then((data) => {
         if (data.code == '0') {
@@ -2579,6 +2583,7 @@ export default {
   text-align: left;
   margin-left: 0.1rem;
   cursor: pointer;
+  padding-bottom: 0.1rem;
 }
 
 .huashuMain .img_text {

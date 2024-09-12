@@ -91,7 +91,7 @@
       </div>
 
       <div class="teamMain table-box" :class="activeName=='01'?'teamMain table-box':'teamMain table-box activeName' ">
-        <el-table :data="speechList" border style="width: 100%">
+        <el-table :data="speechList" border style="width: 100%" v-loading="searchloading">
           <el-table-column key="2" align="center" label="雷达内容" width="auto">
             <template slot-scope="scope">
               <!-- {{ scope.row }} -->
@@ -324,8 +324,9 @@ import { getData, getPhoneData, my_url } from "../../static/js/ajax.js";
 export default {
   data() {
     return {
-
-
+      searchloading: false,
+      // 判断是否选组了
+      parGroupid: '',
       // 团队雷达
       deldiaGroup: false,
       delGroup: '',
@@ -355,7 +356,7 @@ export default {
       loading: false,
       isLeader: 'Y',//判断是否是团队长
       // 团队雷达01  个人雷达02
-      activeName: "02",
+      activeName: "01",
       options: [], //分组列表
       speechList: [],//雷达列表
       // 分组显示
@@ -591,6 +592,7 @@ export default {
 
     search(item) {
       var _this = this
+      _this.searchloading = true
       var params = {
         title: this.leidaMain,
         radartype: this.activeName, //01企业，02个人
@@ -607,6 +609,8 @@ export default {
       } else if (this.activeName == '02') {
         params.groupid = item.groupid
       }
+      this.parGroupid = params.groupid
+
       if (this.activeName == '02' && this.overviewForm.userid != '') {
         params['teamIdStr'] = this.teamList2
         params['userIdStr'] = this.overviewForm.userid
@@ -620,7 +624,7 @@ export default {
         } else {
           _this.speechList = []
         }
-        _this.addloading = false
+        _this.searchloading = false
       })
     },
 
@@ -647,6 +651,7 @@ export default {
 
     // 选择团队雷达或者个人雷达
     handleClick(tab, event) {
+      this.parGroupid = ''
       this.selectTree = ''
       this.digTitle = '新建 - ' + tab._props.label
       this.options = []
@@ -1161,8 +1166,9 @@ export default {
       }
       this.queryflag = true;
       this.quanxian = ''
+      console.log(this.InitteamNames)
       if (this.teamIdCheck[0] != '') {
-        this.myList = this.teamIdCheck[0]
+        this.myList = this.InitteamNames
         this.teamListId = this.teamIdCheck[0]
         this.quanxian = this.teamIdCheck[0]
         this.$refs.tree.setCheckedKeys(this.teamIdCheck)
@@ -1226,7 +1232,7 @@ export default {
               getData('post', my_url + '/crm/auth/getTeamId.do', function (data) { //查看客户的权限
                 if (data.code == 0) {
                   _this.teamIdCheck.push(data.teamid)
-                  _this.myList = data.teamid
+                  _this.myList = data.teamname
                   _this.teamListId = data.teamid
                   _this.quanxian = data.teamid
                   // _this.$refs.tree.setCheckedKeys(this.teamIdCheck)
@@ -1266,23 +1272,19 @@ export default {
     },
 
 
-    // open(data) {
-    //   var speechList = this.speechList
-    //   speechList.forEach(item => {
-    //     if (item.id == data.id) {
-    //       item.isopen = !item.isopen
-    //     }
-    //   })
-
-    // },
-
-
 
     itemUp(data) {
       var _this = this
       var params = {
-        id: data.id
+        id: data.id,
       }
+      if (this.parGroupid == '') {
+        params['userid'] = data.userid
+      } else {
+        params['groupid'] = data.groupid
+        params['userid'] = data.userid
+      }
+
       api.radarUp(params).then((data) => {
         if (data.code == '0') {
           _this.$message({
@@ -1307,10 +1309,17 @@ export default {
         }
       })
     },
+
     itemDown(data) {
       var _this = this
       var params = {
-        id: data.id
+        id: data.id,
+      }
+      if (this.parGroupid == '') {
+        params['userid'] = data.userid
+      } else {
+        params['groupid'] = data.groupid
+        params['userid'] = data.userid
       }
       api.radarDown(params).then((data) => {
         if (data.code == '0') {
@@ -1556,7 +1565,9 @@ export default {
 <style scoped>
 .scriptLibrary {
 }
-
+.img_text{
+  margin-bottom: 0rem;
+}
 .eltabs {
   padding: 0rem 0.3rem 0rem;
   font-size: 0.36rem;

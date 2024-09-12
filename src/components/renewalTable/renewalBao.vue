@@ -32,6 +32,7 @@
           </span>
         </template>
       </el-table-column>
+      <el-table-column key="11" align="center" prop="insname" label="被保人姓名" width="100" :show-overflow-tooltip="true"> </el-table-column>
       <el-table-column key="12" align="center" prop="xbcontno" label="续保保单号" width="150" :show-overflow-tooltip="true">
       </el-table-column>
       <el-table-column key="13" align="center" prop="" label="转保保单号" width="150"> </el-table-column>
