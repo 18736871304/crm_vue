@@ -474,17 +474,10 @@ export default {
     // qundatas: {},//群的基本信息
   },
   mounted: function () {
-    console.log('这是聊天记录')
-    console.log(this.datas)
-    console.log(this.customerInfo)
-
     var _this = this
-
-
     // 员工基本信息头像
     this.selectStaffPhoto = this.datas.qwuserurl
     this.activeName = this.datas.activeName
-
     this.isqwuserid = this.datas.qwuserid;//选中后的员工的企微ID
     this.isfirstselect = this.datas.customerid;//选中后的客户ID
 
@@ -496,16 +489,12 @@ export default {
       this.selectfirstName = this.datas.name
       this.requestData('', this.datas.qunid, '', '', '', '', '')
     } else {
-      console.log("123")
-      console.log(this.datas)
       // 该客户的企业标签
       var dd = {
         qwuserid: this.datas.qwuserid,
         customerid: this.datas.customerid,
       }
       api.getOneQwCustomer(dd).then((data) => {//当前客户的企业标签
-       
-        console.log(data)
         var customerInfo = data.qwCustomer
         // 客户基本信息
         _this.selectfirstPhoto = customerInfo.avatar
@@ -729,7 +718,6 @@ export default {
               _this.requestDataList.unshift(data[i])//push 数据到数组中
             }
           }
-          // console.log(_this.requestDataList)
           if (_this.funhuiValue && lookupdown && lookupdown != '') {
           } else {
             _this.scrollHeight = _this.$refs['list'].scrollHeight

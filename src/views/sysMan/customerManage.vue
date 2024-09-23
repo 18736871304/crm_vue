@@ -113,12 +113,18 @@
         </el-table-column>
         <el-table-column key="6" align="center" prop="realname" label="所属业务员" width="120">
         </el-table-column>
-        <el-table-column key="7" align="center" label="企业标签" width="180" :show-overflow-tooltip="true">
+        <el-table-column key="7" align="center" label="企业标签" width="160" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span v-for="item in scope.row.tagList" :key="item">
               【{{item}}】
             </span>
-
+          </template>
+        </el-table-column>
+        <el-table-column key="14" align="center" label="个人标签" width="160" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span v-for="item in scope.row.perTags" :key="item">
+              【{{item}}】
+            </span>
           </template>
         </el-table-column>
         <el-table-column key="8" align="center" prop="followupstepname" label="跟进步骤" width="100">
@@ -131,11 +137,11 @@
         </el-table-column>
         <el-table-column key="12" align="center" prop="appname" label="流量来源" width="100" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="13" align="center" label="操作" width="180"  >
+        <el-table-column key="13" align="center" label="操作" width="180">
           <template slot-scope="scope">
             <!-- <a href="javascript:void(0);" class="editColor" @click="EditPopup(scope.row)">加入黑名单</a> -->
-            <a href="javascript:void(0);" class="editColor"  @click="openChatItem(scope.row)">聊天记录</a>
-            <a href="javascript:void(0);"  style="margin-left: 0.15rem;"   class="editColor" @click="openDetails(scope.row)">详情</a>
+            <a href="javascript:void(0);" class="editColor" @click="openChatItem(scope.row)">聊天记录</a>
+            <a href="javascript:void(0);" style="margin-left: 0.15rem;" class="editColor" @click="openDetails(scope.row)">详情</a>
           </template>
         </el-table-column>
       </el-table>
@@ -170,12 +176,12 @@
               <el-tab-pane label="客户概况" name="first">
                 <div class="table-box" style=" padding: 0rem;">
                   <el-table :data="userData" ref="userData" border style="width: 100%" class="splice-header">
-                    <el-table-column key="1" align="center" prop="realname" label="所属员工" width="120">
+                    <el-table-column key="1" align="center" prop="realname" label="所属员工" width="120" :show-overflow-tooltip="true">
                     </el-table-column>
 
-                    <el-table-column key="2" align="center" prop="appprovincename" label="客户来源" width="100">
+                    <el-table-column key="2" align="center" prop="appprovincename" label="流量来源" width="100">
                     </el-table-column>
-                    <el-table-column key="3" align="center" prop="appprovincename" label="个人标签" width="140" :show-overflow-tooltip="true">
+                    <el-table-column key="3" align="center" prop="" label="个人标签" width="160" :show-overflow-tooltip="true">
                     </el-table-column>
                     <el-table-column key="4" align="center" prop="addtimestr" label="添加时间" width="155" :show-overflow-tooltip="true">
                     </el-table-column>
@@ -213,10 +219,10 @@
                   <div class="block">
                     <el-timeline>
                       <template v-for="(item, index) in activities">
-                        <el-timeline-item :timestamp="item.tracetime" placement="top" :key="index">
+                        <el-timeline-item :timestamp="item.tracetime" placement="top" :key="index" class="card_a">
                           <el-card v-if="item.tracetype == 'openradar'">
                             <h4>{{item.title}}</h4>
-                            <p>Ta点击了雷达【<a :href="item.url" target="_bank">{{ item.content }}</a>】</p>
+                            <p>Ta点击了雷达<a :href="item.url" target="_bank">【{{ item.content }}】</a></p>
                           </el-card>
                           <el-card v-else>
                             <h4>{{item.title}}</h4>
@@ -232,13 +238,13 @@
               <el-tab-pane label="所在群聊" name="third">
                 <div class="table-box" style=" padding: 0rem;">
                   <el-table :data="qunListData" ref="qunListData" border style="width: 100%" class="splice-header">
-                    <el-table-column key="1" align="center" prop="name" label="群聊名称" width="150">
+                    <el-table-column key="1" align="center" prop="name" label="群聊名称" width="auto" :show-overflow-tooltip="true">
                     </el-table-column>
-                    <el-table-column key="2" align="center" prop="ownername" label="群主" width="100">
+                    <el-table-column key="2" align="center" prop="ownername" label="群主" width="120">
                     </el-table-column>
-                    <el-table-column key="4" align="center" prop="addtimestr" label="添加时间" width="145" :show-overflow-tooltip="true">
+                    <el-table-column key="4" align="center" prop="addtimestr" label="添加时间" width="155" :show-overflow-tooltip="true">
                     </el-table-column>
-                    <el-table-column key="5" align="center" prop="lastmsgtime" label="最近沟通时间" width="145" :show-overflow-tooltip="true">
+                    <el-table-column key="5" align="center" prop="lastmsgtime" label="最近沟通时间" width="155" :show-overflow-tooltip="true">
                     </el-table-column>
                     <el-table-column key="6" align="center" label="操作" width="160">
                       <template slot-scope="scope">
@@ -628,7 +634,7 @@ export default {
     },
     // 确定员工姓名
     handleSelectId(item) {
-   
+
     },
 
 
@@ -695,15 +701,22 @@ export default {
           if (item.tags && item.tags != null) {
             var tags = JSON.parse(item.tags)
             var tagList = []
+            var perTags=[]
             tags.forEach(item => {
-              tagList.push(item.tag_name)
+              if (item.type == '1') {
+                tagList.push(item.tag_name)
+              }else{
+                perTags.push(item.tag_name)
+              }
+
             })
             item.tagList = tagList
+            item['perTags'] = perTags
           }
           if (item.customer_mobile && item.customer_mobile != null) {
             var customerMobile = JSON.parse(item.customer_mobile)
             var telphone = customerMobile[0].substr(0, 4) + '****' + customerMobile[0].substr(8);
-   
+
             item.customerMobile = telphone
           }
         })
@@ -743,7 +756,7 @@ export default {
     },
 
     handleClick(tab, event) {
-    
+
     },
 
 
@@ -826,8 +839,23 @@ export default {
   color: #010101ff;
   font-weight: bold;
 }
+
+.card_a a {
+  color: #337ab7;
+}
 </style>
 <style>
+.viewer-in {
+  z-index: 9999 !important;
+}
+.el-card__body {
+  padding: 0.1rem;
+}
+.digTags .el-cascader-panel {
+  height: 124px;
+  border-radius: 4px;
+}
+
 .drawerBox {
   width: 100%;
 }
@@ -928,7 +956,7 @@ export default {
 }
 h4 {
   font-weight: bold;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.1rem;
 }
 .el-cascader {
   width: 100%;

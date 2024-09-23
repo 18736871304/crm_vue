@@ -1705,11 +1705,11 @@ export default {
     downLoad(data, e) {
       var str = data.policyurl
       var string = str.substring(str.length - 4)
-      if (string != ".pdf") {
-        this.stopDefault(e);
-        this.gridDataList(data.orderid)
-        this.dialogTableVisible = true
-      }
+      // if (string != ".pdf") {
+      //   this.stopDefault(e);
+      //   this.gridDataList(data.orderid)
+      //   this.dialogTableVisible = true
+      // }
 
     },
 

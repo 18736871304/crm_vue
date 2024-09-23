@@ -125,9 +125,7 @@
               </el-date-picker>
             </div>
           </div>
-
         </div>
-
       </header>
 
       <div class="chatHistory" v-loading="loading">
