@@ -843,6 +843,9 @@ export default {
 .card_a a {
   color: #337ab7;
 }
+.el-tabs__nav-wrap::after{
+  background-color: #E4E7ED !important;
+}
 </style>
 <style>
 .viewer-in {
@@ -979,5 +982,11 @@ h4 {
 /* .digTags,.el-cascader__dropdown{
   margin-top: 20px!important;
 } */
+
+  .drawer_main .el-tabs__nav-wrap::after{
+  background-color: #E4E7ED !important;
+}
+
+
 </style>
  
