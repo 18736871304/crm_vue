@@ -4,14 +4,14 @@
       <div class="add-btn" @click="showAddNoticeDialogVisible">+ 新建</div>
       <div class="search-box clearfix">
         <div class="common-select" style="width: 30%;">
-          <div class="select-title" style="width: 1.65rem">创建时间</div>
+          <div class="select-title" style="width: 1.65rem">公告时间</div>
           <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
-            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
 
-        <div class="common-select">
+        <!-- <div class="common-select">
           <div class="select-title" style="width: 1.28rem">所属类别</div>
           <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
             <el-select class="el-select-inners" v-model="noticeType" size="mini" placeholder="">
@@ -19,12 +19,12 @@
               </el-option>
             </el-select>
           </div>
-        </div>
+        </div> -->
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">关键字搜索</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder=""></el-autocomplete>
+          <div class="select-title" style="width: 1.38rem">关键字搜索</div>
+          <div class="select-content" style="width: calc(100% - 1.38rem);">
+            <el-input class="el-input-inners" v-model="keyword" size="mini" placeholder="请输入关键词"></el-input>
           </div>
         </div>
 
@@ -38,11 +38,9 @@
       <el-table :data="tableData" border style="width: 100%">
         <el-table-column align="center" type="index" label="序号">
         </el-table-column>
-        <el-table-column align="center" sortable prop="makedate" label="创建时间" width="155">
+        <el-table-column align="center" sortable prop="createtime" label="公告时间" width="155">
         </el-table-column>
         <el-table-column align="center" prop="oprname" label="创建人" width="120px">
-        </el-table-column>
-        <el-table-column align="center" prop="typename" label="所属类别" width="120px">
         </el-table-column>
         <el-table-column align="center" prop="title" label="标题">
         </el-table-column>
@@ -60,7 +58,7 @@
     </div>
     <el-dialog custom-class="noticeMan-dialog" :title="titleDialog" :visible.sync="addNoticeDialogVisible" width="70%" :close-on-click-modal='false'>
       <div class="noticeMan-step-list">
-        <div class="item-section">
+        <!-- <div class="item-section">
           <label>所属类别</label>
           <div class="right-content">
             <el-select v-model="noticeItem.type" size="mini" placeholder="请选择">
@@ -68,7 +66,7 @@
               </el-option>
             </el-select>
           </div>
-        </div>
+        </div> -->
         <div class="item-section">
           <label>标题</label>
           <div class="right-content">
@@ -81,14 +79,15 @@
           <div class="right-content">
             <div class="editor-box editor-content1">
               <div id="div1" class="toolbar"></div>
-              <div id="div2" class="text" style="min-height: 2rem">
+              <div id="div2" class="text" style="min-height: 2rem;max-height: 4rem;overflow-y: scroll;">
               </div>
             </div>
           </div>
+
         </div>
       </div>
       <div class="dialog-footer">
-       
+
         <div class="search-btn" style="background: #fff;border: 1px solid rgba(221, 221, 221, 1);color: #686868;" @click="hideaddNoticeDialogVisible">取消</div>
         <div class="search-btn" @click="updateItem">确定</div>
       </div>
@@ -99,32 +98,40 @@
 import wangEditor from '@/components/wangEditor/release/wangEditor.min.js'
 import { getData, getPhoneData, my_url } from '../../static/js/ajax.js';
 import { formatDate } from '../../static/js/common.js';
-let editor10
+let editor9
 export default {
   data() {
     return {
+      editor9: null,
+      tableData: [],
       noticeItem: {
         title: '',
-        type: '',
+        type: '90',
         content: '',
       },
       titleDialog: '新建',
-      CJGselectList: ['保单检视', '疾病核保', '解答疑义'],
-      CJGselectValue: '保单检视',
+
       addNoticeDialogVisible: false,
       selectTime: '',
-      Salesman: '',
-      team: '',
-      noticeType: '',
-      title: '',
+      keyword: '',
+      noticeType: '90',
       loading: false,
-      SalesmanBox: [],
+
+
+      // Salesman: '',
+      // title: '',
+      // SalesmanBox: [],
+
+
       pageTotal: 0,
       pageSize: 20,
       pageNum: 1,
-      tableData: [],
-      noticeTypeList: [],
-      noticeTypeList: [],
+
+
+
+
+      // noticeTypeList: [],
+
       pickerOptions: {
         shortcuts: [{
           text: '今日',
@@ -199,76 +206,105 @@ export default {
       }
     }
   },
+  created() {
+
+  },
   mounted: function () {
+
     this.$nextTick(() => {
-      this.getNoticeList()
-      //数据字典
-      let _this = this
-      getData('post', my_url + '/crm/common/getDictList.do', function (data) {
-        if (data.code == 0) {
-          let {
-            dictList
-          } = data;
-          _this.noticeTypeList = dictList;
-          _this.noticeItem.type = dictList[0].dd_key
-        }
-      }, {
-        dict_type: 'notice_type'
-      });
-      this.getSearchData();
+      this.search()
     })
+
   },
   methods: {
+
     itemReset() {
       this.noticeItem = {
         title: '',
-        type: this.noticeTypeList[0].dd_key,
+        type: '90',
         content: '',
+        id: '',  //公告id
       }
     },
     showEditPopup(item) {
-
-      this.showAddNoticeDialogVisible()
+      var _this = this
+       // 创建编辑器
+       this.showAddNoticeDialogVisible()
       this.noticeItem = {
         title: item.title,
         type: item.type,
         content: item.content,
-        noticeid: item.noticeid
+        id: item.id
       }
+     
+      let body = {
+        id: item.id,
+      }
+      getData('post', my_url + '/crm/homePage/getOneContent.do', data => {
+        if (data.code == 0) {
+          _this.noticeItem.content = data.content
 
 
-
-      this.titleDialog = '编辑';
-      this.addNoticeDialogVisible = true
-      if (editor10 == null) { //true
-        this.$nextTick(() => {
-          this.newWangEditor('#div1', '#div2')
-          if (this.noticeItem.content) {
-            editor10.txt.html(this.noticeItem.content)
+          _this.titleDialog = '编辑';
+          _this.addNoticeDialogVisible = true
+          if (editor9 == null) { //true
+            _this.$nextTick(() => {
+              _this.newWangEditor('#div1', '#div2')
+              if (_this.noticeItem.content) {
+                editor9.txt.html(_this.noticeItem.content)
+              }
+            })
+          } else {
+            editor9.txt.html(_this.noticeItem.content)
           }
-        })
-      } else {
-        editor10.txt.html(this.noticeItem.content)
-      }
+
+        }
+      }, body);
+
+
+
+
+
+
     },
     hideaddNoticeDialogVisible() {
       this.addNoticeDialogVisible = false
     },
+
+    // 删除
     deleteItem(item) {
       let body = {
-        noticeid: item.noticeid,
+        id: item.id,
       }
-      getData('post', my_url + '/crm/system/noticeDelete.do', data => {
-        if (data.code == 0) {
-          this.getNoticeList()
-        }
-      }, body);
-    },
-    updateItem() {
-      let url = this.noticeItem.noticeid ? '/crm/system/noticeUpdate.do' : '/crm/system/notice.do'
-      let data = this.noticeItem
-      data.content = editor10.txt.html()
 
+
+      this.$confirm('你确定要删除吗？')
+        .then(_ => {
+          getData('post', my_url + '/crm/content/contentDelete.do', data => {
+            if (data.code == 0) {
+              this.$message({
+                showClose: true,
+                message: '删除成功',
+                duration: 3000,
+                type: 'success'
+              });
+              this.getNoticeList()
+
+            }
+          }, body);
+
+
+        }).catch(_ => { });
+
+
+
+
+    },
+    // 跟新和添加
+    updateItem() {
+      let url = this.noticeItem.id ? '/crm/content/contentUpdate.do' : '/crm/content/contentInsert.do'
+      let data = this.noticeItem
+      data.content = editor9.txt.html()
       getData('post', my_url + url, data => {
         if (data.code == 0) {
           this.getNoticeList()
@@ -283,6 +319,8 @@ export default {
         }
       }, data);
     },
+
+
     search() {
       this.pageNum = 1
       this.getNoticeList()
@@ -291,47 +329,59 @@ export default {
       this.pageNum = page;
       this.getNoticeList();
     },
+
+    // 搜索
     getNoticeList() {
       let body = {
-        title: this.title,
-        type: this.noticeType,
-        startDate: this.selectTime ? this.selectTime[0] + ' 00:00:00' : '',
-        endDate: this.selectTime ? this.selectTime[1] + ' 00:00:00' : '',
+        // title: this.title,
+        type: '90',
+        create_start_time: this.selectTime ? this.selectTime[0] + ' 00:00:00' : '',
+        create_end_time: this.selectTime ? this.selectTime[1] + ' 00:00:00' : '',
         pageNumber: this.pageNum,
         pageSize: this.pageSize,
+        keywords: this.keyword
       }
-      getData('post', my_url + '/crm/system/getNoticeList.do', data => {
+      getData('post', my_url + '/crm/content/getContentList.do', data => {
         this.tableData = data.rows
         this.pageTotal = data.total
       }, body);
     },
+
+
     showAddNoticeDialogVisible() {
       this.itemReset()
-      this.addNoticeDialogVisible = true;
+
       this.titleDialog = '新建';
-      // if (editor10 == null) { //true
-        this.$nextTick(() => {
-          this.newWangEditor('#div1', '#div2')
-          editor10.txt.html(this.noticeItem.content)
-        })
+
+      this.$nextTick(() => {
+        this.newWangEditor('#div1', '#div2')
+        editor9.txt.html(this.noticeItem.content)
+      })
+
+      this.addNoticeDialogVisible = true;
 
 
     },
+
+
     reset() { //重置
       this.title = ''
       this.selectTime = ''
       this.noticeType = ''
     },
+
+
+
     newWangEditor(el1, el2) {
-      editor10 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      editor10.customConfig.height = 500
+      editor9 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+      editor9.customConfig.height = 500
       // 隐藏“网络图片”tab
-      editor10.customConfig.showLinkImg = false
+      editor9.customConfig.showLinkImg = false
       // 忽略粘贴内容中的图片
-      editor10.customConfig.pasteIgnoreImg = true
+      editor9.customConfig.pasteIgnoreImg = true
       // 使用 base64 保存图片
-      //editor10.customConfig.uploadImgShowBase64 = true
-      editor10.customConfig.menus = [
+      //editor9.customConfig.uploadImgShowBase64 = true
+      editor9.customConfig.menus = [
         'image', // 插入图片
         'head', // 标题
         'bold', // 粗体
@@ -354,11 +404,11 @@ export default {
         'redo' // 重复
       ]
       // 上传图片到服务器
-      editor10.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor10.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor10.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+      editor9.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+      editor9.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+      editor9.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
       //自定义上传图片事件
-      editor10.customConfig.uploadImgHooks = {
+      editor9.customConfig.uploadImgHooks = {
         before: function (xhr, editor, files) {
 
         },
@@ -376,7 +426,7 @@ export default {
           console.log("上传超时");
         }
       }
-      editor10.customConfig.colors = [
+      editor9.customConfig.colors = [
         '#000000',
         '#eeece0',
         '#1c487f',
@@ -390,7 +440,7 @@ export default {
         '#606266',
         "#DC220D"
       ]
-      editor10.customConfig.fontNames = [
+      editor9.customConfig.fontNames = [
         '黑体',
         '仿宋',
         '楷体',
@@ -405,35 +455,35 @@ export default {
         'Times New Roman',
         'Courier New',
       ]
-      editor10.create()
+      editor9.create()
     },
 
-    getSearchData() {
-      let _this = this;
-      getData('post', my_url + '/crm/system/getNoticeTitleList.do', function (data) { //渠道类型
-        if (data.code == 0) {
-          let nameList = data.noticetitlelist;
-          nameList.forEach(res => {
-            _this.SalesmanBox.push({
-              "value": res
-            });
-          })
-        }
-      }, {
-        type: this.cjgType + ''
-      });
-    },
-    querySearch(queryString, cb) {
-      var SalesmanBox = this.SalesmanBox;
-      var results = queryString ? SalesmanBox.filter(this.createFilter(queryString)) : SalesmanBox;
-      // 调用 callback 返回建议列表的数据
-      cb(results.reverse());
-    },
-    createFilter(queryString) {
-      return (SalesmanBox) => {
-        return (SalesmanBox.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
-      };
-    },
+    // getSearchData() {
+    //   let _this = this;
+    //   getData('post', my_url + '/crm/system/getNoticeTitleList.do', function (data) { //渠道类型
+    //     if (data.code == 0) {
+    //       let nameList = data.noticetitlelist;
+    //       nameList.forEach(res => {
+    //         _this.SalesmanBox.push({
+    //           "value": res
+    //         });
+    //       })
+    //     }
+    //   }, {
+    //     type: this.cjgType + ''
+    //   });
+    // },
+    // querySearch(queryString, cb) {
+    //   var SalesmanBox = this.SalesmanBox;
+    //   var results = queryString ? SalesmanBox.filter(this.createFilter(queryString)) : SalesmanBox;
+    //   // 调用 callback 返回建议列表的数据
+    //   cb(results.reverse());
+    // },
+    // createFilter(queryString) {
+    //   return (SalesmanBox) => {
+    //     return (SalesmanBox.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
+    //   };
+    // },
   }
 }
 </script>
@@ -483,7 +533,7 @@ export default {
 .editor-box {
   border-radius: 2px;
   border: 1px solid rgba(216, 216, 216, 1);
-  font-size: 0.14rem;
+  font-size: 15px;
 }
 
 .editor-content1 {
@@ -500,4 +550,17 @@ export default {
 .w-e-toolbar {
   border-bottom: 1px solid rgba(216, 216, 216, 1);
 }
+
+.el-message-box .el-button {
+  background: #fff !important;
+  border-color: rgb(216, 216, 216) !important;
+  color: #dc220d !important;
+}
+
+.el-message-box .el-button--primary {
+  color: #fff !important;
+  background-color: #dc220d !important;
+  border-color: #dc220d !important;
+}
 </style>
+ 

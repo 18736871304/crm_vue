@@ -20,7 +20,7 @@
 
       <el-table-column key="5" align="center" prop="prem" label="原保费" width="80" :show-overflow-tooltip="true"> </el-table-column>
 
-      <el-table-column key="7" align="center" prop="accepttime" label="保单截至日" width="155" sortable> </el-table-column>
+      <el-table-column key="7" align="center" prop="originalDate" label="保单截至日" width="155" sortable> </el-table-column>
       <el-table-column key="8" align="center" prop="xbpaytime" label="续保成功日" width="155"> </el-table-column>
 
       <el-table-column key="9" align="center" prop="appname" label="投保人姓名" width="100" :show-overflow-tooltip="true"> </el-table-column>

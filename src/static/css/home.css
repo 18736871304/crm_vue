@@ -986,7 +986,7 @@
 .w-e-text div span,
 .w-e-text blockquote,
 .w-e-text blockquote span {
-    font-size: 0.12rem !important;
+    /* font-size: 0.12rem !important; */
 }
 
 .widget .el-input__inner {

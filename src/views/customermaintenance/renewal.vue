@@ -548,7 +548,13 @@ export default {
               (data) => {
                 var list = data.rows;
                 for (var i = 0; i < list.length; i++) {
-                  list[i].accepttime = this.getYMDHMS(new Date(list[i].accepttime).setFullYear(new Date(list[i].accepttime).getFullYear() + 1));
+                  var Deadline = this.getYMDHMS(new Date(list[i].cvalidate).setFullYear(new Date(list[i].cvalidate).getFullYear() + 1));
+                  // 假设我们有一个日期：2023-04-01
+                  var originalDate = new Date(Deadline);
+                  // 减去一天
+                  originalDate.setDate(originalDate.getDate() - 1);
+                  originalDate= new Date(originalDate).Format("yyyy-MM-dd");
+                  list[i]['originalDate'] = originalDate;
                 }
                 _this.tableData = list;
                 _this.pageTotal = data.total;

@@ -790,6 +790,7 @@ export default {
       var _this = this
       var params = {
         grouptype: this.activeName,
+        text:this.huashuCon
       }
       if (this.activeName == '01' && this.overviewForm.teamid != '') {
         params['teamIdStr'] = this.overviewForm.teamid
@@ -1921,7 +1922,7 @@ export default {
         }
 
       }
-      console.log(  _this.dataList)
+ 
     },
 
     deletePopup(item) {
@@ -2117,7 +2118,6 @@ export default {
       })
     },
     itemUp(data) {
-    console.log(data)
       var _this = this
       var params = {
         itemid: data.itemid,
@@ -2732,6 +2732,10 @@ table .declet {
 .img_text video {
   width: 0.6rem;
   height: 0.6rem;
+ 
+}
+.img_text p{
+   margin-left: 0.1rem;
 }
 
 .msgText p {

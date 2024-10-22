@@ -45,7 +45,7 @@
 .editor-box {
     border-radius: 2px;
     border: 1px solid rgba(216, 216, 216, 1);
-    font-size: 0.14rem;
+    font-size: 15px;
 }
 
 .item-section .el-textarea__inner {
@@ -58,6 +58,8 @@
 .text {
     min-height: 2rem;
     height: auto;
+    max-height: 2rem;
+    overflow-y: scroll;
 }
 
 .w-e-toolbar {
@@ -67,7 +69,7 @@
 .w-e-text {
     padding-left: 15px !important;
     padding-right: 15px !important;
-    font-size: 0.14rem !important;
+    /* font-size: 0.14rem !important; */
 }
 
 table .option {
