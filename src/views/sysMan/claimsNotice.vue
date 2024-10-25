@@ -210,7 +210,7 @@ export default {
 
   },
   mounted: function () {
-
+    editor9 = null
     this.$nextTick(() => {
       this.search()
     })
@@ -228,15 +228,15 @@ export default {
     },
     showEditPopup(item) {
       var _this = this
-       // 创建编辑器
-       this.showAddNoticeDialogVisible()
+      // 创建编辑器
+      this.showAddNoticeDialogVisible()
       this.noticeItem = {
         title: item.title,
         type: item.type,
         content: item.content,
         id: item.id
       }
-     
+
       let body = {
         id: item.id,
       }
@@ -350,11 +350,11 @@ export default {
 
     showAddNoticeDialogVisible() {
       this.itemReset()
-
       this.titleDialog = '新建';
-
       this.$nextTick(() => {
-        this.newWangEditor('#div1', '#div2')
+        if (!editor9) {
+          this.newWangEditor('#div1', '#div2')
+        }
         editor9.txt.html(this.noticeItem.content)
       })
 

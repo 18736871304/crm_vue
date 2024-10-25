@@ -66,28 +66,40 @@
         <el-table-column key="9" align="left" prop="seodescription" label="SEO描述" :show-overflow-tooltip="true">
         </el-table-column>
 
-        <el-table-column key="10" align="center" label="操作" width="180">
+        <el-table-column key="10" align="center" label="操作" width="350">
           <template slot-scope="scope">
             <!-- <a class="edit option" href="javascript:void(0);" @click="showActile(scope.row)">查看</a> -->
             <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>
             <a class="delete option" href="javascript:void(0);" @click="deleteItem(scope.row)">删除</a>
-          </template>
-        </el-table-column>
-
-        <el-table-column key="11" align="center" label="操作" width="180">
-          <template slot-scope="scope">
             <a class="edit option" href="javascript:void(0);" v-if="!scope.row.toporderid" @click="topUp(scope.row)">置顶</a>
             <a class="edit option" href="javascript:void(0);" style="color: rgba(151, 151, 151, 1);" v-else>已置顶</a>
             <a class="delete option" href="javascript:void(0);" v-if="scope.row.toporderid" @click="canceTopUp(scope.row)">取消</a>
+        
+        
+            <el-button-group class="base-info-botton-group updown" v-if="scope.row.toporderid">
+              <el-button size="mini" @click="itemUp(scope.row)" type="primary" icon="iconfont icon-my-up">
+              </el-button>
+              <el-button size="mini" @click="itemDown(scope.row)" type="primary" icon="iconfont icon-my-down"></el-button>
+            </el-button-group>
+
           </template>
         </el-table-column>
+
+        <!-- <el-table-column key="11" align="center" label="操作" width="350">
+          <template slot-scope="scope">
+           
+
+            
+
+          </template>
+        </el-table-column> -->
       </el-table>
     </div>
     <div>
       <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
       </el-pagination>
     </div>
-    <!-- 藏经阁-->
+    <!-- 文章内容-->
     <el-dialog :title="'新建 - ' + CJGselectValue" :visible.sync="addCJGItemVisible" width="70%" :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
 
       <div class="step-list wei-step-list answering-doubts">
@@ -111,6 +123,15 @@
           </div>
         </div>
 
+        <div class="item-section" style="width: 30%;">
+
+          <label>发布时间</label>
+          <div class="right-content publishTime">
+            <el-date-picker class="el-date-picker-sigle" v-model="articleItem.publish_time" value-format="yyyy-MM-dd HH:mm:ss" type="datetime"    placeholder="请输入"  size="mini">
+            </el-date-picker>
+          </div>
+        </div>
+
         <div class="item-section" style="width: 80%;">
           <label>文章链接</label>
           <div class="right-content">
@@ -127,6 +148,7 @@
             </el-input>
           </div>
         </div>
+
         <div class="item-section">
           <label>SEO标题</label>
           <div class="right-content">
@@ -144,7 +166,14 @@
         <div class="item-section">
           <label>SEO描述</label>
           <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="articleItem.seodescription">
+            <el-input type="textarea" :autosize="{ minRows: 2 }" placeholder="请输入" size="mini" v-model="articleItem.seodescription">
+            </el-input>
+          </div>
+        </div>
+        <div class="item-section">
+          <label>文章摘要</label>
+          <div class="right-content">
+            <el-input type="textarea" :autosize="{ minRows: 2 }" placeholder="请输入" size="mini" v-model="articleItem.info">
             </el-input>
           </div>
         </div>
@@ -154,7 +183,7 @@
           <div class="right-content">
             <div class="editor-box">
               <div id="div5" class="toolbar"></div>
-              <div id="div6" class="text" style="max-height: 4rem;">
+              <div id="div6" class="text" style="max-height: 3rem;">
               </div>
             </div>
           </div>
@@ -301,7 +330,7 @@ export default {
 
   },
   mounted: function () {
-
+    editor16 = null;
     //数据字典
     let _this = this
     getData('post', my_url + '/crm/common/getDictList.do', function (data) {
@@ -381,11 +410,15 @@ export default {
       }
       this.addCJGItemVisible = true
       this.$nextTick(() => {
-        this.newWangEditor2('#div5', '#div6')
+        if (!editor16) {
+          this.newWangEditor2('#div5', '#div6')
+        }
         editor16.txt.html(this.articleItem.content)
       })
 
     },
+
+
     // 确认新建或者更新
     updateCJGitem(isUpload) {
       if (this.lookActile) {
@@ -549,7 +582,6 @@ export default {
     },
 
     itemReset() {
-      //解答疑义
       this.articleItem = {
         type: '',
         channel: '',
@@ -587,7 +619,7 @@ export default {
                 type: 'success'
               });
               this.reset()
-              this.getCJGList()
+              // this.getCJGList()
 
             }
           }, body);
@@ -597,8 +629,63 @@ export default {
 
     },
 
+    // 上移
+    itemUp(item) {
+      var _this=this
+      let body = {
+        id: item.id,
+      }
+
+      getData('post', my_url + '/crm/content/contentUp.do', data => {
+        if (data.code == 0) {
+          _this.$message({
+            showClose: true,
+            message: '上移成功',
+            duration: 3000,
+            type: 'success'
+          });
+          _this.reset()
+          // _this.getCJGList()
+        }else{
+          _this.$message({
+            showClose: true,
+            message:  data,
+            duration: 3000,
+            type: 'success'
+          });
+        }
+      }, body);
+    },
 
 
+    // 下移
+    itemDown(item) {
+      var _this=this
+      let body = {
+        id: item.id,
+      }
+      getData('post', my_url + '/crm/content/contentDown.do', data => {
+        if (data.code == 0) {
+          _this.$message({
+            showClose: true,
+            message: '下移成功',
+            duration: 3000,
+            type: 'success'
+          });
+          _this.reset()
+          // _this.getCJGList()
+        }else{
+          _this.$message({
+            showClose: true,
+            message:  data,
+            duration: 3000,
+            type: 'success'
+          });
+        }
+      }, body);
+    },
+
+    // 置顶
     topUp(item) {
       let body = {
         id: item.id,
@@ -613,12 +700,12 @@ export default {
             type: 'success'
           });
           this.reset()
-          this.getCJGList()
+          // this.getCJGList()
         }
       }, body);
 
     },
-
+    // 取消置顶
     canceTopUp(item) {
       let body = {
         id: item.id,
@@ -633,11 +720,11 @@ export default {
             type: 'success'
           });
           this.reset()
-          this.getCJGList()
+          // this.getCJGList()
         }
       }, body);
 
-     },
+    },
 
 
 
@@ -814,7 +901,7 @@ export default {
 }
 </script>
 <style src="../../static/css/knowledgeMan.css"></style>
-
+<style src="../../static/css/myFonts/iconfont.css"></style>
 <style>
 .step-list {
   padding: 0rem;
@@ -843,6 +930,46 @@ export default {
   color: #fff !important;
   background-color: #dc220d !important;
   border-color: #dc220d !important;
+}
+
+::v-deep .el-date-editor.el-input {
+  width: 100%;
+}
+
+::v-deep .answering-doubts .item-section .publishTime .el-input__inner {
+  padding-left: 30px !important;
+}
+
+.step-list {
+  overflow: hidden;
+}
+
+.base-info-botton-group button {
+  background-color: #fff;
+  color: #bdbdbd;
+  font-size: 0.14rem;
+  /* border-color: #BDBDBD; */
+  height: 0.25rem;
+  width: 0.25rem;
+  border: solid 1px #bdbdbd;
+  padding: 0;
+  margin-left: 0;
+}
+
+.el-button-group .el-button--primary:first-child {
+  border-right-color: #bdbdbd;
+}
+
+.el-button-group > .el-button:not(:last-child) {
+  margin-right: 0;
+}
+
+
+.el-button-group>.el-button:hover,
+.el-button-group>.el-button:focus {
+  background: #fff;
+  color: #BDBDBD;
+  border-color: #BDBDBD
 }
 </style>
  

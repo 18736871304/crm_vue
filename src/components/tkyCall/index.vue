@@ -2949,3 +2949,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.text{
+   min-height: 0;
+   overflow-y:hidden;
+}
+</style>
