@@ -100,7 +100,7 @@
       </el-pagination>
     </div>
     <!-- 文章内容-->
-    <el-dialog :title="'新建 - ' + CJGselectValue" :visible.sync="addCJGItemVisible" width="70%" :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
+    <el-dialog :title="'新建 - ' + CJGselectValue" :visible.sync="addCJGItemVisible" width="70%" top="5vh" :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
 
       <div class="step-list wei-step-list answering-doubts">
 
@@ -183,7 +183,7 @@
           <div class="right-content">
             <div class="editor-box">
               <div id="div5" class="toolbar"></div>
-              <div id="div6" class="text" style="max-height: 3rem;">
+              <div id="div6" class="text" style="max-height: 8rem;">
               </div>
             </div>
           </div>
@@ -763,7 +763,7 @@ export default {
 
 
     showActile(item) {
-      var gg="https://www.un29.com/#/ArticleDetailes/" + item.id;
+      var gg = "https://www.un29.com/#/ArticleDetailes/" + item.id;
       window.open(gg, '_blank');
     },
 
@@ -918,6 +918,42 @@ export default {
   background-color: #dc220d !important;
   border-color: #dc220d !important;
 }
+
+
+#div6 h1 *  {
+  font-size: 32px !important;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#div6 h2 *  {
+  font-size: 24px !important;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#div6 h3 *  {
+  font-size: 18.72px !important;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#div6 h4 *  {
+  font-size: 16px !important;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#div6 h5 *  {
+  font-size: 13.28px !important;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#div6 p{
+  font-size: 16px !important;
+}
+ 
 </style>
 
 
@@ -941,6 +977,7 @@ export default {
 }
 
 .step-list {
+  max-height: 1500px;
   overflow: hidden;
 }
 
@@ -970,5 +1007,7 @@ export default {
   color: #bdbdbd;
   border-color: #bdbdbd;
 }
+
+
 </style>
  

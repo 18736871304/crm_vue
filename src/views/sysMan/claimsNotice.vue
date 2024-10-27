@@ -562,5 +562,43 @@ export default {
   background-color: #dc220d !important;
   border-color: #dc220d !important;
 }
+
+
+
+
+
+#div2 h1 *  {
+  font-size: 32px !important;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#div2 h2 *  {
+  font-size: 24px !important;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#div2 h3 *  {
+  font-size: 18.72px !important;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#div2 h4 *  {
+  font-size: 16px !important;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#div2 h5 *  {
+  font-size: 13.28px !important;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+#div2 p{
+  font-size: 16px !important;
+}
 </style>
  

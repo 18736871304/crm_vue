@@ -800,7 +800,7 @@ export default {
 .avtarimg {
   width: 0.24rem;
   height: 0.24rem;
-  margin: 0.16rem;
+  margin: 0.16rem !important;
   overflow: hidden;
   float: left;
   border-radius: 50%;
