@@ -68,14 +68,14 @@
 
         <el-table-column key="10" align="center" label="操作" width="350">
           <template slot-scope="scope">
-            <!-- <a class="edit option" href="javascript:void(0);" @click="showActile(scope.row)">查看</a> -->
+            <a class="edit option" href="javascript:void(0);" style="color: #67c23a;" @click="showActile(scope.row)">预览</a>
+
             <a class="edit option" href="javascript:void(0);" @click="showEditPopup(scope.row)">编辑</a>
             <a class="delete option" href="javascript:void(0);" @click="deleteItem(scope.row)">删除</a>
             <a class="edit option" href="javascript:void(0);" v-if="!scope.row.toporderid" @click="topUp(scope.row)">置顶</a>
-            <a class="edit option" href="javascript:void(0);" style="color: rgba(151, 151, 151, 1);" v-else>已置顶</a>
-            <a class="delete option" href="javascript:void(0);" v-if="scope.row.toporderid" @click="canceTopUp(scope.row)">取消</a>
-        
-        
+            <!-- <a class="edit option" href="javascript:void(0);" style="color: rgba(151, 151, 151, 1);" v-else>已置顶</a> -->
+            <a class="delete option" href="javascript:void(0);" style="color:#909399 ;" v-if="scope.row.toporderid" @click="canceTopUp(scope.row)">取消置顶</a>
+
             <el-button-group class="base-info-botton-group updown" v-if="scope.row.toporderid">
               <el-button size="mini" @click="itemUp(scope.row)" type="primary" icon="iconfont icon-my-up">
               </el-button>
@@ -127,7 +127,7 @@
 
           <label>发布时间</label>
           <div class="right-content publishTime">
-            <el-date-picker class="el-date-picker-sigle" v-model="articleItem.publish_time" value-format="yyyy-MM-dd HH:mm:ss" type="datetime"    placeholder="请输入"  size="mini">
+            <el-date-picker class="el-date-picker-sigle" v-model="articleItem.publish_time" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="请输入" size="mini">
             </el-date-picker>
           </div>
         </div>
@@ -631,7 +631,7 @@ export default {
 
     // 上移
     itemUp(item) {
-      var _this=this
+      var _this = this
       let body = {
         id: item.id,
       }
@@ -646,10 +646,10 @@ export default {
           });
           _this.reset()
           // _this.getCJGList()
-        }else{
+        } else {
           _this.$message({
             showClose: true,
-            message:  data,
+            message: data,
             duration: 3000,
             type: 'success'
           });
@@ -660,7 +660,7 @@ export default {
 
     // 下移
     itemDown(item) {
-      var _this=this
+      var _this = this
       let body = {
         id: item.id,
       }
@@ -674,10 +674,10 @@ export default {
           });
           _this.reset()
           // _this.getCJGList()
-        }else{
+        } else {
           _this.$message({
             showClose: true,
-            message:  data,
+            message: data,
             duration: 3000,
             type: 'success'
           });
@@ -763,8 +763,8 @@ export default {
 
 
     showActile(item) {
-      this.showEditPopup(item)
-      this.lookActile = true
+      var gg="https://www.un29.com/#/ArticleDetailes/" + item.id;
+      window.open(gg, '_blank');
     },
 
 
@@ -964,12 +964,11 @@ export default {
   margin-right: 0;
 }
 
-
-.el-button-group>.el-button:hover,
-.el-button-group>.el-button:focus {
+.el-button-group > .el-button:hover,
+.el-button-group > .el-button:focus {
   background: #fff;
-  color: #BDBDBD;
-  border-color: #BDBDBD
+  color: #bdbdbd;
+  border-color: #bdbdbd;
 }
 </style>
  
