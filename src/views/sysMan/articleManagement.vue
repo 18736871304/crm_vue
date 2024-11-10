@@ -86,12 +86,7 @@
         </el-table-column>
 
         <!-- <el-table-column key="11" align="center" label="操作" width="350">
-          <template slot-scope="scope">
-           
-
-            
-
-          </template>
+          <template slot-scope="scope"> </template>
         </el-table-column> -->
       </el-table>
     </div>
@@ -100,7 +95,7 @@
       </el-pagination>
     </div>
     <!-- 文章内容-->
-    <el-dialog :title="'新建 - ' + CJGselectValue" :visible.sync="addCJGItemVisible" width="70%" top="5vh" :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
+    <el-dialog :title="titleDialog + ' - 文章内容'" :visible.sync="addCJGItemVisible" width="70%" top="5vh" :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
 
       <div class="step-list wei-step-list answering-doubts">
 
@@ -219,9 +214,11 @@ export default {
       pageNum: 1,
       tableData: [],
 
+
+      titleDialog: '新建',
       articleType: '',
       timeType: '修改时间',
-      //解答疑义
+
       articleItem: {
         type: '',
         channel: '0004',
@@ -240,7 +237,7 @@ export default {
 
       },
       addCJGItemVisible: false, //控制弹窗的显示
-      CJGselectValue: '文章内容',
+      // CJGselectValue: '文章内容',
       lookActile: false,
       addCJGFIrstVisible: false,
 
@@ -405,8 +402,12 @@ export default {
 
     // 打开新建
     showAddCJGDetailDialog(e) {
+
       if (e) {
         this.itemReset()
+        this.titleDialog = '新建'
+      } else {
+        this.titleDialog = '编辑'
       }
       this.addCJGItemVisible = true
       this.$nextTick(() => {
@@ -919,41 +920,39 @@ export default {
   border-color: #dc220d !important;
 }
 
-
-#div6 h1 *  {
+#div6 h1 * {
   font-size: 32px !important;
   margin: 10px 0;
   line-height: 1.5;
 }
 
-#div6 h2 *  {
+#div6 h2 * {
   font-size: 24px !important;
   margin: 10px 0;
   line-height: 1.5;
 }
 
-#div6 h3 *  {
+#div6 h3 * {
   font-size: 18.72px !important;
   margin: 10px 0;
   line-height: 1.5;
 }
 
-#div6 h4 *  {
+#div6 h4 * {
   font-size: 16px !important;
   margin: 10px 0;
   line-height: 1.5;
 }
 
-#div6 h5 *  {
+#div6 h5 * {
   font-size: 13.28px !important;
   margin: 10px 0;
   line-height: 1.5;
 }
 
-#div6 p{
+#div6 p {
   font-size: 16px !important;
 }
- 
 </style>
 
 
@@ -1007,7 +1006,5 @@ export default {
   color: #bdbdbd;
   border-color: #bdbdbd;
 }
-
-
 </style>
  

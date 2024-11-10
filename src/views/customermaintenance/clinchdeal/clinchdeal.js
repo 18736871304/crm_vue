@@ -41,7 +41,7 @@ export default {
         'YYYY-MM-DD')], //出单日期
       contno: '', //保单号
       policyStatus: '40', //保单状态
-      searchChannel:'',//筛选渠道类型
+      searchChannel: '', //筛选渠道类型
       policyStatusList: '', //保单状态列表
       cusmobile: '电话号码', //显示的电话号码
       cusMobileWxno: '', //客户电话号码或者微信值
@@ -105,11 +105,10 @@ export default {
         , {
           dd_key: "1",
           dd_value: '护照'
-       }
-      , {
-        dd_key: "f",
-        dd_value: '港、澳、台通行证'
-    }
+        }, {
+          dd_key: "f",
+          dd_value: '港、澳、台通行证'
+        }
       ],
       //投保人
       applicantName: '', //投保人姓名
@@ -786,7 +785,7 @@ export default {
       this.overviewForm.teamid = '';
       this.overviewForm.userid = '';
       this.policyStatus = '';
-      this.searchChannel= ''
+      this.searchChannel = ''
       this.search(1)
     },
     //选择团队和业务人员
@@ -1292,7 +1291,7 @@ export default {
 
 
 
-        } else  if (this.insuredType == '0') {
+        } else if (this.insuredType == '0') {
           if (!(/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(this.insuredIDCard))) {
             this.$message({
               showClose: true,
@@ -1365,7 +1364,7 @@ export default {
       if (this.insuredPhone == undefined) {
         this.insuredPhone = ''
       }
-  
+
 
       //手动录入
       console.log(this.jiaoyan())
@@ -1702,24 +1701,55 @@ export default {
 
 
 
-    downLoad(data, e) {
-      var str = data.policyurl
-      var string = str.substring(str.length - 4)
-      // if (string != ".pdf") {
-      //   this.stopDefault(e);
-      //   this.gridDataList(data.orderid)
-      //   this.dialogTableVisible = true
-      // }
+    // downLoad(data, e) {
+    //   var str = data.policyurl
+    //   var string = str.substring(str.length - 4)
+    // if (string != ".pdf") {
+    //   this.stopDefault(e);
+    //   this.gridDataList(data.orderid)
+    //   this.dialogTableVisible = true
+    // }
+
+    // },
+
+    // noDownLoad(data, e) {
+    //   this.$message({
+    //     showClose: true,
+    //     message: '抱歉，该电子保单暂不支持下载',
+    //     duration: 3000,
+    //   });
+    // },
+
+
+    testDownLoad(row) {
+      console.log(row.orderid)
+      console.log(row.policyurl)
+
+      getData('post', my_url + '/crm/auth/getToken.do', data => {
+        var data = {
+          orderid: row.orderid,
+          token: data.token,
+        }
+        getData('post', crm_url + 'insure.meihualife.com/crm_web/policyDownLoad.do', function (res) {
+
+        
+          if (res.code == '0' && res.policyUrl && res.policyUrl != '') {
+            let a = document.createElement('a')
+            a.target = '_blank';
+            a.href = res.policyUrl;
+            a.click();
+          } else {
+            let a = document.createElement('a')
+            a.target = '_blank'; 
+            a.href = row.policyurl;
+            a.click();
+          }
+
+        }, data);
+      })
 
     },
 
-    noDownLoad(data, e) {
-      this.$message({
-        showClose: true,
-        message: '抱歉，该电子保单暂不支持下载',
-        duration: 3000,
-      });
-    },
 
     handleClose() {
       this.hideaddNoticeDialogVisible()

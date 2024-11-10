@@ -40,9 +40,18 @@
       <el-table-column key="15" align="center" prop="actualprem" label="续保保费" width="80" :show-overflow-tooltip="true"> </el-table-column>
       <el-table-column key="16" align="center" prop="xbpolicyurl" label="电子保单" width="100" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <a v-if="scope.row.xbpolicyurl" class="edit option" target="_blank" :href="scope.row.xbpolicyurl" style="color: #8f9198">续保单下载</a>
+
+          <!-- <a v-if="scope.row.xbpolicyurl" class="edit option" target="_blank" :href="scope.row.xbpolicyurl" style="color: #8f9198">续保单下载</a>
           <a v-else-if='scope.row.policyurl' class="edit option" target="_blank" :href="scope.row.policyurl" style="color: #8f9198">原保单下载</a>
-          <a v-else class="edit option" target="_blank" :href="scope.row.policyurl"></a>
+          <a v-else class="edit option" target="_blank" :href="scope.row.policyurl"></a> -->
+
+          <span v-if="scope.row.xbpolicyurl"  class="edit option" style="color: #8f9198; cursor: pointer" @click="testDownLoad(scope.row)">续保单下载</span>
+          <span v-if="scope.row.policyurl"  class="edit option" style="color: #8f9198; cursor: pointer" @click="testDownLoad(scope.row)">原保单下载</span>
+
+
+
+
+
         </template>
       </el-table-column>
       <el-table-column key="17" align="center" prop="reusername" label="出单业务员" width="100"> </el-table-column>
@@ -73,6 +82,38 @@ export default {
   },
 
   methods: {
+// 保单下载
+    testDownLoad(row) {
+      
+      if(row.xbpolicyurl ){
+        row.policyurl=row.xbpolicyurl
+      }
+
+      getData('post', my_url + '/crm/auth/getToken.do', data => {
+        var data = {
+          orderid: row.orderid,
+          token: data.token,
+        }
+        getData('post', crm_url + 'insure.meihualife.com/crm_web/policyDownLoad.do', function (res) {
+
+        
+          if (res.code == '0' && res.policyUrl && res.policyUrl != '') {
+            let a = document.createElement('a')
+            a.target = '_blank';
+            a.href = res.policyUrl;
+            a.click();
+          } else {
+            let a = document.createElement('a')
+            a.target = '_blank';
+            a.href = row.policyurl;
+            a.click();
+          }
+
+        }, data);
+      })
+
+    },
+
     //查看详情
     showEditPopup(item) {
       // console.log(item)

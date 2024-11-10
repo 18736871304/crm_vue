@@ -56,7 +56,7 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog custom-class="noticeMan-dialog" :title="titleDialog" :visible.sync="addNoticeDialogVisible" width="70%" :close-on-click-modal='false'>
+    <el-dialog custom-class="noticeMan-dialog" :title="titleDialog+' - 理赔公告'" :visible.sync="addNoticeDialogVisible" width="70%" :close-on-click-modal='false'>
       <div class="noticeMan-step-list">
         <!-- <div class="item-section">
           <label>所属类别</label>
@@ -457,33 +457,6 @@ export default {
       ]
       editor9.create()
     },
-
-    // getSearchData() {
-    //   let _this = this;
-    //   getData('post', my_url + '/crm/system/getNoticeTitleList.do', function (data) { //渠道类型
-    //     if (data.code == 0) {
-    //       let nameList = data.noticetitlelist;
-    //       nameList.forEach(res => {
-    //         _this.SalesmanBox.push({
-    //           "value": res
-    //         });
-    //       })
-    //     }
-    //   }, {
-    //     type: this.cjgType + ''
-    //   });
-    // },
-    // querySearch(queryString, cb) {
-    //   var SalesmanBox = this.SalesmanBox;
-    //   var results = queryString ? SalesmanBox.filter(this.createFilter(queryString)) : SalesmanBox;
-    //   // 调用 callback 返回建议列表的数据
-    //   cb(results.reverse());
-    // },
-    // createFilter(queryString) {
-    //   return (SalesmanBox) => {
-    //     return (SalesmanBox.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
-    //   };
-    // },
   }
 }
 </script>

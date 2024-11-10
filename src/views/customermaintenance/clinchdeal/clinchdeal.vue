@@ -153,8 +153,11 @@
 
         <el-table-column key="25" align="center" prop="policyurl" label="电子保单" width="80" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <a v-if="scope.row.policyurl" target="_blank" :href="scope.row.policyurl" @click="downLoad(scope.row)" style="color: #8f9198">下载</a>
-            <a v-else style="color: #8f9198; cursor: pointer" @click="noDownLoad(scope.row)" target="_blank" :href="scope.row.policyurl">下载</a>
+            <!-- <a v-if="scope.row.policyurl" target="_blank" :href="scope.row.policyurl" @click="downLoad(scope.row)" style="color: #8f9198">下载</a>
+            <a v-else style="color: #8f9198; cursor: pointer" @click="noDownLoad(scope.row)" target="_blank" :href="scope.row.policyurl">下载</a> -->
+            <span v-if="scope.row.policyurl"  style="color: #8f9198; cursor: pointer" @click="testDownLoad(scope.row)">下载</span>
+         
+         
           </template>
         </el-table-column>
 

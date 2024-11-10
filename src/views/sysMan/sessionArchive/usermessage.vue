@@ -940,7 +940,7 @@ export default {
     },
 
     // 模糊查询员工
-    searchUser(teamid, keyword,pageNumber,pageSize) {
+    searchUser(teamid, keyword, pageNumber, pageSize) {
       var _this = this
       var params = {
         teamid: teamid,
@@ -1031,7 +1031,10 @@ export default {
         });
       }
       if (first == '同事') {
+        console.log(params)
+        params.pageSize = 500
         api.getQwColleagueByUser(params).then((data) => {
+          console.log(data)
           if (data.qwColleagueList != []) {
             var qwColleagueList = _this.dataHandle(data.qwColleagueList)
             _this.firstAllName = _this.firstAllName.concat(qwColleagueList);

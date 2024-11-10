@@ -166,8 +166,11 @@
         </el-table-column>
         <el-table-column key="31" align="center" prop="typename" label="电子保单" width="80" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <a v-if='scope.row.policyurl' class="edit option" target="_blank" :href="scope.row.policyurl" style="color: #8F9198;">下载</a>
-            <a v-else class="edit option" target="_blank" :href="scope.row.policyurl"></a>
+
+            <!-- <a v-if='scope.row.policyurl' class="edit option" target="_blank" :href="scope.row.policyurl" style="color: #8F9198;">下载</a>
+            <a v-else class="edit option" target="_blank" :href="scope.row.policyurl"></a> -->
+            <span v-if="scope.row.policyurl"  style="color: #8f9198; cursor: pointer" @click="testDownLoad(scope.row)">下载</span>
+
           </template>
         </el-table-column>
         <el-table-column key="32" align="center" label="查看详情" width="110">
@@ -669,9 +672,11 @@ export default {
       this.CJGselectValue = '失效保单'
     } else if (val == '03') {
       this.CJGselectValue = '终止保单'
-    } else if (val == '04') {
-      this.CJGselectValue = '生日保单'
-    }
+    } 
+    
+    // else if (val == '04') {
+    //   this.CJGselectValue = '生日保单'
+    // }
     this.getConditionData();
     this.getIsCall();
     this.search(1); //搜索
@@ -691,31 +696,28 @@ export default {
         if (data.code == 0) {
           var tabData = {}
           var inteUrl = ''
-          if (_this.CJGselectValue == '服务客户' || _this.CJGselectValue == '生日保单') {
+          if (_this.CJGselectValue == '服务客户' ) {
             tabData = {
-              "contno": this.contno.trim(),
-              "cusname": this.cusname,
-              "cusmobile": cusmobile.trim(),
-              "wxno": cuswxno,
-              "pageNumber": page,
-              "pageSize": this.pageSize,
-              "menutype": "75000000",
+              contno: this.contno.trim(),
+              cusname: this.cusname,
+              cusmobile: cusmobile.trim(),
+              wxno: cuswxno,
+              pageNumber: page,
+              pageSize: this.pageSize,
+              menutype: "75000000",
+              isidquery:"Y"
             }
-            if (_this.CJGselectValue == '生日保单') {
-              tabData['isbirthdayquery'] = "Y"
-            } else {
-              tabData['isidquery'] = "Y"
-            }
+          
             inteUrl = my_url + '/crm/activity/getClienServerList.do'
           } else if (_this.CJGselectValue == '失效保单' || _this.CJGselectValue == '终止保单') {
             tabData = {
-              "token": data.token,
-              "contno": this.contno.trim(),
-              "cusname": this.cusname,
-              "cusmobile": cusmobile.trim(),
-              "wxno": cuswxno,
-              "pageNumber": page,
-              "pageSize": this.pageSize,
+              token: data.token,
+              contno: this.contno.trim(),
+              cusname: this.cusname,
+              cusmobile: cusmobile.trim(),
+              wxno: cuswxno,
+              pageNumber: page,
+              pageSize: this.pageSize,
             }
             tabData['state'] = "74"
             if (_this.CJGselectValue == '终止保单') {
@@ -741,8 +743,8 @@ export default {
                 }
 
                 if (res.appidno) {
-                  res["sex"] = genderArr[res.appidno.substr(16, 1) % 2]
-                  res["sex"] = genderArr[res.appidno.substr(16, 1) % 2]
+                  // res["sex"] = genderArr[res.appidno.substr(16, 1) % 2]
+                  // res["sex"] = genderArr[res.appidno.substr(16, 1) % 2]
                   res["chu"] = res.appidno.substr(6, 4) + '-' + res.appidno.substr(10, 2) + '-' + res.appidno.substr(12, 2)
                   res["age"] = _this.getAgeByBirthday(res.appidno.substr(6, 4) + '-' + res.appidno.substr(10, 2) + '-' + res.appidno.substr(12, 2))
                 }
@@ -1257,6 +1259,43 @@ export default {
         _this.audioPaused = true
       })
     },
+
+
+
+
+    testDownLoad(row) {
+      console.log(row.orderid)
+      console.log(row.policyurl)
+
+      getData('post', my_url + '/crm/auth/getToken.do', data => {
+        var data = {
+          orderid: row.orderid,
+          token: data.token,
+        }
+        getData('post', crm_url + 'insure.meihualife.com/crm_web/policyDownLoad.do', function (res) {
+
+        
+          if (res.code == '0' && res.policyUrl && res.policyUrl != '') {
+            let a = document.createElement('a')
+            a.target = '_blank';
+            a.href = res.policyUrl;
+            a.click();
+          } else {
+            let a = document.createElement('a')
+            a.target = '_blank';
+            a.href = row.policyurl;
+            a.click();
+          }
+
+        }, data);
+      })
+
+    },
+
+
+
+
+
   }
 }
 
