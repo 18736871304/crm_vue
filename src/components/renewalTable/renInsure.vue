@@ -111,6 +111,7 @@ export default {
         var data = {
           orderid: row.orderid,
           token: data.token,
+          contno:row.contno
         }
         getData('post', crm_url + 'insure.meihualife.com/crm_web/policyDownLoad.do', function (res) {
 

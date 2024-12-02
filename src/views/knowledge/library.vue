@@ -228,10 +228,7 @@
                   </div>
                   <div class="imgupload">
                     <el-upload accept="image/*" action="#" ref="imgupload" list-type="picture-card" :auto-upload="false" :limit="1" :file-list="item.image.uploadFilePath" :on-change="
-                      (file) => {
-                        return imgSaveToUrl(file, index);
-                      }
-                    " :class="item.image.num == '1' ? 'jinyong' : ''">
+                      (file) => { return imgSaveToUrl(file, index); } " :class="item.image.num == '1' ? 'jinyong' : ''">
                       <i slot="default" class="el-icon-plus"></i>
 
                       <div slot="file" slot-scope="{ file }">

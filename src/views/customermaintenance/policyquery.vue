@@ -12,7 +12,7 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.28rem">保单状态</div>
           <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
-            <el-select v-model="policyStatus" size="mini" placeholder="" class="el-select-inners">
+            <el-select v-model="policyStatus" size="mini" placeholder="" class="el-select-inners"  clearable >
               <el-option v-for="(item, index) in policyStatusList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
             </el-select>

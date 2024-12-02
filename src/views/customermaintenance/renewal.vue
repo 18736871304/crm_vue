@@ -543,7 +543,7 @@ export default {
               xbtabData.riskcode = "";
             }
             getData(
-              "post",
+              "get",
               crm_url + "insure.meihualife.com/crm_web/getXbPolicy.do",
               (data) => {
                 var list = data.rows;

@@ -1722,14 +1722,16 @@ export default {
 
 
     testDownLoad(row) {
-      console.log(row.orderid)
-      console.log(row.policyurl)
-
+      console.log(row)
+     
       getData('post', my_url + '/crm/auth/getToken.do', data => {
         var data = {
           orderid: row.orderid,
           token: data.token,
+          contno:row.contno
         }
+
+        console.log(data)
         getData('post', crm_url + 'insure.meihualife.com/crm_web/policyDownLoad.do', function (res) {
 
         
