@@ -721,7 +721,8 @@ export default {
             }
             tabData['state'] = "74"
             if (_this.CJGselectValue == '终止保单') {
-              tabData['state'] = "70','73','75"
+              tabData['state'] = "70,73,75"
+              // 这里需要改
             }
             inteUrl = crm_url + 'insure.meihualife.com/crm_web/getPolicyList_New.do'
           }

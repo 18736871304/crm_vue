@@ -132,7 +132,7 @@ export default {
       cusmobile: '电话号码', //显示的电话号码
       cusMobileWxno: '', //客户电话号码或者微信值
       cusname: '', //客户姓名
-      policyStatus: '40', //保单状态
+      policyStatus: '', //保单状态
       policyStatusList: '', //保单状态列表
       //查看编辑弹窗
       showEditPopupDialogVisible: false,
@@ -156,7 +156,8 @@ export default {
       }
       var policyStatus = ''
       if (this.policyStatus == '40') {
-        policyStatus = "80','81','82','40"
+        policyStatus = "80,81,82,40"
+           // 这里需要改
       } else {
         policyStatus = this.policyStatus
       }

@@ -726,7 +726,8 @@ export default {
       }
       var policyStatus = ''
       if (this.policyStatus == '40') {
-        policyStatus = "80','81','82','40"
+        // 这里需要改
+        policyStatus = "80,81,82,40"
       } else {
         policyStatus = this.policyStatus
       }

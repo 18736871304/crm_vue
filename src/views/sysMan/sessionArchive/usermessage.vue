@@ -83,7 +83,8 @@
                       <img :src="item.avatar" alt="" class="avatar" />
                       <div class="pBox">
                         <p class='namedata'>
-                          <span>{{ item.customername }}</span>
+                          <!-- <span>{{ item.customername }}</span> -->
+                          <span>{{ item.customer_remark_name }}</span>
                           <span>{{ item.lastmsgtimeValue }}</span>
                         </p>
                         <p class="lastText">{{ item.lastmsgtypeValue }}</p>
