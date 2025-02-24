@@ -3,94 +3,94 @@
     <div class="search-header">
       <div class="search-box clearfix">
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">{{ add_Renewal }}</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.28rem); border: none">
+          <div class="select-title  filtitle">{{ add_Renewal }}</div>
+          <div class="select-content filContent">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" value-format="yyyy-MM-dd " unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">保单号</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem)">
-            <el-input class="el-input-inners" v-model="contno" align="right" size="mini" clearable></el-input>
+          <div class="select-title  filtitle">保单号</div>
+          <div class="select-content  filContent">
+            <el-input class="el-input-inners" v-model="contno" align="right" size="mini" placeholder="请输入保单号" clearable></el-input>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">{{ add_state }}</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
-            <el-select v-model="policyStatus" clearable size="mini" placeholder="" class="el-select-inners" @change="ChangePolicyStatus">
+          <div class="select-title  filtitle">{{ add_state }}</div>
+          <div class="select-content filContent">
+            <el-select v-model="policyStatus" clearable size="mini" placeholder="请选择状态" class="el-select-inners" @change="ChangePolicyStatus">
               <el-option v-for="(item, index) in policyStatusList" :key="index" :label="item.dd_value" :value="item.dd_key"> </el-option>
             </el-select>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">保险公司</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem)">
-            <el-autocomplete class="el-input-inners" v-model="insorganName" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="" @select="insorganNameSelect" @blur="xiaochu" clearable></el-autocomplete>
+          <div class="select-title  filtitle">保险公司</div>
+          <div class="select-content  filContent">
+            <el-autocomplete class="el-input-inners" v-model="insorganName" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入选择保险公司" @select="insorganNameSelect" @blur="xiaochu" clearable></el-autocomplete>
           </div>
         </div>
 
         <div class="common-select">
-          <div v-if="CJGselectValue == '续期保单'" class="select-title" style="width: 1.28rem">险种名称</div>
+          <div v-if="CJGselectValue == '续期保单'" class="select-title  filtitle">险种名称</div>
 
-          <div class="select-title" style="width: 1.28rem" v-if="CJGselectValue == '续保保单'">
+          <div class="select-title  filtitle" v-if="CJGselectValue == '续保保单'">
             <el-select class="el-input-title-inners" v-model="mainriskName" placeholder="请选择" size="mini">
               <el-option label="险种名称" value="险种名称"></el-option>
               <el-option label="续保险种名称" value="续保险种名称"></el-option>
             </el-select>
           </div>
 
-          <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
-            <el-select v-model="mainriskcode" size="mini" clearable placeholder="" popper-class="xianSelect" @change="inmainriskSelect" class="el-select-inners">
+          <div class="select-content filContent">
+            <el-select v-model="mainriskcode" size="mini" clearable placeholder="请选择" popper-class="xianSelect" @change="inmainriskSelect" class="el-select-inners">
               <el-option v-for="(item, index) in productList" :key="index" :label="item.dd_value" :value="item.dd_key"> </el-option>
             </el-select>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">客户姓名</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem)">
-            <el-input class="el-input-inners" v-model="cusname" align="right" size="mini" clearable></el-input>
+          <div class="select-title  filtitle">客户姓名</div>
+          <div class="select-content  filContent">
+            <el-input class="el-input-inners" v-model="cusname" align="right" size="mini" placeholder="请输入客户姓名" clearable></el-input>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">
+          <div class="select-title  filtitle">
             <el-select class="el-input-title-inners" v-model="cusmobile" placeholder="请选择" size="mini">
               <el-option label="电话号码" value="电话号码"></el-option>
               <el-option label="微信号" value="微信号"></el-option>
             </el-select>
           </div>
-          <div class="select-content" style="width: calc(100% - 1.28rem)">
-            <el-input class="el-input-inners" v-model="cusMobileWxno" align="right" size="mini" clearable></el-input>
+          <div class="select-content  filContent">
+            <el-input class="el-input-inners" v-model="cusMobileWxno" align="right" size="mini" placeholder="请输入电话号码" clearable></el-input>
           </div>
         </div>
         <div class="common-select" v-if="CJGselectValue == '续期保单'">
-          <div class="select-title" style="width: 1.28rem">保单年度</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem)">
-            <el-input class="el-input-inners" v-model="policyyear" align="right" size="mini" clearable></el-input>
+          <div class="select-title  filtitle">保单年度</div>
+          <div class="select-content  filContent">
+            <el-input class="el-input-inners" v-model="policyyear" align="right" size="mini" placeholder="请输入保单年度" clearable></el-input>
           </div>
         </div>
 
         <div class="common-select" v-if="CJGselectValue == '续保保单'">
-          <div class="select-title" style="width: 1.28rem">
+          <div class="select-title  filtitle">
             <el-select class="el-input-title-inners" v-model="cusplanid" placeholder="请选择" size="mini">
               <el-option label="批次号" value="批次号"></el-option>
               <el-option label="渠道类型" value="渠道类型"></el-option>
               <el-option label="广告计划ID" value="广告计划ID"></el-option>
             </el-select>
           </div>
-          <div class="select-content" style="width: calc(100% - 1.28rem)">
-            <el-input class="el-input-inners" v-model="cusplanidBatchno" align="right" size="mini" clearable></el-input>
+          <div class="select-content  filContent">
+            <el-input class="el-input-inners" v-model="cusplanidBatchno" align="right" size="mini"  placeholder="请输入" clearable></el-input>
           </div>
         </div>
 
-        <div class="common-select" style="float: right; width: 10.5%">
-          <div class="search-btn" @click="search(1)">搜索</div>
-          <div class="search-btn" style="background: #fff; color: #dc220d; border: 1px solid rgba(216, 216, 216, 1)" @click="screenReset">重置</div>
+        <div class="common-select" style=" width: 4%">
+          <div class="search-btn searchLeft" @click="search(1)">搜索</div>
+          <div class="search-btn" style="background: #fff; color: #dc220d; border: 1px solid rgba(216, 216, 216, 1);display: none;" @click="screenReset">重置</div>
         </div>
       </div>
     </div>
@@ -553,7 +553,7 @@ export default {
                   var originalDate = new Date(Deadline);
                   // 减去一天
                   originalDate.setDate(originalDate.getDate() - 1);
-                  originalDate= new Date(originalDate).Format("yyyy-MM-dd");
+                  originalDate = new Date(originalDate).Format("yyyy-MM-dd");
                   list[i]['originalDate'] = originalDate;
                 }
                 _this.tableData = list;

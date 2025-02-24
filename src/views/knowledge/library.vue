@@ -24,8 +24,8 @@
 
           <!-- <div class="fr"  > -->
           <div class="common-select" v-show="dis_P4_up">
-            <div class="select-title" style="width: 1.28rem">选择团队</div>
-            <div class="select-content" style="width: calc(100% - 1.28rem);">
+            <div class="select-title filtitle">选择团队</div>
+            <div class="select-content filContent">
               <el-dropdown trigger="click" placement="bottom" ref="disTeam2" style="width: 100%;">
                 <p class="el-dropdown-inners" clearable>
                   <span>{{ teamNames2 }}</span>
@@ -43,24 +43,37 @@
             </div>
           </div>
           <div class="common-select" v-if="dis_P4_up&& activeName=='02'">
-            <div class="select-title" style="width: 1.28rem">业务员姓名</div>
-            <div class="select-content" style="width: calc(100% - 1.28rem);border: none">
+            <div class="select-title filtitle">业务员姓名</div>
+            <div class="select-content filContent">
               <el-select class="el-select-inners" placeholder="请选择" size="mini" v-model="overviewForm.userid" @change="userNameChange" clearable>
                 <el-option v-for="item in userNameOptions" :key="item.userid" :label="item.username" :value="item.userid">
                 </el-option>
               </el-select>
             </div>
           </div>
+
+
+
+
+
           <div class="common-select">
-            <div class="select-title" style="width: 1.28rem">关键字搜索</div>
-            <div class="select-content" style="width: calc(100% - 1.28rem);">
+            <div class="select-title filtitle">关键字搜索</div>
+            <div class="select-content filContent">
               <el-input class="el-input-inners" v-model="huashuCon" size="mini" placeholder="请输入关键字" clearable></el-input>
             </div>
           </div>
 
-          <div class="common-select" style="float: right;width: 11.5%;">
-            <div class="search-btn" @click="getAllTalkTempleteGroup">搜索</div>
-            <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+          
+          <div class="common-select" v-show="dis_P4_up"></div>
+
+
+          <div class="common-select" v-show="dis_P4_up&& activeName=='01'"></div>
+
+
+
+          <div class="common-select" style="width: 4%;">
+            <div class="search-btn searchLeft" @click="getAllTalkTempleteGroup()">搜索</div>
+            <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);display: none;" @click="reset">重置</div>
           </div>
 
         </div>
@@ -787,7 +800,7 @@ export default {
       var _this = this
       var params = {
         grouptype: this.activeName,
-        text:this.huashuCon
+        text: this.huashuCon
       }
       if (this.activeName == '01' && this.overviewForm.teamid != '') {
         params['teamIdStr'] = this.overviewForm.teamid
@@ -1826,7 +1839,7 @@ export default {
               num: 1,
               file: {
                 fileid: itemMain.fileid,
-                filename: (itemMain.text).replace(" ", ""),    
+                filename: (itemMain.text).replace(" ", ""),
                 filetype: itemMain.type,
                 refilepath: itemMain.dispath
               },
@@ -1919,7 +1932,7 @@ export default {
         }
 
       }
- 
+
     },
 
     deletePopup(item) {
@@ -2729,10 +2742,9 @@ table .declet {
 .img_text video {
   width: 0.6rem;
   height: 0.6rem;
- 
 }
-.img_text p{
-   margin-left: 0.1rem;
+.img_text p {
+  margin-left: 0.1rem;
 }
 
 .msgText p {

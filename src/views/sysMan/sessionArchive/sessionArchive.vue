@@ -99,3 +99,9 @@ export default {
   cursor: pointer;
 }
 </style>
+
+<style>
+/* .select-content .el-autocomplete .el-input input {
+  border: none;
+} */
+</style>

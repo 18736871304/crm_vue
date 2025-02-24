@@ -4,24 +4,24 @@
       <div class="add-btn" @click="showAddCJGDetailDialog($event)"> + 新建</div>
       <div class="search-box clearfix">
 
-        <div class="common-select" style="width: 30%">
+        <div class="common-select">
           <!-- <div class="select-title" style="width: 1.54rem">修改时间</div> -->
-          <div class="select-title" style="width: 1.54rem">
+          <div class="select-title filtitle">
             <el-select class="el-input-title-inners" v-model="timeType" placeholder="请选择" size="mini">
               <el-option label="修改时间" value="修改时间"></el-option>
               <el-option label="发布时间" value="发布时间"></el-option>
             </el-select>
           </div>
 
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.54rem); border: none">
+          <div class="select-content filContent">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">文章类型</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
+          <div class="select-title filtitle">文章类型</div>
+          <div class="select-content filContent">
             <el-select class="el-select-inners" v-model="articleType" size="mini" placeholder="请选择文章类型" clearable>
               <el-option v-for="(item,index) in articleTypeList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
@@ -30,15 +30,15 @@
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.38rem">关键字搜索</div>
-          <div class="select-content" style="width: calc(100% - 1.38rem);">
+          <div class="select-title filtitle">关键字搜索</div>
+          <div class="select-content filContent">
             <el-input class="el-input-inners" v-model="keyword" size="mini" placeholder="请输入关键词"></el-input>
           </div>
         </div>
-
-        <div class="common-select" style="float: right; width :11.5%">
-          <div class="search-btn" @click="search">搜索</div>
-          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+        <div class="common-select">  </div>
+        <div class="common-select" style=" width :4%">
+          <div class="search-btn searchLeft" @click="search">搜索</div>
+          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);display: none;" @click="reset">重置</div>
         </div>
 
       </div>

@@ -3,37 +3,37 @@
     <div class="search-header">
       <div class="search-box clearfix">
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">添加时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.28rem); border: none">
+          <div class="select-title  filtitle">添加时间</div>
+          <div class="select-content filContent">
             <el-date-picker v-model="selectTime" type="daterange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" class="el-date-picker-inners">
             </el-date-picker>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">客户姓名</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem)">
+          <div class="select-title  filtitle">客户姓名</div>
+          <div class="select-content filContent">
             <el-input class="el-input-inners" v-model="cusname" align="right" size="mini" placeholder="请输入客户微信昵称/备注" clearable></el-input>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">电话号码</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem)">
+          <div class="select-title  filtitle">电话号码</div>
+          <div class="select-content filContent">
             <el-input class="el-input-inners" v-model="cusMobile" align="right" size="mini" placeholder="请输入电话号码" clearable></el-input>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">业务员姓名</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem)">
+          <div class="select-title  filtitle">业务员姓名</div>
+          <div class="select-content filContent">
             <el-autocomplete class="el-input-inners" v-model="userName" :fetch-suggestions="querySearchId" placeholder="请输入新所属业务员" :trigger-on-focus="false" @select="handleSelectId" clearable></el-autocomplete>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">渠道类型</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem); height: 0.3rem; border: none">
+          <div class="select-title  filtitle">渠道类型</div>
+          <div class="select-content filContent">
             <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
               <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
@@ -41,8 +41,8 @@
           </div>
         </div>
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">流量来源</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem); height: 0.3rem; border: none">
+          <div class="select-title  filtitle">流量来源</div>
+          <div class="select-content  filContent">
             <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="请选择流量来源" clearable>
               <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
               </el-option>
@@ -51,8 +51,8 @@
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">企业标签</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
+          <div class="select-title  filtitle">企业标签</div>
+          <div class="select-content filContent">
             <!-- <el-select v-model="weChatTag" size="mini" placeholder="请选择标签" class="el-select-inners">
               <el-option v-for="(item, index) in weChatTagsList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
@@ -63,8 +63,8 @@
           </div>
         </div>
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">流失状态</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
+          <div class="select-title  filtitle">流失状态</div>
+          <div class="select-content filContent">
             <el-select v-model="lossStatus" size="mini" placeholder="请选择流失状态" class="el-select-inners">
               <el-option v-for="(item, index) in lossStatusList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
@@ -72,12 +72,12 @@
           </div>
         </div>
 
-        <div class="common-select" style="float: right;width:11.5%">
-          <div class="search-btn" @click="search(1)">搜索</div>
+        <div class="common-select" style=" width:4%">
+          <div class="search-btn searchLeft " @click="search(1)">搜索</div>
           <div class="search-btn" style="
               background: #fff;
               color: #dc220d;
-              border: 1px solid rgba(216, 216, 216, 1);
+              border: 1px solid rgba(216, 216, 216, 1);display: none;
             " @click="screenReset">
             重置
           </div>
@@ -207,7 +207,7 @@
                   </template> -->
 
                   <div class="common-select">
-                    <!-- <div class="select-title" style="width: 1.28rem">雷达动态</div> -->
+                    <!-- <div class="select-title  filtitle" >雷达动态</div> -->
                     <div class="select-content" style="margin-bottom: 0.3rem; border: none">
                       <el-select v-model="radarActiveValue" size="mini" placeholder="请选择流失状态" class="el-select-inners" @change="changeradarValue">
                         <el-option v-for="item in radarActive" :key="item.groupid" :label="item.groupname" :value="item.groupid">
@@ -701,11 +701,11 @@ export default {
           if (item.tags && item.tags != null) {
             var tags = JSON.parse(item.tags)
             var tagList = []
-            var perTags=[]
+            var perTags = []
             tags.forEach(item => {
               if (item.type == '1') {
                 tagList.push(item.tag_name)
-              }else{
+              } else {
                 perTags.push(item.tag_name)
               }
 
@@ -775,6 +775,8 @@ export default {
 
     // 打开首页聊天记录
     openChatItem(item) {
+      console.log(item)
+
       this.detailObj = Object.assign({}, item)
       this.activeName = ''
       this.detailObj['activeName'] = ''
@@ -789,6 +791,7 @@ export default {
     },
     // 打开次页聊天记录
     openChat(item) {
+      console.log(item)
       // this.detailObj = item
       var copyItem = Object.assign({}, item)
       this.activeName = ''
@@ -804,6 +807,7 @@ export default {
     },
     // 打开群聊天记录
     openQunChat(item) {
+      console.log(item)
       this.detailObj['qunid'] = item.qunid
       this.detailObj['name'] = item.name
       this.detailObj['activeName'] = 'third'
@@ -843,8 +847,8 @@ export default {
 .card_a a {
   color: #337ab7;
 }
-.el-tabs__nav-wrap::after{
-  background-color: #E4E7ED !important;
+.el-tabs__nav-wrap::after {
+  background-color: #e4e7ed !important;
 }
 </style>
 <style>
@@ -983,10 +987,8 @@ h4 {
   margin-top: 20px!important;
 } */
 
-  .drawer_main .el-tabs__nav-wrap::after{
-  background-color: #E4E7ED !important;
+.drawer_main .el-tabs__nav-wrap::after {
+  background-color: #e4e7ed !important;
 }
-
-
 </style>
  

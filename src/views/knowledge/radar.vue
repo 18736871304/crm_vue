@@ -18,8 +18,8 @@
 
         <div class="search-box clearfix" style="display: block;">
           <div class="common-select" v-show="dis_P4_up">
-            <div class="select-title" style="width: 1.28rem">选择团队</div>
-            <div class="select-content" style="width: calc(100% - 1.28rem);">
+            <div class="select-title filtitle">选择团队</div>
+            <div class="select-content filContent">
               <el-dropdown trigger="click" placement="bottom" ref="disTeam2" style="width: 100%;">
                 <p class="el-dropdown-inners" clearable>
                   <span>{{ teamNames2 }}</span>
@@ -38,8 +38,8 @@
             </div>
           </div>
           <div class="common-select" v-show="dis_P4_up" v-if="activeName=='02'">
-            <div class="select-title" style="width: 1.28rem">业务员姓名</div>
-            <div class="select-content" style="width: calc(100% - 1.28rem);border: none">
+            <div class="select-title filtitle">业务员姓名</div>
+            <div class="select-content filContent">
               <el-select class="el-select-inners" placeholder="请选择" size="mini" v-model="overviewForm.userid" @change="userNameChange" clearable>
                 <el-option v-for="item in userNameOptions" :key="item.userid" :label="item.username" :value="item.userid">
                 </el-option>
@@ -47,14 +47,18 @@
             </div>
           </div>
           <div class="common-select">
-            <div class="select-title" style="width: 1.28rem">关键字搜索</div>
-            <div class="select-content" style="width: calc(100% - 1.28rem);">
+            <div class="select-title filtitle">关键字搜索</div>
+            <div class="select-content filContent">
               <el-input class="el-input-inners" v-model="leidaMain" size="mini" placeholder="请输入关键字" clearable></el-input>
             </div>
           </div>
-          <div class="common-select" style="float: right;width: 11.5%;">
-            <div class="search-btn" @click="search">搜索</div>
-            <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+
+          <div class="common-select" v-show="dis_P4_up"></div>
+          <div class="common-select" v-show="dis_P4_up&& activeName=='01'"></div>
+
+          <div class="common-select" style="width: 4%;">
+            <div class="search-btn searchLeft" @click="search">搜索</div>
+            <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);display: none;" @click="reset">重置</div>
           </div>
         </div>
       </div>
@@ -1565,7 +1569,7 @@ export default {
 <style scoped>
 .scriptLibrary {
 }
-.img_text{
+.img_text {
   margin-bottom: 0rem;
 }
 .eltabs {

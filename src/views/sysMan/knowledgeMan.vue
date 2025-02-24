@@ -3,39 +3,37 @@
     <div class="search-header">
       <div class="add-btn" @click="showAddCJGDetailDialog($event)"> + 新建</div>
       <div class="search-box clearfix">
-       
-        <div class="common-select" v-if="CJGselectValue === '解答疑义'" style="width: 30%">
-          <div class="select-title" style="width: 1.54rem">修改时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.54rem); border: none">
+
+        <div class="common-select" v-if="CJGselectValue === '解答疑义'">
+          <div class="select-title filtitle">修改时间</div>
+          <div class="select-content filContent">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
 
-        <div class="common-select" v-else style="width: 30%">
-          <div class="select-title" style="width: 1.54rem">修改时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.54rem); border: none">
+        <div class="common-select" v-else>
+          <div class="select-title filtitle">修改时间</div>
+          <div class="select-content filContent">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
         <div class="common-select" v-if="CJGselectValue === '保单检视'">
-          <div class="select-title" style="width: 1.28rem">保险公司</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem);">
+          <div class="select-title filtitle">保险公司</div>
+          <div class="select-content filContent">
             <el-autocomplete class="el-input-inners" v-model="insorganName" :trigger-on-focus="false" :fetch-suggestions="querySearch1" size="mini" placeholder="请输入保险公司" clearable></el-autocomplete>
 
           </div>
         </div>
 
-        
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">关键字搜索</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem);">
+          <div class="select-title filtitle">关键字搜索</div>
+          <div class="select-content filContent">
             <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入关键字"></el-autocomplete>
           </div>
         </div>
-
-
+        <div class="common-select">  </div>
         <div class="common-select" v-if="false">
           <div class="select-title" style="width: 1.28rem">跟进步骤</div>
           <div class="select-content" style="width: calc(100% - 1.28rem);">
@@ -48,7 +46,7 @@
                 <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree3" show-checkbox node-key="id" :default-expanded-keys="['01', '02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
                 </el-tree>
                 <div class="sure-footer">
-                  
+
                   <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne3">取消</div>
                   <div class="my-sure" @click="my_sure3">确定</div>
                 </div>
@@ -68,7 +66,7 @@
                 <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree4" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
                 </el-tree>
                 <div class="sure-footer">
-                  
+
                   <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne4">取消</div>
                   <div class="my-sure" @click="my_sure4">确定</div>
                 </div>
@@ -76,8 +74,6 @@
             </el-dropdown>
           </div>
         </div>
-
-       
 
         <div class="common-select" v-if="CJGselectValue === '疾病核保'">
           <div class="search-btn" @click="search">搜索</div>
@@ -87,9 +83,9 @@
           <div class="search-btn" @click="search">搜索</div>
           <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
         </div>
-        <div class="common-select" style="float: right; width: 20%;" v-else>
-          <div class="search-btn" @click="search">搜索</div>
-          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+        <div class="common-select" style="  width: 4%;" v-else>
+          <div class="search-btn searchLeft" @click="search()">搜索</div>
+          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1); display: none;" @click="reset">重置</div>
         </div>
       </div>
     </div>
@@ -288,7 +284,7 @@
                   <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree1" show-checkbox node-key="id" :default-expanded-keys="['01', '02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
                   </el-tree>
                   <div class="sure-footer">
-                    
+
                     <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne1">取消</div>
                     <div class="my-sure" @click="my_sure1">确定</div>
                   </div>
@@ -310,7 +306,7 @@
                   <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
                   </el-tree>
                   <div class="sure-footer">
-                    
+
                     <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
                     <div class="my-sure" @click="my_sure2">确定</div>
                   </div>
@@ -361,7 +357,7 @@
 
       </div>
       <div class="dialog-footer" style="margin-top: 0.2rem; ">
-    
+
         <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="hideaddCJGFIrstVisible">取消</div>
         <div class="search-btn" @click="updateCJGitem">确定</div>
       </div>
@@ -615,9 +611,9 @@ export default {
       });
     },
 
-    
 
- 
+
+
     handleNodeClick(data) {
 
     },
@@ -1078,7 +1074,7 @@ export default {
       } else if (this.CJGselectValue === '解答疑义') {
 
 
-        
+
         // if (editor16 == null) { //true
         this.$nextTick(() => {
           this.newWangEditor2('#div5', '#div6')
@@ -1486,7 +1482,7 @@ export default {
 
 <style>
 .step-list {
-   padding: 0rem;
-   overflow: auto;
+  padding: 0rem;
+  overflow: auto;
 }
 </style>

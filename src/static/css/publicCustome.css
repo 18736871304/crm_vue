@@ -55,6 +55,10 @@
 
 .check-all-box-publicCustome .el-checkbox .el-checkbox__label {
   font-size: 0.14rem;
+  /* padding-bottom: 0.1rem; */
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
 }
 
 .publicCustome-table {

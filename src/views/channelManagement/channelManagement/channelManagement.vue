@@ -219,7 +219,7 @@
 
           <el-table-column key="20" prop="sourcelevel" label="" align="center" width="110" :show-overflow-tooltip="true">
 
-            <template slot="header" slot-scope="scope">
+            <template slot="header"  >
               <p class="source-level">资源等级
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
                   <template slot="content">
@@ -347,7 +347,7 @@
                     <el-table :data="mobileList" class="mobile_box">
                       <el-table-column width="130" property="phone" label="电话"></el-table-column>
                       <el-table-column width="70" label="操作" align="right">
-                        <template slot-scope="scope" class="mobile_box_edit">
+                        <template slot-scope="scope"  >
                           <span class="mobile-icon el-icon-delete" @click="mobileDelete(scope)"></span>
                           <span class="mobile-icon el-icon-upload2" @click="mobileToTop(scope)"></span>
                         </template>

@@ -298,7 +298,7 @@
 .drawerLeft .adInformation {
   width: calc(100%);
   padding: 0 0 0 0.35rem;
-  height:1.7rem;
+  height:1.5rem;
   border-bottom: 1px solid #D8D8D8;
 }
 
@@ -540,7 +540,7 @@
 }
 
 .customer-drawer .drawerRight .inputBox {
-  margin-top: 0.2rem;
+  margin-top: 0.1rem;
   height: 0.75rem;
   padding: 0 0.36rem;
 }

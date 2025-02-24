@@ -14,6 +14,8 @@ module.exports = defineConfig({
     }
   },
   publicPath: process.env.NODE_ENV === "production" ? "/crm/" : "/",
+  // publicPath: process.env.NODE_ENV === "production" ? "/weChat/CRM/" : "/",
+  // publicPath: process.env.NODE_ENV === "production" ? "/dist/" : "/",
   configureWebpack: {
     plugins: [
       new webpack.ProvidePlugin({

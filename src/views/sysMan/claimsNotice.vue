@@ -3,9 +3,9 @@
     <div class="search-header">
       <div class="add-btn" @click="showAddNoticeDialogVisible">+ 新建</div>
       <div class="search-box clearfix">
-        <div class="common-select" style="width: 30%;">
-          <div class="select-title" style="width: 1.65rem">公告时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
+        <div class="common-select">
+          <div class="select-title filtitle">公告时间</div>
+          <div class="select-content filContent">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
@@ -22,15 +22,17 @@
         </div> -->
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.38rem">关键字搜索</div>
-          <div class="select-content" style="width: calc(100% - 1.38rem);">
+          <div class="select-title filtitle">关键字搜索</div>
+          <div class="select-content filContent">
             <el-input class="el-input-inners" v-model="keyword" size="mini" placeholder="请输入关键词"></el-input>
           </div>
         </div>
+        <div class="common-select">  </div>
+        <div class="common-select">  </div>
 
-        <div class="common-select" style="float: right;  width: 18%;">
-          <div class="search-btn" @click="search">搜索</div>
-          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+        <div class="common-select" style="  width: 4%;">
+          <div class="search-btn searchLeft" @click="search">搜索</div>
+          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);display: none;" @click="reset">重置</div>
         </div>
       </div>
     </div>
@@ -536,41 +538,37 @@ export default {
   border-color: #dc220d !important;
 }
 
-
-
-
-
-#div2 h1 *  {
+#div2 h1 * {
   font-size: 32px !important;
   margin: 10px 0;
   line-height: 1.5;
 }
 
-#div2 h2 *  {
+#div2 h2 * {
   font-size: 24px !important;
   margin: 10px 0;
   line-height: 1.5;
 }
 
-#div2 h3 *  {
+#div2 h3 * {
   font-size: 18.72px !important;
   margin: 10px 0;
   line-height: 1.5;
 }
 
-#div2 h4 *  {
+#div2 h4 * {
   font-size: 16px !important;
   margin: 10px 0;
   line-height: 1.5;
 }
 
-#div2 h5 *  {
+#div2 h5 * {
   font-size: 13.28px !important;
   margin: 10px 0;
   line-height: 1.5;
 }
 
-#div2 p{
+#div2 p {
   font-size: 16px !important;
 }
 </style>

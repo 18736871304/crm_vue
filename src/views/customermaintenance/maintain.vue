@@ -3,34 +3,36 @@
     <div class="search-header">
       <div class="search-box clearfix">
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">保单号</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-input class="el-input-inners" v-model="contno" align="right" size="mini" clearable></el-input>
+          <div class="select-title filtitle">保单号</div>
+          <div class="select-content filContent">
+            <el-input class="el-input-inners" v-model="contno" align="right" size="mini"  placeholder="请输入保单号"  clearable></el-input>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">客户姓名</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-input class="el-input-inners" v-model="cusname" align="right" size="mini" clearable></el-input>
+          <div class="select-title filtitle">客户姓名</div>
+          <div class="select-content filContent">
+            <el-input class="el-input-inners" v-model="cusname" align="right" size="mini" placeholder="请输入客户姓名"  clearable></el-input>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">
+          <div class="select-title filtitle">
             <el-select class="el-input-title-inners" v-model="cusmobile" placeholder="请选择" size="mini">
               <el-option label="电话号码" value="电话号码"></el-option>
               <el-option label="微信号" value="微信号"></el-option>
             </el-select>
           </div>
-          <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-input class="el-input-inners" v-model="cusMobileWxno" align="right" size="mini" clearable></el-input>
+          <div class="select-content filContent">
+            <el-input class="el-input-inners" v-model="cusMobileWxno" align="right" size="mini" placeholder="请输入电话号码"  clearable></el-input>
           </div>
         </div>
 
-        <div class="common-select">
-          <div class="search-btn" @click="search(1)">搜索</div>
-          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="screenReset">重置</div>
+        <div class="common-select"></div>
+
+        <div class="common-select" style="width: 4%;">
+          <div class="search-btn searchLeft" @click="search(1)">搜索</div>
+          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1); display: none;" @click="screenReset">重置</div>
         </div>
       </div>
     </div>
@@ -57,7 +59,7 @@
         <el-table-column key="5" align="center" prop="wxno" label="微信号" width="100" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="6" align="center" prop="reusername" label="出单业务员" width="110">
-          <template slot="header" slot-scope="scope">
+          <template slot="header"  >
             <p class="source-level">出单业务员
               <el-tooltip popper-class="atooltip" effect="dark" placement="top">
                 <template slot="content">
@@ -83,7 +85,7 @@
             </div>
           </template>
 
-          <template slot="header" slot-scope="scope">
+          <template slot="header"  >
             <p class="source-level">服务人员
               <el-tooltip popper-class="atooltip" effect="dark" placement="top">
                 <template slot="content">
@@ -169,7 +171,7 @@
 
             <!-- <a v-if='scope.row.policyurl' class="edit option" target="_blank" :href="scope.row.policyurl" style="color: #8F9198;">下载</a>
             <a v-else class="edit option" target="_blank" :href="scope.row.policyurl"></a> -->
-            <span v-if="scope.row.policyurl"  style="color: #8f9198; cursor: pointer" @click="testDownLoad(scope.row)">下载</span>
+            <span v-if="scope.row.policyurl" style="color: #8f9198; cursor: pointer" @click="testDownLoad(scope.row)">下载</span>
 
           </template>
         </el-table-column>
@@ -241,7 +243,7 @@
                     <el-table :data="mobileList" class="mobile_box">
                       <el-table-column width="130" property="phone" label="电话"></el-table-column>
                       <el-table-column width="70" label="操作" align="right">
-                        <template slot-scope="scope" class="mobile_box_edit">
+                        <template slot-scope="scope"  >
                           <span class="mobile-icon el-icon-delete" @click="mobileDelete(scope)"></span>
                           <span class="mobile-icon el-icon-upload2" @click="mobileToTop(scope)"></span>
                         </template>
@@ -280,9 +282,9 @@
                   <el-input placeholder="请输入" size="mini" v-model="detailsInfo.wxno">
                   </el-input>
                 </span>
-          
+
               </div>
-      
+
             </div>
           </div>
           <div class="condition">
@@ -672,8 +674,8 @@ export default {
       this.CJGselectValue = '失效保单'
     } else if (val == '03') {
       this.CJGselectValue = '终止保单'
-    } 
-    
+    }
+
     // else if (val == '04') {
     //   this.CJGselectValue = '生日保单'
     // }
@@ -696,7 +698,7 @@ export default {
         if (data.code == 0) {
           var tabData = {}
           var inteUrl = ''
-          if (_this.CJGselectValue == '服务客户' ) {
+          if (_this.CJGselectValue == '服务客户') {
             tabData = {
               contno: this.contno.trim(),
               cusname: this.cusname,
@@ -705,9 +707,9 @@ export default {
               pageNumber: page,
               pageSize: this.pageSize,
               menutype: "75000000",
-              isidquery:"Y"
+              isidquery: "Y"
             }
-          
+
             inteUrl = my_url + '/crm/activity/getClienServerList.do'
           } else if (_this.CJGselectValue == '失效保单' || _this.CJGselectValue == '终止保单') {
             tabData = {
@@ -828,7 +830,7 @@ export default {
         address: this.detailsInfo.address,
         followupstep: '07', //跟进步骤
         activityserialno: this.detailsInfo.activityserialno, //线索流水号
-  
+
       };
       getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) {
         _this.followrecord = '';
@@ -1272,11 +1274,11 @@ export default {
         var data = {
           orderid: row.orderid,
           token: data.token,
-          contno:row.contno
+          contno: row.contno
         }
         getData('post', crm_url + 'insure.meihualife.com/crm_web/policyDownLoad.do', function (res) {
 
-        
+
           if (res.code == '0' && res.policyUrl && res.policyUrl != '') {
             let a = document.createElement('a')
             a.target = '_blank';
@@ -1307,7 +1309,6 @@ export default {
 .el-drawer__body {
   display: flex;
 }
-
 
 .head .txt {
   cursor: pointer;
@@ -1362,12 +1363,12 @@ export default {
 </style>
 
 <style scoped>
-::v-deep  .editContent_box.editContent_date span .el-date-editor .el-input__suffix {
+::v-deep .editContent_box.editContent_date span .el-date-editor .el-input__suffix {
   left: 1.2rem !important;
   top: -0.06rem;
 }
 
-::v-deep  .editContent_box.editContent_date span .el-date-editor .el-input__prefix {
+::v-deep .editContent_box.editContent_date span .el-date-editor .el-input__prefix {
   left: 1rem !important;
   top: -0.03rem;
 }

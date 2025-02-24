@@ -3,16 +3,16 @@
     <div class="search-header">
       <div class="search-box clearfix">
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">保单号</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-input class="el-input-inners" v-model="contno" align="right" size="mini" clearable></el-input>
+          <div class="select-title filtitle">保单号</div>
+          <div class="select-content filContent">
+            <el-input class="el-input-inners" v-model="contno" align="right" size="mini" placeholder="请输入保单号" clearable></el-input>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">保单状态</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
-            <el-select v-model="policyStatus" size="mini" placeholder="" class="el-select-inners"  clearable >
+          <div class="select-title filtitle">保单状态</div>
+          <div class="select-content filContent">
+            <el-select v-model="policyStatus" size="mini" placeholder="请选择保单状态" class="el-select-inners"   clearable>
               <el-option v-for="(item, index) in policyStatusList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
             </el-select>
@@ -20,27 +20,27 @@
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">客户姓名</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-input class="el-input-inners" v-model="cusname" align="right" size="mini" clearable></el-input>
+          <div class="select-title filtitle">客户姓名</div>
+          <div class="select-content filContent">
+            <el-input class="el-input-inners" v-model="cusname" align="right" size="mini" placeholder="请输入客户姓名"  clearable></el-input>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">
+          <div class="select-title filtitle">
             <el-select class="el-input-title-inners" v-model="cusmobile" placeholder="请选择" size="mini">
               <el-option label="电话号码" value="电话号码"></el-option>
               <el-option label="微信号" value="微信号"></el-option>
             </el-select>
           </div>
-          <div class="select-content" style="width: calc(100% - 1.28rem);">
-            <el-input class="el-input-inners" v-model="cusMobileWxno" align="right" size="mini" clearable></el-input>
+          <div class="select-content filContent">
+            <el-input class="el-input-inners" v-model="cusMobileWxno" align="right" size="mini" placeholder="请输入电话号码"  clearable></el-input>
           </div>
         </div>
 
-        <div class="common-select"  style=" float: right; width: 11.5%;">
-          <div class="search-btn" @click="search(1)">搜索</div>
-          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="screenReset">重置</div>
+        <div class="common-select" style="width: 4%;">
+          <div class="search-btn searchLeft" @click="search(1)">搜索</div>
+          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);  display: none;" @click="screenReset">重置</div>
         </div>
       </div>
     </div>
@@ -157,7 +157,7 @@ export default {
       var policyStatus = ''
       if (this.policyStatus == '40') {
         policyStatus = "80,81,82,40"
-           // 这里需要改
+        // 这里需要改
       } else {
         policyStatus = this.policyStatus
       }
@@ -188,8 +188,8 @@ export default {
         }
       });
     },
-  //保单状态
-  abpolisystate() {
+    //保单状态
+    abpolisystate() {
       getData('post', my_url + '/crm/common/getDictList.do', data => {
         if (data.code == 0) {
           var array = data.dictList
@@ -197,7 +197,7 @@ export default {
           array.forEach(function (item, key) {
             if (item.dd_value == '签单成功' || item.dd_value == '犹豫期退保' || item.dd_value == '正常退保' || item
               .dd_value == '协议退保' || item.dd_value == '保单失效' || item.dd_value == '理赔终止' || item
-              .dd_value == '冲正') {
+                .dd_value == '冲正') {
               stateList.push(item)
             }
           });

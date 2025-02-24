@@ -534,7 +534,8 @@ export default {
     },
     handleSelect(menucode) {
       let _this = this;
-      if (menucode == "首页" || menucode == "客户管理") {
+      // if (menucode == "首页" || menucode == "客户管理") {
+      if (menucode == "首页") {
         setTimeout(() => {
           _this.conditionMenu = false;
           _this.contentWidth = "100%";

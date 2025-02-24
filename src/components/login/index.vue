@@ -1,36 +1,20 @@
 <template>
+
   <body style="height: 96%">
     <div class="bodt" id="bodt">
       <div class="logo-box">
         <div class="logo-title">CRM客户关系管理系统</div>
         <div style="position: relative; margin-bottom: 0.35rem">
-          <input
-            type="text"
-            class="my_input"
-            id="userName"
-            placeholder="请输入用户名"
-            autocomplete="off"
-          />
+          <input type="text" class="my_input" id="userName" placeholder="请输入用户名" autocomplete="off" />
           <span class="icon icon1"></span>
         </div>
 
         <div style="position: relative">
-          <input
-            type="password"
-            style="color: #8c9297 !important"
-            class="my_input"
-            id="password"
-            placeholder="请输入密码"
-            autocomplete="off"
-          />
+          <input type="password" style="color: #8c9297 !important" class="my_input" id="password" placeholder="请输入密码" autocomplete="off" />
           <span class="icon icon2"></span>
         </div>
         <div class="error"></div>
-        <button
-          type="button"
-          class="btn btn-primary block full-width login"
-          @click="login"
-        >
+        <button type="button" class="btn btn-primary block full-width login" @click="login">
           登录
         </button>
       </div>
@@ -55,7 +39,7 @@ export default {
   },
   mounted() {
     var _this = this;
-    window.addEventListener('keydown',this.keyDown);
+    window.addEventListener('keydown', this.keyDown);
     // getData("post", my_url + "/crm/auth/islogon.do", function (data) {
     //   console.log(data, "开始");
     //   if (data.code == 0) {
@@ -81,7 +65,7 @@ export default {
       var userName = $("#userName").val();
       var password = $("#password").val();
 
-      password = hex_md5(password).toUpperCase();
+     password = hex_md5(password).toUpperCase();
       let params = {
         userCode: userName,
         passWord: password,
@@ -131,9 +115,9 @@ export default {
         });
       }
     },
-    keyDown(e){
-        //如果是回车则执行登录方法
-      if(e.keyCode == 13){
+    keyDown(e) {
+      //如果是回车则执行登录方法
+      if (e.keyCode == 13) {
         this.login();
       }
     }

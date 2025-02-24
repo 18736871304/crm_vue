@@ -23,7 +23,7 @@
             </el-dropdown-menu>
           </el-dropdown>
         </div>
-        <div class="select-content">
+        <div class="select-content filContentNoborder ">
           <el-autocomplete class="el-input-inners" v-model="staffValue" :fetch-suggestions="querySearchId" placeholder="请输入员工姓名" :trigger-on-focus="false" clearable @select="selectUserId"></el-autocomplete>
         </div>
       </header>
@@ -83,8 +83,9 @@
                       <img :src="item.avatar" alt="" class="avatar" />
                       <div class="pBox">
                         <p class='namedata'>
-                          <!-- <span>{{ item.customername }}</span> -->
-                          <span>{{ item.customer_remark_name }}</span>
+
+                          <span v-if="activeName=='first'">{{ item.customer_remark_name }}</span>
+                          <span v-else>{{ item.customername }}</span>
                           <span>{{ item.lastmsgtimeValue }}</span>
                         </p>
                         <p class="lastText">{{ item.lastmsgtypeValue }}</p>
@@ -2152,3 +2153,6 @@ export default {
   margin-left: 0px;
 }
 </style>
+
+
+

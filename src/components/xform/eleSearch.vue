@@ -65,7 +65,7 @@ export default {
 <style>
 .search-header {
   height: auto;
-  padding: 0.3rem;
+  padding:0.15rem 0.3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

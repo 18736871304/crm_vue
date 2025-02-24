@@ -235,6 +235,7 @@ export function getRouter (menuList) {
       children: childrenTree(ele)
     }
   });
+  console.log(menuRouters)
   return menuRouters
 } 
 

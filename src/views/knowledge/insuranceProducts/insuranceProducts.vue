@@ -11,31 +11,32 @@
           <el-tab-pane label="车险" name="06"></el-tab-pane>
           <el-tab-pane label="其他" name="07"></el-tab-pane>
         </el-tabs>
-        <div class="common-select" style="float: right; width: 10%">
-          <div class="search-btn" @click="handleSearch">搜索</div>
+
+        <div class="common-select">
+          <div class="select-title filtitle">产品名称</div>
+          <div class="select-content filContent">
+            <el-autocomplete class="el-input-inners" v-model="queryParams.title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入选择产品名称" clearable></el-autocomplete>
+          </div>
+        </div>
+        <div class="common-select">
+          <div class="select-title filtitle">可投保区域</div>
+          <div class="select-content filContent">
+            <el-select class="el-select-inners" filterable multiple collapse-tags v-model="salesArea" size="mini" placeholder="请选择可投保区域" @change="selectSalesArea">
+              <el-option v-for="(item, index) in regionList" :key="index" :label="item.dd_value" :value="item.dd_key"></el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="common-select" style=" width: 4%">
+          <div class="search-btn searchLeft" @click="handleSearch">搜索</div>
           <div class="search-btn" style="
               background: #fff;
               color: #dc220d;
-              border: 1px solid rgba(216, 216, 216, 1);
+              border: 1px solid rgba(216, 216, 216, 1); display: none;
             " @click="handleReset">
             重置
           </div>
         </div>
 
-        <div class="common-select" style="float: right">
-          <div class="select-title" style="width: 1.28rem">产品名称</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem)">
-            <el-autocomplete class="el-input-inners" v-model="queryParams.title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="" clearable></el-autocomplete>
-          </div>
-        </div>
-        <div class="common-select" style="float: right; margin-right: 2%">
-          <div class="select-title" style="width: 1.28rem">可投保区域</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem); border: 0">
-            <el-select class="el-select-inners" filterable multiple collapse-tags v-model="salesArea" size="mini" placeholder="" @change="selectSalesArea">
-              <el-option v-for="(item, index) in regionList" :key="index" :label="item.dd_value" :value="item.dd_key"></el-option>
-            </el-select>
-          </div>
-        </div>
       </div>
     </div>
     <div class="product-list" v-loading="loading">
@@ -120,7 +121,7 @@
           <el-input v-model="insureUrl" ref="copy" size="mini" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label-width="1.3rem">
-          <div class="search-btn" @click.stop="copy" style="width: 80px">
+          <div class="search-btn" @click.stop="copy" style="width: 80px;margin-left: 0;">
             复制地址
           </div>
         </el-form-item>
@@ -174,7 +175,7 @@
           </el-table-column>
 
           <el-table-column label="编辑" width="110" align="center">
-            <template slot-scope="scope" style="border: none">
+            <template slot-scope="scope" >
               <el-button-group class="base-info-botton-group">
                 <el-button size="mini" @click="baseInfoUp(scope.row.fileid)" type="primary" icon="iconfont icon-my-up">
                 </el-button>
@@ -245,7 +246,7 @@
                   </div>
                 </div>
                 <div class="item-section item-section-question">
-                  <label style="width: 0.3rem;text-align;:right">A</label>
+                  <label style="width: 0.3rem;text-align:right">A</label>
                   <div class="right-content">
                     <el-input v-if="scope.row.isEdit" resize="none" :disabled="false" type="textarea" :autosize="{ minRows: 3, maxRows: 30 }" :rows="3" placeholder="请输入答案" v-model="answer">
                     </el-input>
@@ -1206,7 +1207,7 @@ export default {
 }
 </style>
 <style scoped>
-.search-btn {
-  margin-left: 0!important;
+.search-box .common-select {
+  margin-top: 0;
 }
 </style>

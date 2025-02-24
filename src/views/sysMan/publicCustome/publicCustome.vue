@@ -4,37 +4,37 @@
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="资源调配管理" name="00000005">
           <div class="search-box clearfix">
-        
-            <div class="common-select publiccustome-select" style="width: 30%;">
-              <div class="select-title" style="width: 1.65rem">线索产生时间</div>
-              <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
-                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+
+            <div class="common-select publiccustome-select">
+              <div class="select-title filtitle">线索产生时间</div>
+              <div class="select-content filContent">
+                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
                 </el-date-picker>
               </div>
             </div>
 
             <div class="common-select">
-              <div class="select-title" style="width: 1.38rem">客户姓名</div>
-              <div class="select-content" style="width: calc(100% - 1.38rem);">
+              <div class="select-title filtitle">客户姓名</div>
+              <div class="select-content filContent">
                 <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder=""></el-input>
               </div>
             </div>
 
-            <div class="common-select" >
-              <div class="select-title" style="width: 1.38rem">
+            <div class="common-select">
+              <div class="select-title filtitle">
                 <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
                   <el-option label="电话号码" value="电话号码"></el-option>
                   <el-option label="微信号" value="微信号"></el-option>
                 </el-select>
               </div>
-              <div class="select-content" style="width: calc(100% - 1.38rem);">
+              <div class="select-content filContent">
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
 
-            <div class="common-select" style="width: 30%">
-              <div class="select-title" style="width: 1.15rem">渠道类型</div>
-              <div class="select-content" style="width: calc(100% - 1.65rem); height: 0.3rem; border: none">
+            <div class="common-select">
+              <div class="select-title filtitle">渠道类型</div>
+              <div class="select-content filContent">
                 <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
                   <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
                   </el-option>
@@ -42,8 +42,8 @@
               </div>
             </div>
             <div class="common-select">
-              <div class="select-title" style="width: 1.38rem">流量来源</div>
-              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+              <div class="select-title filtitle">流量来源</div>
+              <div class="select-content filContent">
                 <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="请选择流量来源" clearable>
                   <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
                   </el-option>
@@ -51,46 +51,44 @@
               </div>
             </div>
 
-     
-
-            <div class="common-select" style="float: right;    width: 11.5%;">
-              <div class="search-btn" @click="search(1)">搜索</div>
-              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+            <div class="common-select" style="width: 4%;">
+              <div class="search-btn searchLeft" @click="search(1)">搜索</div>
+              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);display: none;" @click="reset">重置</div>
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="封存客户管理" name="00000007">
           <div class="search-box clearfix">
-       
-            <div class="common-select" style="width: 30%;">
-              <div class="select-title" style="width: 1.65rem">线索产生时间</div>
-              <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
-                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+
+            <div class="common-select">
+              <div class="select-title filtitle">线索产生时间</div>
+              <div class="select-content filContent">
+                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
                 </el-date-picker>
               </div>
             </div>
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">客户姓名</div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <div class="select-title filtitle">客户姓名</div>
+              <div class="select-content filContent">
                 <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder=""></el-input>
               </div>
             </div>
 
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
+              <div class="select-title filtitle">
                 <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
                   <el-option label="电话号码" value="电话号码"></el-option>
                   <el-option label="微信号" value="微信号"></el-option>
                 </el-select>
               </div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <div class="select-content filContent">
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
 
-            <div class="common-select" style="width: 30%;">
-              <div class="select-title" style="width: 1.15rem">渠道类型</div>
-              <div class="select-content" style="width: calc(100% - 1.65rem); height: 0.3rem; border: none">
+            <div class="common-select">
+              <div class="select-title filtitle">渠道类型</div>
+              <div class="select-content filContent">
                 <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
                   <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
                   </el-option>
@@ -98,8 +96,8 @@
               </div>
             </div>
             <div class="common-select">
-              <div class="select-title" style="width: 1.38rem">流量来源</div>
-              <div class="select-content" style="width: calc(100% - 1.38rem); height: 0.3rem; border: none">
+              <div class="select-title filtitle">流量来源</div>
+              <div class="select-content filContent">
                 <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="请选择流量来源" clearable>
                   <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
                   </el-option>
@@ -107,11 +105,9 @@
               </div>
             </div>
 
-        
-
-            <div class="common-select" style="float: right;">
-              <div class="search-btn" @click="search(1)">搜索</div>
-              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+            <div class="common-select" style="width: 4%;">
+              <div class="search-btn searchLeft" @click="search(1)">搜索</div>
+              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);display: none;" @click="reset">重置</div>
             </div>
           </div>
         </el-tab-pane>
@@ -119,119 +115,119 @@
         <el-tab-pane label="非标体客户管理" name="00000001">
           <div class="search-box clearfix">
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">审核状态</div>
-              <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
+              <div class="select-title filtitle">审核状态</div>
+              <div class="select-content filContent">
                 <el-select class="el-select-inners" v-model="examstate" placeholder="请选择审核状态" size="mini" clearable>
                   <el-option v-for="item in examstateList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
                 </el-select>
               </div>
             </div>
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
+              <div class="select-title filtitle">
                 <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
                   <el-option label="电话号码" value="电话号码"></el-option>
                   <el-option label="微信号" value="微信号"></el-option>
                 </el-select>
               </div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <div class="select-content filContent">
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
 
-            <div class="common-select">
-              <div class="search-btn" @click="search(1)">搜索</div>
-              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+            <div class="common-select" style="width:4%">
+              <div class="search-btn searchLeft" @click="search(1)">搜索</div>
+              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);display: none;" @click="reset">重置</div>
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="高龄客户管理" name="00000002">
           <div class="search-box clearfix">
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">审核状态</div>
-              <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
+              <div class="select-title filtitle">审核状态</div>
+              <div class="select-content filContent">
                 <el-select class="el-select-inners" v-model="examstate" placeholder="请选择审核状态" size="mini" clearable>
                   <el-option v-for="item in examstateList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
                 </el-select>
               </div>
             </div>
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
+              <div class="select-title filtitle">
                 <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
                   <el-option label="电话号码" value="电话号码"></el-option>
                   <el-option label="微信号" value="微信号"></el-option>
                 </el-select>
               </div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <div class="select-content filContent">
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
 
-            <div class="common-select">
-              <div class="search-btn" @click="search(1)">搜索</div>
-              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+            <div class="common-select" style="width: 4%;">
+              <div class="search-btn searchLeft" @click="search(1)">搜索</div>
+              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);display: none;" @click="reset">重置</div>
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="同行资源管理" name="00000003">
           <div class="search-box clearfix">
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">审核状态</div>
-              <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
+              <div class="select-title filtitle">审核状态</div>
+              <div class="select-content filContent">
                 <el-select class="el-select-inners" v-model="examstate" placeholder="请选择审核状态" size="mini" clearable>
                   <el-option v-for="item in examstateList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
                 </el-select>
               </div>
             </div>
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
+              <div class="select-title filtitle">
                 <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
                   <el-option label="电话号码" value="电话号码"></el-option>
                   <el-option label="微信号" value="微信号"></el-option>
                 </el-select>
               </div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <div class="select-content filContent">
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
 
             <div class="common-select">
-              <div class="search-btn" @click="search(1)">搜索</div>
-              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+              <div class="search-btn searchLeft" @click="search(1)">搜索</div>
+              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1); display: none;" @click="reset">重置</div>
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="空号停机管理" name="00000004">
           <div class="search-box clearfix">
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">审核状态</div>
-              <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
+              <div class="select-title filtitle">审核状态</div>
+              <div class="select-content filContent">
                 <el-select class="el-select-inners" v-model="examstate" placeholder="请选择审核状态" size="mini" clearable>
                   <el-option v-for="item in examstateList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
                 </el-select>
               </div>
             </div>
             <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
+              <div class="select-title filtitle">
                 <el-select class="el-input-title-inners" v-model="selectphonewxno" placeholder="请选择" size="mini">
                   <el-option label="电话号码" value="电话号码"></el-option>
                   <el-option label="微信号" value="微信号"></el-option>
                 </el-select>
               </div>
-              <div class="select-content" style="width: calc(100% - 1.28rem);">
+              <div class="select-content filContent">
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
 
-            <div class="common-select">
-              <div class="search-btn" @click="search(1)">搜索</div>
-              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+            <div class="common-select" style="width: 4%;">
+              <div class="search-btn searchLeft" @click="search(1)">搜索</div>
+              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1); display: none;" @click="reset">重置</div>
             </div>
           </div>
         </el-tab-pane>
       </el-tabs>
     </div>
     <div class="table-box">
-      <div class="check-all-box-publicCustome clearfix" style="padding-bottom: 0.1rem;">
+      <div class="check-all-box-publicCustome clearfix">
         <el-checkbox v-model="checkedAll" style="float: left">全选 &nbsp;{{checkedAllNum}}个客户</el-checkbox>
         <div style="float: right; display: flex; align-items: center; justify-content: flex-end;">
 
@@ -255,7 +251,7 @@
               </div>
             </div>
             <div class="sure-footer" style="padding-bottom: 0;">
-              
+
               <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="resourceDeployCancel">取消</div>
               <div class="my-sure" @click="resourceDeploySubmit">确定</div>
             </div>
@@ -264,7 +260,7 @@
             <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源删除</div>
             <div style="text-align:center;">确定删除所选资源？</div>
             <div class="sure-footer" style="padding-bottom: 0;">
-              
+
               <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="deleteSourceCancel">取消</div>
               <div class="my-sure" @click="deleteSourceSubmit">确定</div>
             </div>
@@ -293,7 +289,7 @@
               <el-checkbox label="area">自动定位城市</el-checkbox>
               <el-checkbox label="planname">计划名称</el-checkbox>
               <div class="sure-footer" style="border-top: 1px solid rgba(221, 221, 221, 1); margin-top: 0.15rem;">
-                
+
                 <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
                 <div class="my-sure" @click="checkedSure">确定</div>
               </div>
@@ -347,7 +343,7 @@
           </el-table-column>
 
           <el-table-column key="11" prop="sourcelevel" label="" align="center" width="110" :show-overflow-tooltip="true">
-            <template slot="header" slot-scope="scope">
+            <template slot="header"  >
               <p class="source-level">资源等级
                 <el-tooltip effect="light" placement="top">
                   <template slot="content">
@@ -411,19 +407,18 @@
           </el-table-column>
           <el-table-column prop="clue_sourcename" key="29" v-if="inputUserform1.includes('clue_sourcename')" align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column prop="channelname" key="35"  align="center" label="渠道来源" width="90" :show-overflow-tooltip="true">
+          <el-table-column prop="channelname" key="35" align="center" label="渠道来源" width="90" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="appname" key="30" v-if="inputUserform1.includes('appname')" align="center" label="流量来源" width="100" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="area" key="31" v-if="inputUserform1.includes('area')" align="center" label="自动定位城市" width="100" :show-overflow-tooltip="true">
           </el-table-column>
- 
+
           <el-table-column key="32" v-if="inputUserform1.includes('pagename')" prop="pagename" label="推广页面" width="150" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
               <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{scope.row.pagename}}</a>
             </template>
           </el-table-column>
-
 
           <el-table-column key="33" prop="pagename" label="推广页面" min-width="150" width="auto" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
@@ -488,7 +483,7 @@
                     <el-table :data="mobileList" class="mobile_box">
                       <el-table-column width="130" property="phone" label="电话"></el-table-column>
                       <el-table-column width="70" label="操作" align="right">
-                        <template slot-scope="scope" class="mobile_box_edit">
+                        <template slot-scope="scope"  >
                           <span class="mobile-icon el-icon-delete" @click="mobileDelete(scope)"></span>
                           <span class="mobile-icon el-icon-upload2" @click="mobileToTop(scope)"></span>
                         </template>
@@ -527,7 +522,7 @@
                 </span>
 
               </div>
-  
+
             </div>
           </div>
           <div class="condition">
@@ -571,12 +566,11 @@
               <span>广告投放信息</span>
             </div>
             <div class="adInformation_b">
-    
+
               <div class="cb">
                 <span :title="detailsInfo.makedate">线索产生时间：{{detailsInfo.makedate}}</span>
                 <span :title="detailsInfo.channelname">渠道类型：{{detailsInfo.channelname}}</span>
               </div>
-         
 
               <div class="cc">
                 <span :title="detailsInfo.clue_sourcename">线索来源：{{detailsInfo.clue_sourcename}}</span>
@@ -644,7 +638,7 @@
           <span></span>
           <span>跟进记录</span>
         </div>
-        <div class="cjg-search-section " style="display: flex; justify-content: center;align-items: center;">
+        <div class="cjg-search-section " style="display: flex; justify-content: center;align-items: center;   display: none;">
           <el-select v-model="cjgTitle" :loading="loading" filterable remote :remote-method="remoteMethod" placeholder="搜索藏经阁内容" @change="cjgChange" @focus="cjgfocus" class="cjgserach" style="width: 100%;">
             <el-option v-for="item in cjgList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -665,7 +659,7 @@
             <li v-for="(item,index) in records" :key="index">
               <div class="li_t">
                 <div v-html="item.remark">
-             
+
                 </div>
               </div>
               <div class="li_b">
@@ -794,7 +788,7 @@
         <div class="item-section">
           <label>建议规划</label>
           <div class="right-content">
-    
+
             <div class="editor-box">
               <div id="div3" class="toolbar"></div>
               <div id="div4" class="text">
@@ -920,7 +914,7 @@
           <div class="right-content">
             <ul class="enclosure-list" v-if="fileList.length">
               <li class="item" v-for="(item,index) in fileList" :key="index">
-           
+
                 <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
                 <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
               </li>
@@ -981,6 +975,9 @@ export default {
 }
 
 a {
-   color: #8f9198;
+  color: #8f9198;
 }
+</style>
+
+<style scoped>
 </style>

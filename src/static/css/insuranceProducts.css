@@ -1,10 +1,12 @@
 .nav {
   height: 0.58rem;
-  width: 40%;
+  width: auto;
   padding-left: 0.4rem;
+  padding-right: 0.4rem;
   background-color: #fff;
   float: left;
 }
+
 
 .nav .el-tabs__active-bar {
   background-color: #DC240F;

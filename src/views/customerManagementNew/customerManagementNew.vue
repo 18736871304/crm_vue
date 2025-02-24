@@ -1,145 +1,126 @@
 <template>
   <div class="customerManagementNew  Container">
     <div class="container-top">
-      <!-- 数据概览 -->
-      <div class="container-top-one">
-        <div class="clearfix">
-          <p class="new-title fl">数据概览</p>
-          <div class="fr" style="display: flex; align-items: center; justify-content: flex-end;">
-            <div class="common-select" v-show="dis_P4_up">
-              <div class="select-title">选择团队</div>
-              <div class="select-content">
-                <el-dropdown trigger="click" placement="bottom" ref="disTeam2">
-                  <p class="el-dropdown-inners" clearable>
-                    <span>{{ teamNames2 }}</span>
-                    <i class="el-icon-arrow-down el-icon--right"></i>
-                  </p>
-                  <el-dropdown-menu class="" slot="dropdown">
-                    <el-tree @check="handleCheckChange2" :data="teamDataList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps">
-                    </el-tree>
-                    <div class="sure-footer">
-                     
-                      <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
-                      <div class="my-sure" @click="my_sure2">确定</div>
-                    </div>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </div>
-            </div>
-            <div class="common-select" v-show="dis_P4_up">
-              <div class="select-title" style="width: 1.1rem">业务员姓名</div>
-              <div class="select-content" style="width:1.68rem;border: none">
-                <el-select class="el-select-inners" placeholder="请选择" size="mini" v-model="overviewForm.userid" @change="userNameChange" clearable>
-                  <el-option v-for="item in userNameOptions" :key="item.userid" :label="item.username" :value="item.userid">
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="common-select" style="width: 1.2rem;">
-              <div class="select-content" style=" margin-right: 0.2rem;border: none;">
-                <el-select class="el-select-inners el-select-inners-splice" placeholder="请选择" size="mini" v-model="overviewFormTime" @change="dateChange">
-                  <el-option v-for="item in timeOption" :key="item.value" :label="item.key" :value="item.value">
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="refresh" @click="refresh(true)">
-              <i class="el-icon-refresh" :class="[{ 'refresh-crile': isrefresh }]"></i>
-              <span>刷新</span>
-           
-            </div>
-          </div>
-        </div>
-        <div class="table-overview">
-          <el-table :data="tableDataOverview" border style="width: 100%">
-            <el-table-column align="center" prop="type" label="数据类型" width="120" :show-overflow-tooltip="true">
-            </el-table-column>
-            <el-table-column align="center" prop="hotlinecount" label="新资源">
-            </el-table-column>
-            <el-table-column align="center" prop="follow01count" label="微信">
-            </el-table-column>
-            <el-table-column align="center" prop="follow02count" label="保单检视">
-            </el-table-column>
-            <el-table-column align="center" prop="follow03count" label="计划书">
-            </el-table-column>
-            <el-table-column align="center" prop="follow04count" label="理赔服务">
-            </el-table-column>
-            <el-table-column align="center" prop="follow05count" label="促销T单">
-            </el-table-column>
-            <el-table-column align="center" prop="follow07count" label="已成交">
-            </el-table-column>
-            <el-table-column align="center" prop="yesterday" label="昨日数据">
-            </el-table-column>
-          </el-table>
-        </div>
 
-      </div>
       <!-- 信息检索 -->
       <div class="container-top-two" style="overflow-x: auto;overflow-y: hidden;">
-        <span class="spilce-title new-title">信息检索</span>
+
         <div class="container-search-box">
-          <div>
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">线索产生时间</div>
-              <div class="select-content" style="height: 0.3rem; width: 3.2rem;  border: none">
-                <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
-                </el-date-picker>
-              </div>
-            </div>
 
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">渠道类型</div>
-              <div class="select-content" style="width:3.2rem; height: 0.3rem; border: none">
-                <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
-                  <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">流量来源</div>
-              <div class="select-content" style="width:3.2rem; height: 0.3rem; border: none">
-                <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="请选择流量来源" clearable>
-                  <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-
-    
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">客户姓名</div>
-              <div class="select-content" style="width: 3.2rem;">
-                <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder="请输入客户姓名" clearable></el-input>
-              </div>
-            </div>
-            <div class="common-select">
-              <div class="select-title" style="width: 1.28rem">
-                <el-select class="el-input-title-inners" v-model="phoneWxno" placeholder="请选择" size="mini">
-                  <el-option label="电话号码" value="电话号码"></el-option>
-                  <el-option label="微信号" value="微信号"></el-option>
-                </el-select>
-              </div>
-              <div class="select-content" style="width: 3.2rem;">
-                <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" placeholder="请输入电话号码" size="mini" clearable></el-input>
-              </div>
+          <div class="common-select">
+            <div class="select-title  filtitle">线索产生时间</div>
+            <div class="select-content filContent">
+              <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+              </el-date-picker>
             </div>
           </div>
-          <div class="search-box-right">
+
+          <div class="common-select">
+            <div class="select-title filtitle">跟进步骤</div>
+            <div class="select-content filContent">
+              <el-select class="el-select-inners" v-model="activeName" size="mini" placeholder="请选择跟进步骤" clearable>
+                <el-option v-for="(item, index) in add_steps" :key="index" :label="item.dd_value" :value="item.dd_key">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+
+          <div class="common-select">
+            <div class="select-title filtitle">渠道类型</div>
+            <div class="select-content filContent">
+              <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
+                <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="common-select">
+            <div class="select-title filtitle">流量来源</div>
+            <div class="select-content filContent">
+              <el-select class="el-select-inners" v-model="appnameValue" size="mini" placeholder="请选择流量来源" clearable>
+                <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+
+          <div class="common-select" style="width:4%">
             <div class="my-customers" v-show="ismyUse && dis_P4_up">
               <el-checkbox size="mini" v-model="queryflag">我的客户</el-checkbox>
             </div>
-            <div style="display: flex;">
-              <div class="search-btn" @click="search(1)">搜索</div>
-              <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置
+          </div>
+
+          <div class="common-select" v-show="dis_P4_up">
+            <div class="select-title filtitle">选择团队</div>
+            <div class="select-content filContent">
+              <el-dropdown trigger="click" placement="bottom" ref="disTeam2">
+                <p class="el-dropdown-inners" clearable>
+                  <span>{{ teamNames2 }}</span>
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </p>
+                <el-dropdown-menu class="" slot="dropdown">
+                  <el-tree @check="handleCheckChange2" :data="teamDataList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps">
+                  </el-tree>
+                  <div class="sure-footer">
+
+                    <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
+                    <div class="my-sure" @click="my_sure2">确定</div>
+                  </div>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </div>
+          <div class="common-select" v-show="dis_P4_up">
+            <div class="select-title filtitle">业务员姓名</div>
+            <div class="select-content filContent">
+              <el-select class="el-select-inners" placeholder="请选择" size="mini" v-model="overviewForm.userid" @change="userNameChange" clearable>
+                <el-option v-for="item in userNameOptions" :key="item.userid" :label="item.username" :value="item.userid">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+
+       
+          <div class="common-select">
+            <div class="select-title filtitle">客户姓名</div>
+            <div class="select-content filContent">
+              <el-input class="el-input-inners" v-model="Salesman" size="mini" placeholder="请输入客户姓名" clearable></el-input>
+            </div>
+          </div>
+          <div class="common-select">
+            <div class="select-title filtitle">
+              <el-select class="el-input-title-inners" v-model="phoneWxno" placeholder="请选择" size="mini">
+                <el-option label="电话号码" value="电话号码"></el-option>
+                <el-option label="微信号" value="微信号"></el-option>
+              </el-select>
+            </div>
+            <div class="select-content   filContent">
+              <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" placeholder="请输入电话号码" size="mini" clearable></el-input>
+            </div>
+          </div>
+
+          <div class="common-select" v-show="!dis_P4_up">
+          </div>
+
+          <div class="common-select" v-show="!dis_P4_up">
+          </div>
+
+          <div class="common-select" style="width:4%">
+            <div class="search-box-right">
+              <div style="display: flex;">
+                <div class="search-btn searchLeft" @click="search(1)">搜索</div>
+                <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);  display: none;" @click="reset">重置
+                </div>
               </div>
             </div>
           </div>
+
         </div>
+
       </div>
     </div>
     <!-- 中间部分内容 -->
-    <div class="container-middle">
+    <!-- <div class="container-middle">
       <div class="container-middle-one">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane v-for="(item, index) in add_steps" :name="item.dd_key" :key="index">
@@ -155,131 +136,144 @@
           </el-tab-pane>
         </el-tabs>
       </div>
-      <div class="container-middle-two">
-        <div class="search-btn" @click="dataEntry" style="width:auto; padding: 0.03rem 0.08rem;">日数据录入</div>
-        <el-popover popper-class="entry-customer-popper" class="entry-customer" placement="bottom-start" width="3.31rem" trigger="click" v-model="inputUserVisable">
-          <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">客户录入
-          </div>
-          <div class="common-select">
-            <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">资源等级</div>
-            <div class="select-content" style="width:2rem;border: none">
-              <el-select class="el-select-inners" v-model="inputUserform.sourcelevel" placeholder="请选择资源等级">
-                <el-option label="A重疾" value="A"></el-option>
-                <el-option label="A理财" value="A+"></el-option>
-                <el-option label="B" value="B"></el-option>
-                <el-option label="C" value="C"></el-option>
-              </el-select>
-            </div>
-          </div>
-          <div class="common-select">
-            <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">批次号</div>
-            <div class="select-content" style="width:2rem;border: none;">
-              <el-select class="el-select-inners" v-model="inputUserform.batchno" placeholder="请选择批次号">
-                <el-option label="群加资源" value="群加资源"></el-option>
-                <el-option label="转介绍" value="转介绍"></el-option>
-                <el-option label="其他资源" value="其他资源"></el-option>
-              </el-select>
-            </div>
-          </div>
-          <div class="common-select">
-            <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">客户姓名</div>
-            <div class="select-content" style="width: 2rem;">
-              <el-input class="el-input-inners" v-model="inputUserform.name" size="mini" placeholder="请输入客户姓名" clearable></el-input>
-            </div>
-          </div>
-          <div class="common-select">
-            <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">电话号码</div>
-            <div class="select-content" style="width: 2rem;">
-              <el-input class="el-input-inners" v-model="inputUserform.mobile" size="mini" placeholder="请输入电话号码" clearable></el-input>
-            </div>
-          </div>
-          <div class="common-select">
-            <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">微信</div>
-            <div class="select-content" style="width: 2rem;">
-              <el-input class="el-input-inners" v-model="inputUserform.wxno" size="mini" placeholder="请输入微信号" clearable></el-input>
-            </div>
-          </div>
-          <div class="sure-footer" style="padding-bottom: 0;">
-            
-           
-            <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
-            <div class="my-sure" @click="inputUserSubmit">确定</div>
-          </div>
-        </el-popover>
-   
-        <el-popover popper-class="entry-customer-popper" placement="bottom-start" width="3.31rem" trigger="click" v-model="resourceDeployVisable" @show="resourceDeployShow">
-          <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源调配
-          </div>
-          <div class="common-select">
-            <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">新所属业务员</div>
-            <div class="select-content" style="width: 2rem;">
-              <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :fetch-suggestions="querySearchId" placeholder="请输入新所属业务员" :trigger-on-focus="false" @select="handleSelectId"></el-autocomplete>
-            </div>
-          </div>
-          <div class="common-select">
-            <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">新跟进步骤</div>
-            <div class="select-content" style="width:2rem;border: none;">
-              <el-select class="el-select-inners" v-model="resourceDeployform.followupstep" placeholder="请选择新跟进步骤">
-                <el-option v-for="item in select_steps" :label="item.dd_value" :value="item.dd_key" :key="item.dd_key"></el-option>
-              </el-select>
-            </div>
-          </div>
-          <div class="sure-footer" style="padding-bottom: 0;">
-           
-            <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="resourceDeployCancel">取消</div>
-            <div class="my-sure" @click="resourceDeploySubmit">确定</div>
-          </div>
-        </el-popover>
-        <el-popover popper-class="entry-customer-popper" v-show="dis_Pz_up" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
-          <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源删除
-          </div>
-          <div class="sure-footer" style="padding-bottom: 0;">
-          
-            <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="deleteSourceCancel">取消</div>
-            <div class="my-sure" @click="deleteSourceSubmit">确定</div>
-          </div>
-        </el-popover>
-      </div>
-    </div>
+
+    </div> -->
     <!-- 表格内容 -->
     <div class="container-table">
+
+      <!-- 调配资源 -->
       <div class="check-all-box" v-if="isArticle">
-        <el-checkbox v-model="checkedAll">全选</el-checkbox>
-        {{ checkedAllNum }}个客户
-        <el-popover popper-class="select-check" placement="bottom-start" trigger="click" v-model="sable" style="float: right;">
-          <el-button slot="reference" size="mini" plain>选择显示列表</el-button>
-          <el-checkbox-group ref="inputUserform1" v-model="inputUserform1" class="main-left" style="width: 1.5rem;">
-            <el-checkbox label="menudate">线索入库时间</el-checkbox>
-            <el-checkbox label="makedate">线索产生时间</el-checkbox>
-            <el-checkbox label="firstcalltime">首次拨打时间</el-checkbox>
-            <el-checkbox label="lastcalltime">最新拨打时间</el-checkbox>
-            <el-checkbox label="callcount" :disabled='!dis_P4_up'>累计拨打次数</el-checkbox>
-            <el-checkbox label="cusdealtime">客户成交时间</el-checkbox>
-            <el-checkbox label="cusdealperiod">客户成交周期</el-checkbox>
-            <el-checkbox label="batchno">批次号</el-checkbox>
-            <el-checkbox label="clueid">线索ID</el-checkbox>
-            <el-checkbox label="accountid">广告主ID</el-checkbox>
-            <el-checkbox label="accountname">广告主名称</el-checkbox>
-            <el-checkbox label="planid">广告计划ID</el-checkbox>
-            <el-checkbox label="planname">广告计划名称</el-checkbox>
-            <el-checkbox label="module_id">组件ID</el-checkbox>
-            <el-checkbox label="module_name">组件名称</el-checkbox>
-            <el-checkbox label="clue_sourcename">线索来源</el-checkbox>
-            <el-checkbox label="channelname">渠道类型</el-checkbox>
-            <el-checkbox label="appname">流量来源</el-checkbox>
-            <el-checkbox label="area">自动定位城市</el-checkbox>
-            <el-checkbox label="pageurl">推广页面</el-checkbox>
-            <div class="sure-footer" style="border-top: 1px solid rgba(221, 221, 221, 1); margin-top: 0.15rem;">
-             
-              <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
-              <div class="my-sure" @click="checkedSure">确定</div>
+        <div>
+          <el-checkbox v-model="checkedAll">全选</el-checkbox>
+          {{ checkedAllNum }}个客户
+        </div>
+
+        <div class="container-middle-two" style="float: right;">
+          <div class="search-btn" @click="dataEntry" style="width:auto; padding: 0.03rem 0.08rem; display: none;">日数据录入</div>
+          <el-popover popper-class="entry-customer-popper" class="entry-customer" placement="bottom-start" width="3.31rem" trigger="click" v-model="inputUserVisable">
+            <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">客户录入
             </div>
-          </el-checkbox-group>
-        </el-popover>
+            <div class="common-select">
+              <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">资源等级</div>
+              <div class="select-content" style="width:2rem;border: none">
+                <el-select class="el-select-inners" v-model="inputUserform.sourcelevel" placeholder="请选择资源等级">
+                  <el-option label="A重疾" value="A"></el-option>
+                  <el-option label="A理财" value="A+"></el-option>
+                  <el-option label="B" value="B"></el-option>
+                  <el-option label="C" value="C"></el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="common-select">
+              <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">批次号</div>
+              <div class="select-content" style="width:2rem;border: none;">
+                <el-select class="el-select-inners" v-model="inputUserform.batchno" placeholder="请选择批次号">
+                  <el-option label="群加资源" value="群加资源"></el-option>
+                  <el-option label="转介绍" value="转介绍"></el-option>
+                  <el-option label="其他资源" value="其他资源"></el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="common-select">
+              <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">客户姓名</div>
+              <div class="select-content" style="width: 2rem;">
+                <el-input class="el-input-inners" v-model="inputUserform.name" size="mini" placeholder="请输入客户姓名" clearable></el-input>
+              </div>
+            </div>
+            <div class="common-select">
+              <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">电话号码</div>
+              <div class="select-content" style="width: 2rem;">
+                <el-input class="el-input-inners" v-model="inputUserform.mobile" size="mini" placeholder="请输入电话号码" clearable></el-input>
+              </div>
+            </div>
+            <div class="common-select">
+              <div class="select-title" style="width: 1.1rem;border: none; background: #fff;">微信</div>
+              <div class="select-content" style="width: 2rem;">
+                <el-input class="el-input-inners" v-model="inputUserform.wxno" size="mini" placeholder="请输入微信号" clearable></el-input>
+              </div>
+            </div>
+            <div class="sure-footer" style="padding-bottom: 0;">
+
+              <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
+              <div class="my-sure" @click="inputUserSubmit">确定</div>
+            </div>
+          </el-popover>
+
+          <el-popover popper-class="entry-customer-popper" placement="bottom-start" width="3.31rem" trigger="click" v-model="resourceDeployVisable" @show="resourceDeployShow">
+            <div class="search-btn resourceAllocation" slot="reference">资源调配
+            </div>
+            <div class="common-select">
+              <div class="select-title  newsalesperson">新所属业务员</div>
+              <div class="select-content filContentNoborder" style="width: 2rem;">
+                <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :fetch-suggestions="querySearchId" placeholder="请输入新所属业务员" :trigger-on-focus="false" @select="handleSelectId"></el-autocomplete>
+              </div>
+            </div>
+            <div class="common-select">
+              <div class="select-title newsalesperson">新跟进步骤</div>
+              <div class="select-content" style="width:2rem;border: none;">
+                <el-select class="el-select-inners" v-model="resourceDeployform.followupstep" placeholder="请选择新跟进步骤">
+                  <el-option v-for="item in select_steps" :label="item.dd_value" :value="item.dd_key" :key="item.dd_key"></el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="sure-footer" style="padding-bottom: 0;">
+
+              <div class="my-sure resourceCancel" @click="resourceDeployCancel">取消</div>
+              <div class="my-sure" @click="resourceDeploySubmit">确定</div>
+            </div>
+          </el-popover>
+          <el-popover popper-class="entry-customer-popper" v-show="dis_Pz_up" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
+            <div class="search-btn resourceDel" slot="reference">资源删除
+            </div>
+            <div class="sure-footer" style="padding-bottom: 0;">
+
+              <div class="my-sure resourceCancel" @click="deleteSourceCancel">取消</div>
+              <div class="my-sure" @click="deleteSourceSubmit">确定</div>
+            </div>
+          </el-popover>
+
+          <el-popover popper-class="entry-customer-popper" placement="bottom-start" trigger="click" width="3.31rem" v-model="sable">
+            <!-- <el-button slot="reference" size="mini" plain>选择显示列表</el-button> -->
+            <div class="search-btn resourceDel" style="display: none;" slot="reference">选择显示列表
+            </div>
+            <el-checkbox-group ref="inputUserform1" v-model="inputUserform1" class="main-left" style="width: 1.5rem;">
+              <el-checkbox label="menudate">线索入库时间</el-checkbox>
+              <el-checkbox label="makedate">线索产生时间</el-checkbox>
+              <el-checkbox label="firstcalltime">首次拨打时间</el-checkbox>
+              <el-checkbox label="lastcalltime">最新拨打时间</el-checkbox>
+              <el-checkbox label="callcount" :disabled='!dis_P4_up'>累计拨打次数</el-checkbox>
+              <el-checkbox label="cusdealtime">客户成交时间</el-checkbox>
+              <el-checkbox label="cusdealperiod">客户成交周期</el-checkbox>
+              <el-checkbox label="batchno">批次号</el-checkbox>
+              <el-checkbox label="clueid">线索ID</el-checkbox>
+              <el-checkbox label="accountid">广告主ID</el-checkbox>
+              <el-checkbox label="accountname">广告主名称</el-checkbox>
+              <el-checkbox label="planid">广告计划ID</el-checkbox>
+              <el-checkbox label="planname">广告计划名称</el-checkbox>
+              <el-checkbox label="module_id">组件ID</el-checkbox>
+              <el-checkbox label="module_name">组件名称</el-checkbox>
+              <el-checkbox label="clue_sourcename">线索来源</el-checkbox>
+              <el-checkbox label="channelname">渠道类型</el-checkbox>
+              <el-checkbox label="appname">流量来源</el-checkbox>
+              <el-checkbox label="area">自动定位城市</el-checkbox>
+              <el-checkbox label="pageurl">推广页面</el-checkbox>
+              <div class="sure-footer" style="border-top: 1px solid rgba(221, 221, 221, 1); margin-top: 0.15rem;">
+
+                <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
+                <div class="my-sure" @click="checkedSure">确定</div>
+              </div>
+            </el-checkbox-group>
+          </el-popover>
+
+        </div>
+
       </div>
+
+      <!-- 表格内容 -->
+
       <div class="check-all-table">
         <el-table v-if="isArticle" :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange">
-          <el-table-column type="selection" width="40">
+          <el-table-column  key="1" type="selection" width="40">
           </el-table-column>
           <el-table-column key="2" type="index" label="序号" align="center" width="60">
           </el-table-column>
@@ -297,7 +291,7 @@
                 <img style="margin-left: 5px;" src="../../static/images/call-icon.png" /></span>
             </template>
           </el-table-column>
-          <el-table-column key="15" align="center" label="微信号" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="5" align="center" label="微信号" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span class="call-a" v-if="queryflagString == '02' && scope.row.wxno == null"></span>
               <span class="call-a" v-else-if="queryflagString == '02' && scope.row.wxno != ''">****</span>
@@ -305,24 +299,40 @@
                 }}</span>
             </template>
           </el-table-column>
-          <el-table-column key="5" prop="followupstepname" align="center" label="跟进步骤" width="90" :show-overflow-tooltip="true">
+          <el-table-column key="6" align="center" label="跟进步骤" width="110" :show-overflow-tooltip="true">
+            <template slot="header">
+              <p class="source-level">跟进步骤
+                <el-tooltip popper-class="atooltip" effect="light" placement="top">
+                  <template slot="content">
+                    <div>
+                      跟进步骤为“新资源”的线索，将会在线索产生时间7天后自动回收
+                    </div>
+                  </template>
+                  <span></span>
+                </el-tooltip>
+              </p>
+            </template>
+            <template slot-scope="scope">
+              <el-tag class="followTag" v-if="scope.row.followupstepname=='微信'" type="success">微信</el-tag>
+              <el-tag class="followTag" v-else-if="scope.row.followupstepname=='保单检视'" type="warning">保单检视</el-tag>
+              <el-tag class="followTag" v-else-if="scope.row.followupstepname=='计划书'" type="danger">计划书</el-tag>
+              <el-tag class="followTag lipeiTag" v-else-if="scope.row.followupstepname=='理赔服务'" type="success">理赔服务</el-tag>
+              <el-tag class="followTag" v-else-if="scope.row.followupstepname=='促销T单'">促销T单</el-tag>
+              <span class="call-a" v-else>新资源</span>
+            </template>
           </el-table-column>
-          <el-table-column key="6" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="7" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="7" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="8" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{ scope.row.shareusername }}</span>
               <img src="../../static/images/delete-icon.png" alt="" style="cursor: pointer;vertical-align: -0.02rem;margin-left: 0.03rem;" @click="cancelShare(scope.row)">
             </template>
           </el-table-column>
-          <el-table-column key="8" prop="sex" label="性别" align="center" width="80" :show-overflow-tooltip="true">
+          <el-table-column key="9" prop="sex" label="性别" align="center" width="80" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="9" prop="age" label="年龄" align="center" width="80" :show-overflow-tooltip="true">
-          </el-table-column>
-
-          <el-table-column key="20" prop="sourcelevel" label="" align="center" width="110" :show-overflow-tooltip="true">
-
-            <template slot="header" slot-scope="scope">
+          <el-table-column key="10" prop="sourcelevel" label="" align="center" width="110" :show-overflow-tooltip="true">
+            <template slot="header">
               <p class="source-level">资源等级
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
                   <template slot="content">
@@ -340,68 +350,21 @@
               </p>
             </template>
           </el-table-column>
-
-          <el-table-column key="22" v-if="inputUserform1.includes('menudate')" prop="menudate" align="center" label="线索入库时间" width="155" :show-overflow-tooltip="true">
+          <el-table-column key="11"   prop="makedate" align="center" label="线索产生时间" width="155" :show-overflow-tooltip="true"  >
           </el-table-column>
-
-          <el-table-column key="10" v-if="inputUserform1.includes('makedate')" prop="makedate" align="center" label="线索产生时间" width="155" :show-overflow-tooltip="true">
+          <el-table-column key="12" v-if="dis_P4_up" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
           </el-table-column>
-
-          <el-table-column key="11" v-if="inputUserform1.includes('firstcalltime')" prop="firstcalltime" align="center" label="首次拨打时间" width="155" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column key="12" v-if="inputUserform1.includes('lastcalltime')" prop="lastcalltime" align="center" label="最新拨打时间" width="155" :show-overflow-tooltip="true">
-          </el-table-column>
-
-          <el-table-column key="13" v-if="dis_P4_up && inputUserform1.includes('callcount')" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
-          </el-table-column>
-
-          <el-table-column key="16" v-if="this.followupstep == '07' && inputUserform1.includes('cusdealtime')" prop="cusdealtime" align="center" label="客户成交时间" width="155" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column key="17" v-if="this.followupstep == '07' && inputUserform1.includes('cusdealperiod')" prop="cusdealperiod" align="center" label="客户成交周期" width="100" :show-overflow-tooltip="true">
-          </el-table-column>
-
-          <el-table-column key="23" v-if="inputUserform1.includes('batchno')" prop="batchno" align="center" label="批次号" width="140" :show-overflow-tooltip="true">
-          </el-table-column>
-
-          <el-table-column key="14" prop="channelname" align="center" label="渠道类型" width="80" :show-overflow-tooltip="true">
-          </el-table-column>
-
-          <el-table-column prop="clueid" key="33" v-if="inputUserform1.includes('clueid')" align="center" label="线索ID" width="160" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="accountid" key="31" v-if="inputUserform1.includes('accountid')" align="center" label="广告主ID" width="140" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="accountname" key="32" v-if="inputUserform1.includes('accountname')" align="center" label="广告主名称" width="160" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="planid" key="34" v-if="inputUserform1.includes('planid')" align="center" label="广告计划ID" width="140" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="planname" key="24" v-if="inputUserform1.includes('planname')" align="center" label="广告计划名称" width="220" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="module_id" key="25" v-if="inputUserform1.includes('module_id')" align="center" label="组件ID" width="160" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="module_name" key="26" v-if="inputUserform1.includes('module_name')" align="center" label="组件名称" width="180" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="clue_sourcename" key="27" v-if="inputUserform1.includes('clue_sourcename')" align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="channelname" key="60" v-if="inputUserform1.includes('channelname')" align="center" label="渠道类型" width="90" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="appname" key="28" v-if="inputUserform1.includes('appname')" align="center" label="流量来源" width="100" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column prop="area" key="29" v-if="inputUserform1.includes('area')" align="center" label="自动定位城市" width="100" :show-overflow-tooltip="true">
-          </el-table-column>
-
-
-          <el-table-column key="19" v-if="inputUserform1.includes('pageurl')" prop="pageurl" label="推广页面" width="150" :show-overflow-tooltip="true" align="center">
+       
+          <el-table-column key="16" v-if="false" prop="pageurl" label="推广页面" width="150" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
               <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{ scope.row.pageurl }}</a>
             </template>
           </el-table-column>
-          <el-table-column key="21" prop="previstitime" label="预约回访" min-width='200' width="auto" :show-overflow-tooltip="true" fixed="right" align="center" sortable="custom" class-name="yuyue">
-            <template slot-scope="scope" class="mobile_box_edit">
+          <el-table-column key="17" prop="previstitime" label="预约回访" min-width='200' width="auto" :show-overflow-tooltip="true" align="center" sortable="custom" class-name="yuyue">
+            <template slot-scope="scope">
               {{ scope.row.previstitime ? formatDate(new Date(scope.row.previstitime), 'yyyy-MM-dd HH:mm:ss') : '' }}
-
               <el-popover popper-class="modify-icon" v-if="scope.row.previstitime" placement="left" width="220" height="50" :class="scope.row.activityserialno">
                 <span slot="reference" class="mobile-icon el-icon-edit-outline" style="color:#DC240F;margin-left:5px"></span>
-
                 <el-date-picker v-model="editPrevistitime" type="datetime" placeholder="选择日期时间" size="mini" :picker-options="previstitimePickerOptions">
                 </el-date-picker>
                 <br>
@@ -409,41 +372,22 @@
                   <div class="my-sure" @click="editPrevistTime(scope)">确定</div>
                 </div>
               </el-popover>
-
               <span v-if="scope.row.previstitime" class="mobile-icon el-icon-circle-check" @click="toggerIsVist(scope)" style="color:#DC240F;  line-height: 20px;"></span>
             </template>
           </el-table-column>
+          <el-table-column key="18" prop="remark" align="left" label="跟进记录" width="220" :show-overflow-tooltip="true">
+          </el-table-column>
+
+          <el-table-column key="13" prop="channelname"  align="center" label="渠道类型" width="90" :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column  key="14" prop="clue_sourcename"  align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column  key="15" prop="appname"  align="center" label="流量来源" width="100" :show-overflow-tooltip="true">
+          </el-table-column>
+
+          <!-- fixed="right" -->
         </el-table>
 
-        <el-table v-if="!isArticle" :data="ArticleData" class="Article" border v-loading="loading" style="width: 100%">
-          <el-table-column type="selection" width="40">
-          </el-table-column>
-          <el-table-column prop="makedate" label="线索产生时间" width="180" align="center">
-          </el-table-column>
-          <el-table-column prop="cluetypename" label="渠道活码" :show-overflow-tooltip="true" width="120" align="center">
-          </el-table-column>
-
-          <el-table-column prop="username" label="所属业务员" :show-overflow-tooltip="true" width="100" align="center">
-          </el-table-column>
-          <el-table-column prop="customername" label="客户微信昵称" :show-overflow-tooltip="true" width="180" align="center">
-          </el-table-column>
-          <el-table-column prop="customerremarkname" label="客户微信备注" :show-overflow-tooltip="true" width="180" align="center">
-          </el-table-column>
-          <el-table-column prop="customersex" label="客户性别" width="90" align="center">
-          </el-table-column>
-          <el-table-column prop="channelname" label="渠道类型" width="80" align="center">
-          </el-table-column>
-          <el-table-column prop="appname" label="流量来源" width="100" align="center">
-          </el-table-column>
-          <el-table-column prop="sourcetypename" label="来源属性" width="120" align="center">
-          </el-table-column>
-
-          <el-table-column prop="ip" label="IP" width="120" :show-overflow-tooltip="true" align="center">
-          </el-table-column>
-          <el-table-column prop="ipaddress" label="自动定位地址" :show-overflow-tooltip="true" width="120" align="center">
-          </el-table-column>
-
-        </el-table>
       </div>
       <div>
         <el-pagination background layout="total,prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
@@ -504,14 +448,14 @@
         <div class="common-select">
           <div class="select-title" style="width: 1.8rem">非话务时长（分钟）</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.nocallcentertime" align="right" size="mini"  clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.nocallcentertime" align="right" size="mini" clearable></el-input>
           </div>
           <em class="sign">可修改</em>
         </div>
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">总时长（分钟）</div>
           <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.sumtime" align="right" size="mini"  clearable></el-input>
+            <el-input class="el-input-inners" v-model="from.sumtime" align="right" size="mini" clearable></el-input>
           </div>
         </div>
 
@@ -574,7 +518,7 @@
         </div>
       </div>
       <div class="sure-footer">
-       
+
         <div class="my-sure" style="background: #fff;border: 1px solid rgba(221, 221, 221, 1);color: #686868;" @click="dialogVisible = false">取消</div>
         <div class="my-sure" @click="sureData">提交</div>
       </div>
@@ -787,7 +731,7 @@
                 <span class="dd">电话号码</span>
                 <span class="dd">
                   <el-popover placement="bottom" width="225" trigger="click" v-model="addMobliePopVisible">
-           
+
                     <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px" @input="addMoblieChange">
                     </el-input>
 
@@ -798,7 +742,7 @@
                     <el-table :data="mobileList" class="mobile_box">
                       <el-table-column width="130" property="phone" label="电话"></el-table-column>
                       <el-table-column width="70" label="操作" align="right">
-                        <template slot-scope="scope" class="mobile_box_edit">
+                        <template slot-scope="scope">
                           <span class="mobile-icon el-icon-delete" @click="mobileDelete(scope)"></span>
                           <span class="mobile-icon el-icon-upload2" @click="mobileToTop(scope)"></span>
                         </template>
@@ -835,27 +779,14 @@
                   <el-input placeholder="请输入" size="mini" v-model="wxnostr">
                   </el-input>
                 </span>
-              
+
               </div>
-          
+
             </div>
           </div>
           <div class="condition">
             <div class="clearfix">
-              <div class="common-select">
-                <div class="select-title" style="width: 0.8rem">转其他库</div>
-                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-select class="el-select-inners" v-model="editInfo.otherstore" size="mini" placeholder="" clearable>
-                    <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
-                  </el-select>
-                </div>
-              </div>
-              <div class="common-select">
-                <div class="select-title" style="width: 0.8rem">共享客户</div>
-                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0;">
-                  <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
-                </div>
-              </div>
+
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">跟进步骤</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
@@ -866,28 +797,44 @@
                 </div>
               </div>
               <div class="common-select">
+                <div class="select-title " style="width: 0.8rem">共享客户</div>
+                <div class="select-content filContentNoborder   filContBottom" style="width: calc(100% - 0.8rem); margin-right: 0.2rem;">
+                  <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
+                </div>
+              </div>
+
+              <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">预约回访</div>
-                <div class="select-content boxpad" style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0; border: none">
+                <div class="select-content boxpad" style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
                   <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini" placeholder="" :picker-options="previstitimePickerOptions" clearable>
                   </el-date-picker>
                 </div>
               </div>
+
+              <div class="common-select">
+                <div class="select-title" style="width: 0.8rem">转其他库</div>
+                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
+                  <el-select class="el-select-inners" v-model="editInfo.otherstore" size="mini" placeholder="" clearable>
+                    <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
+                  </el-select>
+                </div>
+              </div>
+
             </div>
             <div class="condition-bottom" @click="saveRecord">保存</div>
           </div>
 
-          <div class="adInformation" style="height: 1.7rem">
+          <div class="adInformation" style="height: 1.5rem">
             <div class="title clearfix">
               <span></span>
               <span>广告投放信息</span>
             </div>
             <div class="adInformation_b">
-           
+
               <div class="cb">
                 <span :title="detailsInfo.makedate">线索产生时间：{{ detailsInfo.makedate }}</span>
                 <span :title="detailsInfo.channelname">渠道类型：{{ detailsInfo.channelname }}</span>
               </div>
-
 
               <div class="cc">
                 <span :title="detailsInfo.clue_sourcename">线索来源：{{ detailsInfo.clue_sourcename }}</span>
@@ -898,7 +845,7 @@
                 <span :title="detailsInfo.area">自动定位城市：{{ detailsInfo.area }}</span>
               </div>
 
-              <div class="cb" style="width: 90%;">
+              <div class="cb" style="width: 90%;display: none;">
                 <span :title="detailsInfo.pageurl"> 推广页面：
                   <a style="cursor: pointer; color: #578EE7;" href="#" @click="disPageUrl(detailsInfo)">{{
               detailsInfo.pageurl }}</a>
@@ -929,15 +876,15 @@
             </div>
             <div class="tableContent">
               <el-table :data="callDataList" border style="width: 100%">
-                <el-table-column prop="calltime" label="拨打时间" align="center" :show-overflow-tooltip="true">
+                <el-table-column key="50" prop="calltime" label="拨打时间" align="center" :show-overflow-tooltip="true">
                 </el-table-column>
-                <el-table-column prop="username" label="拨打业务员" width="97" align="center" :show-overflow-tooltip="true">
+                <el-table-column  key="51" prop="username" label="拨打业务员" width="97" align="center" :show-overflow-tooltip="true">
                 </el-table-column>
-                <el-table-column prop="isconnect" width="70" align="center" label="接通">
+                <el-table-column key="52" prop="isconnect" width="70" align="center" label="接通">
                 </el-table-column>
-                <el-table-column prop="timeduration" label="时长" align="center" width="100" :show-overflow-tooltip="true">
+                <el-table-column key="53" prop="timeduration" label="时长" align="center" width="100" :show-overflow-tooltip="true">
                 </el-table-column>
-                <el-table-column align="center" label="录音" width="70">
+                <el-table-column key="54" align="center" label="录音" width="70">
                   <template slot-scope="scope" v-if="scope.row.recordurl">
                     <img class="play-icon" src="../../static/images/pause-icon.png" title="暂停" @click="audioPause(scope.$index)" v-if="!audioPaused && scope.$index === currentCallIndex">
                     <img class="play-icon" src="../../static/images/play-icon.png" title="播放" @click="audioPlay(scope.$index)" v-else>
@@ -956,7 +903,7 @@
           <span></span>
           <span>跟进记录</span>
         </div>
-        <div class="cjg-search-section " style="display: flex; justify-content: center;align-items: center;">
+        <div class="cjg-search-section " style="display: flex; justify-content: center;align-items: center;display: none;">
           <el-select v-model="cjgTitle" :loading="loading" filterable remote :remote-method="remoteMethod" placeholder="搜索藏经阁内容" @change="cjgChange" @focus="cjgfocus" class="cjgserach" style="width: 100%;">
             <el-option v-for="item in cjgList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -1177,8 +1124,8 @@ export default {
 .customerManagementNew {
   height: 100%;
   background: rgb(242, 242, 242);
-  padding: 0.1rem 0.4rem 0 0.4rem;
-  width: 19.26rem;
+  /* padding: 0.1rem 0.4rem 0 0.4rem; */
+  width: 17.1rem;
 }
 
 .yuyue .el-tooltip {
@@ -1199,4 +1146,69 @@ export default {
 .customer-drawer .drawerRight .drawercontentBox ul li:hover .gjg_topping {
   display: block !important;
 }
+
+.filContent .el-input-inners .el-input__inner {
+  border: 1px solid #dcdfe6;
+  height: 0.3rem;
+  line-height: 0.3rem;
+}
+
+.followTag {
+  width: 0.75rem;
+  height: 0.25rem;
+  line-height: 0.25rem;
+  text-align: center;
+}
+.el-tooltip .lipeiTag {
+  background: #ecffff;
+  border-radius: 5px 5px 5px 5px;
+  border: 1px solid #e1f8f8;
+  color: #18a09e;
+}
 </style>
+
+
+<style   scoped>
+.container-search-box .common-select {
+  width: 23%;
+}
+
+.filContent .el-dropdown-inners {
+  width: 100%;
+}
+
+.select-content .el-dropdown-inners > span {
+  width: 3.2rem;
+}
+.resourceAllocation {
+  width: auto;
+  padding: 0.01rem 0.18rem;
+  background: #fff;
+  border: 1px solid #dc220d;
+  color: #dc220d;
+}
+.newsalesperson {
+  width: 1.1rem;
+  border: none;
+  background: #fff;
+}
+
+.resourceCancel {
+  background: #fff;
+  color: #dc240f;
+  border: 0.01rem solid #dc240f;
+}
+.resourceDel {
+  width: auto;
+  padding: 0.01rem 0.18rem;
+  background: #fff;
+  border: 1px solid #dc220d;
+  color: #dc220d;
+}
+
+.check-all-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style> 

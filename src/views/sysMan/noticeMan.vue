@@ -3,18 +3,18 @@
     <div class="search-header">
       <div class="add-btn" @click="showAddNoticeDialogVisible">+ 新建</div>
       <div class="search-box clearfix">
-        <div class="common-select" style="width: 30%;">
-          <div class="select-title" style="width: 1.65rem">创建时间</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.65rem); border: none">
-            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+        <div class="common-select">
+          <div class="select-title filtitle">创建时间</div>
+          <div class="select-content filContent">
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
           </div>
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">所属类别</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem); border: none">
-            <el-select class="el-select-inners" v-model="noticeType" size="mini" placeholder="">
+          <div class="select-title filtitle">所属类别</div>
+          <div class="select-content filContent">
+            <el-select class="el-select-inners" v-model="noticeType" size="mini" placeholder="请选择所属类别">
               <el-option v-for="(item,index) in noticeTypeList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
             </el-select>
@@ -22,15 +22,17 @@
         </div>
 
         <div class="common-select">
-          <div class="select-title" style="width: 1.28rem">关键字搜索</div>
-          <div class="select-content" style="width: calc(100% - 1.28rem);">
+          <div class="select-title filtitle">关键字搜索</div>
+          <div class="select-content filContent">
             <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder=""></el-autocomplete>
           </div>
         </div>
 
-        <div class="common-select" style="float: right;  width: 18%;">
-          <div class="search-btn" @click="search">搜索</div>
-          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="reset">重置</div>
+        <div class="common-select">  </div>
+
+        <div class="common-select" style="width: 4%;">
+          <div class="search-btn searchLeft" @click="search">搜索</div>
+          <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);display: none;" @click="reset">重置</div>
         </div>
       </div>
     </div>
@@ -88,7 +90,7 @@
         </div>
       </div>
       <div class="dialog-footer">
-       
+
         <div class="search-btn" style="background: #fff;border: 1px solid rgba(221, 221, 221, 1);color: #686868;" @click="hideaddNoticeDialogVisible">取消</div>
         <div class="search-btn" @click="updateItem">确定</div>
       </div>
@@ -310,10 +312,10 @@ export default {
       this.addNoticeDialogVisible = true;
       this.titleDialog = '新建';
       // if (editor10 == null) { //true
-        this.$nextTick(() => {
-          this.newWangEditor('#div1', '#div2')
-          editor10.txt.html(this.noticeItem.content)
-        })
+      this.$nextTick(() => {
+        this.newWangEditor('#div1', '#div2')
+        editor10.txt.html(this.noticeItem.content)
+      })
 
 
     },
@@ -501,3 +503,4 @@ export default {
   border-bottom: 1px solid rgba(216, 216, 216, 1);
 }
 </style>
+
