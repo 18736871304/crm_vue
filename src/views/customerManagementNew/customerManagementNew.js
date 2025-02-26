@@ -57,7 +57,7 @@ export default {
       iscall: "N",
       // isrefresh: false,
       callSum: "",
-      selectTime: [ ],
+      selectTime: [],
       selectTimeCusdeal: "",
       Salesman: "",
 
@@ -326,14 +326,13 @@ export default {
     this.getTeamList();
 
     this.$nextTick(() => {
-
-      var hotlineStartDate,hotlineEndDate
+      var hotlineStartDate, hotlineEndDate;
       if (this.selectTime.length > 0) {
         hotlineStartDate = this.formatDate(this.selectTime[0], "yyyy-MM-dd");
         hotlineEndDate = this.formatDate(this.selectTime[1], "yyyy-MM-dd");
-      }else{
-        hotlineStartDate =''
-        hotlineEndDate = ''
+      } else {
+        hotlineStartDate = "";
+        hotlineEndDate = "";
       }
       let params = {
         hotlineStartDate: hotlineStartDate,
@@ -748,10 +747,7 @@ export default {
     },
     toggerIsVist(scop) {
       var _this = this;
-      getData(
-        "post",
-        my_url + "/crm/activity/activityVisit.do",
-        function (data) {
+      getData( "post", my_url + "/crm/activity/activityVisit.do", function (data) {
           if (data.code == 0) {
             _this.$message({
               showClose: true,
@@ -776,6 +772,7 @@ export default {
       );
     },
     editPrevistTime(scop) {
+      
       var _this = this;
       getData(
         "post",

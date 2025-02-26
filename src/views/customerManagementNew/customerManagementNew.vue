@@ -80,7 +80,6 @@
             </div>
           </div>
 
-       
           <div class="common-select">
             <div class="select-title filtitle">客户姓名</div>
             <div class="select-content filContent">
@@ -273,7 +272,7 @@
 
       <div class="check-all-table">
         <el-table v-if="isArticle" :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange">
-          <el-table-column  key="1" type="selection" width="40">
+          <el-table-column key="1" type="selection" width="40">
           </el-table-column>
           <el-table-column key="2" type="index" label="序号" align="center" width="60">
           </el-table-column>
@@ -305,7 +304,9 @@
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
                   <template slot="content">
                     <div>
-                      跟进步骤为“新资源”的线索，将会在线索产生时间7天后自动回收
+                      <p>跟进步骤为“新资源”的线索：</p>
+                      <p>A类将会在线索产生时间7天后自动回收，</p>
+                      <p>A-/B+/B/B-/C/C-类每日回收</p>
                     </div>
                   </template>
                   <span></span>
@@ -350,11 +351,11 @@
               </p>
             </template>
           </el-table-column>
-          <el-table-column key="11"   prop="makedate" align="center" label="线索产生时间" width="155" :show-overflow-tooltip="true"  >
+          <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="155" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="12" v-if="dis_P4_up" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
           </el-table-column>
-       
+
           <el-table-column key="16" v-if="false" prop="pageurl" label="推广页面" width="150" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
               <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{ scope.row.pageurl }}</a>
@@ -378,11 +379,11 @@
           <el-table-column key="18" prop="remark" align="left" label="跟进记录" width="220" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="13" prop="channelname"  align="center" label="渠道类型" width="90" :show-overflow-tooltip="true">
+          <el-table-column key="13" prop="channelname" align="center" label="渠道类型" width="90" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column  key="14" prop="clue_sourcename"  align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
+          <el-table-column key="14" prop="clue_sourcename" align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column  key="15" prop="appname"  align="center" label="流量来源" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="15" prop="appname" align="center" label="流量来源" width="100" :show-overflow-tooltip="true">
           </el-table-column>
 
           <!-- fixed="right" -->
@@ -878,7 +879,7 @@
               <el-table :data="callDataList" border style="width: 100%">
                 <el-table-column key="50" prop="calltime" label="拨打时间" align="center" :show-overflow-tooltip="true">
                 </el-table-column>
-                <el-table-column  key="51" prop="username" label="拨打业务员" width="97" align="center" :show-overflow-tooltip="true">
+                <el-table-column key="51" prop="username" label="拨打业务员" width="97" align="center" :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column key="52" prop="isconnect" width="70" align="center" label="接通">
                 </el-table-column>
@@ -1165,6 +1166,10 @@ export default {
   border: 1px solid #e1f8f8;
   color: #18a09e;
 }
+
+ 
+ 
+
 </style>
 
 

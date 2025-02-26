@@ -355,8 +355,10 @@
                   <el-tooltip popper-class="atooltip" effect="light" placement="top">
                     <template slot="content">
                       <div>
-                        跟进步骤为“新资源”的线索，将会在线索产生时间7天后自动回收
-                      </div>
+                      <p>跟进步骤为“新资源”的线索：</p>
+                      <p>A类将会在线索产生时间7天后自动回收，</p>
+                      <p>A-/B+/B/B-/C/C-类每日回收</p>
+                    </div>
 
                     </template>
                     <span></span>
