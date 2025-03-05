@@ -353,6 +353,8 @@
           </el-table-column>
           <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="155" :show-overflow-tooltip="true">
           </el-table-column>
+          <el-table-column key="17" prop="lastcalltime" align="center" label="最后一次拨打时间" width="155" :show-overflow-tooltip="true">
+          </el-table-column>
           <el-table-column key="12" v-if="dis_P4_up" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
           </el-table-column>
 
