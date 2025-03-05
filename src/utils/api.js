@@ -209,9 +209,25 @@ function getLogonUserInfo(params) {
 function getTalkTeamList(params) {
   return POST(params, '/crm/auth/getTalkTeamList.do')
 }
+//获取企微团队信息
+function getQwTeamTreeList(params) {
+  return POST(params, '/crm/qwMan/getQwTeamTreeList.do ')
+}
+
+// //获取企微团队信息
+// function getQwTeamTreeList(params) {
+//   return POST(params, '/crm/qwMan/getQwTeamTreeList.do ')
+// }
+
+
 //获取团队中用户信息（不分页）
 function getQwUser(params) {
   return POST(params, '/crm/qwMan/getQwUser.do')
+}
+
+//获取企微团队中用户信息（不分页）
+function getQwUserList(params) {
+  return POST(params, '/crm/qwMan/getQwUserList.do ')
 }
 //获取团队中用户信息(分页)
 function getNewQwUser(params) {
@@ -425,7 +441,9 @@ export default {
   getActivitySumData,
   getLogonUserInfo,
   getTalkTeamList,
+  getQwTeamTreeList,
   getQwUser,
+  getQwUserList,
   getNewQwUser,
   getQwCustomerByUser,
   getQwTalkData,

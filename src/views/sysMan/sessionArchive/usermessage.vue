@@ -29,13 +29,13 @@
       </header>
 
       <div class="staffList">
-        <div :class="isAllselect == item.userid ? 'selectname staffName' : 'staffName'
-                        " v-for="item of teamNameList" :key="item.userid" :label="item.realname" :value="item.userid" @click="selectOneName(item, tablabel)">
+        <div :class="isAllselect == item.qwuserid ? 'selectname staffName' : 'staffName'
+                        " v-for="(item,index) of teamNameList" :key="index" :label="item.alias" :value="item.qwuserid" @click="selectOneName(item, tablabel)">
           <div class="userbox">
-            <img :src="item.qwuserurl" alt="" class="avatar" />
+            <img :src="item.thumb_avatar" alt="" class="avatar" />
             <div class="pBox">
-              <p>{{ item.realname }} <span v-if="item.usertype == '04'" class="depart">已离职</span> </p>
-              <p v-if="item.qwalias" class="lastText">别名：{{ item.qwalias }}</p>
+              <p>{{ item.name }} <span v-if="item.isdelete == 'Y'" class="depart">已离职</span> </p>
+              <p v-if="item.alias" class="lastText">别名：{{ item.alias }}</p>
               <p v-else></p>
             </div>
           </div>
@@ -51,7 +51,7 @@
               <img :src="selectStaffPhoto" alt="" class="avatar" />
               <div class="pBox">
                 <p style="font-size: 0.15rem;">{{ selectStaffName }}</p>
-                <p class="lastText" style=" margin-top: 7px;">别名：{{ oneitem.qwalias }}</p>
+                <p class="lastText" style=" margin-top: 7px;">别名：{{ oneitem.alias }}</p>
               </div>
 
             </div>
@@ -62,7 +62,7 @@
           </div>
           <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 100%">
             <!-- 搜索框 -->
-            <div class="select-content" style="margin-top: 0.2rem;    margin: 0.2rem 0.2rem;">
+            <div class="select-content filContentNoborder" style="margin-top: 0.2rem;    margin: 0.2rem 0.2rem;">
               <div class="searchName">
                 <el-input placeholder="请输入名称" @input="activeselectId" v-model="activeValue" clearable>
                 </el-input>
@@ -80,7 +80,9 @@
                   <div :class="isfirstselect == item.customerid ? 'selectname staffName' : 'staffName'" v-for="(item, index) of firstAllName" :key="index" :label="item.customername" :value="item.customerid" @click="selectFirstName(item)">
 
                     <div class="userbox">
-                      <img :src="item.avatar" alt="" class="avatar" />
+                      <img v-if="activeName=='first'" :src="item.avatar" alt="" class="avatar" />
+                      <img v-else-if="activeName=='second'" :src="item.thumb_avatar" alt="" class="avatar" />
+                      <img v-else :src="item.avatar" alt="" class="avatar" />
                       <div class="pBox">
                         <p class='namedata'>
 
@@ -408,7 +410,7 @@
             </div>
             <p v-if="exqunList.length > 0" class="exUser">外部联系人</p>
             <p v-if="exqunList.length > 0" class="ext-tips">经外部联系人同意后才会保存联系人发送的会话内容</p>
-            <div class="userItem" v-for=" (item, index)  of exqunList" :key="item.name">
+            <div class="userItem" v-for=" (item, index)  of exqunList" :key="index">
               <img v-if='item.customerurl' :src="item.customerurl" alt="">
               <img v-else src="../../../static/images/qunavatar.png" alt="">
               <p>{{ item.name }}</p>
@@ -464,7 +466,7 @@ export default {
       SalesmanIdBox: [],
       defaultProps: {
         children: "children",
-        label: "label",
+        label: "name",
       },
       teamNames: "",
       teamNames: "团队选择",
@@ -589,9 +591,11 @@ export default {
     teamNameList(data) {
       this.lizhiNum = []
       this.zaizhiNum = []
+
+    
       if (data.length > 0) {
         for (var i = 0; i < data.length; i++) {
-          if (data[i].usertype == '04') {
+          if (data[i].usertype == 'Y') {
             this.lizhiNum.push(data[i])
           } else {
             this.zaizhiNum.push(data[i])
@@ -652,8 +656,6 @@ export default {
       var scrollHeight = e.target.scrollHeight;
       var windowHeight = e.target.clientHeight;
       if (scrollTop + 1 >= scrollHeight - windowHeight) {
-        console.log(this.isAllselect, this.isqwuserid)
-
         if (this.tablabel == '群聊') {
           this.getQwCustomer(this.isqwuserid, this.pageNumber, this.pageSize, this.tablabel, this.activeValue)
         } else {
@@ -870,7 +872,7 @@ export default {
     checkTeam(data, checked, indeterminate) {
       let teamListName = [];
       checked.checkedNodes.forEach(function (item) {
-        teamListName.push(item.label);
+        teamListName.push(item.name);
       });
       this.myList = teamListName.join(",");
       this.teamListId = checked.checkedKeys.join(",");
@@ -909,14 +911,13 @@ export default {
     yewu() {
       let _this = this;
       var idStr = ''
-      api.getTalkTeamList().then((data) => {
+      api.getQwTeamTreeList().then((data) => {
         if (data.code == 0) {
           // data.teamList.push({
           //   id: "536367686e5a11ef8aaf00163e1ccaeb",
           //   label: "其他"
           // })
-          console.log(data.teamList)
-          _this.teamDataList = data.teamList;
+          _this.teamDataList = data.qwTeamList;
           for (var i = 0; i < _this.teamDataList.length; i++) {
             idStr += _this.teamDataList[i].id + ','
             if (_this.teamDataList[i].children) {
@@ -945,26 +946,26 @@ export default {
     searchUser(teamid, keyword, pageNumber, pageSize) {
       var _this = this
       var params = {
-        teamid: teamid,
+        departmentIdStr: teamid,
         realname: keyword ? keyword : '',
         pageNumber: pageNumber,
         pageSize: pageSize,
       }
       // api.getNewQwUser(params).then((data) => {//分页
-      api.getQwUser(params).then((data) => {//不分页
-        _this.teamNameList = data.userList;
+      api.getQwUserList(params).then((data) => {//不分页
+        _this.teamNameList = data.qwUserList;
         _this.SalesmanIdBox = [];
-        data.userList.forEach((res) => {
+        data.qwUserList.forEach((res) => {
           _this.SalesmanIdBox.push({
-            value: res.realname,
-            id: res.userid,
-            qwalias: res.qwalias,
+            value: res.name ? res.name : "空",
             qwuserid: res.qwuserid,
-            qwuserurl: res.qwuserurl,
-            usertype: res.usertype
+            alias: res.alias,
+            qwuserid: res.qwuserid,
+            thumb_avatar: res.thumb_avatar,
+            isdelete: res.isdelete
           });
         });
-        _this.selectOneName(data.userList[0], this.tablabel)
+        _this.selectOneName(data.qwUserList[0], this.tablabel)
       });
     },
 
@@ -989,10 +990,10 @@ export default {
     selectOneName(item, first) {
       // 储存员工信息
       this.oneitem = item
-      this.isAllselect = item.userid;
+      this.isAllselect = item.qwuserid;
       this.isqwuserid = item.qwuserid;
-      this.selectStaffName = item.realname;
-      this.selectStaffPhoto = item.qwuserurl;
+      this.selectStaffName = item.name;
+      this.selectStaffPhoto = item.thumb_avatar;
       // 使原来的客户列表为空
       this.firstAllName = []
       this.pageNumber = 1
@@ -1001,11 +1002,10 @@ export default {
       this.selectTime = ''
       // 更改最上面的固定头像
       this.queryuuid = ''
-
       if (this.tablabel == '群聊') {
         this.getQwCustomer(item.qwuserid, this.pageNumber, this.pageSize, first, this.activeValue)
       } else {
-        this.getQwCustomer(item.userid, this.pageNumber, this.pageSize, first, this.activeValue)
+        this.getQwCustomer(item.qwuserid, this.pageNumber, this.pageSize, first, this.activeValue)
       }
     },
 
@@ -1014,7 +1014,7 @@ export default {
       var _this = this
       this.paneloading = true
       var params = {
-        userid: userid,
+        qwuserid: userid,
         pageNumber: pageNumber,
         pageSize: pageSize,
         queryname: item
@@ -1033,10 +1033,8 @@ export default {
         });
       }
       if (first == '同事') {
-        console.log(params)
         params.pageSize = 500
         api.getQwColleagueByUser(params).then((data) => {
-          console.log(data)
           if (data.qwColleagueList != []) {
             var qwColleagueList = _this.dataHandle(data.qwColleagueList)
             _this.firstAllName = _this.firstAllName.concat(qwColleagueList);
@@ -1048,7 +1046,6 @@ export default {
         });
       }
       if (first == '群聊') {
-        console.log(userid)
         var params = {
           qwuserid: userid,
           pageNumber: pageNumber,
@@ -1073,12 +1070,21 @@ export default {
     selectFirstName(item) {
       if (item.qunid) {
         this.isfirstselect = item.qunid
-      } else {
+        this.selectfirstPhoto = item.avatar;
+        this.selectfirstName = item.customername;
+        this.selectfirstRemakeName = item.customer_remark_name;
+      } else if (this.tablabel == '同事') {
         this.isfirstselect = item.customerid;
+        this.selectfirstPhoto = item.thumb_avatar;
+        this.selectfirstName = item.name;
+        this.selectfirstRemakeName = item.alias;
+      } else if (this.tablabel == '客户') {
+        this.isfirstselect = item.customerid;
+        this.selectfirstPhoto = item.avatar;
+        this.selectfirstName = item.customername;
+        this.selectfirstRemakeName = item.customer_remark_name;
       }
-      this.selectfirstPhoto = item.avatar;
-      this.selectfirstName = item.customername;
-      this.selectfirstRemakeName = item.customer_remark_name;
+
       // 从第一页请求数据
       // this.pageNumber = 1
       this.requestSearchList = []
@@ -1105,9 +1111,7 @@ export default {
 
     querySearchId(queryString, cb) {
       var SalesmanIdBox = this.SalesmanIdBox;
-      var results = queryString
-        ? SalesmanIdBox.filter(this.createFilterId(queryString))
-        : SalesmanIdBox;
+      var results = queryString ? SalesmanIdBox.filter(this.createFilterId(queryString)) : SalesmanIdBox;
       // 调用 callback 返回建议列表的数据
       if (results == 0) {
         this.teamNameList = "";
@@ -1117,11 +1121,7 @@ export default {
 
     createFilterId(queryString) {
       return (SalesmanIdBox) => {
-        return (
-          SalesmanIdBox.value
-            .toLowerCase()
-            .indexOf(queryString.toLowerCase()) === 0
-        );
+        return (SalesmanIdBox.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },
 
@@ -1129,12 +1129,12 @@ export default {
     // 选择模糊筛选出来的 员工
     selectUserId(item) {
       let arr = [];
-      item["realname"] = item.value;
-      item["userid"] = item.id;
-      item["qwalias"] = item.qwalias;
+      item["name"] = item.value;
       item["qwuserid"] = item.qwuserid;
-      item["qwuserurl"] = item.qwuserurl;
-      item["usertype"] = item.usertype;
+      item["alias"] = item.alias;
+      item["qwuserid"] = item.qwuserid;
+      item["thumb_avatar"] = item.thumb_avatar;
+      item["isdelete"] = item.usertype;
 
       arr.push(item);
       this.teamNameList = arr;
@@ -1152,10 +1152,6 @@ export default {
       } else {
         this.getQwCustomer(this.isAllselect, this.pageNumber, this.pageSize, this.tablabel, item)
       }
-
-
-
-
     },
 
 
@@ -1165,12 +1161,12 @@ export default {
       var arr = []
       _this.SalesmanIdBox.forEach((res) => {
         arr.push({
-          realname: res.value,
-          userid: res.id,
-          qwalias: res.qwalias,
+          name: res.value,
           qwuserid: res.qwuserid,
-          qwuserurl: res.qwuserurl,
-          usertype: res.usertype
+          alias: res.alias,
+          qwuserid: res.qwuserid,
+          thumb_avatar: res.thumb_avatar,
+          isdelete: res.isdelete
         })
       });
       _this.teamNameList = arr
