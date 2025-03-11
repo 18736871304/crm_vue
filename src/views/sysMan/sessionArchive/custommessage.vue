@@ -677,8 +677,7 @@ export default {
         queryname: keyword
       }
       api.getAllcustom(params).then((data) => {
-        console.log("获取所有客户")
-        console.log(data)
+     
         this.allCustomList = this.allCustomList.concat(data.qwCustomerList);
         if (pageNum == 1) {
           this.selectOneName(data.qwCustomerList[0], this.tablabel)

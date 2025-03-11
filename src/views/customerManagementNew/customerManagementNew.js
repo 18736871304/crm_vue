@@ -131,6 +131,8 @@ export default {
       dis_Pz_up: false,
       visit: "",
       returnVisit: "",
+      customerNeedList: [],
+      customer_intention: "",
       sexs: [
         {
           key: "男",
@@ -320,6 +322,7 @@ export default {
   mounted: function () {
     var _this = this;
     this.getchannelNameList();
+    this.getCustomerIntenList();
     this.tableHeard();
     this.getIsCall();
     this.getConditionData();
@@ -578,6 +581,23 @@ export default {
     handleClose() {
       this.dialogVisible = false;
     },
+    //获取客户需求
+    getCustomerIntenList() {
+      let _this = this;
+      getData(
+        "post",
+        my_url + "/crm/common/getDictList.do",
+        function (data) {
+          ;
+          if (data.code == 0) {
+            _this.customerNeedList = data.dictList;
+          }
+        },
+        {
+          dict_type: "customer_intention",
+        }
+      );
+    },
 
     //渠道类型
     getchannelNameList() {
@@ -747,7 +767,10 @@ export default {
     },
     toggerIsVist(scop) {
       var _this = this;
-      getData( "post", my_url + "/crm/activity/activityVisit.do", function (data) {
+      getData(
+        "post",
+        my_url + "/crm/activity/activityVisit.do",
+        function (data) {
           if (data.code == 0) {
             _this.$message({
               showClose: true,
@@ -772,7 +795,6 @@ export default {
       );
     },
     editPrevistTime(scop) {
-      
       var _this = this;
       getData(
         "post",
@@ -1052,6 +1074,20 @@ export default {
               } else {
                 res.newmobilestr = "sip:0" + res.mobilestr;
               }
+
+              if (res.customer_intention) {
+                var keysArray = res.customer_intention.split(",");
+                var replacedValues = [];
+                var customerNeedList = _this.customerNeedList;
+
+                keysArray.forEach((key) => {
+                  var found = customerNeedList.find((item) => item.dd_key === key);
+                  if (found) {
+                    replacedValues.push(found.dd_value); // 如果找到，添加到 replacedValues 数组
+                  }
+                });
+                res.customer_intentionValue = replacedValues.join("，");
+              }
             });
           }
 
@@ -1158,6 +1194,7 @@ export default {
       } else {
         this.delRemark = false;
       }
+        this.customer_intention = row.customer_intention != undefined ? row.customer_intention : "";
 
       row.username = row.username != undefined ? row.username : "无";
       this.returnVisit = row.previstitime != undefined ? row.previstitime : "";
@@ -2341,7 +2378,19 @@ export default {
         mobilecity: this.mobilecity,
         mobilecountry: this.mobilecountry,
         address: this.address,
+        customer_intention: this.customer_intention,
       };
+      if (this.customer_intention == "") {
+        _this.$message({
+          showClose: true,
+          message: "请先填写客户需求后再保存！",
+          duration: 3000,
+          type: "error",
+        });
+        loading.close();
+        return;
+      }
+
       getData(
         "post",
         my_url + "/crm/activity/activityUpdate.do",

@@ -322,6 +322,12 @@
               <span class="call-a" v-else>新资源</span>
             </template>
           </el-table-column>
+
+
+          
+          <el-table-column key="20" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
+          </el-table-column>
+
           <el-table-column key="7" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="8" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
@@ -353,7 +359,7 @@
           </el-table-column>
           <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="155" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="17" prop="lastcalltime" align="center" label="最后一次拨打时间" width="155" :show-overflow-tooltip="true">
+          <el-table-column key="19" prop="lastcalltime" align="center" label="最后一次拨打时间" width="155" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="12" v-if="dis_P4_up" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
           </el-table-column>
@@ -363,6 +369,7 @@
               <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{ scope.row.pageurl }}</a>
             </template>
           </el-table-column>
+
           <el-table-column key="17" prop="previstitime" label="预约回访" min-width='200' width="auto" :show-overflow-tooltip="true" align="center" sortable="custom" class-name="yuyue">
             <template slot-scope="scope">
               {{ scope.row.previstitime ? formatDate(new Date(scope.row.previstitime), 'yyyy-MM-dd HH:mm:ss') : '' }}
@@ -397,7 +404,7 @@
         </el-pagination>
       </div>
     </div>
-    <el-dialog custom-class="entry-data" title="日数据录入" :close-on-click-modal='false' :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
+    <!-- <el-dialog custom-class="entry-data" title="日数据录入" :close-on-click-modal='false' :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
       <div class="entry-data-box clearfix">
         <div class="common-select">
           <div class="select-title" style="width: 1.6rem">数据日期</div>
@@ -525,7 +532,7 @@
         <div class="my-sure" style="background: #fff;border: 1px solid rgba(221, 221, 221, 1);color: #686868;" @click="dialogVisible = false">取消</div>
         <div class="my-sure" @click="sureData">提交</div>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <el-dialog :title="CJGselectValue" :visible.sync="cjgdrawer" width="1100px" class="cjg-dialog">
       <div class="step-list wei-step-list" v-if="CJGselectValue === '保单检视'">
         <div class="item-section">
@@ -799,10 +806,20 @@
                   </el-select>
                 </div>
               </div>
-              <div class="common-select">
+              <!-- <div class="common-select">
                 <div class="select-title " style="width: 0.8rem">共享客户</div>
                 <div class="select-content filContentNoborder   filContBottom" style="width: calc(100% - 0.8rem); margin-right: 0.2rem;">
                   <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
+                </div>
+              </div> -->
+              <!-- multiple -->
+              <div class="common-select">
+                <div class="select-title" style="width: 0.8rem">客户需求</div>
+                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
+                  <el-select class="el-select-inners" v-model="customer_intention" size="mini" collapse-tags placeholder="请选择客户需求" clearable>
+                    <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
+                    </el-option>
+                  </el-select>
                 </div>
               </div>
 
@@ -1168,10 +1185,6 @@ export default {
   border: 1px solid #e1f8f8;
   color: #18a09e;
 }
-
- 
- 
-
 </style>
 
 

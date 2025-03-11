@@ -775,7 +775,7 @@ export default {
 
     // 打开首页聊天记录
     openChatItem(item) {
-      console.log(item)
+ 
 
       this.detailObj = Object.assign({}, item)
       this.activeName = ''
@@ -791,7 +791,7 @@ export default {
     },
     // 打开次页聊天记录
     openChat(item) {
-      console.log(item)
+ 
       // this.detailObj = item
       var copyItem = Object.assign({}, item)
       this.activeName = ''
@@ -807,7 +807,7 @@ export default {
     },
     // 打开群聊天记录
     openQunChat(item) {
-      console.log(item)
+ 
       this.detailObj['qunid'] = item.qunid
       this.detailObj['name'] = item.name
       this.detailObj['activeName'] = 'third'

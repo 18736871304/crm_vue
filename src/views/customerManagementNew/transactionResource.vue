@@ -309,14 +309,15 @@
                 </el-tooltip>
               </p>
             </template>
-
             <template slot-scope="scope">
               <span class="call-a" v-if="scope.row.followupstepname">{{ scope.row.followupstepname }}</span>
               <span class="call-a" v-else>新资源</span>
-
             </template>
-
           </el-table-column>
+
+          <el-table-column key="21" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
+          </el-table-column>
+
           <el-table-column key="7" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="8" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
@@ -795,10 +796,20 @@
                   </el-select>
                 </div>
               </div>
-              <div class="common-select">
+              <!-- <div class="common-select">
                 <div class="select-title " style="width: 0.8rem">共享客户</div>
                 <div class="select-content filContentNoborder filContBottom" style="width: calc(100% - 0.8rem); margin-right: 0.2rem;">
                   <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
+                </div>
+              </div> -->
+
+              <div class="common-select">
+                <div class="select-title" style="width: 0.8rem">客户需求</div>
+                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
+                  <el-select class="el-select-inners" v-model="customer_intention" size="mini" collapse-tags placeholder="请选择客户需求" clearable>
+                    <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
+                    </el-option>
+                  </el-select>
                 </div>
               </div>
 
@@ -1172,6 +1183,8 @@ export default {
       dis_Pz_up: false,
       visit: "",
       returnVisit: "",
+      customerNeedList: [],
+      customer_intention: "",
       sexs: [
         {
           key: "男",
@@ -1360,43 +1373,12 @@ export default {
 
   mounted: function () {
     var _this = this;
+    this.getCustomerIntenList()
     this.getchannelNameList();
     this.tableHeard();
     this.getIsCall();
-    // this.getConditionData();
     this.getTeamList();
-    // this.$nextTick(() => {
-    //   var hotlineStartDate, hotlineEndDate
-    //   if (this.selectTime.length > 0) {
-    //     hotlineStartDate = this.formatDate(this.selectTime[0], "yyyy-MM-dd");
-    //     hotlineEndDate = this.formatDate(this.selectTime[1], "yyyy-MM-dd");
-    //   } else {
-    //     hotlineStartDate = ''
-    //     hotlineEndDate = ''
-    //   }
-    //   let params = {
-    //     hotlineStartDate: hotlineStartDate,
-    //     hotlineEndDate: hotlineEndDate,
-    //     name: this.Salesman,
-    //     userid: '',
-    //     mobile: '',
-    //     wxno: '',
-    //     followupstep: "07",
-    //     pageNumber: this.pageNum,
-    //     pageSize: this.pageSize,
-    //     queryflag: this.queryflagString,
-    //     menutype: "75000000",
-    //     teamid: '',
-    //     ismyUse: true,
-    //     channel: this.channelValue,
-    //     appname: this.appnameValue,
 
-    //     // batchno: this.batchnoValue,
-    //   };
-
-    //   this.getTableData(params); //table数据
-    //   // this.getUserIdData();
-    // });
     var now = new Date(); // 当前日期
     var nowDay = now.getDate(); // 当前日
     var nowMonth = now.getMonth(); // 当前月
@@ -1435,6 +1417,26 @@ export default {
     updateVisibleId(e) {
       this.showEditPopupDialogVisible = e;
     },
+
+    //获取客户需求
+    getCustomerIntenList() {
+      let _this = this;
+      getData(
+        "post",
+        my_url + "/crm/common/getDictList.do",
+        function (data) {
+          ;
+          if (data.code == 0) {
+            _this.customerNeedList = data.dictList;
+          }
+        },
+        {
+          dict_type: "customer_intention",
+        }
+      );
+    },
+
+
     remarktop(data) {
       var _this = this;
 
@@ -1725,7 +1727,7 @@ export default {
     },
     search(page) {
       //查询
-    
+
       let { Salesman, queryflag, mobile, wxno, username, followupstep, sourcelevel, prop, order } = this;
       let hotlineStartDate = "",
         hotlineEndDate = "",
@@ -1946,7 +1948,7 @@ export default {
         } else {
           _this.dis_Pz_up = false;
         }
-     
+
         _this.getUserIdData();
       },
         null
@@ -2048,6 +2050,24 @@ export default {
             } else {
               res.newmobilestr = "sip:0" + res.mobilestr;
             }
+
+            if (res.customer_intention) {
+              var keysArray = res.customer_intention.split(",");
+              var replacedValues = [];
+              var customerNeedList = _this.customerNeedList;
+
+              keysArray.forEach((key) => {
+                var found = customerNeedList.find((item) => item.dd_key === key);
+                if (found) {
+                  replacedValues.push(found.dd_value); // 如果找到，添加到 replacedValues 数组
+                }
+              });
+              res.customer_intentionValue = replacedValues.join("，");
+            }
+
+
+
+
           });
         }
 
@@ -2152,6 +2172,7 @@ export default {
       } else {
         this.delRemark = false;
       }
+      this.customer_intention = row.customer_intention != undefined ? row.customer_intention : "";
 
       row.username = row.username != undefined ? row.username : "无";
       this.returnVisit = row.previstitime != undefined ? row.previstitime : "";
@@ -3336,6 +3357,7 @@ export default {
         mobilecity: this.mobilecity,
         mobilecountry: this.mobilecountry,
         address: this.address,
+        customer_intention: this.customer_intention,
       };
       getData(
         "post",
@@ -3397,23 +3419,7 @@ export default {
     },
   },
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  </script>
+ </script>
   <style src="../../static/css/viewer.min.css"></style>
   <style src="../../static/css/drawer.css"></style>
   <style src="../../static/css/customerManagementNew.css"></style>

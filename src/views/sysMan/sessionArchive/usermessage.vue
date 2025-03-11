@@ -4,7 +4,8 @@
     <div class="staff">
       <header class="headfixed">
         <div style="margin-bottom: 0.1rem;font-size: 0.16rem;">
-          员工 - {{ zaizhiNum.length }} /{{ lizhiNum.length + zaizhiNum.length }}
+          <!-- 员工 - {{  zaizhiNum}} /{{  zaizhiNum  +lizhiNum}} -->
+          员工 - {{ this.zaizhiNum.length }} /{{ this.zaizhiNum.length  +this.lizhiNum.length }}
         </div>
         <div class="select-content" style="margin-bottom: 0.1rem;">
           <el-dropdown trigger="click" style="width: 100%" placement="bottom" ref="disTeam">
@@ -474,7 +475,7 @@ export default {
       teamDataList: [],
       teamid: "",
       scrollHeight: '',
-
+      myList: '',
       // 客户姓名分页
       pageNumber: 1,
       pageSize: 20,
@@ -587,21 +588,18 @@ export default {
   },
 
   watch: {
-
     teamNameList(data) {
-      this.lizhiNum = []
-      this.zaizhiNum = []
-
-    
-      if (data.length > 0) {
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].usertype == 'Y') {
-            this.lizhiNum.push(data[i])
-          } else {
-            this.zaizhiNum.push(data[i])
+        this.lizhiNum = []
+        this.zaizhiNum = []
+        if (data.length > 0) {
+          for (var i = 0; i < data.length; i++) {
+            if (data[i].isdelete == 'Y') {
+              this.lizhiNum.push(data[i])
+            } else {
+              this.zaizhiNum.push(data[i])
+            }
           }
         }
-      }
     },
 
     searchMsgValue(data) {
@@ -942,6 +940,17 @@ export default {
 
     },
 
+    uniqueByQwuserid(arr) {
+      const seen = new Set();
+      return arr.filter(item => {
+        if (!seen.has(item.qwuserid)) {
+          seen.add(item.qwuserid);
+          return true;
+        }
+        return false;
+      });
+    },
+
     // 模糊查询员工
     searchUser(teamid, keyword, pageNumber, pageSize) {
       var _this = this
@@ -953,9 +962,12 @@ export default {
       }
       // api.getNewQwUser(params).then((data) => {//分页
       api.getQwUserList(params).then((data) => {//不分页
-        _this.teamNameList = data.qwUserList;
+        // _this.teamNameList = data.qwUserList;
+
+        _this.teamNameList = this.uniqueByQwuserid(data.qwUserList);
+     
         _this.SalesmanIdBox = [];
-        data.qwUserList.forEach((res) => {
+        _this.teamNameList.forEach((res) => {
           _this.SalesmanIdBox.push({
             value: res.name ? res.name : "空",
             qwuserid: res.qwuserid,
@@ -965,7 +977,7 @@ export default {
             isdelete: res.isdelete
           });
         });
-        _this.selectOneName(data.qwUserList[0], this.tablabel)
+        _this.selectOneName(_this.teamNameList[0], this.tablabel)
       });
     },
 

@@ -207,7 +207,7 @@ export default {
   },
   watch: {
     datas(val) {
-      console.log(val);
+    
       if (val.length > 1) {
         this.editList = val;
 

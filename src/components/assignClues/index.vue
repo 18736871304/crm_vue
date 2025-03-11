@@ -72,7 +72,7 @@ export default {
       // 当计时>=到计时的时候第一轮结束，count重置为0 倒计时也为0 
       // 第二轮开始了  要第一时间判断有没有多的线索 判断是否出现弹窗
       if (that.isSeal == 'Y') {
-        console.log(that.isSeal )
+   
         that.istan = true
         getData("post", my_url + " /crm/auth/isTimeLimit.do", function (data) {
           if (data.code == '0') {
@@ -124,7 +124,6 @@ export default {
       let timer;
       timer = setInterval(() => {
         time--;
-        console.log(time)
         that.jieshutime = time
         if (document.getElementById('timed')) {
           document.getElementById('timed').innerHTML = time;//实现动态渲染

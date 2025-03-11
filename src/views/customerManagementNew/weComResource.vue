@@ -39,12 +39,8 @@
             </div>
           </div>
 
-          <div class="common-select">
-            <div class="select-title filtitle">客户姓名</div>
-            <div class="select-content filContent">
-              <el-input class="el-input-inners" v-model="customerremarkname" size="mini" placeholder="请输入客户姓名" clearable></el-input>
-            </div>
-          </div>
+          <div class="common-select" v-show="dis_P4_up"></div>
+         
 
           <div class="common-select" v-show="dis_P4_up">
             <div class="select-title filtitle">选择团队</div>
@@ -73,6 +69,13 @@
             </div>
           </div>
 
+          <div class="common-select">
+            <div class="select-title filtitle">微信昵称/备注</div>
+            <div class="select-content filContent">
+              <el-input class="el-input-inners" v-model="customerremarkname" size="mini" placeholder="请输入微信昵称/备注" clearable></el-input>
+            </div>
+          </div>
+
           <!-- <div class="common-select" style="display: none;">
             <div class="select-title filtitle">
               <el-select class="el-input-title-inners" v-model="phoneWxno" placeholder="请选择" size="mini">
@@ -91,7 +94,7 @@
               <el-checkbox size="mini" v-model="queryflag">我的客户</el-checkbox>
             </div>
           </div> -->
-          <div class="common-select" v-show="dis_P4_up"></div>
+    
           <div class="common-select" v-show="dis_P4_up"></div>
           <div class="common-select" style="width: 4%">
             <div class="search-box-right">
@@ -350,7 +353,7 @@ export default {
 
     // 打开首页聊天记录
     openChatItem(item) {
-      console.log(item);
+   
       item.qwuserurl = item.photourl;
 
       this.detailObj = Object.assign({}, item);
