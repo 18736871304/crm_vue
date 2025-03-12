@@ -413,6 +413,8 @@ iframe {
   height: 0.3rem;
   width: 2rem;
   border: none;
+  display: flex;
+  align-items: center;
 }
 
 .common-select .searchLeft {

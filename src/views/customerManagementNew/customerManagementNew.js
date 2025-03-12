@@ -7,6 +7,17 @@ let editor4, editor5, editor6, editor7;
 export default {
   data() {
     return {
+      customerIntention: "",
+      channelSourceValue: [],
+      channelSource: [],
+      cascaderProps: {
+        value: "id", // 使用 id 作为值
+        label: "label", // 使用 label 作为显示文本
+        children: "child", // 使用 children 作为子节点
+        // multiple: true,
+        checkStrictly: true,
+      },
+
       from: {
         recorddate: moment().format("YYYY-MM-DD 00:00:00"),
         hotlinecount: "",
@@ -337,6 +348,7 @@ export default {
         hotlineStartDate = "";
         hotlineEndDate = "";
       }
+
       let params = {
         hotlineStartDate: hotlineStartDate,
         hotlineEndDate: hotlineEndDate,
@@ -351,11 +363,19 @@ export default {
         menutype: "75000000",
         teamid: "",
         ismyUse: true,
-        channel: this.channelValue,
-        appname: this.appnameValue,
-
-        // batchno: this.batchnoValue,
+        channel: "",
+        appname: "",
       };
+
+      if (this.channelSourceValue.length == 0) {
+        params.channel = "";
+        params.appname = "";
+      } else if (this.channelSourceValue.length == 1) {
+        params.channel = this.channelSourceValue[0];
+      } else if (this.channelSourceValue.length == 2) {
+        params.channel = this.channelSourceValue[0];
+        params.appname = this.channelSourceValue[1];
+      }
 
       this.getTableData(params); //table数据
       // this.getUserIdData();
@@ -399,9 +419,33 @@ export default {
   },
   computed: {},
   methods: {
+    handleChange(value) {
+      // 如果选中的值是没有子节点的选项，保持当前选中的值
+      const selectedOption = this.findOptionById(this.channelSource, value[value.length - 1]);
+      if (selectedOption && !selectedOption.child) {
+        this.channelSourceValue = value; // 保持当前选中的值
+        if (value.length == 2) {
+          this.channelSourceValue[1] = selectedOption.label;
+        }
+      }
+    },
+    findOptionById(options, id) {
+      for (const option of options) {
+        if (option.id === id) {
+          return option;
+        }
+        if (option.child) {
+          const found = this.findOptionById(option.child, id);
+          if (found) {
+            return found;
+          }
+        }
+      }
+      return null;
+    },
+
     remarktop(data) {
       var _this = this;
-
       getData(
         "post",
         my_url + "/crm/activity/setRemarkTop.do",
@@ -486,97 +530,97 @@ export default {
       );
     },
 
-    sureData() {
-      var _this = this;
-      if (this.from.nocallcentertime > 300 || this.from.nocallcentertime < 0) {
-        _this.$message({
-          showClose: true,
-          message: "非话务时长 0<X<300 ！",
-          duration: 3000,
-          type: "error",
-        });
-        return;
-      }
-      if (isNaN(_this.monthTarget) || isNaN(_this.weekTarget)) {
-        _this.$message({
-          showClose: true,
-          message: "目标标保必须为数值！",
-          duration: 3000,
-          type: "error",
-        });
-        return;
-      }
+    // sureData() {
+    //   var _this = this;
+    //   if (this.from.nocallcentertime > 300 || this.from.nocallcentertime < 0) {
+    //     _this.$message({
+    //       showClose: true,
+    //       message: "非话务时长 0<X<300 ！",
+    //       duration: 3000,
+    //       type: "error",
+    //     });
+    //     return;
+    //   }
+    //   if (isNaN(_this.monthTarget) || isNaN(_this.weekTarget)) {
+    //     _this.$message({
+    //       showClose: true,
+    //       message: "目标标保必须为数值！",
+    //       duration: 3000,
+    //       type: "error",
+    //     });
+    //     return;
+    //   }
 
-      if (_this.monthTarget == "" || _this.weekTarget == "") {
-        _this.$message({
-          showClose: true,
-          message: "目标标保为必填值！",
-          duration: 3000,
-          type: "error",
-        });
-        return;
-      }
+    //   if (_this.monthTarget == "" || _this.weekTarget == "") {
+    //     _this.$message({
+    //       showClose: true,
+    //       message: "目标标保为必填值！",
+    //       duration: 3000,
+    //       type: "error",
+    //     });
+    //     return;
+    //   }
 
-      if (Number(_this.monthTarget) < Number(_this.weekTarget)) {
-        _this.$message({
-          showClose: true,
-          message: "本月目标必须大于本周目标！",
-          duration: 3000,
-          type: "error",
-        });
-        return;
-      }
+    //   if (Number(_this.monthTarget) < Number(_this.weekTarget)) {
+    //     _this.$message({
+    //       showClose: true,
+    //       message: "本月目标必须大于本周目标！",
+    //       duration: 3000,
+    //       type: "error",
+    //     });
+    //     return;
+    //   }
 
-      getData("post", my_url + "/crm/auth/getToken.do", function (data) {
-        if (data.code == 0) {
-          var body = {
-            token: data.token,
-            recorddate: _this.from.recorddate,
-            nocallcentertime: _this.from.nocallcentertime,
-            wxcount: _this.from.wxcount,
-            firstplancount: _this.from.firstplancount,
-            secondplancount: _this.from.secondplancount,
-            claimcount: _this.from.claimcount,
-            tdancount: _this.from.tdancount,
-            daydataserialno: _this.from.daydataserialno,
-            nocallcentertime: _this.from.nocallcentertime,
-            month_fyp_target: _this.monthTarget,
-            week_fyp_target: _this.weekTarget,
-          };
-          getData(
-            "post",
-            crm_url + "insure.meihualife.com/crm_web/dayDataInsert.do",
-            function (data) {
-              if (data.code == "0") {
-                _this.$message({
-                  showClose: true,
-                  message: "修改成功!",
-                  duration: 3000,
-                  type: "success",
-                });
-                _this.dialogVisible = false;
-                _this.from.recorddate = moment().format("YYYY-MM-DD 00:00:00");
-              } else if (data.code == "1") {
-                _this.$message({
-                  showClose: true,
-                  message: data.msg,
-                  duration: 3000,
-                  type: "error",
-                });
-              }
-            },
-            body
-          );
-        } else {
-          _this.$message({
-            showClose: true,
-            message: "缺少token,请联系开发人员",
-            duration: 3000,
-            type: "error",
-          });
-        }
-      });
-    },
+    //   getData("post", my_url + "/crm/auth/getToken.do", function (data) {
+    //     if (data.code == 0) {
+    //       var body = {
+    //         token: data.token,
+    //         recorddate: _this.from.recorddate,
+    //         nocallcentertime: _this.from.nocallcentertime,
+    //         wxcount: _this.from.wxcount,
+    //         firstplancount: _this.from.firstplancount,
+    //         secondplancount: _this.from.secondplancount,
+    //         claimcount: _this.from.claimcount,
+    //         tdancount: _this.from.tdancount,
+    //         daydataserialno: _this.from.daydataserialno,
+    //         nocallcentertime: _this.from.nocallcentertime,
+    //         month_fyp_target: _this.monthTarget,
+    //         week_fyp_target: _this.weekTarget,
+    //       };
+    //       getData(
+    //         "post",
+    //         crm_url + "insure.meihualife.com/crm_web/dayDataInsert.do",
+    //         function (data) {
+    //           if (data.code == "0") {
+    //             _this.$message({
+    //               showClose: true,
+    //               message: "修改成功!",
+    //               duration: 3000,
+    //               type: "success",
+    //             });
+    //             _this.dialogVisible = false;
+    //             _this.from.recorddate = moment().format("YYYY-MM-DD 00:00:00");
+    //           } else if (data.code == "1") {
+    //             _this.$message({
+    //               showClose: true,
+    //               message: data.msg,
+    //               duration: 3000,
+    //               type: "error",
+    //             });
+    //           }
+    //         },
+    //         body
+    //       );
+    //     } else {
+    //       _this.$message({
+    //         showClose: true,
+    //         message: "缺少token,请联系开发人员",
+    //         duration: 3000,
+    //         type: "error",
+    //       });
+    //     }
+    //   });
+    // },
 
     handleClose() {
       this.dialogVisible = false;
@@ -588,7 +632,6 @@ export default {
         "post",
         my_url + "/crm/common/getDictList.do",
         function (data) {
-          ;
           if (data.code == 0) {
             _this.customerNeedList = data.dictList;
           }
@@ -614,6 +657,37 @@ export default {
           dict_type: "source",
         }
       );
+
+      // /crm/activity/getChannelTree.do
+      getData(
+        "post",
+        my_url + "/crm/activity/getChannelTree.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.removeEmptyChildren(data.channelInfo);
+            _this.channelSource = data.channelInfo;
+          }
+        },
+        {
+          dict_type: "source",
+        }
+      );
+    },
+
+    removeEmptyChildren(arr) {
+      arr.forEach((item) => {
+        // 判断是否有 children 属性
+        if (item.child) {
+          // 判断 children 的长度是否为 0
+          if (item.child.length === 0) {
+            // 删除 children 属性
+            delete item.child;
+          } else {
+            // 如果有 children，递归调用以处理子节点
+            this.removeEmptyChildren(item.child);
+          }
+        }
+      });
     },
 
     channelSelect() {
@@ -753,10 +827,20 @@ export default {
         teamid: this.overviewForm.teamid,
         prop: prop,
         order: order,
-
-        channel: this.channelValue,
-        appname: this.appnameValue,
+        customer_intention: this.customerIntention,
+        channel: "",
+        appname: "",
       };
+
+      if (this.channelSourceValue.length == 0) {
+        params.channel = "";
+        params.appname = "";
+      } else if (this.channelSourceValue.length == 1) {
+        params.channel = this.channelSourceValue[0];
+      } else if (this.channelSourceValue.length == 2) {
+        params.channel = this.channelSourceValue[0];
+        params.appname = this.channelSourceValue[1];
+      }
 
       if (params.followupstep == "") {
         params.followupstep = "01,02,03,04,05,99";
@@ -1081,7 +1165,7 @@ export default {
                 var customerNeedList = _this.customerNeedList;
 
                 keysArray.forEach((key) => {
-                  var found = customerNeedList.find((item) => item.dd_key === key);
+                  var found = customerNeedList.find((item) =>  item.dd_key === key);
                   if (found) {
                     replacedValues.push(found.dd_value); // 如果找到，添加到 replacedValues 数组
                   }
@@ -1139,7 +1223,7 @@ export default {
       }
       return theRequest;
     },
-    handleChange(value) {},
+
     formatDate: function (date, format) {
       //格式化时间
       if (!date) return;
@@ -1194,7 +1278,8 @@ export default {
       } else {
         this.delRemark = false;
       }
-        this.customer_intention = row.customer_intention != undefined ? row.customer_intention : "";
+
+      this.customer_intention = row.customer_intention != undefined ? row.customer_intention.split(",") : "";
 
       row.username = row.username != undefined ? row.username : "无";
       this.returnVisit = row.previstitime != undefined ? row.previstitime : "";
@@ -2378,7 +2463,7 @@ export default {
         mobilecity: this.mobilecity,
         mobilecountry: this.mobilecountry,
         address: this.address,
-        customer_intention: this.customer_intention,
+        customer_intention: this.customer_intention.join(","),
       };
       if (this.customer_intention == "") {
         _this.$message({

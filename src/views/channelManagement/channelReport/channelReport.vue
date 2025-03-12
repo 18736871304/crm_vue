@@ -381,7 +381,7 @@ export default {
             pageSize: 20,
             pageNumber: page,
         }
-        console.log(params)
+     
         getData('post', my_url + '/crm/channel/getChannelClientReport.do', function (data) {
             _this.loading = false
             let rows = data.rows

@@ -14,26 +14,12 @@
             </div>
 
             <div class="common-select">
-              <div class="select-title filtitle">渠道类型</div>
+              <div class="select-title filtitle">渠道/来源</div>
               <div class="select-content filContent">
-                <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
-                  <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
-                  </el-option>
-                </el-select>
+                <el-cascader class="el-select-inners" popper-class="cascaderBox" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps" @change="handleChange" :show-all-levels="false" collapse-tags clearable></el-cascader>
               </div>
             </div>
-            <div class="common-select">
-              <div class="select-title filtitle">流量来源</div>
-              <div class="select-content filContent">
-                <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="请选择流量来源" clearable>
-                  <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
-                  </el-option>
-                </el-select>
-              </div>
 
-            </div>
-            <div class="common-select">
-            </div>
             <div class="common-select">
               <div class="select-title filtitle">客户姓名</div>
               <div class="select-content filContent">
@@ -52,8 +38,6 @@
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
-            <div class="common-select"></div>
-            <div class="common-select"></div>
 
             <div class="common-select" style="width: 4%;">
               <div class="search-btn searchLeft" @click="search(1)">搜索</div>
@@ -72,10 +56,7 @@
               </div>
             </div>
 
-
-      
-
-            <div class="common-select">
+            <!-- <div class="common-select">
               <div class="select-title filtitle">渠道类型</div>
               <div class="select-content filContent">
                 <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
@@ -92,9 +73,14 @@
                   </el-option>
                 </el-select>
               </div>
-            </div>
+            </div> -->
 
-            <div class="common-select"></div>
+            <div class="common-select">
+              <div class="select-title filtitle">渠道/来源</div>
+              <div class="select-content filContent">
+                <el-cascader class="el-select-inners" popper-class="cascaderBox" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps" @change="handleChange" :show-all-levels="false" collapse-tags clearable></el-cascader>
+              </div>
+            </div>
 
             <div class="common-select">
               <div class="select-title filtitle">客户姓名</div>
@@ -114,10 +100,6 @@
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
-
-         
-            <div class="common-select"></div>
-            <div class="common-select"></div>
 
             <div class="common-select" style="width: 4%;">
               <div class="search-btn searchLeft" @click="search(1)">搜索</div>
@@ -348,17 +330,17 @@
               <span v-else>****</span>
             </template>
           </el-table-column>
-          <template>
+        
             <el-table-column key="7" prop="followupstepname" align="center" label="跟进步骤" width="110" :show-overflow-tooltip="true">
               <template slot="header">
                 <p class="source-level">跟进步骤
                   <el-tooltip popper-class="atooltip" effect="light" placement="top">
                     <template slot="content">
                       <div>
-                      <p>跟进步骤为“新资源”的线索：</p>
-                      <p>A类将会在线索产生时间7天后自动回收，</p>
-                      <p>A-/B+/B/B-/C/C-类每日回收</p>
-                    </div>
+                        <p>跟进步骤为“新资源”的线索：</p>
+                        <p>A类将会在线索产生时间7天后自动回收，</p>
+                        <p>A-/B+/B/B-/C/C-类每日回收</p>
+                      </div>
 
                     </template>
                     <span></span>
@@ -366,9 +348,14 @@
                 </p>
               </template>
             </el-table-column>
+
+
+            <el-table-column key="18" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
+            </el-table-column>
+
             <el-table-column key="8" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
             </el-table-column>
-          </template>
+     
           <el-table-column key="9" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.shareusername}}</span>
@@ -511,20 +498,14 @@
           </div>
           <div class="condition">
             <div class="clearfix">
-              <div class="common-select">
-                <div class="select-title" style="width: 0.8rem">转其他库</div>
-                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-select class="el-select-inners" v-model="editInfo.otherstore" size="mini" placeholder="" clearable>
-                    <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
-                  </el-select>
-                </div>
-              </div>
-              <div class="common-select">
+
+              <!-- <div class="common-select">
                 <div class="select-title " style="width: 0.8rem">共享客户</div>
                 <div class="select-content filContentNoborder filContBottom" style="width: calc(100% - 0.8rem); margin-right: 0;">
                   <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
                 </div>
-              </div>
+              </div> -->
+
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">跟进步骤</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
@@ -534,6 +515,17 @@
                   </el-select>
                 </div>
               </div>
+
+              <div class="common-select">
+                <div class="select-title" style="width: 0.8rem">客户需求</div>
+                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
+                  <el-select class="el-select-inners" v-model="customer_intention" size="mini" multiple collapse-tags placeholder="请选择客户需求" clearable>
+                    <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
+                    </el-option>
+                  </el-select>
+                </div>
+              </div>
+
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">预约回访</div>
                 <div class="select-content" style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0; border: none">
@@ -541,6 +533,16 @@
                   </el-date-picker>
                 </div>
               </div>
+
+              <div class="common-select">
+                <div class="select-title" style="width: 0.8rem">转其他库</div>
+                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
+                  <el-select class="el-select-inners" v-model="editInfo.otherstore" size="mini" placeholder="" clearable>
+                    <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
+                  </el-select>
+                </div>
+              </div>
+
             </div>
             <div class="condition-bottom" @click="saveRecord" v-show="dis_save">保存</div>
           </div>
@@ -934,6 +936,16 @@ export default {
   // mixins: [publicCustome],
   data() {
     return {
+
+      channelSourceValue: [],
+      channelSource: [],
+      cascaderProps: {
+        value: "id", // 使用 id 作为值
+        label: "label", // 使用 label 作为显示文本
+        children: "child", // 使用 children 作为子节点
+        // multiple: true,
+        checkStrictly: true,
+      },
       dis_Pz_up: false, //资源删除
       channelValue: '', //渠道类型
       sourceValue: '',
@@ -1096,6 +1108,9 @@ export default {
       dis_P4_up: false,
       visit: '',
       returnVisit: '',
+
+      customerNeedList: [],
+      customer_intention: "",
       sexs: [{
         key: '男',
         value: '男'
@@ -1229,6 +1244,7 @@ export default {
   },
 
   mounted: function () {
+    this.getCustomerIntenList()
     this.getchannelNameList();
     this.tableHeard()
     this.getConditionData();
@@ -1277,8 +1293,48 @@ export default {
   },
   methods: {
 
+    handleChange(value) {
+      // 如果选中的值是没有子节点的选项，保持当前选中的值
+      const selectedOption = this.findOptionById(this.channelSource, value[value.length - 1]);
+      if (selectedOption && !selectedOption.child) {
+        this.channelSourceValue = value; // 保持当前选中的值
+        if (value.length == 2) {
+          this.channelSourceValue[1] = selectedOption.label
+        }
+      }
+    },
+    findOptionById(options, id) {
+      for (const option of options) {
+        if (option.id === id) {
+          return option;
+        }
+        if (option.child) {
+          const found = this.findOptionById(option.child, id);
+          if (found) {
+            return found;
+          }
+        }
+      }
+      return null;
+    },
 
-
+    //获取客户需求
+    getCustomerIntenList() {
+      let _this = this;
+      getData(
+        "post",
+        my_url + "/crm/common/getDictList.do",
+        function (data) {
+          ;
+          if (data.code == 0) {
+            _this.customerNeedList = data.dictList;
+          }
+        },
+        {
+          dict_type: "customer_intention",
+        }
+      );
+    },
     //渠道类型
     getchannelNameList() {
       let _this = this;
@@ -1288,6 +1344,35 @@ export default {
         }
       }, {
         dict_type: 'source'
+      });
+      getData(
+        "post",
+        my_url + "/crm/activity/getChannelTree.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.removeEmptyChildren(data.channelInfo);
+            _this.channelSource = data.channelInfo;
+          }
+        },
+        {
+          dict_type: "source",
+        }
+      );
+    },
+
+    removeEmptyChildren(arr) {
+      arr.forEach((item) => {
+        // 判断是否有 children 属性
+        if (item.child) {
+          // 判断 children 的长度是否为 0
+          if (item.child.length === 0) {
+            // 删除 children 属性
+            delete item.child;
+          } else {
+            // 如果有 children，递归调用以处理子节点
+            this.removeEmptyChildren(item.child);
+          }
+        }
       });
     },
 
@@ -1431,18 +1516,28 @@ export default {
         order: order,
         menutype: this.activeName,
         examstate: this.examstate, //审核状态,
-        channel: this.channelValue,
-        appname: this.sourceValue,
-        wxno: this.phonewxno
+
+        wxno: this.phonewxno,
+        channel: '',
+        appname: '',
       };
 
+      if (this.channelSourceValue.length == 0) {
+        params.channel = "";
+        params.appname = "";
+      } else if (this.channelSourceValue.length == 1) {
+        params.channel = this.channelSourceValue[0];
+      } else if (this.channelSourceValue.length == 2) {
+        params.channel = this.channelSourceValue[0];
+        params.appname = this.channelSourceValue[1];
+      }
 
       this.loading = true;
       this.getTableData(params); //table数据
     },
     auditPass() {
       let ids = [];
-      console.log(this.multipleSelection)
+
       var _this = this;
       if (_this.multipleSelection.length == 0) {
         _this.$message.error("请选择审核通过的资源！")
@@ -1476,7 +1571,7 @@ export default {
       })
     },
     auditUnpass() {
-      console.log(this.multipleSelection)
+
       var _this = this;
       var ids = [];
       if (_this.multipleSelection.length == 0) {
@@ -1742,6 +1837,33 @@ export default {
                 res.sourcelevel = 'A-理财'
               }
             }
+
+
+
+            if (res.customer_intention) {
+              var keysArray = res.customer_intention.split(",");
+              var replacedValues = [];
+              var customerNeedList = _this.customerNeedList;
+
+              keysArray.forEach((key) => {
+                var found = customerNeedList.find((item) => item.dd_key === key);
+                if (found) {
+                  replacedValues.push(found.dd_value); // 如果找到，添加到 replacedValues 数组
+                }
+              });
+              res.customer_intentionValue = replacedValues.join("，");
+            }
+
+
+
+
+
+
+
+
+
+
+
           })
         }
 
@@ -1777,7 +1899,7 @@ export default {
       }
       return theRequest;
     },
-    handleChange(value) { },
+
     formatDate: function (date, format) { //格式化时间
       if (!date) return;
       if (!format || typeof (format) != "string") format = "yyyy-MM-dd";
@@ -1820,9 +1942,8 @@ export default {
         this.dis_save = false;
         this.sipmobilestr = 'javascript:void(0);';
       }
-
+      this.customer_intention = row.customer_intention != undefined ? row.customer_intention.split(",") : "";
       row.username = row.username != undefined ? row.username : '无';
-
       this.activitytag = row.activitytag != undefined ? row.activitytag.split(',') : [];
       this.returnVisit = row.previstitime != undefined ? row.previstitime : '';
       this.visit = row.followupstep != undefined ? row.followupstep : '';
@@ -2393,7 +2514,6 @@ export default {
       this.search();
     },
     handleSelectionChange(val) {
-      console.log(val)
       this.multipleSelection = val;
       this.checkedAllNum = val.length;
 
@@ -2828,7 +2948,8 @@ export default {
         mobileprovince: this.mobileprovince,
         mobilecity: this.mobilecity,
         mobilecountry: this.mobilecountry,
-        address: this.address
+        address: this.address,
+        customer_intention: this.customer_intention.join(","),
       };
       getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) {
         _this.followrecord = '';

@@ -26,23 +26,22 @@
           </div>
 
           <div class="common-select">
-            <div class="select-title filtitle">渠道类型</div>
+            <div class="select-title filtitle">客户需求</div>
             <div class="select-content filContent">
-              <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
-                <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
+              <el-select class="el-select-inners" v-model="customerIntention" size="mini" placeholder="请选择跟进步骤" clearable>
+                <el-option v-for="item   in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
                 </el-option>
               </el-select>
             </div>
           </div>
+
           <div class="common-select">
-            <div class="select-title filtitle">流量来源</div>
+            <div class="select-title filtitle">渠道/来源</div>
             <div class="select-content filContent">
-              <el-select class="el-select-inners" v-model="appnameValue" size="mini" placeholder="请选择流量来源" clearable>
-                <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
-                </el-option>
-              </el-select>
+              <el-cascader class="el-select-inners"  popper-class="cascaderBox" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps"   @change="handleChange"  :show-all-levels="false" collapse-tags  clearable></el-cascader>
             </div>
           </div>
+
           <div class="common-select">
           </div>
 
@@ -810,7 +809,7 @@
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">客户需求</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-select class="el-select-inners" v-model="customer_intention" size="mini" collapse-tags placeholder="请选择客户需求" clearable>
+                  <el-select class="el-select-inners" v-model="customer_intention" size="mini"  multiple    collapse-tags placeholder="请选择客户需求" clearable>
                     <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
                     </el-option>
                   </el-select>
@@ -1063,6 +1062,17 @@ export default {
   },
   data() {
     return {
+      customerIntention: "",
+      channelSourceValue: [],
+      channelSource: [],
+      cascaderProps: {
+        value: "id", // 使用 id 作为值
+        label: "label", // 使用 label 作为显示文本
+        children: "child", // 使用 children 作为子节点
+        // multiple: true,
+        checkStrictly: true,
+      },
+
       from: {
         recorddate: moment().format("YYYY-MM-DD 00:00:00"),
         hotlinecount: "",
@@ -1423,6 +1433,41 @@ export default {
   },
   computed: {},
   methods: {
+
+    handleChange(value) {
+      // 如果选中的值是没有子节点的选项，保持当前选中的值
+      const selectedOption = this.findOptionById(this.channelSource, value[value.length - 1]);
+      if (selectedOption && !selectedOption.child) {
+        this.channelSourceValue = value; // 保持当前选中的值
+        if(value.length==2){
+          this.channelSourceValue[1]=selectedOption.label
+        }
+      }
+     
+    },
+    findOptionById(options, id) {
+      for (const option of options) {
+        if (option.id === id) {
+          return option;
+        }
+        if (option.child) {
+          const found = this.findOptionById(option.child, id);
+          if (found) {
+            return found;
+          }
+        }
+      }
+      return null;
+    },
+
+
+
+
+
+
+
+
+
     updateVisibleId(e) {
       this.showEditPopupDialogVisible = e;
     },
@@ -1642,6 +1687,35 @@ export default {
           dict_type: "source",
         }
       );
+
+      getData(
+        "post",
+        my_url + "/crm/activity/getChannelTree.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.removeEmptyChildren(data.channelInfo);
+            _this.channelSource = data.channelInfo;
+          }
+        },
+        {
+          dict_type: "source",
+        }
+      );
+    },
+    removeEmptyChildren(arr) {
+      arr.forEach((item) => {
+        // 判断是否有 children 属性
+        if (item.child) {
+          // 判断 children 的长度是否为 0
+          if (item.child.length === 0) {
+            // 删除 children 属性
+            delete item.child;
+          } else {
+            // 如果有 children，递归调用以处理子节点
+            this.removeEmptyChildren(item.child);
+          }
+        }
+      });
     },
 
     channelSelect() {
@@ -1780,10 +1854,22 @@ export default {
         teamid: this.overviewForm.teamid,
         // prop: prop,
         // order: order,
-
-        channel: this.channelValue,
-        appname: this.appnameValue,
+        customer_intention: this.customerIntention,
+        channel: '',
+        appname: '',
       };
+
+      if (this.channelSourceValue.length == 0) {
+        params.channel = "";
+        params.appname = "";
+      } else if (this.channelSourceValue.length == 1) {
+        params.channel = this.channelSourceValue[0];
+      } else if (this.channelSourceValue.length == 2) {
+        params.channel = this.channelSourceValue[0];
+        params.appname = this.channelSourceValue[1];
+      }
+
+
       this.loading = true;
       this.getTableData(params);
     },
@@ -2159,7 +2245,7 @@ export default {
       }
       return theRequest;
     },
-    handleChange(value) { },
+
     formatDate: function (date, format) {
       //格式化时间
       if (!date) return;
@@ -2214,6 +2300,7 @@ export default {
       } else {
         this.delRemark = false;
       }
+      this.customer_intention = row.customer_intention != undefined ? row.customer_intention.split(",") : "";
 
       row.username = row.username != undefined ? row.username : "无";
       this.returnVisit = row.previstitime != undefined ? row.previstitime : "";
@@ -3397,7 +3484,7 @@ export default {
         mobilecity: this.mobilecity,
         mobilecountry: this.mobilecountry,
         address: this.address,
-        customer_intention: this.customer_intention,
+        customer_intention: this.customer_intention.join(","),
       };
       getData(
         "post",

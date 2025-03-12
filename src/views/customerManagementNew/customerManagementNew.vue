@@ -26,21 +26,19 @@
           </div>
 
           <div class="common-select">
-            <div class="select-title filtitle">渠道类型</div>
+            <div class="select-title filtitle">客户需求</div>
             <div class="select-content filContent">
-              <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
-                <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
+              <el-select class="el-select-inners" v-model="customerIntention" size="mini" placeholder="请选择跟进步骤" clearable>
+                <el-option v-for="item   in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
                 </el-option>
               </el-select>
             </div>
           </div>
+
           <div class="common-select">
-            <div class="select-title filtitle">流量来源</div>
+            <div class="select-title filtitle">渠道/来源</div>
             <div class="select-content filContent">
-              <el-select class="el-select-inners" v-model="appnameValue" size="mini" placeholder="请选择流量来源" clearable>
-                <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
-                </el-option>
-              </el-select>
+              <el-cascader class="el-select-inners" popper-class="cascaderBox" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps" @change="handleChange" :show-all-levels="false" collapse-tags clearable></el-cascader>
             </div>
           </div>
 
@@ -118,28 +116,12 @@
 
       </div>
     </div>
-    <!-- 中间部分内容 -->
-    <!-- <div class="container-middle">
-      <div class="container-middle-one">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane v-for="(item, index) in add_steps" :name="item.dd_key" :key="index">
-            <p slot="label" class="source-level">{{ item.dd_value }}
-              <el-tooltip popper-class="atooltip qq" effect="light" placement="top">
-                <template slot="content">
-                  <p>{{ item.roule }}</p>
-                  <p>{{ item.bignum }}</p>
-                </template>
-                <span></span>
-              </el-tooltip>
-            </p>
-          </el-tab-pane>
-        </el-tabs>
-      </div>
 
-    </div> -->
+
+
+
     <!-- 表格内容 -->
     <div class="container-table">
-
       <!-- 调配资源 -->
       <div class="check-all-box" v-if="isArticle">
         <div>
@@ -323,8 +305,6 @@
             </template>
           </el-table-column>
 
-
-          
           <el-table-column key="20" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
           </el-table-column>
 
@@ -815,8 +795,8 @@
               <!-- multiple -->
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">客户需求</div>
-                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-select class="el-select-inners" v-model="customer_intention" size="mini" collapse-tags placeholder="请选择客户需求" clearable>
+                <div class="select-content cusintention" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
+                  <el-select class="el-select-inners" v-model="customer_intention" size="mini" multiple collapse-tags placeholder="请选择客户需求" clearable>
                     <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
                     </el-option>
                   </el-select>
@@ -1184,6 +1164,12 @@ export default {
   border-radius: 5px 5px 5px 5px;
   border: 1px solid #e1f8f8;
   color: #18a09e;
+}
+
+.cusintention .el-select__tags {
+  width: 105% !important;
+  max-width: 159.531px !important;
+  
 }
 </style>
 

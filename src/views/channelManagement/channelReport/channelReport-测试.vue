@@ -361,7 +361,7 @@ export default {
       let _this = this;
 
       api.getTalkTeamList().then((data) => {
-        console.log(data)
+      
         if (data.code == 0) {
           _this.teamDataList = data.teamList;
           // _this.getHomeKnowledgeList()
@@ -370,11 +370,11 @@ export default {
 
 
       getData("post", my_url + "/crm/auth/getTeamList.do", function (data) {
-        console.log(data.teamList);
+  
         _this.data = data.teamList;
       });
       api.getQwUser().then((data) => {
-        console.log(data)
+    
         _this.nameAllList = data.namelist;
         _this.teamNameList = data.namelist;
         _this.SalesmanIdBox = [];
@@ -395,17 +395,16 @@ export default {
     },
 
     selectName(data, name) {
-      console.log(data, name);
+    
       this.isselect = data;
     },
     selectAllName(data, name) {
-      console.log(data, name);
+    
       this.isAllselect = data;
     },
 
     handleClick(tab, event) {
-      console.log(tab)
-      console.log(tab.$props.label)
+ 
       let _this = this;
       if (tab.$props.label == "员工") {
       }

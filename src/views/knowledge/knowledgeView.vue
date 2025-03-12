@@ -274,7 +274,6 @@ export default {
     },
 
     handleNodeClick(data) {
-      console.log(data);
     },
     checked() {
       this.getCJGList()

@@ -1267,9 +1267,7 @@ export default {
 
 
     testDownLoad(row) {
-      console.log(row.orderid)
-      console.log(row.policyurl)
-
+ 
       getData('post', my_url + '/crm/auth/getToken.do', data => {
         var data = {
           orderid: row.orderid,

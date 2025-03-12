@@ -901,5 +901,10 @@ overflow: hidden;
   line-height: 0.4rem;
 }
 
-
+.cascaderBox .el-cascader-menu__wrap {
+  margin-bottom: 0 !important;
+    margin-right: 0 !important;
+    scrollbar-width: none;
+    overflow: hidden;
+}
 

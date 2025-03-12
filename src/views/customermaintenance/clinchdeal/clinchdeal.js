@@ -341,7 +341,7 @@ export default {
             "post",
             crm_url + "insure.meihualife.com/crm_web/getOnePolicy.do",
             (data) => {
-              console.log(data.rows);
+          
 
               for (var i = 0; i < data.rows.length; i++) {
                 if (data.rows[i].relatoapp == "00") {
@@ -400,7 +400,7 @@ export default {
                       break;
                   }
                 });
-                console.log(this.moreBaodan);
+             
               } else if (data.rows.length == 1) {
                 this.moreBaodan = data.rows;
               } else {
@@ -841,7 +841,7 @@ export default {
             "post",
             crm_url + "insure.meihualife.com/crm_web/getPolicyList_New.do",
             (data) => {
-              console.log(data);
+            
               _this.tableData = data.rows;
               _this.pageTotal = data.total;
               _this.loading = false;
@@ -1457,8 +1457,7 @@ export default {
       }
 
       //手动录入
-      console.log(this.jiaoyan());
-      console.log(this.orderid == "", this.jiaoyan());
+     
       if (this.orderid == "") {
         var jiaoyanTrue = this.jiaoyan();
         if (jiaoyanTrue == true) {
@@ -1619,7 +1618,7 @@ export default {
                   channel: this.channelValue,
                   channelappname: this.sourceValue,
                 };
-                console.log(data);
+             
                 getData(
                   "post",
                   crm_url + "insure.meihualife.com/crm_web/lifePolicyUpdate.do",
@@ -1708,10 +1707,10 @@ export default {
     },
     //查看详情
     showEditPopup(item) {
-      console.log(item);
+ 
       var arr = [];
       arr.push(item);
-      console.log(arr);
+    
 
       getData("post", my_url + "/crm/auth/getToken.do", (data) => {
         if (data.code == 0) {
@@ -1723,7 +1722,7 @@ export default {
             "post",
             crm_url + "insure.meihualife.com/crm_web/getOnePolicy.do",
             (data) => {
-              console.log(data.rows);
+            
               if (data.rows.length > 1) {
                 this.detailObj = data.rows;
               } else {
@@ -1821,7 +1820,7 @@ export default {
     // },
 
     testDownLoad(row) {
-      console.log(row);
+ 
 
       getData("post", my_url + "/crm/auth/getToken.do", (data) => {
         var data = {
@@ -1830,7 +1829,7 @@ export default {
           contno: row.contno,
         };
 
-        console.log(data);
+     
         getData(
           "post",
           crm_url + "insure.meihualife.com/crm_web/policyDownLoad.do",

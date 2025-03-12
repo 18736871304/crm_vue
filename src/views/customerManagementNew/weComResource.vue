@@ -22,25 +22,16 @@
             </div>
           </div>
 
-          <div class="common-select">
-            <div class="select-title filtitle">渠道类型</div>
-            <div class="select-content filContent">
-              <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="请选择渠道类型" clearable>
-                <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key"> </el-option>
-              </el-select>
-            </div>
-          </div>
-          <div class="common-select">
-            <div class="select-title filtitle">流量来源</div>
-            <div class="select-content filContent">
-              <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="请选择流量来源" clearable>
-                <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value"> </el-option>
-              </el-select>
-            </div>
-          </div>
+       
 
+          <div class="common-select">
+            <div class="select-title filtitle">渠道/来源</div>
+            <div class="select-content filContent">
+              <el-cascader class="el-select-inners"  popper-class="cascaderBox" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps" @change="handleChange" :show-all-levels="false" collapse-tags clearable></el-cascader>
+            </div>
+          </div>
           <div class="common-select" v-show="dis_P4_up"></div>
-         
+          <div class="common-select" v-show="dis_P4_up"></div>
 
           <div class="common-select" v-show="dis_P4_up">
             <div class="select-title filtitle">选择团队</div>
@@ -94,7 +85,7 @@
               <el-checkbox size="mini" v-model="queryflag">我的客户</el-checkbox>
             </div>
           </div> -->
-    
+
           <div class="common-select" v-show="dis_P4_up"></div>
           <div class="common-select" style="width: 4%">
             <div class="search-box-right">
@@ -186,6 +177,15 @@ export default {
   },
   data() {
     return {
+      channelSourceValue: [],
+      channelSource: [],
+      cascaderProps: {
+        value: "id", // 使用 id 作为值
+        label: "label", // 使用 label 作为显示文本
+        children: "child", // 使用 children 作为子节点
+        // multiple: true,
+        checkStrictly: true,
+      },
       // 聊天记录
       chatRecord: false,
       detailObj: {},
@@ -349,11 +349,37 @@ export default {
   },
   computed: {},
   methods: {
+
+
+    handleChange(value) {
+      // 如果选中的值是没有子节点的选项，保持当前选中的值
+      const selectedOption = this.findOptionById(this.channelSource, value[value.length - 1]);
+      if (selectedOption && !selectedOption.child) {
+        this.channelSourceValue = value; // 保持当前选中的值
+        if (value.length == 2) {
+          this.channelSourceValue[1] = selectedOption.label
+        }
+      }
+    },
+    findOptionById(options, id) {
+      for (const option of options) {
+        if (option.id === id) {
+          return option;
+        }
+        if (option.child) {
+          const found = this.findOptionById(option.child, id);
+          if (found) {
+            return found;
+          }
+        }
+      }
+      return null;
+    },
     // 聊天记录
 
     // 打开首页聊天记录
     openChatItem(item) {
-   
+
       item.qwuserurl = item.photourl;
 
       this.detailObj = Object.assign({}, item);
@@ -388,7 +414,41 @@ export default {
           dict_type: "source",
         }
       );
+
+
+      getData(
+        "post",
+        my_url + "/crm/activity/getChannelTree.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.removeEmptyChildren(data.channelInfo);
+            _this.channelSource = data.channelInfo;
+          }
+        },
+        {
+          dict_type: "source",
+        }
+      );
     },
+
+    removeEmptyChildren(arr) {
+      arr.forEach((item) => {
+        // 判断是否有 children 属性
+        if (item.child) {
+          // 判断 children 的长度是否为 0
+          if (item.child.length === 0) {
+            // 删除 children 属性
+            delete item.child;
+          } else {
+            // 如果有 children，递归调用以处理子节点
+            this.removeEmptyChildren(item.child);
+          }
+        }
+      });
+    },
+
+
+
     channelSelect() {
       var _this = this;
       this.sourceValue = "";
@@ -433,10 +493,20 @@ export default {
           teamid: that.overviewForm.teamid,
           userid: that.overviewForm.userid, //业务员姓名
           queryflag: that.queryflagString,
-          channel: that.channelValue,
-          appname: that.sourceValue,
           customerremarkname: that.customerremarkname, //客户姓名
+          channel: '',
+          appname: '',
         };
+
+        if (that.channelSourceValue.length == 0) {
+          params.channel = "";
+          params.appname = "";
+        } else if (that.channelSourceValue.length == 1) {
+          params.channel = that.channelSourceValue[0];
+        } else if (that.channelSourceValue.length == 2) {
+          params.channel = that.channelSourceValue[0];
+          params.appname = that.channelSourceValue[1];
+        }
         getData(
           "post",
           crm_url + "insure.meihualife.com/crm_web/getArticleClueList.do",
@@ -903,12 +973,12 @@ export default {
   height: 0.3rem;
   line-height: 0.3rem;
 }
+
 </style>
 
 <style scoped>
-
 .viewer-in {
-    z-index: 9999!important
+  z-index: 9999 !important;
 }
 
 .common-select .filtitle {
@@ -919,6 +989,8 @@ export default {
   height: 0.3rem;
   width: 2rem;
   border: none;
+  display: flex;
+  align-items: center;
 }
 
 .container-search-box .common-select {
