@@ -246,14 +246,14 @@
             :show-overflow-tooltip="true">
           </el-table-column> -->
 
-          <el-table-column key="10" prop="makedate" align="center" label="线索产生时间" width="155"
+          <el-table-column key="10" prop="makedate" align="center" label="线索产生时间" width="160"
             :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="11" prop="firstcalltime" align="center" label="首次拨打时间" width="155"
+          <el-table-column key="11" prop="firstcalltime" align="center" label="首次拨打时间" width="160"
             :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="12" prop="lastcalltime" align="center" label="最新拨打时间" width="155"
+          <el-table-column key="12" prop="lastcalltime" align="center" label="最新拨打时间" width="160"
             :show-overflow-tooltip="true">
           </el-table-column>
 
@@ -261,7 +261,7 @@
             :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column prop="cusdealtime" key="16" align="center" label="客户成交时间" width="155"
+          <el-table-column prop="cusdealtime" key="16" align="center" label="客户成交时间" width="160"
             :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="cusdealperiod" key="17" align="center" label="客户成交周期" width="100"

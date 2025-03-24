@@ -93,9 +93,9 @@
       <el-table :data="tableData" border style="width: 100%" :header-cell-class-name="headerClassName">
         <el-table-column key="1" align="center" type="index" label="序号" width="60">
         </el-table-column>
-        <el-table-column key="2" sortable align="center" prop="makedate" label="新建时间" width="155">
+        <el-table-column key="2" sortable align="center" prop="makedate" label="新建时间" width="160">
         </el-table-column>
-        <el-table-column key="3" sortable align="center" prop="modifydate" label="最后修改时间" width="155">
+        <el-table-column key="3" sortable align="center" prop="modifydate" label="最后修改时间" width="160">
         </el-table-column>
         <el-table-column key="4" align="center" prop="oprname" label="最后修改人员" width="100">
         </el-table-column>

@@ -64,9 +64,19 @@ html {
   overflow-x: hidden;
 }
 
-.menu-common{
-   left: 0;
+.menu-common {
+  left: 0;
 }
 
+.el-tag {
+  font-size: 0.14rem !important;
+}
 
+.el-scrollbar__thumb {
+  background-color: initial !important;
+}
+
+.el-scrollbar__thumb:hover {
+  background-color: initial !important;
+}
 </style>

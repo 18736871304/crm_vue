@@ -50,7 +50,7 @@
         <el-table-column key="2" align="center" type="index" label="序号" width="60">
         </el-table-column>
 
-        <el-table-column key="4" align="center" prop="accepttime" label="出单日期" width="155">
+        <el-table-column key="4" align="center" prop="accepttime" label="出单日期" width="160">
         </el-table-column>
         <el-table-column key="7" align="center" prop="reusername" label="出单业务员" width="100">
         </el-table-column>

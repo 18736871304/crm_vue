@@ -7,6 +7,7 @@ let editor4, editor5, editor6, editor7;
 export default {
   data() {
     return {
+      inteNum: "",
       customerIntention: "",
       channelSourceValue: [],
       channelSource: [],
@@ -398,6 +399,13 @@ export default {
       },
       false
     );
+
+    // 每 5 分钟检查一次数字是否变化
+    this.checkNumberChange = setInterval(this.checkNumber, 1 * 60 * 1000);
+  },
+  beforeDestroy() {
+    // 组件销毁前清除定时器
+    clearInterval(this.checkNumberChange);
   },
   watch: {
     checkedAll: function (n, o) {
@@ -419,7 +427,48 @@ export default {
   },
   computed: {},
   methods: {
-    handleChange(value) {
+    checkNumber() {
+      // 检查当前数字是否与上一个数字不同
+      if (this.inteNum && this.inteNum > 0) {
+        this.$message({
+          showClose: true,
+          message: "昨天的线索，你有" + this.inteNum + "个客户没有添加客户需求，请尽快添加！",
+          duration: 5000,
+          type: "error",
+        });
+      }
+    },
+
+    handleChange(selectedKeys) {
+      if (selectedKeys.length > 0) {
+        // 根据初始化数组对象的顺序对 selectedKeys 进行排序
+        selectedKeys.sort((a, b) => {
+          const indexA = this.customerNeedList.findIndex((item) => item.dd_key === a);
+          const indexB = this.customerNeedList.findIndex((item) => item.dd_key === b);
+          return indexA - indexB; // 按照初始化数组的顺序排序
+        });
+        // 要检查的值数组
+        var exclusive = ["01", "10"];
+        // 检查 selectedKeys 是否包含 value 中的任意一项
+        const containsValue = exclusive.some((val) => selectedKeys.includes(val));
+        this.customerNeedList.forEach((item) => {
+          if (containsValue) {
+            // 如果包含，禁用其他项
+            item.disabled = !selectedKeys.includes(item.dd_key); // 只有在 selectedKeys 中的项不禁用
+          } else {
+            // 如果不包含，禁用 value 中的项
+            item.disabled = exclusive.includes(item.dd_key); // value 中的项禁用
+          }
+        });
+      } else {
+        this.customerNeedList.forEach((item) => {
+          item.disabled = false; // 添加 disabled 属性并设置为 false
+          item.selected = false; // 添加 selected 属性并设置为 false
+        });
+      }
+    },
+
+    channelChange(value) {
       // 如果选中的值是没有子节点的选项，保持当前选中的值
       const selectedOption = this.findOptionById(this.channelSource, value[value.length - 1]);
       if (selectedOption && !selectedOption.child) {
@@ -633,7 +682,14 @@ export default {
         my_url + "/crm/common/getDictList.do",
         function (data) {
           if (data.code == 0) {
-            _this.customerNeedList = data.dictList;
+            var array = data.dictList;
+            // 循环给每个对象添加 disabled 属性
+            array.forEach((item) => {
+              item.disabled = false; // 添加 disabled 属性并设置为 false
+              item.selected = false; // 添加 selected 属性并设置为 false
+            });
+
+            _this.customerNeedList = array;
           }
         },
         {
@@ -831,6 +887,8 @@ export default {
         channel: "",
         appname: "",
       };
+
+      console.log(this.channelSourceValue);
 
       if (this.channelSourceValue.length == 0) {
         params.channel = "";
@@ -1124,13 +1182,18 @@ export default {
     getTableData(params) {
       //table数据
       let _this = this;
-      getData(
-        "post",
-        my_url + "/crm/activity/getActivityList.do",
-        function (data) {
+      getData( "post",  my_url + "/crm/activity/getActivityList.do", function (data) {
           let { rows, total } = data;
           _this.pageTotal = total;
           if (rows) {
+            var inteNum = 0;
+            var inte_Name = [];
+            // 获取今天的日期
+            const today = new Date();
+            const yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1); // 将日期减去 1
+            const yesterdayString = yesterday.toISOString().split("T")[0]; // 格式化为 YYYY-MM-DD
+
             rows.forEach((res) => {
               if (res.channel == "8001") {
                 res["channelname"] = res.channeldetailname;
@@ -1165,14 +1228,32 @@ export default {
                 var customerNeedList = _this.customerNeedList;
 
                 keysArray.forEach((key) => {
-                  var found = customerNeedList.find((item) =>  item.dd_key === key);
+                  var found = customerNeedList.find((item) => item.dd_key === key);
                   if (found) {
                     replacedValues.push(found.dd_value); // 如果找到，添加到 replacedValues 数组
                   }
                 });
                 res.customer_intentionValue = replacedValues.join("，");
               }
+
+              const dateString = res.makedate.split(" ")[0];
+              if (yesterdayString == dateString) {
+                if (!res.customer_intention || res.customer_intention == "") {
+                  inteNum++;
+                  inte_Name.push(res.name);
+                }
+              }
             });
+            var inteName = inte_Name.join("");
+            _this.inteNum = inteNum;
+            if (_this.queryflag && inteNum > 0) {
+              _this.$message({
+                showClose: true,
+                message: "昨天的线索，你有" + inteNum + "个客户没有添加客户需求，请尽快添加！",
+                duration: 10000,
+                type: "error",
+              });
+            }
           }
 
           _this.tableData = rows;
@@ -1256,6 +1337,7 @@ export default {
     },
     //点击客户姓名 展示详细信息
     handle(row) {
+      console.log(row)
       let _this = this;
       this.drawer = true;
       this.cjgList = [];
@@ -1280,7 +1362,7 @@ export default {
       }
 
       this.customer_intention = row.customer_intention != undefined ? row.customer_intention.split(",") : "";
-
+      this.handleChange(this.customer_intention);
       row.username = row.username != undefined ? row.username : "无";
       this.returnVisit = row.previstitime != undefined ? row.previstitime : "";
       this.visit = row.followupstep != undefined ? row.followupstep : "";
@@ -1303,7 +1385,6 @@ export default {
       this.vacantnumberActived = row.isvacantnumber != undefined ? row.isvacantnumber === "Y" : "";
       this.activitytags = this.customers;
       this.detailsInfo = row;
-      this.mobilestr = row.mobilestr;
       this.getReleaseData(); //发布的列表
       this.getCallData();
       this.getmobileList(row.activityserialno);
@@ -1320,7 +1401,7 @@ export default {
         this.detailsInfo.wxno = row.wxno;
         this.detailsInfo.wxnostr = row.wxnostr;
       } else if (this.queryflagString == "02") {
-        this.detailsInfo.mobilestr = row.mobilestr;
+        this.detailsInfo.mobilestr = row.mobile;
         this.detailsInfo.wxnostr = row.wxnostr;
       }
 

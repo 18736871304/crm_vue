@@ -137,7 +137,7 @@
       <div class="check-all-table">
         <el-table :data="ArticleData" class="Article" border v-loading="loading" style="width: 100%">
           <el-table-column key="1" type="selection" width="40"> </el-table-column>
-          <el-table-column key="2" prop="makedate" label="线索产生时间" width="155" align="center"> </el-table-column>
+          <el-table-column key="2" prop="makedate" label="线索产生时间" width="160" align="center"> </el-table-column>
           <el-table-column key="3" prop="username" label="所属业务员" :show-overflow-tooltip="true" width="100" align="center"> </el-table-column>
           <el-table-column key="4" prop="customername" label="客户微信昵称" :show-overflow-tooltip="true" width="180" align="center"> </el-table-column>
           <el-table-column key="5" prop="customerremarkname" label="客户微信备注" :show-overflow-tooltip="true" width="180" align="center"> </el-table-column>

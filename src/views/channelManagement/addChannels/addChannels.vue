@@ -55,7 +55,7 @@
         <el-table class="splice-header" :data="tableData" border style="width: 100%" v-loading="loading" @selection-change="handleSelectionChange" @sort-change="sortChange">
             <el-table-column align="center" key="2" type="index" label="序号">
             </el-table-column>
-            <el-table-column align="center" key="3" prop="makedate" label="创建时间" width="155">
+            <el-table-column align="center" key="3" prop="makedate" label="创建时间" width="160">
             </el-table-column>
             <el-table-column align="center" key="4" prop="oprname" label="创建人" width="100">
             </el-table-column>

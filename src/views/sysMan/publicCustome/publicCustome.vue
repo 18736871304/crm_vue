@@ -362,26 +362,26 @@
               </p>
             </template>
           </el-table-column>
-          <el-table-column key="12" v-if="activeName != '00000005'&&activeName != '00000007' && inputUserform1.includes('menudate')" prop="menudate" align="center" label="线索入库时间" width="155" :show-overflow-tooltip="true" sortable="custom">
+          <el-table-column key="12" v-if="activeName != '00000005'&&activeName != '00000007' && inputUserform1.includes('menudate')" prop="menudate" align="center" label="线索入库时间" width="160" :show-overflow-tooltip="true" sortable="custom">
           </el-table-column>
 
-          <el-table-column key="13" v-if="inputUserform1.includes('makedate')" prop="makedate" align="center" label="线索产生时间" width="155" :show-overflow-tooltip="true" sortable="custom">
+          <el-table-column key="13" v-if="inputUserform1.includes('makedate')" prop="makedate" align="center" label="线索产生时间" width="160" :show-overflow-tooltip="true" sortable="custom">
           </el-table-column>
 
           <template v-if="activeName != '00000005' && activeName != '00000007' && inputUserform1.includes('firstcalltime')">
-            <el-table-column key="14" prop="firstcalltime" align="center" label="首次拨打时间" :show-overflow-tooltip="true" width="155" sortable="custom">
+            <el-table-column key="14" prop="firstcalltime" align="center" label="首次拨打时间" :show-overflow-tooltip="true" width="160" sortable="custom">
             </el-table-column>
           </template>
-          <el-table-column key="15" v-if="inputUserform1.includes('lastcalltime')" prop="lastcalltime" align="center" label="最新拨打时间" :show-overflow-tooltip="true" width="155" sortable="custom">
+          <el-table-column key="15" v-if="inputUserform1.includes('lastcalltime')" prop="lastcalltime" align="center" label="最新拨打时间" :show-overflow-tooltip="true" width="160" sortable="custom">
           </el-table-column>
 
-          <el-table-column key="16" v-if="activeName == '00000005'||activeName == '00000007'" prop="distributedate" align="center" label="最新分配时间" :show-overflow-tooltip="true" sortable="custom" width="155">
+          <el-table-column key="16" v-if="activeName == '00000005'||activeName == '00000007'" prop="distributedate" align="center" label="最新分配时间" :show-overflow-tooltip="true" sortable="custom" width="160">
           </el-table-column>
 
           <el-table-column key="17" v-if="inputUserform1.includes('batchno')" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
           </el-table-column>
 
-          <el-table-column key="18" v-if="activeName == '00000006' && inputUserform1.includes('cusdealtime') " prop="cusdealtime" align="center" label="客户成交时间" width="155" :show-overflow-tooltip="true" sortable="custom">
+          <el-table-column key="18" v-if="activeName == '00000006' && inputUserform1.includes('cusdealtime') " prop="cusdealtime" align="center" label="客户成交时间" width="160" :show-overflow-tooltip="true" sortable="custom">
           </el-table-column>
           <el-table-column key="19" v-if="activeName == '00000006' && inputUserform1.includes('cusdealperiod')" prop="cusdealperiod" align="center" label="客户成交周期" width="100" :show-overflow-tooltip="true">
           </el-table-column>

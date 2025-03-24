@@ -129,9 +129,9 @@
         </el-table-column>
         <el-table-column key="8" align="center" prop="followupstepname" label="跟进步骤" width="100">
         </el-table-column>
-        <el-table-column key="9" align="center" prop="addtimestr" label="添加时间" width="155">
+        <el-table-column key="9" align="center" prop="addtimestr" label="添加时间" width="160">
         </el-table-column>
-        <el-table-column key="10" align="center" prop="customerMobile" label="电话号码" width="155">
+        <el-table-column key="10" align="center" prop="customerMobile" label="电话号码" width="160">
         </el-table-column>
         <el-table-column key="11" align="center" prop="channelname" label="渠道类型" width="80" :show-overflow-tooltip="true">
         </el-table-column>
@@ -183,9 +183,9 @@
                     </el-table-column>
                     <el-table-column key="3" align="center" prop="" label="个人标签" width="160" :show-overflow-tooltip="true">
                     </el-table-column>
-                    <el-table-column key="4" align="center" prop="addtimestr" label="添加时间" width="155" :show-overflow-tooltip="true">
+                    <el-table-column key="4" align="center" prop="addtimestr" label="添加时间" width="160" :show-overflow-tooltip="true">
                     </el-table-column>
-                    <el-table-column key="5" align="center" prop="lastmsgtime" label="最近沟通时间" width="155" :show-overflow-tooltip="true">
+                    <el-table-column key="5" align="center" prop="lastmsgtime" label="最近沟通时间" width="160" :show-overflow-tooltip="true">
                     </el-table-column>
                     <el-table-column key="6" align="center" label="操作" width="auto">
                       <template slot-scope="scope">
@@ -242,9 +242,9 @@
                     </el-table-column>
                     <el-table-column key="2" align="center" prop="ownername" label="群主" width="120">
                     </el-table-column>
-                    <el-table-column key="4" align="center" prop="addtimestr" label="添加时间" width="155" :show-overflow-tooltip="true">
+                    <el-table-column key="4" align="center" prop="addtimestr" label="添加时间" width="160" :show-overflow-tooltip="true">
                     </el-table-column>
-                    <el-table-column key="5" align="center" prop="lastmsgtime" label="最近沟通时间" width="155" :show-overflow-tooltip="true">
+                    <el-table-column key="5" align="center" prop="lastmsgtime" label="最近沟通时间" width="160" :show-overflow-tooltip="true">
                     </el-table-column>
                     <el-table-column key="6" align="center" label="操作" width="160">
                       <template slot-scope="scope">

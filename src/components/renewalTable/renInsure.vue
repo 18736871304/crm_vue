@@ -15,11 +15,11 @@
           <!-- {{ scope.row.restatename }} -->
         </template>
       </el-table-column>
-      <el-table-column key="3" align="center" prop="renewtime" label="应收日期" width="155" :show-overflow-tooltip="true">
+      <el-table-column key="3" align="center" prop="renewtime" label="应收日期" width="160" :show-overflow-tooltip="true">
       </el-table-column>
       <el-table-column key="4" align="center" prop="prem" label="应收保费" width="80" :show-overflow-tooltip="true">
       </el-table-column>
-      <el-table-column key="5" align="center" prop="renewpaytime" label="实收日期" width="155" :show-overflow-tooltip="true">
+      <el-table-column key="5" align="center" prop="renewpaytime" label="实收日期" width="160" :show-overflow-tooltip="true">
         <!-- renewpaytime -->
       </el-table-column>
       <el-table-column key="6" align="center" prop="actualprem" label="实收保费" width="80" :show-overflow-tooltip="true">

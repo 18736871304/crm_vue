@@ -38,7 +38,7 @@
           <div class="common-select">
             <div class="select-title filtitle">渠道/来源</div>
             <div class="select-content filContent">
-              <el-cascader class="el-select-inners"  popper-class="cascaderBox" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps"   @change="handleChange"  :show-all-levels="false" collapse-tags  clearable></el-cascader>
+              <el-cascader class="el-select-inners"  popper-class="cascaderBox" @change="channelChange"  v-model="channelSourceValue" :options="channelSource" :props="cascaderProps"   :show-all-levels="false" collapse-tags  clearable></el-cascader>
             </div>
           </div>
 
@@ -321,6 +321,17 @@
           </el-table-column>
 
           <el-table-column key="21" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
+            <template slot="header">
+              <p class="source-level">客户需求
+                <el-tooltip popper-class="atooltip" effect="light" placement="top">
+                  <template slot="content">
+                    <p>1. 未知需求/联系不到不得和其他需求重复</p>
+                    <p>2. 不需要不得和其他需求重复</p>
+                  </template>
+                  <span></span>
+                </el-tooltip>
+              </p>
+            </template>
           </el-table-column>
 
           <el-table-column key="7" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
@@ -352,7 +363,7 @@
               </p>
             </template>
           </el-table-column>
-          <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="155" :show-overflow-tooltip="true">
+          <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="160" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="12" v-if="dis_P4_up" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
           </el-table-column>
@@ -809,8 +820,8 @@
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">客户需求</div>
                 <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-select class="el-select-inners" v-model="customer_intention" size="mini"  multiple    collapse-tags placeholder="请选择客户需求" clearable>
-                    <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
+                  <el-select class="el-select-inners" @change="handleChange" v-model="customer_intention" size="mini"  multiple    collapse-tags placeholder="请选择客户需求" clearable>
+                    <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"  :disabled="item.disabled">
                     </el-option>
                   </el-select>
                 </div>
@@ -1434,16 +1445,46 @@ export default {
   computed: {},
   methods: {
 
-    handleChange(value) {
+    handleChange(selectedKeys) {
+      if (selectedKeys.length > 0) {
+        // 根据初始化数组对象的顺序对 selectedKeys 进行排序
+        selectedKeys.sort((a, b) => {
+          const indexA = this.customerNeedList.findIndex((item) => item.dd_key === a);
+          const indexB = this.customerNeedList.findIndex((item) => item.dd_key === b);
+          return indexA - indexB; // 按照初始化数组的顺序排序
+        });
+        // 要检查的值数组
+        var exclusive = ["01", "10"];
+        // 检查 selectedKeys 是否包含 value 中的任意一项
+        const containsValue = exclusive.some((val) => selectedKeys.includes(val));
+        this.customerNeedList.forEach((item) => {
+          if (containsValue) {
+            // 如果包含，禁用其他项
+            item.disabled = !selectedKeys.includes(item.dd_key); // 只有在 selectedKeys 中的项不禁用
+          } else {
+            // 如果不包含，禁用 value 中的项
+            item.disabled = exclusive.includes(item.dd_key); // value 中的项禁用
+          }
+        });
+      } else {
+        this.customerNeedList.forEach((item) => {
+          item.disabled = false; // 添加 disabled 属性并设置为 false
+          item.selected = false; // 添加 selected 属性并设置为 false
+        });
+      }
+    },
+
+
+
+    channelChange(value) {
       // 如果选中的值是没有子节点的选项，保持当前选中的值
       const selectedOption = this.findOptionById(this.channelSource, value[value.length - 1]);
       if (selectedOption && !selectedOption.child) {
         this.channelSourceValue = value; // 保持当前选中的值
-        if(value.length==2){
-          this.channelSourceValue[1]=selectedOption.label
+        if (value.length == 2) {
+          this.channelSourceValue[1] = selectedOption.label;
         }
       }
-     
     },
     findOptionById(options, id) {
       for (const option of options) {
@@ -1459,10 +1500,6 @@ export default {
       }
       return null;
     },
-
-
-
-
 
 
 
@@ -2301,7 +2338,7 @@ export default {
         this.delRemark = false;
       }
       this.customer_intention = row.customer_intention != undefined ? row.customer_intention.split(",") : "";
-
+      this.handleChange(this.customer_intention);
       row.username = row.username != undefined ? row.username : "无";
       this.returnVisit = row.previstitime != undefined ? row.previstitime : "";
       this.visit = row.followupstep != undefined ? row.followupstep : "";

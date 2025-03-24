@@ -99,7 +99,7 @@
 
         <el-table-column key="8" align="center" prop="sex" label="性别" width="80">
         </el-table-column>
-        <el-table-column key="33" v-if="CJGselectValue == '生日保单'" align="center" prop="birthday" label="客户生日" width="155">
+        <el-table-column key="33" v-if="CJGselectValue == '生日保单'" align="center" prop="birthday" label="客户生日" width="160">
         </el-table-column>
         <el-table-column key="9" v-if="CJGselectValue == '服务客户'" align="center" prop="age" label="年龄" width="80" :show-overflow-tooltip="true">
         </el-table-column>
@@ -107,9 +107,9 @@
         </el-table-column>
         <el-table-column key="11" align="center" prop="sumpolicyprem" label="总保费" width="80">
         </el-table-column>
-        <el-table-column key="12" align="center" prop="makedate" label="线索产生时间" width="155" :show-overflow-tooltip="true">
+        <el-table-column key="12" align="center" prop="makedate" label="线索产生时间" width="160" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="34" align="center" prop="cusdealtime" label="客户成交时间" width="155" :show-overflow-tooltip="true">
+        <el-table-column key="34" align="center" prop="cusdealtime" label="客户成交时间" width="160" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="35" align="center" prop="cusdealperiod" label="客户成交周期" width="100" :show-overflow-tooltip="true">
         </el-table-column>
@@ -123,7 +123,7 @@
       <el-table v-if="CJGselectValue == '失效保单' || CJGselectValue == '终止保单'" :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%;" @selection-change="handleSelectionChange" @sort-change="sortChange" class="splice-header">
         <el-table-column key="61" align="center" type="index" label="序号" width="60">
         </el-table-column>
-        <el-table-column key="15" align="center" prop="accepttime" label="出单日期" width="155" :show-overflow-tooltip="true">
+        <el-table-column key="15" align="center" prop="accepttime" label="出单日期" width="160" :show-overflow-tooltip="true">
         </el-table-column>
 
         <el-table-column key="16" align="center" prop="reusername" label="出单业务员" width="100" :show-overflow-tooltip="true">

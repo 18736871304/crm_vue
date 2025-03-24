@@ -40,7 +40,7 @@
       <el-table :data="tableData" border style="width: 100%">
         <el-table-column align="center" type="index" label="序号">
         </el-table-column>
-        <el-table-column align="center" sortable prop="createtime" label="公告时间" width="155">
+        <el-table-column align="center" sortable prop="createtime" label="公告时间" width="160">
         </el-table-column>
         <el-table-column align="center" prop="oprname" label="创建人" width="120px">
         </el-table-column>

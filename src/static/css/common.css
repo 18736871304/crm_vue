@@ -228,7 +228,7 @@ iframe {
 }
 
 .el-select-dropdown .el-select-dropdown__item {
-  font-size: 0.12rem;
+  font-size: 0.14rem;
 }
 
 .el-select-dropdown .el-select-dropdown__item.selected {
@@ -387,7 +387,6 @@ iframe {
   height: 0.28rem;
   line-height: 0.28rem;
   font-weight: 500;
-  /* font-size: 13px; */
   color: rgba(151, 151, 151, 1);
   background-color: transparent;
   border: 0;
@@ -674,7 +673,7 @@ iframe {
 
 .el-table tr td {
   padding: 0 !important;
-  font-size: 0.13rem !important;
+  font-size: 0.14rem !important;
   color: #8f9198;
 }
 

@@ -47,10 +47,10 @@
       <el-table :data="tableData" border style="width: 100%" :header-cell-class-name="headerClassName" v-loading="loading">
         <el-table-column key="1" align="center" type="index" label="序号" width="60">
         </el-table-column>
-        <el-table-column key="2" align="center" prop="publishtime" label="发布时间" width="155" :show-overflow-tooltip="true">
+        <el-table-column key="2" align="center" prop="publishtime" label="发布时间" width="160" :show-overflow-tooltip="true">
         </el-table-column>
 
-        <el-table-column key="3" align="center" prop="updatetime" label="修改时间" width="155" :show-overflow-tooltip="true">
+        <el-table-column key="3" align="center" prop="updatetime" label="修改时间" width="160" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="4" align="center" prop="oprname" label="修改人" width="100" :show-overflow-tooltip="true">
         </el-table-column>
@@ -59,7 +59,7 @@
         </el-table-column>
         <el-table-column key="6" align="left" prop="title" label="文章标题" width="auto" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column key="7" align="center" prop="seotitle" label="SEO标题" width="155" :show-overflow-tooltip="true">
+        <el-table-column key="7" align="center" prop="seotitle" label="SEO标题" width="160" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="8" align="center" prop="seokeywords" label="SEO关键词" width="100" :show-overflow-tooltip="true">
         </el-table-column>

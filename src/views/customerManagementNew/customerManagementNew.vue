@@ -38,7 +38,7 @@
           <div class="common-select">
             <div class="select-title filtitle">渠道/来源</div>
             <div class="select-content filContent">
-              <el-cascader class="el-select-inners" popper-class="cascaderBox" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps" @change="handleChange" :show-all-levels="false" collapse-tags clearable></el-cascader>
+              <el-cascader class="el-select-inners" popper-class="cascaderBox" @change="channelChange"  v-model="channelSourceValue" :options="channelSource" :props="cascaderProps"  :show-all-levels="false" collapse-tags clearable></el-cascader>
             </div>
           </div>
 
@@ -306,6 +306,17 @@
           </el-table-column>
 
           <el-table-column key="20" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
+            <template slot="header">
+              <p class="source-level">客户需求
+                <el-tooltip popper-class="atooltip" effect="light" placement="top">
+                  <template slot="content">
+                    <p>1. 未知需求/联系不到不得和其他需求重复</p>
+                    <p>2. 不需要不得和其他需求重复</p>
+                  </template>
+                  <span></span>
+                </el-tooltip>
+              </p>
+            </template>
           </el-table-column>
 
           <el-table-column key="7" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
@@ -337,9 +348,9 @@
               </p>
             </template>
           </el-table-column>
-          <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="155" :show-overflow-tooltip="true">
+          <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="160" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="19" prop="lastcalltime" align="center" label="最后一次拨打时间" width="155" :show-overflow-tooltip="true">
+          <el-table-column key="19" prop="lastcalltime" align="center" label="最后一次拨打时间" width="160" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="12" v-if="dis_P4_up" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
           </el-table-column>
@@ -726,10 +737,10 @@
                     </el-input>
 
                     <div class="mobile_input_box" v-show="mobileInputShow">
-                      <span class="mobile_input mobile_input_add" @click="mobileAdd">添加</span>
+                      <span class="mobile_input mobile_input_add"       @click="mobileAdd">添加</span>
                       <span class="mobile_input mobile_input_cancle" @click="mobileCancle">取消</span>
                     </div>
-                    <el-table :data="mobileList" class="mobile_box">
+                    <el-table :data="mobileList" class="mobile_box"  v-show="queryflag" >
                       <el-table-column width="130" property="phone" label="电话"></el-table-column>
                       <el-table-column width="70" label="操作" align="right">
                         <template slot-scope="scope">
@@ -775,7 +786,7 @@
             </div>
           </div>
           <div class="condition">
-            <div class="clearfix">
+            <div class="clearfix" style="margin-bottom: 0.2rem;">
 
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">跟进步骤</div>
@@ -796,8 +807,8 @@
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">客户需求</div>
                 <div class="select-content cusintention" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-select class="el-select-inners" v-model="customer_intention" size="mini" multiple collapse-tags placeholder="请选择客户需求" clearable>
-                    <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
+                  <el-select class="el-select-inners" @change="handleChange"   v-model="customer_intention" size="mini" multiple collapse-tags placeholder="请选择客户需求" clearable>
+                    <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"    :disabled="item.disabled">
                     </el-option>
                   </el-select>
                 </div>
@@ -821,7 +832,7 @@
               </div>
 
             </div>
-            <div class="condition-bottom" @click="saveRecord">保存</div>
+            <div class="condition-bottom" v-show="queryflag"    @click="saveRecord">保存</div>
           </div>
 
           <div class="adInformation" style="height: 1.5rem">

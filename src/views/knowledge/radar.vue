@@ -96,7 +96,7 @@
 
       <div class="teamMain table-box" :class="activeName=='01'?'teamMain table-box':'teamMain table-box activeName' ">
         <el-table :data="speechList" border style="width: 100%" v-loading="searchloading">
-          <el-table-column key="2" align="center" label="雷达内容" width="auto">
+          <el-table-column key="2" align="center" label="雷达内容" width="440">
             <template slot-scope="scope">
               <!-- {{ scope.row }} -->
               <div class='img_text'>
@@ -1967,6 +1967,7 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+  line-height: 0.2rem;
 }
 
 .listMainbox .el-textarea .el-textarea__inner {
