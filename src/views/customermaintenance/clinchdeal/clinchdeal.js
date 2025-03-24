@@ -341,8 +341,6 @@ export default {
             "post",
             crm_url + "insure.meihualife.com/crm_web/getOnePolicy.do",
             (data) => {
-          
-
               for (var i = 0; i < data.rows.length; i++) {
                 if (data.rows[i].relatoapp == "00") {
                   this.inpeople = "是";
@@ -400,7 +398,6 @@ export default {
                       break;
                   }
                 });
-             
               } else if (data.rows.length == 1) {
                 this.moreBaodan = data.rows;
               } else {
@@ -841,7 +838,6 @@ export default {
             "post",
             crm_url + "insure.meihualife.com/crm_web/getPolicyList_New.do",
             (data) => {
-            
               _this.tableData = data.rows;
               _this.pageTotal = data.total;
               _this.loading = false;
@@ -1457,7 +1453,7 @@ export default {
       }
 
       //手动录入
-     
+
       if (this.orderid == "") {
         var jiaoyanTrue = this.jiaoyan();
         if (jiaoyanTrue == true) {
@@ -1618,7 +1614,7 @@ export default {
                   channel: this.channelValue,
                   channelappname: this.sourceValue,
                 };
-             
+
                 getData(
                   "post",
                   crm_url + "insure.meihualife.com/crm_web/lifePolicyUpdate.do",
@@ -1707,10 +1703,8 @@ export default {
     },
     //查看详情
     showEditPopup(item) {
- 
       var arr = [];
       arr.push(item);
-    
 
       getData("post", my_url + "/crm/auth/getToken.do", (data) => {
         if (data.code == 0) {
@@ -1722,7 +1716,6 @@ export default {
             "post",
             crm_url + "insure.meihualife.com/crm_web/getOnePolicy.do",
             (data) => {
-            
               if (data.rows.length > 1) {
                 this.detailObj = data.rows;
               } else {
@@ -1820,8 +1813,6 @@ export default {
     // },
 
     testDownLoad(row) {
- 
-
       getData("post", my_url + "/crm/auth/getToken.do", (data) => {
         var data = {
           orderid: row.orderid,
@@ -1829,7 +1820,6 @@ export default {
           contno: row.contno,
         };
 
-     
         getData(
           "post",
           crm_url + "insure.meihualife.com/crm_web/policyDownLoad.do",
@@ -1837,7 +1827,13 @@ export default {
             if (res.code == "0" && res.policyUrl && res.policyUrl != "") {
               let a = document.createElement("a");
               a.target = "_blank";
-              a.href = res.policyUrl;
+              var policyUrl =res.policyUrl
+              // 判断是否包含 "/temp" 并进行替换
+              if (policyUrl.includes("/temp")) {
+                policyUrl = policyUrl.replace("/temp", "/policypdf");
+              }
+
+              a.href = crm_url + "insure.meihualife.com/"+ policyUrl;
               a.click();
             } else {
               let a = document.createElement("a");
