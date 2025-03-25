@@ -1828,7 +1828,18 @@ export default {
               let a = document.createElement("a");
               a.target = "_blank";
               var policyUrl =res.policyUrl
-              a.href = crm_url + "insure.meihualife.com/"+ policyUrl;
+          
+
+              // 判断字符串是否以 "https:" 开头
+              if (policyUrl.startsWith("https:") || policyUrl.startsWith("http:")) {
+                a.href =  policyUrl;
+              } else {
+                a.href = crm_url + "insure.meihualife.com/"+ policyUrl;
+              }
+
+
+
+             
               a.click();
             } else {
               let a = document.createElement("a");
