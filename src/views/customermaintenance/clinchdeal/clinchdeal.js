@@ -1828,11 +1828,6 @@ export default {
               let a = document.createElement("a");
               a.target = "_blank";
               var policyUrl =res.policyUrl
-              // 判断是否包含 "/temp" 并进行替换
-              if (policyUrl.includes("/temp")) {
-                policyUrl = policyUrl.replace("/temp", "/policypdf");
-              }
-
               a.href = crm_url + "insure.meihualife.com/"+ policyUrl;
               a.click();
             } else {
