@@ -1182,7 +1182,10 @@ export default {
     getTableData(params) {
       //table数据
       let _this = this;
-      getData( "post",  my_url + "/crm/activity/getActivityList.do", function (data) {
+      getData(
+        "post",
+        my_url + "/crm/activity/getActivityList.do",
+        function (data) {
           let { rows, total } = data;
           _this.pageTotal = total;
           if (rows) {
@@ -1337,7 +1340,7 @@ export default {
     },
     //点击客户姓名 展示详细信息
     handle(row) {
-      console.log(row)
+      console.log(row);
       let _this = this;
       this.drawer = true;
       this.cjgList = [];
@@ -1365,7 +1368,7 @@ export default {
       this.handleChange(this.customer_intention);
       row.username = row.username != undefined ? row.username : "无";
       this.returnVisit = row.previstitime != undefined ? row.previstitime : "";
-      this.visit = row.followupstep != undefined ? row.followupstep : "";
+      this.visit = row.followupstep != undefined ? row.followupstep : "99";
       this.wxno = row.wxno != undefined ? row.wxno : "";
       this.wxnostr = row.wxnostr != undefined ? row.wxnostr : "";
       this.age = row.age != undefined ? row.age : "";
@@ -2555,6 +2558,15 @@ export default {
         });
         loading.close();
         return;
+      }
+
+      if (params.followupstep == "" || params.followupstep == undefined) {
+        _this.$message({
+          showClose: true,
+          message: "请先填写跟进步骤后再保存！",
+          duration: 3000,
+          type: "error",
+        });
       }
 
       getData(
