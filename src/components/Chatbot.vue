@@ -13,6 +13,9 @@
         </div>
       </div>
     </div>
+
+
+    
     <div class="chat-gpt-right" v-if="currentChat !== null">
       <!-- <div class="input-area-tit">我是美华基于人工智能技术的智能客服机器人，可以进行自然语言交互，提供保险智能问答、自动学习、自动聊天等功能。</div> -->
       <div class="chat-area" ref="scrollContainer">
@@ -42,6 +45,9 @@
 
       </div>
     </div>
+
+
+
     <div class="chat-gpt-right" v-else>
       <div>
         <p>请选择一个聊天</p>

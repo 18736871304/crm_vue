@@ -2567,6 +2567,8 @@ export default {
           duration: 3000,
           type: "error",
         });
+        loading.close();
+        return;
       }
 
       getData(
