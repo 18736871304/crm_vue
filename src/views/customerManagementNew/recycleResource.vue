@@ -275,9 +275,12 @@
         <el-table v-if="isArticle" :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange">
           <el-table-column key="1" type="selection" width="40">
           </el-table-column>
-          <el-table-column key="2" type="index" label="序号" align="center" width="60">
+          <el-table-column key="2" type="index"  fixed="left"  label="序号" align="center" width="60">
           </el-table-column>
-          <el-table-column key="3" label="客户姓名" width="100" align="center" :show-overflow-tooltip="true">
+
+          <el-table-column key="7" prop="username" align="center"  fixed="left"  label="所属业务员" width="100" :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column key="3" label="客户姓名"  fixed="left"  width="100" align="center" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span style="cursor: pointer;" type="text" size="small" @click="handle(scope.row)">{{ scope.row.name ||
                   "空" }}</span>
@@ -320,7 +323,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column key="21" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="21" prop="customer_intentionValue"   align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
             <template slot="header">
               <p class="source-level">客户需求
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
@@ -334,8 +337,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column key="7" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
-          </el-table-column>
+  
           <el-table-column key="8" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{ scope.row.shareusername }}</span>
@@ -391,7 +393,7 @@
               <span v-if="scope.row.previstitime" class="mobile-icon el-icon-circle-check" @click="toggerIsVist(scope)" style="color:#DC240F;  line-height: 20px;"></span>
             </template>
           </el-table-column>
-          <el-table-column key="18" prop="remark" align="left" label="跟进记录" width="220" :show-overflow-tooltip="true">
+          <el-table-column key="18" prop="remark" align="left"   fixed="right"  label="跟进记录" width="220" :show-overflow-tooltip="true">
           </el-table-column>
 
           <el-table-column key="13" prop="channelname" align="center" label="渠道类型" width="90" :show-overflow-tooltip="true">

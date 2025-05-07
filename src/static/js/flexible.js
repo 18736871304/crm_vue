@@ -6,7 +6,6 @@
       console.log(clientWidth);
       if (!clientWidth) return;
       deviceWidth = clientWidth > 1366 ? clientWidth : 1366;
-      console.log(deviceWidth);
       docEl.style.fontSize = parseInt(deviceWidth / 19.2) + "px";
     };
   if (!doc.addEventListener) return;

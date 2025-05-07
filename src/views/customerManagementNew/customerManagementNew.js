@@ -399,9 +399,9 @@ export default {
       },
       false
     );
-
+    this.checkNumber(),
     // 每 5 分钟检查一次数字是否变化
-    this.checkNumberChange = setInterval(this.checkNumber, 1 * 60 * 1000);
+    this.checkNumberChange = setInterval(this.checkNumber, 15 * 60 * 1000);
   },
   beforeDestroy() {
     // 组件销毁前清除定时器
@@ -429,6 +429,7 @@ export default {
   methods: {
     checkNumber() {
       // 检查当前数字是否与上一个数字不同
+      console.log(this.inteNum)
       if (this.inteNum && this.inteNum > 0) {
         this.$message({
           showClose: true,
@@ -1240,6 +1241,7 @@ export default {
               }
 
               const dateString = res.makedate.split(" ")[0];
+              console.log(yesterdayString ,dateString)
               if (yesterdayString == dateString) {
                 if (!res.customer_intention || res.customer_intention == "") {
                   inteNum++;
@@ -1249,7 +1251,8 @@ export default {
             });
             var inteName = inte_Name.join("");
             _this.inteNum = inteNum;
-            if (_this.queryflag && inteNum > 0) {
+            console.log(_this.queryflag,inteNum )
+            if (  inteNum > 0) {
               _this.$message({
                 showClose: true,
                 message: "昨天的线索，你有" + inteNum + "个客户没有添加客户需求，请尽快添加！",

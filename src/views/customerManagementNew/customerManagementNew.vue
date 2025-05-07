@@ -256,9 +256,11 @@
         <el-table v-if="isArticle" :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange">
           <el-table-column key="1" type="selection" width="40">
           </el-table-column>
-          <el-table-column key="2" type="index" label="序号" align="center" width="60">
+          <el-table-column key="2" type="index" label="序号" fixed="left"  align="center" width="60">
           </el-table-column>
-          <el-table-column key="3" label="客户姓名" width="100" align="center" :show-overflow-tooltip="true">
+          <el-table-column key="7" prop="username" align="center"  fixed="left"  label="所属业务员" width="100" :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column key="3" label="客户姓名" width="100" fixed="left"  align="center" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span style="cursor: pointer;" type="text" size="small" @click="handle(scope.row)">{{ scope.row.name ||
               "空" }}</span>
@@ -305,7 +307,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column key="20" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="20" prop="customer_intentionValue" align="center"    label="客户需求" width="100" :show-overflow-tooltip="true">
             <template slot="header">
               <p class="source-level">客户需求
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
@@ -319,8 +321,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column key="7" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
-          </el-table-column>
+  
           <el-table-column key="8" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{ scope.row.shareusername }}</span>
@@ -376,7 +377,7 @@
               <span v-if="scope.row.previstitime" class="mobile-icon el-icon-circle-check" @click="toggerIsVist(scope)" style="color:#DC240F;  line-height: 20px;"></span>
             </template>
           </el-table-column>
-          <el-table-column key="18" prop="remark" align="left" label="跟进记录" width="220" :show-overflow-tooltip="true">
+          <el-table-column key="18" prop="remark" align="left"  fixed="right"  label="跟进记录" width="220" :show-overflow-tooltip="true">
           </el-table-column>
 
           <el-table-column key="13" prop="channelname" align="center" label="渠道类型" width="90" :show-overflow-tooltip="true">
@@ -395,135 +396,7 @@
         </el-pagination>
       </div>
     </div>
-    <!-- <el-dialog custom-class="entry-data" title="日数据录入" :close-on-click-modal='false' :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
-      <div class="entry-data-box clearfix">
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">数据日期</div>
-          <div class="select-content" style="height: 0.3rem; width: calc(100% - 1.6rem);  border: none">
-            <el-date-picker class="el-date-picker-sigle" v-model="from.recorddate" value-format="yyyy-MM-dd 00:00:00" @change='selectDate' type="date" align="right" size="mini">
-            </el-date-picker>
-          </div>
-          <em class="sign">可修改</em>
-        </div>
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">热线新增量</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.hotlinecount" align="right" size="mini" :disabled="true" clearable></el-input>
-          </div>
-        </div>
-      </div>
-      <div class="entry-data-box clearfix">
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">电话外拨量</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.callcount" align="right" size="mini" :disabled="true" clearable></el-input>
-          </div>
-        </div>
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">电话接通量</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.connectcount" align="right" size="mini" :disabled="true" clearable></el-input>
-          </div>
-        </div>
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">电话接通率</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.connectrate" align="right" size="mini" :disabled="true" clearable></el-input>
-          </div>
-        </div>
-
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">线索拨打量</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.cluecallcount" align="right" size="mini" :disabled="true" clearable></el-input>
-          </div>
-        </div>
-      </div>
-      <div class="entry-data-box clearfix">
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">话务时长（分钟）</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.callcentertime" align="right" size="mini" :disabled="true" clearable></el-input>
-          </div>
-        </div>
-        <div class="common-select">
-          <div class="select-title" style="width: 1.8rem">非话务时长（分钟）</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.nocallcentertime" align="right" size="mini" clearable></el-input>
-          </div>
-          <em class="sign">可修改</em>
-        </div>
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">总时长（分钟）</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.sumtime" align="right" size="mini" clearable></el-input>
-          </div>
-        </div>
-
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">微信</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.wxcount" align="right" size="mini" clearable></el-input>
-          </div>
-          <em class="sign">可修改</em>
-        </div>
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">保单检视</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.firstplancount" align="right" size="mini" clearable></el-input>
-          </div>
-          <em class="sign">可修改</em>
-        </div>
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">计划书</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.secondplancount" align="right" size="mini" clearable></el-input>
-          </div>
-          <em class="sign">可修改</em>
-        </div>
-
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">渠道服务</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.claimcount" align="right" size="mini" clearable></el-input>
-          </div>
-          <em class="sign">可修改</em>
-        </div>
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">促销T单</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="from.tdancount" align="right" size="mini" clearable></el-input>
-          </div>
-          <em class="sign">可修改</em>
-        </div>
-      </div>
-      <div style="margin-top: 0.18rem; font-size: 0.14rem;">
-        <span style="color: red;margin-right: 0.2rem;">*请仔细核对数据，一天只能提交一次日数据，如提交错误，请联系P5及以上人员进行冲正处理</span>
-      </div>
-      <div class="entry-data-box clearfix">
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">本月目标（标保）</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="monthTarget" align="right" size="mini" clearable></el-input>
-          </div>
-          <em class="sign">可修改</em>
-        </div>
-      </div>
-      <div class="entry-data-box clearfix">
-        <div class="common-select">
-          <div class="select-title" style="width: 1.6rem">本周目标（标保）</div>
-          <div class="select-content" style="width: calc(100% - 1.6rem);">
-            <el-input class="el-input-inners" v-model="weekTarget" align="right" size="mini" clearable></el-input>
-          </div>
-          <em class="sign">可修改</em>
-        </div>
-      </div>
-      <div class="sure-footer">
-
-        <div class="my-sure" style="background: #fff;border: 1px solid rgba(221, 221, 221, 1);color: #686868;" @click="dialogVisible = false">取消</div>
-        <div class="my-sure" @click="sureData">提交</div>
-      </div>
-    </el-dialog> -->
+ 
     <el-dialog :title="CJGselectValue" :visible.sync="cjgdrawer" width="1100px" class="cjg-dialog">
       <div class="step-list wei-step-list" v-if="CJGselectValue === '保单检视'">
         <div class="item-section">
