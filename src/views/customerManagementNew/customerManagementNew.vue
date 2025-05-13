@@ -1,14 +1,11 @@
 <template>
-  <div class="customerManagementNew  Container">
+  <div class="customerManagementNew Container">
     <div class="container-top">
-
       <!-- 信息检索 -->
-      <div class="container-top-two" style="overflow-x: auto;overflow-y: hidden;">
-
+      <div class="container-top-two" style="overflow-x: auto; overflow-y: hidden">
         <div class="container-search-box">
-
           <div class="common-select">
-            <div class="select-title  filtitle">线索产生时间</div>
+            <div class="select-title filtitle">线索产生时间</div>
             <div class="select-content filContent">
               <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
               </el-date-picker>
@@ -19,8 +16,7 @@
             <div class="select-title filtitle">跟进步骤</div>
             <div class="select-content filContent">
               <el-select class="el-select-inners" v-model="activeName" size="mini" placeholder="请选择跟进步骤" clearable>
-                <el-option v-for="(item, index) in add_steps" :key="index" :label="item.dd_value" :value="item.dd_key">
-                </el-option>
+                <el-option v-for="(item, index) in add_steps" :key="index" :label="item.dd_value" :value="item.dd_key"> </el-option>
               </el-select>
             </div>
           </div>
@@ -29,8 +25,7 @@
             <div class="select-title filtitle">客户需求</div>
             <div class="select-content filContent">
               <el-select class="el-select-inners" v-model="customerIntention" size="mini" placeholder="请选择跟进步骤" clearable>
-                <el-option v-for="item   in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
-                </el-option>
+                <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"> </el-option>
               </el-select>
             </div>
           </div>
@@ -38,11 +33,11 @@
           <div class="common-select">
             <div class="select-title filtitle">渠道/来源</div>
             <div class="select-content filContent">
-              <el-cascader class="el-select-inners" popper-class="cascaderBox" @change="channelChange"  v-model="channelSourceValue" :options="channelSource" :props="cascaderProps"  :show-all-levels="false" collapse-tags clearable></el-cascader>
+              <el-cascader class="el-select-inners" popper-class="cascaderBox" @change="channelChange" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps" :show-all-levels="false" collapse-tags clearable></el-cascader>
             </div>
           </div>
 
-          <div class="common-select" style="width:4%">
+          <div class="common-select" style="width: 4%">
             <div class="my-customers" v-show="ismyUse && dis_P4_up">
               <el-checkbox size="mini" v-model="queryflag">我的客户</el-checkbox>
             </div>
@@ -57,11 +52,9 @@
                   <i class="el-icon-arrow-down el-icon--right"></i>
                 </p>
                 <el-dropdown-menu class="" slot="dropdown">
-                  <el-tree @check="handleCheckChange2" :data="teamDataList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps">
-                  </el-tree>
+                  <el-tree @check="handleCheckChange2" :data="teamDataList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps"> </el-tree>
                   <div class="sure-footer">
-
-                    <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
+                    <div class="my-sure" style="background: #fff; color: #dc240f; border: 0.01rem solid #dc240f" @click="my_sureOne2">取消</div>
                     <div class="my-sure" @click="my_sure2">确定</div>
                   </div>
                 </el-dropdown-menu>
@@ -72,8 +65,7 @@
             <div class="select-title filtitle">业务员姓名</div>
             <div class="select-content filContent">
               <el-select class="el-select-inners" placeholder="请选择" size="mini" v-model="overviewForm.userid" @change="userNameChange" clearable>
-                <el-option v-for="item in userNameOptions" :key="item.userid" :label="item.username" :value="item.userid">
-                </el-option>
+                <el-option v-for="item in userNameOptions" :key="item.userid" :label="item.username" :value="item.userid"> </el-option>
               </el-select>
             </div>
           </div>
@@ -91,34 +83,26 @@
                 <el-option label="微信号" value="微信号"></el-option>
               </el-select>
             </div>
-            <div class="select-content   filContent">
+            <div class="select-content filContent">
               <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" placeholder="请输入电话号码" size="mini" clearable></el-input>
             </div>
           </div>
 
-          <div class="common-select" v-show="!dis_P4_up">
-          </div>
+          <div class="common-select" v-show="!dis_P4_up"></div>
 
-          <div class="common-select" v-show="!dis_P4_up">
-          </div>
+          <div class="common-select" v-show="!dis_P4_up"></div>
 
-          <div class="common-select" style="width:4%">
+          <div class="common-select" style="width: 4%">
             <div class="search-box-right">
-              <div style="display: flex;">
+              <div style="display: flex">
                 <div class="search-btn searchLeft" @click="search(1)">搜索</div>
-                <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);  display: none;" @click="reset">重置
-                </div>
+                <div class="search-btn" style="background: #fff; color: #dc220d; border: 1px solid rgba(216, 216, 216, 1); display: none" @click="reset">重置</div>
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
-
-
-
 
     <!-- 表格内容 -->
     <div class="container-table">
@@ -129,8 +113,8 @@
           {{ checkedAllNum }}个客户
         </div>
 
-        <div class="container-middle-two" style="float: right;">
-          <div class="search-btn" @click="dataEntry" style="width:auto; padding: 0.03rem 0.08rem; display: none;">日数据录入</div>
+        <div class="container-middle-two" style="float: right">
+          <!-- <div class="search-btn" @click="dataEntry" style="width:auto; padding: 0.03rem 0.08rem; display: none;">日数据录入</div> -->
           <el-popover popper-class="entry-customer-popper" class="entry-customer" placement="bottom-start" width="3.31rem" trigger="click" v-model="inputUserVisable">
             <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">客户录入
             </div>
@@ -181,110 +165,69 @@
           </el-popover>
 
           <el-popover popper-class="entry-customer-popper" placement="bottom-start" width="3.31rem" trigger="click" v-model="resourceDeployVisable" @show="resourceDeployShow">
-            <div class="search-btn resourceAllocation" slot="reference">资源调配
-            </div>
+            <div class="search-btn resourceAllocation" slot="reference">资源调配</div>
             <div class="common-select">
-              <div class="select-title  newsalesperson">新所属业务员</div>
-              <div class="select-content filContentNoborder" style="width: 2rem;">
+              <div class="select-title newsalesperson">新所属业务员</div>
+              <div class="select-content filContentNoborder" style="width: 2rem">
                 <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :fetch-suggestions="querySearchId" placeholder="请输入新所属业务员" :trigger-on-focus="false" @select="handleSelectId"></el-autocomplete>
               </div>
             </div>
             <div class="common-select">
               <div class="select-title newsalesperson">新跟进步骤</div>
-              <div class="select-content" style="width:2rem;border: none;">
+              <div class="select-content" style="width: 2rem; border: none">
                 <el-select class="el-select-inners" v-model="resourceDeployform.followupstep" placeholder="请选择新跟进步骤">
                   <el-option v-for="item in select_steps" :label="item.dd_value" :value="item.dd_key" :key="item.dd_key"></el-option>
                 </el-select>
               </div>
             </div>
-            <div class="sure-footer" style="padding-bottom: 0;">
-
+            <div class="sure-footer" style="padding-bottom: 0">
               <div class="my-sure resourceCancel" @click="resourceDeployCancel">取消</div>
               <div class="my-sure" @click="resourceDeploySubmit">确定</div>
             </div>
           </el-popover>
-          <el-popover popper-class="entry-customer-popper" v-show="dis_Pz_up" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
-            <div class="search-btn resourceDel" slot="reference">资源删除
-            </div>
-            <div class="sure-footer" style="padding-bottom: 0;">
 
+          <el-popover popper-class="entry-customer-popper" v-show="dis_Pz_up" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
+            <div class="search-btn resourceDel" slot="reference">资源删除</div>
+            <div class="sure-footer" style="padding-bottom: 0">
               <div class="my-sure resourceCancel" @click="deleteSourceCancel">取消</div>
               <div class="my-sure" @click="deleteSourceSubmit">确定</div>
             </div>
           </el-popover>
 
-          <el-popover popper-class="entry-customer-popper" placement="bottom-start" trigger="click" width="3.31rem" v-model="sable">
-            <!-- <el-button slot="reference" size="mini" plain>选择显示列表</el-button> -->
-            <div class="search-btn resourceDel" style="display: none;" slot="reference">选择显示列表
-            </div>
-            <el-checkbox-group ref="inputUserform1" v-model="inputUserform1" class="main-left" style="width: 1.5rem;">
-              <el-checkbox label="menudate">线索入库时间</el-checkbox>
-              <el-checkbox label="makedate">线索产生时间</el-checkbox>
-              <el-checkbox label="firstcalltime">首次拨打时间</el-checkbox>
-              <el-checkbox label="lastcalltime">最新拨打时间</el-checkbox>
-              <el-checkbox label="callcount" :disabled='!dis_P4_up'>累计拨打次数</el-checkbox>
-              <el-checkbox label="cusdealtime">客户成交时间</el-checkbox>
-              <el-checkbox label="cusdealperiod">客户成交周期</el-checkbox>
-              <el-checkbox label="batchno">批次号</el-checkbox>
-              <el-checkbox label="clueid">线索ID</el-checkbox>
-              <el-checkbox label="accountid">广告主ID</el-checkbox>
-              <el-checkbox label="accountname">广告主名称</el-checkbox>
-              <el-checkbox label="planid">广告计划ID</el-checkbox>
-              <el-checkbox label="planname">广告计划名称</el-checkbox>
-              <el-checkbox label="module_id">组件ID</el-checkbox>
-              <el-checkbox label="module_name">组件名称</el-checkbox>
-              <el-checkbox label="clue_sourcename">线索来源</el-checkbox>
-              <el-checkbox label="channelname">渠道类型</el-checkbox>
-              <el-checkbox label="appname">流量来源</el-checkbox>
-              <el-checkbox label="area">自动定位城市</el-checkbox>
-              <el-checkbox label="pageurl">推广页面</el-checkbox>
-              <div class="sure-footer" style="border-top: 1px solid rgba(221, 221, 221, 1); margin-top: 0.15rem;">
-
-                <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
-                <div class="my-sure" @click="checkedSure">确定</div>
-              </div>
-            </el-checkbox-group>
-          </el-popover>
-
         </div>
-
       </div>
 
       <!-- 表格内容 -->
 
       <div class="check-all-table">
         <el-table v-if="isArticle" :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange">
-          <el-table-column key="1" type="selection" width="40">
-          </el-table-column>
-          <el-table-column key="2" type="index" label="序号" fixed="left"  align="center" width="60">
-          </el-table-column>
-          <el-table-column key="7" prop="username" align="center"  fixed="left"  label="所属业务员" width="100" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column key="3" label="客户姓名" width="100" fixed="left"  align="center" :show-overflow-tooltip="true">
+          <el-table-column key="1" type="selection" width="40"> </el-table-column>
+          <el-table-column key="2" type="index" label="序号" fixed="left" align="center" width="60"> </el-table-column>
+          <el-table-column key="7" prop="username" align="center" fixed="left" label="所属业务员" width="100" :show-overflow-tooltip="true"> </el-table-column>
+          <el-table-column key="3" label="客户姓名" width="100" fixed="left" align="center" :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span style="cursor: pointer;" type="text" size="small" @click="handle(scope.row)">{{ scope.row.name ||
-              "空" }}</span>
+              <span style="cursor: pointer" type="text" size="small" @click="handle(scope.row)">{{ scope.row.name || "空" }}</span>
             </template>
           </el-table-column>
           <el-table-column key="4" align="center" label="电话号码" width="140" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span class="call-a" v-if="queryflagString == '02'">{{ scope.row.mobile }}</span>
-              <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)" style="    color: #8f9198;" v-else>
+              <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" @click="phonecall_row(scope.row)" style="color: #8f9198" v-else>
                 {{ scope.row.mobilestr }}
-                <img style="margin-left: 5px;" src="../../static/images/call-icon.png" /></span>
+                <img style="margin-left: 5px" src="../../static/images/call-icon.png" /></span>
             </template>
           </el-table-column>
           <el-table-column key="5" align="center" label="微信号" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span class="call-a" v-if="queryflagString == '02' && scope.row.wxno == null"></span>
               <span class="call-a" v-else-if="queryflagString == '02' && scope.row.wxno != ''">****</span>
-              <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" v-else>{{ scope.row.wxnostr
-                }}</span>
+              <span class="call-a" :class="scope.row.callcount > 0 ? 'active' : ''" v-else>{{ scope.row.wxnostr }}</span>
             </template>
           </el-table-column>
           <el-table-column key="6" align="center" label="跟进步骤" width="110" :show-overflow-tooltip="true">
             <template slot="header">
-              <p class="source-level">跟进步骤
+              <p class="source-level">
+                跟进步骤
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
                   <template slot="content">
                     <div>
@@ -298,18 +241,19 @@
               </p>
             </template>
             <template slot-scope="scope">
-              <el-tag class="followTag" v-if="scope.row.followupstepname=='微信'" type="success">微信</el-tag>
-              <el-tag class="followTag" v-else-if="scope.row.followupstepname=='保单检视'" type="warning">保单检视</el-tag>
-              <el-tag class="followTag" v-else-if="scope.row.followupstepname=='计划书'" type="danger">计划书</el-tag>
-              <el-tag class="followTag lipeiTag" v-else-if="scope.row.followupstepname=='理赔服务'" type="success">理赔服务</el-tag>
-              <el-tag class="followTag" v-else-if="scope.row.followupstepname=='促销T单'">促销T单</el-tag>
+              <el-tag class="followTag" v-if="scope.row.followupstepname == '微信'" type="success">微信</el-tag>
+              <el-tag class="followTag" v-else-if="scope.row.followupstepname == '保单检视'" type="warning">保单检视</el-tag>
+              <el-tag class="followTag" v-else-if="scope.row.followupstepname == '计划书'" type="danger">计划书</el-tag>
+              <el-tag class="followTag lipeiTag" v-else-if="scope.row.followupstepname == '理赔服务'" type="success">理赔服务</el-tag>
+              <el-tag class="followTag" v-else-if="scope.row.followupstepname == '促销T单'">促销T单</el-tag>
               <span class="call-a" v-else>新资源</span>
             </template>
           </el-table-column>
 
-          <el-table-column key="20" prop="customer_intentionValue" align="center"    label="客户需求" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="20" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
             <template slot="header">
-              <p class="source-level">客户需求
+              <p class="source-level">
+                客户需求
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
                   <template slot="content">
                     <p>1. 未知需求/联系不到不得和其他需求重复</p>
@@ -321,613 +265,1291 @@
             </template>
           </el-table-column>
 
-  
-          <el-table-column key="8" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
+          <!-- <el-table-column key="8" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{ scope.row.shareusername }}</span>
-              <img src="../../static/images/delete-icon.png" alt="" style="cursor: pointer;vertical-align: -0.02rem;margin-left: 0.03rem;" @click="cancelShare(scope.row)">
+              <img src="../../static/images/delete-icon.png" alt="" style="cursor: pointer; vertical-align: -0.02rem; margin-left: 0.03rem" @click="cancelShare(scope.row)" />
             </template>
-          </el-table-column>
-          <el-table-column key="9" prop="sex" label="性别" align="center" width="80" :show-overflow-tooltip="true">
-          </el-table-column>
+          </el-table-column> -->
+
+          <el-table-column key="9" prop="sex" label="性别" align="center" width="80" :show-overflow-tooltip="true"> </el-table-column>
           <el-table-column key="10" prop="sourcelevel" label="" align="center" width="110" :show-overflow-tooltip="true">
             <template slot="header">
-              <p class="source-level">资源等级
+              <p class="source-level">
+                资源等级
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
                   <template slot="content">
-                    <p>A：实时热线资源，且线索产生时间&lt;7天 </p>
-                    <p>A-：热线资源，且7天&lt;线索产生时间&lt;1个月 </p>
-                    <p>B+：热线资源，且线索产生时间&gt;1个月 </p>
-                    <p>B：EXCEL导入（资源等级选择B），且分配次数=0 </p>
-                    <p>B-：EXCEL导入的B类资源，且0&lt;分配次数&lt;=3 </p>
-                    <p>C：EXCEL导入（资源等级选择C），且分配次数=0 </p>
-                    <p>C-：EXCEL导入的C类资源，且0&lt;分配次数&lt;=3 </p>
-                    <p>Z：其它所有资源（封存，不参与循环分配） </p>
+                    <p>A：实时热线资源，且线索产生时间&lt;7天</p>
+                    <p>A-：热线资源，且7天&lt;线索产生时间&lt;1个月</p>
+                    <p>B+：热线资源，且线索产生时间&gt;1个月</p>
+                    <p>B：EXCEL导入（资源等级选择B），且分配次数=0</p>
+                    <p>B-：EXCEL导入的B类资源，且0&lt;分配次数&lt;=3</p>
+                    <p>C：EXCEL导入（资源等级选择C），且分配次数=0</p>
+                    <p>C-：EXCEL导入的C类资源，且0&lt;分配次数&lt;=3</p>
+                    <p>Z：其它所有资源（封存，不参与循环分配）</p>
                   </template>
                   <span></span>
                 </el-tooltip>
               </p>
             </template>
           </el-table-column>
-          <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="160" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column key="19" prop="lastcalltime" align="center" label="最后一次拨打时间" width="160" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column key="12" v-if="dis_P4_up" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true">
-          </el-table-column>
+          <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="160" :show-overflow-tooltip="true"> </el-table-column>
+          <el-table-column key="19" prop="lastcalltime" align="center" label="最后一次拨打时间" width="160" :show-overflow-tooltip="true"> </el-table-column>
+          <el-table-column key="12" v-if="dis_P4_up" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true"> </el-table-column>
 
           <el-table-column key="16" v-if="false" prop="pageurl" label="推广页面" width="150" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
-              <a style="cursor: pointer;" href="#" @click="disPageUrl(scope.row)">{{ scope.row.pageurl }}</a>
+              <a style="cursor: pointer" href="#" @click="disPageUrl(scope.row)">{{ scope.row.pageurl }}</a>
             </template>
           </el-table-column>
 
-          <el-table-column key="17" prop="previstitime" label="预约回访" min-width='200' width="auto" :show-overflow-tooltip="true" align="center" sortable="custom" class-name="yuyue">
+          <el-table-column key="17" prop="previstitime" label="预约回访" min-width="200" width="auto" :show-overflow-tooltip="true" align="center" sortable="custom" class-name="yuyue">
             <template slot-scope="scope">
-              {{ scope.row.previstitime ? formatDate(new Date(scope.row.previstitime), 'yyyy-MM-dd HH:mm:ss') : '' }}
+              {{ scope.row.previstitime ? formatDate(new Date(scope.row.previstitime), "yyyy-MM-dd HH:mm:ss") : "" }}
               <el-popover popper-class="modify-icon" v-if="scope.row.previstitime" placement="left" width="220" height="50" :class="scope.row.activityserialno">
-                <span slot="reference" class="mobile-icon el-icon-edit-outline" style="color:#DC240F;margin-left:5px"></span>
-                <el-date-picker v-model="editPrevistitime" type="datetime" placeholder="选择日期时间" size="mini" :picker-options="previstitimePickerOptions">
-                </el-date-picker>
-                <br>
-                <div class="sure-footer" style="padding-bottom: 0;">
+                <span slot="reference" class="mobile-icon el-icon-edit-outline" style="color: #dc240f; margin-left: 5px"></span>
+                <el-date-picker v-model="editPrevistitime" type="datetime" placeholder="选择日期时间" size="mini" :picker-options="previstitimePickerOptions"> </el-date-picker>
+                <br />
+                <div class="sure-footer" style="padding-bottom: 0">
                   <div class="my-sure" @click="editPrevistTime(scope)">确定</div>
                 </div>
               </el-popover>
-              <span v-if="scope.row.previstitime" class="mobile-icon el-icon-circle-check" @click="toggerIsVist(scope)" style="color:#DC240F;  line-height: 20px;"></span>
+              <span v-if="scope.row.previstitime" class="mobile-icon el-icon-circle-check" @click="toggerIsVist(scope)" style="color: #dc240f; line-height: 20px"></span>
             </template>
           </el-table-column>
-          <el-table-column key="18" prop="remark" align="left"  fixed="right"  label="跟进记录" width="220" :show-overflow-tooltip="true">
-          </el-table-column>
+          <el-table-column key="18" prop="remark" align="left" fixed="right" label="跟进记录" width="220" :show-overflow-tooltip="true"> </el-table-column>
 
-          <el-table-column key="13" prop="channelname" align="center" label="渠道类型" width="90" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column key="14" prop="clue_sourcename" align="center" label="线索来源" width="90" :show-overflow-tooltip="true">
-          </el-table-column>
-          <el-table-column key="15" prop="appname" align="center" label="流量来源" width="100" :show-overflow-tooltip="true">
-          </el-table-column>
+          <el-table-column key="13" prop="channelname" align="center" label="渠道类型" width="90" :show-overflow-tooltip="true"> </el-table-column>
+          <el-table-column key="14" prop="clue_sourcename" align="center" label="线索来源" width="90" :show-overflow-tooltip="true"> </el-table-column>
+          <el-table-column key="15" prop="appname" align="center" label="流量来源" width="100" :show-overflow-tooltip="true"> </el-table-column>
 
           <!-- fixed="right" -->
         </el-table>
-
       </div>
       <div>
-        <el-pagination background layout="total,prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
-        </el-pagination>
+        <el-pagination background layout="total,prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick"> </el-pagination>
       </div>
     </div>
- 
-    <el-dialog :title="CJGselectValue" :visible.sync="cjgdrawer" width="1100px" class="cjg-dialog">
-      <div class="step-list wei-step-list" v-if="CJGselectValue === '保单检视'">
-        <div class="item-section">
-          <label>标题</label>
-          <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="bdjsItem.title" :disabled="true">
-            </el-input>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>保险公司</label>
-          <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="bdjsItem.insorganname" :disabled="true">
-            </el-input>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>保障详情</label>
-          <div class="right-content">
-            <div class="editor-box">
-              <div id="div1" class="toolbar"></div>
-              <div id="div2" class="text">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>建议规划</label>
-          <div class="right-content">
-            <div class="editor-box">
-              <div id="div3" class="toolbar"></div>
-              <div id="div4" class="text"> </div>
-            </div>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>附件</label>
-          <div class="right-content">
-            <ul class="enclosure-list" v-if="fileList.length">
-              <li class="item" v-for="(item, index) in fileList" :key="index">
-                <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{ item.filename }}</div>
-                <a :href="crm_url + 'crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
-              </li>
-            </ul>
-            <ul class="enclosure-list" v-else>
-              <li class="item">暂无附件</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="step-list wei-step-list" v-if="CJGselectValue === '疾病核保'">
-        <div class="item-section">
-          <label>标题</label>
-          <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="jbhbItem.title" :disabled="true">
-            </el-input>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>疾病描述</label>
-          <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" :disabled="true" resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30 }" :rows="7">
-            </el-input>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>核保建议</label>
-          <div class="right-content">
-            <div class="tab-head">
-              <div class="tab" :class="currentSuggestion === 'zjsuggestion' ? 'actived' : ''" @click="changeSuggestion('zjsuggestion')">重疾险</div>
-              <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''" @click="changeSuggestion('ylsuggestion')">医疗险</div>
-            </div>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30 }" :rows="10" placeholder="请输入内容" :disabled="true" v-if="currentSuggestion === 'zjsuggestion'" v-model="jbhbItem.zjsuggestion">
-            </el-input>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30 }" :rows="10" placeholder="请输入内容" v-else :disabled="true" v-model="jbhbItem.ylsuggestion">
-            </el-input>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>可投产品</label>
-          <div class="right-content">
-            <div class="add-item-wrap">
-              <div class="list" v-for="(item, index) in jbhbItem.productJsonStr" :key="index">
-                <div class="item">
-                  <label>保险公司</label>
-                  <div class="right-content">
-                    <el-input placeholder="请输入" size="mini" v-model="item.insorganname" :disabled="true">
-                    </el-input>
-                  </div>
-                </div>
-                <div class="item">
-                  <label>险种名称</label>
-                  <div class="right-content">
-                    <el-input placeholder="请输入" size="mini" v-model="item.riskname" :disabled="true">
-                    </el-input>
-                  </div>
-                </div>
-                <div class="item">
-                  <label>承保说明</label>
-                  <div class="right-content">
-                    <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" :disabled="true" resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30 }" :rows="7">
-                    </el-input>
-                  </div>
-                </div>
-                <div class="item">
-                  <label>标注</label>
-                  <div class="right-content" style="margin-top: 0.03rem;">
-                    <el-radio v-model="item.labeltype" :label="'01'" :disabled="true">标体承保
-                    </el-radio>
-                    <el-radio v-model="item.labeltype" :label="'03'" style="margin-left: 0.2rem;" :disabled="true">
-                      加费承保
-                    </el-radio>
-                    <el-radio v-model="item.labeltype" :label="'02'" :disabled="true" style="margin-left: 0.2rem;">除外承保
-                    </el-radio>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="step-list wei-step-list" v-if="CJGselectValue === '解答疑义'">
-        <div class="item-section">
-          <label>疑义问题</label>
-          <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="dkwItem.title" :disabled="true">
-            </el-input>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>隐藏信息</label>
-          <div class="right-content">
-            <div class="editor-box">
-              <div id="div7" class="toolbar"></div>
-              <div id="div8" class="text"></div>
-            </div>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>解答示范</label>
-          <div class="right-content">
-            <div class="editor-box">
-              <div id="div5" class="toolbar"></div>
-              <div id="div6" class="text"></div>
-            </div>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>附件</label>
-          <div class="right-content">
-            <ul class="enclosure-list" v-if="fileList.length">
-              <li class="item" v-for="(item, index) in fileList" :key="index">
-                <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{ item.filename }}</div>
-                <a :href="crm_url + 'crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
-              </li>
-            </ul>
-            <ul class="enclosure-list" v-else>
-              <li class="item">暂无附件</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </el-dialog>
-    <el-drawer title="我是标题" :size="isDealed ? '70%' : '50%'" custom-class="customer-drawer" :visible.sync="drawer" :with-header="false">
-      <div class="drawerLeft" :class="isDealed ? 'isDealed' : ''">
-        <div class="left_box">
-          <div class="header">
-            <div class="header_t clearfix">
-              <div class="header_t_l">
-                <span>{{ detailsInfo.name }}</span>
-                <span @click="phonecall_page">
-                  <img src="../../static/images/call-icon.png" style="margin-right: 6px;" />拨打电话
-                </span>
-              </div>
-              <div class="header_t_r">
-                <span>所属业务员：</span>
-                <span>{{ detailsInfo.username }}</span>
-                <span v-if="detailsInfo.otherusername">（{{ detailsInfo.otherusername }}）</span>
-              </div>
-            </div>
-            <div class="header_b clearfix">
-              <div class="title">标签</div>
-              <div class="checkBox">
-                <el-checkbox-group size="mini" v-model="activitytag" v-show="false">
-                  <el-checkbox-button v-for="customer in activitytags" :label="customer.dd_key" :key="customer.dd_key">
-                    {{ customer.dd_value }}</el-checkbox-button>
-                </el-checkbox-group>
-              </div>
-            </div>
-          </div>
-          <div class="editBox">
-            <div class="title">
-              <span></span>
-              <span>客户基本信息</span>
-            </div>
-            <div class="editContent clearfix">
 
-              <div class="editContent_box">
-                <span class="dd">客户姓名</span>
-                <span class="dd">
-                  <el-input placeholder="请输入" size="mini" v-model="detailsInfo.name">
-                  </el-input>
-                </span>
-              </div>
-              <div class="editContent_box">
-                <span class="dd">电话号码</span>
-                <span class="dd">
-                  <el-popover placement="bottom" width="225" trigger="click" v-model="addMobliePopVisible">
-
-                    <el-input type="text" size="mini" v-model="addMoblie" style="margin-bottom:5px" @input="addMoblieChange">
-                    </el-input>
-
-                    <div class="mobile_input_box" v-show="mobileInputShow">
-                      <span class="mobile_input mobile_input_add"       @click="mobileAdd">添加</span>
-                      <span class="mobile_input mobile_input_cancle" @click="mobileCancle">取消</span>
-                    </div>
-                    <el-table :data="mobileList" class="mobile_box"  v-show="queryflag" >
-                      <el-table-column width="130" property="phone" label="电话"></el-table-column>
-                      <el-table-column width="70" label="操作" align="right">
-                        <template slot-scope="scope">
-                          <span class="mobile-icon el-icon-delete" @click="mobileDelete(scope)"></span>
-                          <span class="mobile-icon el-icon-upload2" @click="mobileToTop(scope)"></span>
-                        </template>
-                      </el-table-column>
-                    </el-table>
-                    <template slot="reference">
-                      <el-input placeholder="请输入" size="mini" v-model="detailsInfo.mobilestr">
-                      </el-input>
-
-                      <span @click="addMobliePopVisible = !addMobliePopVisible" class="icon_arr"><i class="el-select__caret el-input__icon el-icon-arrow-down"></i></span>
-                    </template>
-                  </el-popover>
-
-                </span>
-              </div>
-              <div class="editContent_c editContent_box">
-                <span class="dd">性别</span>
-                <span class="dd maxmain">
-                  <el-select v-model="sex" size="mini" style="width: 100%;" placeholder="请选择">
-                    <el-option v-for="item in sexs" :key="item.key" :label="item.value" :value="item.key"></el-option>
-                  </el-select>
-                </span>
-              </div>
-              <div class="editContent_c editContent_box editContent_date" style=" font-size: 0.13rem;">
-                <span class="dd">出生日期</span>
-                <span class="dd">
-                  <el-date-picker class="difPicker" v-model="birthday" type="date" size="mini" placeholder="请输入出生年月" clearable style="width: 100%;" value-format="yyyy-MM-dd">
-                  </el-date-picker>
-                </span>
-              </div>
-              <div class="editContent_b editContent_box">
-                <span class="dd">微信号</span>
-                <span class="dd">
-                  <el-input placeholder="请输入" size="mini" v-model="wxnostr">
-                  </el-input>
-                </span>
-
-              </div>
-
-            </div>
-          </div>
-          <div class="condition">
-            <div class="clearfix" style="margin-bottom: 0.2rem;">
-
-              <div class="common-select">
-                <div class="select-title" style="width: 0.8rem">跟进步骤</div>
-                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-select class="el-select-inners" v-model="visit" size="mini" placeholder="" clearable>
-                    <el-option v-for="item in steps" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key">
-                    </el-option>
-                  </el-select>
-                </div>
-              </div>
-              <!-- <div class="common-select">
-                <div class="select-title " style="width: 0.8rem">共享客户</div>
-                <div class="select-content filContentNoborder   filContBottom" style="width: calc(100% - 0.8rem); margin-right: 0.2rem;">
-                  <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
-                </div>
-              </div> -->
-              <!-- multiple -->
-              <div class="common-select">
-                <div class="select-title" style="width: 0.8rem">客户需求</div>
-                <div class="select-content cusintention" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-select class="el-select-inners" @change="handleChange"   v-model="customer_intention" size="mini" multiple collapse-tags placeholder="请选择客户需求" clearable>
-                    <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"    :disabled="item.disabled">
-                    </el-option>
-                  </el-select>
-                </div>
-              </div>
-
-              <div class="common-select">
-                <div class="select-title" style="width: 0.8rem">预约回访</div>
-                <div class="select-content boxpad" style="height: 0.3rem; width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-date-picker class="el-date-picker-sigle" v-model="returnVisit" type="datetime" size="mini" placeholder="" :picker-options="previstitimePickerOptions" clearable>
-                  </el-date-picker>
-                </div>
-              </div>
-
-              <div class="common-select">
-                <div class="select-title" style="width: 0.8rem">转其他库</div>
-                <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                  <el-select class="el-select-inners" v-model="editInfo.otherstore" size="mini" placeholder="" clearable>
-                    <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
-                  </el-select>
-                </div>
-              </div>
-
-            </div>
-            <div class="condition-bottom" v-show="queryflag"    @click="saveRecord">保存</div>
-          </div>
-
-          <div class="adInformation" style="height: 1.5rem">
-            <div class="title clearfix">
-              <span></span>
-              <span>广告投放信息</span>
-            </div>
-            <div class="adInformation_b">
-
-              <div class="cb">
-                <span :title="detailsInfo.makedate">线索产生时间：{{ detailsInfo.makedate }}</span>
-                <span :title="detailsInfo.channelname">渠道类型：{{ detailsInfo.channelname }}</span>
-              </div>
-
-              <div class="cc">
-                <span :title="detailsInfo.clue_sourcename">线索来源：{{ detailsInfo.clue_sourcename }}</span>
-                <span :title="detailsInfo.appname">流量来源：{{ detailsInfo.appname }}</span>
-              </div>
-
-              <div class="cb">
-                <span :title="detailsInfo.area">自动定位城市：{{ detailsInfo.area }}</span>
-              </div>
-
-              <div class="cb" style="width: 90%;display: none;">
-                <span :title="detailsInfo.pageurl"> 推广页面：
-                  <a style="cursor: pointer; color: #578EE7;" href="#" @click="disPageUrl(detailsInfo)">{{
-              detailsInfo.pageurl }}</a>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="userInformation" style="display: none;">
-            <div class="title">
-              <span></span>
-              <span>用户行为信息</span>
-            </div>
-            <div class="userInformation_b">
-              <div class="ct">
-                <span :title="detailsInfo.dwelltime">用户停留时长：{{ detailsInfo.dwelltime }}</span>
-                <span :title="detailsInfo.interactcount">用户互动次数：{{ detailsInfo.interactcount }}</span>
-              </div>
-              <div class="cb">
-                <span :title="detailsInfo.readingpercentage">用户页面阅读百分比：{{ detailsInfo.readingpercentage }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="tableBox">
-            <div class="title">
-              <span></span>
-              <span>客户通话记录</span>
-              <span>累计通话时长{{ callSum }}分钟</span>
-            </div>
-            <div class="tableContent">
-              <el-table :data="callDataList" border style="width: 100%">
-                <el-table-column key="50" prop="calltime" label="拨打时间" align="center" :show-overflow-tooltip="true">
-                </el-table-column>
-                <el-table-column key="51" prop="username" label="拨打业务员" width="97" align="center" :show-overflow-tooltip="true">
-                </el-table-column>
-                <el-table-column key="52" prop="isconnect" width="70" align="center" label="接通">
-                </el-table-column>
-                <el-table-column key="53" prop="timeduration" label="时长" align="center" width="100" :show-overflow-tooltip="true">
-                </el-table-column>
-                <el-table-column key="54" align="center" label="录音" width="70">
-                  <template slot-scope="scope" v-if="scope.row.recordurl">
-                    <img class="play-icon" src="../../static/images/pause-icon.png" title="暂停" @click="audioPause(scope.$index)" v-if="!audioPaused && scope.$index === currentCallIndex">
-                    <img class="play-icon" src="../../static/images/play-icon.png" title="播放" @click="audioPlay(scope.$index)" v-else>
-                    <a style="margin-left: 8px;font-size: 15px;vertical-align: middle;" :href="scope.row.recordurl" :download="scope.row.username + '_' + detailsInfo.name + '_' + scope.row.calltimeType" title="下载">
-                      <i class="el-icon-download"></i>
-                    </a>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="drawerRight" :class="isDealed ? 'isDealed' : ''">
-        <div class="title">
-          <span></span>
-          <span>跟进记录</span>
-        </div>
-        <div class="cjg-search-section " style="display: flex; justify-content: center;align-items: center;display: none;">
-          <el-select v-model="cjgTitle" :loading="loading" filterable remote :remote-method="remoteMethod" placeholder="搜索藏经阁内容" @change="cjgChange" @focus="cjgfocus" class="cjgserach" style="width: 100%;">
-            <el-option v-for="item in cjgList" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </div>
-        <div class="inputBox">
-          <el-input v-model="followrecord" id="textarea" type="textarea" placeholder="添加跟进记录…"></el-input>
-        </div>
-        <div class="numBox">
-          <div class="num">共{{ releaseNum }}条</div>
-          <div class="button">
-            <span @click="cancel">取消</span>
-            <span @click="release" v-show="dis_save">发布</span>
-          </div>
-        </div>
-        <div class="drawercontentBox">
-          <ul>
-            <li v-for="item in records" :key="item.remarkserialno">
-              <div class="li_t" style="display: flex; justify-content: space-between;">
-                <div v-html="item.remark">
-                </div>
-                <div v-show='delRemark' class="gjg_topping mobile-icon el-icon-upload2" @click="remarktop(item.remarkserialno)"></div>
-              </div>
-              <div class="li_b">
-                <div class="li_b_l" :title="item.name">{{ item.oprname }} </div>
-                <div class="li_b_r">{{ item.makedate }} 创建
-                  <span v-show='delRemark' class="mobile-icon el-icon-delete" @click="deleteRemark(item.remarkserialno)" style="color:#979797"></span>
-                </div>
-
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="drawerRight isDealed" v-if="isDealed">
-        <div class="title">
-          <span></span>
-          <span>保障详情</span>
-        </div>
-        <ul class="order-list" v-loading="detai_loading">
-          <li class="item" v-for="(item,index) in policyList" :key="index">
-            <div class="head">
-              <div class="txt" @click="showEdit(item)">{{ item.riskname }}</div>
-              <div class="status" :class="[item.status === 'processing' ? 'processing' : '', item.status === 'invalid' ? 'invalid' : '', item.status === 'cancel' ? 'cancel' : '']">
-                <template v-if="item.status === 'effective'">保障中</template>
-                <template v-if="item.status === 'processing'">待处理</template>
-                <template v-if="item.status === 'invalid'">已失效</template>
-                <template v-if="item.status === 'cancel'">已终止</template>
-              </div>
-            </div>
-            <ul class="info-list">
-              <div class="info">
-                <span class="l">投保日期:</span>
-                <span>{{ item.accepttime }}</span>
-              </div>
-              <div class="info">
-                <span class="l">生效日期:</span>
-                <span>{{ item.cvalidate }}</span>
-              </div>
-              <div class="info">
-                <span class="l">保单号:</span>
-                <span>{{ item.contno }}</span>
-              </div>
-              <div class="info">
-                <span class="l">投保人:</span>
-                <span>{{ item.appname }}</span>
-              </div>
-              <div class="info">
-                <span class="l">被保人:</span>
-                <span>{{ item.insname }}</span>
-              </div>
-              <div class="info">
-                <span class="l">保险金额:</span>
-                <span>{{ item.amnt }}</span>
-              </div>
-              <div class="info">
-                <span class="l">保障期限:</span>
-                <span>{{ item.insuyearvalue }}</span>
-              </div>
-              <div class="info">
-                <span class="l">保费:</span>
-                <span>{{ item.prem }}</span>
-              </div>
-              <div class="info">
-                <span class="l">缴费方式:</span>
-                <span>{{ item.payintvvalue }}</span>
-              </div>
-              <div class="info">
-                <span class="l">缴费年期:</span>
-                <span>{{ item.payendyearvalue }}</span>
-              </div>
-
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="55%" :modal-append-to-body="false" :append-to-body="false" :modal="false">
-        <el-input v-if="idoverage === 'Y'" type="textarea" :rows="4" placeholder="请注明客户身体状况异常情况" v-model="remark">
-        </el-input>
-        <el-input v-if="ispeer === 'Y'" type="textarea" :rows="4" placeholder="请注明客户所属保险公司名称" v-model="remark">
-        </el-input>
-        <el-select v-model="remark" placeholder="空号/停机" v-if="isvacantnumber === 'Y'" size="mini">
-          <el-option label="空号" value="空号">
-          </el-option>
-          <el-option label="停机" value="停机">
-          </el-option>
-        </el-select>
-        <div class="popover-bottom-btns" slot="footer" v-show="dis_save">
-          <a href="javascript:;" @click="dialogVisible = false">取消</a>
-          <a href="javascript:;" @click="postRemark" class="modify">确定</a>
-        </div>
-      </el-dialog>
-      <el-dialog title="共享客户" :visible.sync="shareDialogVisible" width="55%" :modal-append-to-body="false" :append-to-body="false" :modal="false">
-        <el-autocomplete v-model="shareUserName" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请选择或输入共享客户姓名"></el-autocomplete>
-        <div class="popover-bottom-btns" slot="footer" v-show="dis_save">
-          <a href="javascript:;" @click="shareDialogVisible = false">取消</a>
-          <a href="javascript:;" @click="shareCustomer" class="modify">确定</a>
-        </div>
-      </el-dialog>
+    <el-drawer title="我是标题" size="50%" custom-class="customer-drawer" :visible.sync="drawer" :with-header="false">
+      <cusIndex :datas="rowDetail" @saveEvent="handleChildData"></cusIndex>
     </el-drawer>
+
     <!-- 查看详情弹窗 -->
-    <view-details :datas="detailObj" :showEditPopupDialogVisible.sync="showEditPopupDialogVisible" @updateVisible="updateVisibleId"></view-details>
-    <!-- 录音播放器 -->
-    <audio :src="audioSrc" ref="audio" controls="controls" id="audio" v-show="audioShow"></audio>
+    <!-- <view-details :datas="detailObj" :showEditPopupDialogVisible.sync="showEditPopupDialogVisible" @updateVisible="updateVisibleId"></view-details> -->
+
   </div>
 </template>
 <script>
-import customerManagementNew from './customerManagementNew.js';
-import viewDetails from "../../components/viewDetails.vue";
+
+// import viewDetails from "../../components/viewDetails.vue";
+
+// import $ from "jquery";
+// import moment from "../../static/js/moment.js";
+import { getData, getPhoneData, my_url, crm_url } from "../../static/js/ajax.js";
+import { formatDate, checkEmail, checkMobile } from "../../static/js/common.js";
+import cusIndex from "./index.vue";
 export default {
-  mixins: [customerManagementNew],
   components: {
-    viewDetails
+    // viewDetails,
+    cusIndex,
   },
+  data() {
+    return {
+      // 父传子
+      rowDetail: {},
+
+      // 权限
+      ismyUse: true,
+      dis_P4_up: false,
+      dis_Pz_up: false,
+      queryflagString: "01",
+
+
+      // 筛选
+      selectTime: [],
+      activeName: "",
+      add_steps: [],
+      customerIntention: "",
+      customerNeedList: [],
+      channelSourceValue: [],
+      channelSource: [],
+      cascaderProps: {
+        value: "id", // 使用 id 作为值
+        label: "label", // 使用 label 作为显示文本
+        children: "child", // 使用 children 作为子节点
+        // multiple: true,
+        checkStrictly: true,
+      },
+      channelList: [], //渠道类型
+      sourceList: [], //流量来源
+
+      queryflag: true,
+      teamNames2: "团队选择",
+      teamList2: "",
+      userNameList2: [],
+      teamDataList: [],
+      defaultProps: {
+        children: "children",
+        label: "label",
+      },
+      overviewForm: {
+        teamid: "",
+        userid: "",
+        startDate: "",
+        endDate: "",
+        time: "1",
+      },
+      userNameOptions: [],
+      Salesman: "",
+      phoneWxno: "电话号码",
+      phoneWxnoValue: "",
+      SalesmanIdBox: [],
+      // 表格筛选
+
+      isArticle: true,
+      checkedAll: false,
+      checkedAllNum: 0,
+      resourceDeployVisable: false,
+      editInfo: {
+        shareuserid: "",
+        otherstore: "",
+        shareusername: "",
+      },
+      select_steps: [],
+      resourceDeployform: {
+        activityid: "",
+        userid: "",
+        followupstep: "",
+      },
+      deleteSourceVisable: false,
+      inteNum: "",
+      inputUserVisable: false,
+      inputUserform: {
+        sourcelevel: "A",
+        batchno: "",
+        wxno: "",
+        mobile: "",
+        name: "",
+      },
+
+
+      // 表格
+      tableData: [],
+      pageTotal: 0,
+      pageSize: 20,
+      pageNum: 1,
+      loading: true,
+      editPrevistitime: "",
+
+      //  侧拉
+      drawer: false,
+      isDealed: false,
+
+      previstitimePickerOptions: {
+        //控制时间范围
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 24 * 60 * 60 * 1000;
+        },
+      },
+
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "今日",
+            onClick(picker) {
+              const end = new Date(formatDate(new Date(), "yyyy-MM-dd"));
+              const start = new Date(formatDate(new Date(), "yyyy-MM-dd"));
+
+              end.setTime(end.getTime() + 3600 * 1000 * 24);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "昨日",
+            onClick(picker) {
+              const end = new Date(formatDate(new Date(), "yyyy-MM-dd"));
+              const start = new Date(formatDate(new Date(), "yyyy-MM-dd"));
+
+              start.setTime(start.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近7天",
+            onClick(picker) {
+              const end = new Date(formatDate(new Date(), "yyyy-MM-dd"));
+              const start = new Date(formatDate(new Date(), "yyyy-MM-dd"));
+
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近30天",
+            onClick(picker) {
+              const end = new Date(formatDate(new Date(), "yyyy-MM-dd"));
+              const start = new Date(formatDate(new Date(), "yyyy-MM-dd"));
+
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "本周",
+            onClick(picker) {
+              var now = new Date(); // 当前日期
+              var nowDayOfWeek = now.getDay(); // 今天本周的第几天
+              var nowDay = now.getDate(); // 当前日
+              var nowMonth = now.getMonth(); // 当前月
+              var nowYear = now.getYear(); // 当前年
+              nowYear += nowYear < 2000 ? 1900 : 0;
+              var day = nowDayOfWeek || 7;
+              const start = new Date(now.getFullYear(), nowMonth, nowDay - day);
+              const end = new Date(now.getFullYear(), nowMonth, nowDay + 6 - day);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "本月",
+            onClick(picker) {
+              var now = new Date(); // 当前日期
+              var nowMonth = now.getMonth(); // 当前月
+              var nowYear = now.getYear(); // 当前年
+              nowYear += nowYear < 2000 ? 1900 : 0;
+              var monthStartDate = new Date(nowYear, nowMonth, 1);
+              const start = monthStartDate;
+              var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
+              const end = monthEndDate;
+
+              function getMonthDays() {
+                var monthStartDate = new Date(nowYear, nowMonth, 1);
+                var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
+                var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
+                return days;
+              }
+              picker.$emit("pick", [start, end]);
+            },
+          },
+        ],
+      },
+
+
+
+    };
+  },
+
+  mounted: function () {
+    var _this = this;
+    this.getchannelNameList();
+    this.getCustomerIntenList();
+    // this.tableHeard();
+    this.getIsCall();
+    this.getConditionData();
+    this.getTeamList();
+
+    this.$nextTick(() => {
+      var hotlineStartDate, hotlineEndDate;
+      if (this.selectTime.length > 0) {
+        hotlineStartDate = this.formatDate(this.selectTime[0], "yyyy-MM-dd");
+        hotlineEndDate = this.formatDate(this.selectTime[1], "yyyy-MM-dd");
+      } else {
+        hotlineStartDate = "";
+        hotlineEndDate = "";
+      }
+
+      let params = {
+        hotlineStartDate: hotlineStartDate,
+        hotlineEndDate: hotlineEndDate,
+        name: this.Salesman,
+        userid: "",
+        mobile: "",
+        wxno: "",
+        followupstep: "01,02,03,04,05,99",
+        pageNumber: this.pageNum,
+        pageSize: this.pageSize,
+        queryflag: this.queryflagString,
+        menutype: "75000000",
+        teamid: "",
+        ismyUse: true,
+        channel: "",
+        appname: "",
+      };
+
+      if (this.channelSourceValue.length == 0) {
+        params.channel = "";
+        params.appname = "";
+      } else if (this.channelSourceValue.length == 1) {
+        params.channel = this.channelSourceValue[0];
+      } else if (this.channelSourceValue.length == 2) {
+        params.channel = this.channelSourceValue[0];
+        params.appname = this.channelSourceValue[1];
+      }
+
+      this.getTableData(params); //table数据
+      // this.getUserIdData();
+    });
+    var now = new Date(); // 当前日期
+    var nowDay = now.getDate(); // 当前日
+    var nowMonth = now.getMonth(); // 当前月
+    var nowYear = now.getYear(); // 当前年
+    var start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay));
+    var end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
+    var audio = this.$refs.audio;
+    this.overviewForm.startDate = formatDate(new Date(start), "yyyy-MM-dd 00:00:00").substring(0, 10);
+    this.overviewForm.endDate = formatDate(new Date(end), "yyyy-MM-dd 00:00:00").substring(0, 10);
+    // this.refresh();
+
+    // audio.addEventListener(
+    //   "ended",
+    //   function (e) {
+    //     _this.audioPaused = true;
+    //     _this.audioShow = false;
+    //   },
+    //   false
+    // );
+
+    this.checkNumber(),
+      // 每 5 分钟检查一次数字是否变化
+      (this.checkNumberChange = setInterval(this.checkNumber, 15 * 60 * 1000));
+  },
+  beforeDestroy() {
+    // 组件销毁前清除定时器
+    clearInterval(this.checkNumberChange);
+  },
+  watch: {
+    checkedAll: function (n, o) {
+      if (n) {
+        this.tableData.forEach((row) => {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        });
+      } else {
+        this.$refs.multipleTable.clearSelection();
+      }
+    },
+    isDealed: function (n, o) {
+      if (!n) {
+        this.drawerWidth = (this.docEl - 200) * 0.5 + "";
+      } else {
+        this.drawerWidth = (this.docEl - 200) * 0.75 + "";
+      }
+    },
+  },
+  computed: {},
   methods: {
-    updateVisibleId(e) {
-      this.showEditPopupDialogVisible = e;
-    }
-  }
-}
+    // new
+
+    //获取客户需求
+    getCustomerIntenList() {
+      let _this = this;
+      getData(
+        "post",
+        my_url + "/crm/common/getDictList.do",
+        function (data) {
+          if (data.code == 0) {
+            var array = data.dictList;
+            // 循环给每个对象添加 disabled 属性
+            array.forEach((item) => {
+              item.disabled = false; // 添加 disabled 属性并设置为 false
+              item.selected = false; // 添加 selected 属性并设置为 false
+            });
+
+            _this.customerNeedList = array;
+          }
+        },
+        {
+          dict_type: "customer_intention",
+        }
+      );
+    },
+
+    //渠道类型
+    getchannelNameList() {
+      let _this = this;
+      getData(
+        "post",
+        my_url + "/crm/common/getDictList.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.channelList = data.dictList;
+          }
+        },
+        {
+          dict_type: "source",
+        }
+      );
+
+      // /crm/activity/getChannelTree.do
+      getData(
+        "post",
+        my_url + "/crm/activity/getChannelTree.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.removeEmptyChildren(data.channelInfo);
+            _this.channelSource = data.channelInfo;
+          }
+        },
+        {
+          dict_type: "source",
+        }
+      );
+    },
+
+    removeEmptyChildren(arr) {
+      arr.forEach((item) => {
+        // 判断是否有 children 属性
+        if (item.child) {
+          // 判断 children 的长度是否为 0
+          if (item.child.length === 0) {
+            // 删除 children 属性
+            delete item.child;
+          } else {
+            // 如果有 children，递归调用以处理子节点
+            this.removeEmptyChildren(item.child);
+          }
+        }
+      });
+    },
+
+    channelSelect() {
+      var _this = this;
+      this.appnameValue = "";
+      getData(
+        "post",
+        my_url + "/crm/common/getDictList.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.sourceList = data.dictList;
+          }
+        },
+        {
+          dict_type: "sourcedetail_" + this.channelValue,
+          special: "dis",
+        }
+      );
+    },
+
+    userNameChange() {
+      this.queryflag = false;
+      this.queryflagString = "02";
+      this.search();
+      // this.refresh();
+    },
+
+    channelChange(value) {
+      // 如果选中的值是没有子节点的选项，保持当前选中的值
+      const selectedOption = this.findOptionById(this.channelSource, value[value.length - 1]);
+      if (selectedOption && !selectedOption.child) {
+        this.channelSourceValue = value; // 保持当前选中的值
+        if (value.length == 2) {
+          this.channelSourceValue[1] = selectedOption.label;
+        }
+      }
+    },
+    findOptionById(options, id) {
+      for (const option of options) {
+        if (option.id === id) {
+          return option;
+        }
+        if (option.child) {
+          const found = this.findOptionById(option.child, id);
+          if (found) {
+            return found;
+          }
+        }
+      }
+      return null;
+    },
+
+    my_sureOne2() {
+      this.$refs.disTeam2.hide();
+      this.my_list2 = "";
+      this.teamList2 = "";
+      this.teamNames2 = "团队选择";
+      this.overviewForm.teamid = "";
+      this.$refs.tree2.setCheckedKeys([]);
+      this.queryflag = true;
+      // this.search();
+      // this.refresh();
+    },
+
+    my_sure2() {
+      let _this = this;
+      this.$refs.disTeam2.hide();
+
+      if (this.my_list2 == null || this.my_list2 == "" || this.my_list2 == "1") {
+        this.queryflag = true;
+        this.queryflagString = "01";
+      } else {
+        this.teamNames2 = this.my_list2;
+        this.queryflag = false;
+        this.queryflagString = "02";
+      }
+      this.overviewForm.userid = "";
+      // this.search();
+      // this.refresh();
+      //获取业务员列表
+      getData(
+        "post",
+        my_url + "/crm/auth/getUserIdNameListByTeam.do",
+        function (data) {
+          _this.userNameOptions = data.namelist;
+        },
+        {
+          teamid: this.teamList2,
+        }
+      );
+    },
+    handleCheckChange2(data, checked, indeterminate) {
+      let teamListName = [];
+      checked.checkedNodes.forEach(function (item) {
+        teamListName.push(item.label);
+      });
+      this.my_list2 = teamListName.join(",");
+      this.teamList2 = checked.checkedKeys.join(",");
+      this.overviewForm.teamid = this.teamList2;
+    },
+
+    resourceDeployShow() {
+      this.getTeamList();
+    },
+    getTeamList() {
+      let _this = this;
+      //设置当前用户的团队列表参数
+      getData("post", my_url + "/crm/auth/getTalkTeamList.do", function (data) {
+        let tempData = [];
+        if (data.teamList == null || data.teamList == "") {
+          _this.disTeamAll = false;
+        } else {
+          _this.disTeamAll = true;
+        }
+        _this.teamDataList = data.teamList;
+      });
+    },
+
+    handleSelectId(item) {
+      this.resourceDeployform.userid = item.id;
+    },
+
+    search(page) {
+      //查询
+
+      let { Salesman, queryflag, mobile, wxno, username, followupstep, sourcelevel, prop, order } = this;
+      let hotlineStartDate = "",
+        hotlineEndDate = "",
+        cusdealStartDate = "",
+        cusdealEndDate = "";
+
+      if (this.selectTime && this.selectTime.length > 0) {
+        hotlineStartDate = this.formatDate(this.selectTime[0], "yyyy-MM-dd");
+        hotlineEndDate = this.formatDate(this.selectTime[1], "yyyy-MM-dd");
+      }
+
+      if (this.selectTimeCusdeal && this.selectTimeCusdeal.length > 0) {
+        cusdealStartDate = this.formatDate(this.selectTimeCusdeal[0], "yyyy-MM-dd");
+        cusdealEndDate = this.formatDate(this.selectTimeCusdeal[1], "yyyy-MM-dd");
+      }
+      if (this.queryflagString != "03") {
+        this.queryflagString = this.queryflag ? "01" : "02";
+      }
+      if (this.phoneWxno == "电话号码") {
+        this.mobile = this.phoneWxnoValue;
+        this.wxno = "";
+        // this.batchnoValue = "";
+      } else {
+        this.mobile = "";
+        this.wxno = this.phoneWxnoValue;
+      }
+      var channelListSum = this.channelList.concat(this.channelOptions);
+
+      let params = {
+        hotlineStartDate: hotlineStartDate, //线索开始时间
+        hotlineEndDate: hotlineEndDate, //线索终止时间
+
+        name: Salesman, //客户姓名
+        userid: this.overviewForm.userid, //业务员姓名
+        mobile: this.mobile,
+        wxno: this.wxno,
+        followupstep: this.activeName,
+        // followupstep: "01,02,03,04,05",
+        pageNumber: page || this.pageNum,
+        pageSize: this.pageSize,
+        queryflag: this.queryflagString,
+        menutype: "75000000",
+
+        teamid: this.overviewForm.teamid,
+        prop: prop,
+        order: order,
+        customer_intention: this.customerIntention,
+        channel: "",
+        appname: "",
+      };
+
+      if (this.channelSourceValue.length == 0) {
+        params.channel = "";
+        params.appname = "";
+      } else if (this.channelSourceValue.length == 1) {
+        params.channel = this.channelSourceValue[0];
+      } else if (this.channelSourceValue.length == 2) {
+        params.channel = this.channelSourceValue[0];
+        params.appname = this.channelSourceValue[1];
+      }
+
+      if (params.followupstep == "") {
+        params.followupstep = "01,02,03,04,05,99";
+      }
+
+      this.loading = true;
+      this.getTableData(params);
+    },
+
+    reset() {
+      //重置
+      this.selectTime = "";
+      this.selectTimeCusdeal = "";
+      this.Salesman = "";
+      this.mobile = "";
+      this.wxno = "";
+      this.username = "";
+      this.queryflag = true;
+      this.queryflagString = "01";
+      this.hotlineStartDate = ""; //线索开始时间
+      this.hotlineEndDate = "";
+      this.cusdealStartDate = "";
+      this.cusdealEndDate = "";
+      this.channelValue = "";
+    },
+
+    getTableData(params) {
+      //table数据
+      let _this = this;
+      getData(
+        "post",
+        my_url + "/crm/activity/getActivityList.do",
+        function (data) {
+          let { rows, total } = data;
+          _this.pageTotal = total;
+          if (rows) {
+            var inteNum = 0;
+            var inte_Name = [];
+            // 获取今天的日期
+            const today = new Date();
+            const yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1); // 将日期减去 1
+            const yesterdayString = yesterday.toISOString().split("T")[0]; // 格式化为 YYYY-MM-DD
+
+            rows.forEach((res) => {
+              if (res.channel == "8001") {
+                res["channelname"] = res.channeldetailname;
+              }
+              res.wxnostr = res.wxno;
+              // 如果sourceleve 是A+,是A重疾
+              if (res.sourcelevel == "A") {
+                res.sourcelevel = "A重疾";
+                // 如果sourceleve 是A+,是A理财
+              } else if (res.sourcelevel == "A+") {
+                res.sourcelevel = "A理财";
+                // 如果sourceleve 是A-,、分两种情况
+              } else if (res.sourcelevel == "A-") {
+                //第一种情况如果initsourceleve 是A 为A-重疾
+                if (res.initsourcelevel == "A") {
+                  res.sourcelevel = "A-重疾";
+                  //第二种情况如果initsourceleve 是A+ 为A-理财
+                } else if (res.initsourcelevel == "A+") {
+                  res.sourcelevel = "A-理财";
+                }
+              }
+
+              if (_this.iscall == "Y") {
+                res.newmobilestr = "javascript:void(0);";
+              } else {
+                res.newmobilestr = "sip:0" + res.mobilestr;
+              }
+
+              if (res.customer_intention) {
+                var keysArray = res.customer_intention.split(",");
+                var replacedValues = [];
+                var customerNeedList = _this.customerNeedList;
+
+                keysArray.forEach((key) => {
+                  var found = customerNeedList.find((item) => item.dd_key === key);
+                  if (found) {
+                    replacedValues.push(found.dd_value); // 如果找到，添加到 replacedValues 数组
+                  }
+                });
+                res.customer_intentionValue = replacedValues.join("，");
+              }
+
+              const dateString = res.makedate.split(" ")[0];
+
+              if (yesterdayString == dateString) {
+                if (!res.customer_intention || res.customer_intention == "") {
+                  inteNum++;
+                  inte_Name.push(res.name);
+                }
+              }
+            });
+            var inteName = inte_Name.join("");
+            _this.inteNum = inteNum;
+
+            if (inteNum > 0) {
+              _this.$message({
+                showClose: true,
+                message: "昨天的线索，你有" + inteNum + "个客户没有添加客户需求，请尽快添加！",
+                duration: 10000,
+                type: "error",
+              });
+            }
+          }
+
+          _this.tableData = rows;
+
+          if (_this.queryflagString == "01" || _this.queryflagString == "03") {
+            _this.isTop = true;
+          } else {
+            _this.isTop = false;
+          }
+          _this.loading = false;
+          _this.$nextTick(function () {
+            _this.scrollHieght();
+          });
+        },
+        params
+      );
+    },
+    pageClick(page) {
+      //点击分页
+      this.pageNum = page;
+      if (this.isArticle == false) {
+        this.articleData(page);
+      } else {
+        this.search(page);
+      }
+    },
+
+    checkNumber() {
+      // 检查当前数字是否与上一个数字不同
+      if (this.inteNum && this.inteNum > 0) {
+        this.$message({
+          showClose: true,
+          message: "昨天的线索，你有" + this.inteNum + "个客户没有添加客户需求，请尽快添加！",
+          duration: 5000,
+          type: "error",
+        });
+      }
+    },
+    resourceDeployCancel() {
+      this.resourceDeployVisable = false;
+      this.resourceDeployform.followupstep = "";
+      this.resourceDeployform.activityid = "";
+      this.editInfo.shareusername = "";
+      this.resourceDeployform.userid = "";
+      this.userNameList = [];
+      this.teamNames = "团队选择";
+      this.teamList = "";
+      // this.$refs.tree1.setCheckedKeys([])
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      this.checkedAllNum = val.length;
+    },
+
+
+    resourceDeploySubmit() {
+      let _this = this;
+      let activityid = [];
+      _this.multipleSelection.forEach(function (item) {
+        activityid.push(item.activityserialno);
+      });
+      if (activityid.length == 0) {
+        _this.$message({
+          type: "waring",
+          duration: 3000,
+          message: "请选择需要调配的资源！",
+        });
+        return;
+      }
+      //添加的新业务员编号
+      let userid = [];
+      userid.push(this.resourceDeployform.userid);
+
+      this.resourceDeployform.activityid = activityid.join(",");
+      this.resourceDeployform.userid = userid.join("");
+      getData(
+        "post",
+        my_url + "/crm/activity/activityTransfer.do",
+        function (data) {
+          if (data.code == "0") {
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "调配成功！",
+            });
+            _this.resourceDeployVisable = false;
+            _this.resourceDeployform.followupstep = "";
+            _this.resourceDeployform.activityid = "";
+            _this.userNameList = [];
+            _this.teamNames = "团队选择";
+            _this.teamList = "";
+            _this.resourceDeployform.userid = "";
+            _this.editInfo.shareusername = "";
+            _this.search(1);
+          } else {
+            _this.$message({
+              type: "waring",
+              duration: 3000,
+              message: data.msg,
+            });
+          }
+        },
+        this.resourceDeployform
+      );
+    },
+
+    deleteSourceCancel() {
+      this.deleteSourceVisable = false;
+    },
+
+    deleteSourceSubmit() {
+      let _this = this;
+      let activityid = [];
+      _this.multipleSelection.forEach(function (item) {
+        activityid.push(item.activityserialno);
+      });
+      if (activityid.length == 0) {
+        _this.$message({
+          type: "waring",
+          duration: 3000,
+          message: "请选择需要删除的资源！",
+        });
+        return;
+      }
+      let params = {
+        activityid: activityid.join(","),
+      };
+      getData(
+        "post",
+        my_url + "/crm/activity/pageActivityDelete.do",
+        function (data) {
+          if (data.code == "0") {
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "删除成功！",
+            });
+            _this.deleteSourceVisable = false;
+            _this.search(1);
+          } else {
+            _this.$message({
+              type: "waring",
+              duration: 3000,
+              message: data.msg,
+            });
+          }
+        },
+        params
+      );
+    },
+
+    toggerIsVist(scop) {
+      var _this = this;
+      getData(
+        "post",
+        my_url + "/crm/activity/activityVisit.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.$message({
+              showClose: true,
+              message: "成功!",
+              duration: 3000,
+              type: "success",
+            });
+            _this.search(_this.pageNum);
+            // _this.refresh()
+          } else {
+            _this.$message({
+              showClose: true,
+              message: data.msg,
+              duration: 3000,
+              type: "error",
+            });
+          }
+        },
+        {
+          activityserialno: scop.row.activityserialno,
+        }
+      );
+    },
+    editPrevistTime(scop) {
+      var _this = this;
+      getData(
+        "post",
+        my_url + "/crm/activity/updatePrevistiTime.do",
+        function (data) {
+          if (data.code == 0) {
+            _this.$message({
+              showClose: true,
+              message: "成功!",
+              duration: 3000,
+              type: "success",
+            });
+            _this.previstirimeVisable = false;
+            scop.row.previstitime = false;
+            _this.search(_this.pageNum);
+          } else {
+            _this.$message({
+              showClose: true,
+              message: data.msg,
+              duration: 3000,
+              type: "error",
+            });
+          }
+        },
+        {
+          activityserialno: scop.row.activityserialno,
+          previstitime: _this.formatDate(_this.editPrevistitime, "yyyy-MM-dd HH:mm:ss"),
+        }
+      );
+    },
+
+    querySearchId(queryString, cb) {
+      var SalesmanIdBox = this.SalesmanIdBox;
+      var results = queryString ? SalesmanIdBox.filter(this.createFilterId(queryString)) : SalesmanIdBox;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+
+
+    sortChange(val) {
+      this.order = val.order;
+      this.prop = val.prop;
+      this.search(1);
+    },
+
+
+    disPageUrl(row) {
+      if (row.pageurl != null && row.pageurl != "") {
+        window.open(row.pageurl, "_blank", "width=400px,height=550px,left=400px,top=100px,menubar=no,toolbar=no,scrollbars=yes,location=no");
+      } else if (row.channel == "0004" && row.pagetype == "1yuango/0001") {
+        window.open(crm_url + "insure.meihualife.com/life/activity/oneyuangodis.do", "_blank", "width=400px,height=550px,left=400px,top=100px,menubar=no,toolbar=no,scrollbars=yes,location=no");
+      } else {
+        window.open(
+          crm_url + "insure.meihualife.com/life/activity/channelActivity.do?channelCode=" + row.channel + "&pageType=" + row.pagetype + "&planId=" + row.planid,
+          "_blank",
+          "width=400px,height=550px,left=400px,top=100px,menubar=no,toolbar=no,scrollbars=yes,location=no"
+        );
+      }
+    },
+
+
+    getCallData() {
+      let _this = this;
+      let params = {
+        activityserialno: this.detailsInfo.activityserialno,
+      };
+      getData(
+        "post",
+        my_url + "/crm/activity/getCallList.do",
+        function (data) {
+          if (data.code == "0") {
+            let arr = data.callList.map((item) => {
+              var calltimeType = item.calltime.replace(/-|:|_|\s/g, "");
+              return Object.assign({}, item, {
+                calltimeType: calltimeType,
+              });
+            });
+            _this.callDataList = arr;
+            _this.callSum = data.callSum;
+          }
+        },
+        params
+      );
+    },
+
+    getIsCall() {
+      let _this = this;
+      getData(
+        "post",
+        my_url + "/crm/common/getIsCall.do",
+        function (data) {
+          //渠道类型
+          if (data.code == 0) {
+            _this.iscall = data.iscall;
+          }
+        },
+        null
+      );
+    },
+
+    getConditionData() {
+      //条件数据
+      let _this = this;
+      getData("post", my_url + "/crm/common/getDictList.do", function (data) {
+        //渠道类型
+        if (data.code == 0) {
+          let { dictList } = data;
+          _this.channelOptions = dictList;
+        }
+      },
+        {
+          dict_type: "source",
+        }
+      );
+      getData("post", my_url + "/crm/common/getDictList.do", function (data) {
+        //跟进步骤
+        if (data.code == 0) {
+          _this.steps = data.dictList;
+          let select_dictList = JSON.parse(JSON.stringify(data.dictList));
+
+
+          _this.select_steps = select_dictList;
+
+          var add_dictList = JSON.parse(JSON.stringify(data.dictList));
+
+
+          const filteredList = add_dictList.filter((item) => item.dd_key !== "06" && item.dd_key !== "07");
+
+          _this.add_steps = filteredList;
+          // _this.activeName = add_dictList[1].dd_key;
+          _this.activeName = "";
+        }
+      },
+        {
+          dict_type: "followupstep",
+        }
+      );
+      getData(
+        "post",
+        my_url + "/crm/common/getDictList.do",
+        function (data) {
+          //标签
+          if (data.code == 0) {
+            let { dictList } = data;
+            _this.customers = dictList;
+          }
+        },
+        {
+          dict_type: "activitytag",
+        }
+      );
+      getData(
+        "post",
+        my_url + "/crm/common/getDictList.do",
+        function (data) {
+          //其他库
+          if (data.code == 0) {
+            let { dictList } = data;
+            _this.otherstores = dictList;
+          }
+        },
+        {
+          dict_type: "otherstore",
+        }
+      );
+      getData(
+        "post",
+        my_url + "/crm/auth/getManagePermission.do",
+        function (data) {
+          //查看客户的权限
+          if (data.code == 0) {
+            _this.dis_P4_up = true;
+          } else {
+            _this.dis_P4_up = false;
+          }
+        },
+        null
+      );
+
+      //资源删除的权限
+      getData(
+        "post",
+        my_url + "/crm/auth/getZongPermission.do",
+        function (data) {
+          //其他库
+          if (data.code == 0) {
+            _this.dis_Pz_up = true;
+          } else {
+            _this.dis_Pz_up = false;
+          }
+
+          _this.getUserIdData();
+        },
+        null
+      );
+    },
+
+
+
+    formatDate: function (date, format) {
+      //格式化时间
+      if (!date) return;
+      if (!format || typeof format != "string") format = "yyyy-MM-dd";
+      switch (typeof date) {
+        case "string":
+          date = new Date(date.replace("T", " ").replace(/-/, "/"));
+          break;
+        case "number":
+          date = new Date(date);
+          break;
+      }
+      if (!(date instanceof Date)) return;
+      var dict = {
+        yyyy: date.getFullYear(),
+        M: date.getMonth() + 1,
+        d: date.getDate(),
+        H: date.getHours(),
+        m: date.getMinutes(),
+        s: date.getSeconds(),
+        MM: ("" + (date.getMonth() + 101)).substr(1),
+        dd: ("" + (date.getDate() + 100)).substr(1),
+        HH: ("" + (date.getHours() + 100)).substr(1),
+        mm: ("" + (date.getMinutes() + 100)).substr(1),
+        ss: ("" + (date.getSeconds() + 100)).substr(1),
+      };
+      return format.replace(/(yyyy|MM?|dd?|HH?|ss?|mm?)/g, function () {
+        return dict[arguments[0]];
+      });
+    },
+    inputUserSubmit() {
+      let _this = this;
+      if (!_this.inputUserform.wxno && !_this.inputUserform.mobile) {
+        _this.$message({
+          type: "waring",
+          duration: 3000,
+          message: "电话和微信至少填写一个！",
+        });
+        return;
+      }
+      if (_this.inputUserform.mobile != null && _this.inputUserform.mobile != "" && !/^1[3456789]\d{9}$/.test(_this.inputUserform.mobile)) {
+        _this.$message({
+          type: "waring",
+          duration: 3000,
+          message: "请填写正确的电话号码！",
+        });
+        _this.inputUserform.mobile = "";
+        return;
+      }
+      getData(
+        "post",
+        my_url + "/crm/activity/pageActivityInsert.do",
+        function (data) {
+          if (data.code == "0") {
+            _this.$message({
+              type: "success",
+              duration: 3000,
+              message: "录入成功！",
+            });
+            _this.inputUserform.name = "";
+            _this.inputUserform.mobile = "";
+            _this.inputUserform.wxno = "";
+            _this.inputUserform.batchno = "";
+            _this.inputUserform.sourcelevel = "A";
+            _this.inputUserVisable = false;
+            _this.search(1);
+          } else {
+            _this.$message({
+              type: "waring",
+              duration: 3000,
+              message: data.msg,
+            });
+          }
+        },
+        _this.inputUserform
+      );
+    },
+    inputUserCancel() {
+      this.sable = false;
+      this.inputUserform1 = this.inputUserform2;
+      this.inputUserVisable = false;
+      this.inputUserform.name = "";
+      this.inputUserform.mobile = "";
+      this.inputUserform.wxno = "";
+    },
+
+    createFilterId(queryString) {
+      return (SalesmanIdBox) => {
+        return SalesmanIdBox.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0;
+      };
+    },
+    getUserIdData() {
+      let _this = this;
+      if (this.dis_Pz_up) {
+        getData("post", my_url + "/crm/auth/getUserIdNameList.do", function (data) {
+          //渠道类型
+          if (data.code == 0) {
+            let nameList = data.namelist;
+            nameList.forEach((res) => {
+              _this.SalesmanIdBox.push({
+                value: res.username,
+                id: res.userid,
+              });
+            });
+          }
+        });
+      } else {
+        getData("post", my_url + "/crm/auth/getAllUserIdNameList.do", function (data) {
+          //渠道类型
+          if (data.code == 0) {
+            let nameList = data.namelist;
+            nameList.forEach((res) => {
+              _this.SalesmanIdBox.push({
+                value: res.username,
+                id: res.userid,
+              });
+            });
+          }
+        });
+      }
+    },
+
+
+    // 拨打电话
+    phonecall_row(row) {
+      this.$parent.onSend({
+        mobile: row.mobilestr,
+        activityid: row.activityserialno,
+      });
+    },
+
+
+
+
+
+
+
+
+
+    // 回传部分
+    handleChildData(data) {
+      console.log(data);
+      this.search();
+    },
+    //点击客户姓名 展示详细信息
+    handle(row) {
+      let _this = this;
+      this.rowDetail = "";
+      row["queryflag"] = this.queryflag;
+      this.rowDetail = Object.assign({}, row);
+      this.drawer = true;
+    },
+
+
+
+    // 设置滚动条
+    scrollHieght() {
+      //滚动条距离顶部距离
+      let s1 = document.documentElement.scrollTop;
+      //页面可视区域高度
+      let s2 = document.documentElement.clientHeight;
+      // 页面总高度
+      let s3 = document.documentElement.scrollHeight;
+      let s4 = s3 - s2;
+      if (s4 > 0) {
+        document.documentElement.scrollTop = s4;
+      }
+    },
+  },
+};
 </script>
 <style src="../../static/css/viewer.min.css"></style>
 <style src="../../static/css/drawer.css"></style>
@@ -1027,6 +1649,7 @@ export default {
   width: 15% !important;
   cursor: pointer;
 }
+
 .customer-drawer .drawerRight .drawercontentBox ul li:hover .gjg_topping {
   display: block !important;
 }
@@ -1043,6 +1666,7 @@ export default {
   line-height: 0.25rem;
   text-align: center;
 }
+
 .el-tooltip .lipeiTag {
   background: #ecffff;
   border-radius: 5px 5px 5px 5px;
@@ -1053,12 +1677,10 @@ export default {
 .cusintention .el-select__tags {
   width: 105% !important;
   max-width: 159.531px !important;
-  
 }
 </style>
 
-
-<style   scoped>
+<style scoped>
 .container-search-box .common-select {
   width: 23%;
 }
@@ -1070,6 +1692,7 @@ export default {
 .select-content .el-dropdown-inners > span {
   width: 3.2rem;
 }
+
 .resourceAllocation {
   width: auto;
   padding: 0.01rem 0.18rem;
@@ -1077,6 +1700,7 @@ export default {
   border: 1px solid #dc220d;
   color: #dc220d;
 }
+
 .newsalesperson {
   width: 1.1rem;
   border: none;
@@ -1088,6 +1712,7 @@ export default {
   color: #dc240f;
   border: 0.01rem solid #dc240f;
 }
+
 .resourceDel {
   width: auto;
   padding: 0.01rem 0.18rem;
@@ -1101,4 +1726,4 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-</style> 
+</style>

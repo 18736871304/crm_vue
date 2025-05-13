@@ -4,12 +4,84 @@ import wangEditor from "@/components/wangEditor/release/wangEditor.min.js";
 import { getData, getPhoneData, my_url, crm_url } from "../../static/js/ajax.js";
 import { formatDate, checkEmail, checkMobile } from "../../static/js/common.js";
 let editor4, editor5, editor6, editor7;
+import viewDetails from "../../components/viewDetails.vue";
 export default {
+  components: {
+    viewDetails,
+    // cusIndex
+  },
   data() {
     return {
-      inteNum: "",
+      // 父传子
+      rowDetail: {},
+
+      // 权限
+      ismyUse: true,
+      dis_P4_up: false,
+      // 筛选
+      selectTime: [],
+      activeName: "",
+      add_steps: [],
       customerIntention: "",
+      customerNeedList: [],
       channelSourceValue: [],
+      queryflag: true,
+      teamNames2: "团队选择",
+      teamList2: "",
+      userNameList2: [],
+      teamDataList: [],
+      defaultProps: {
+        children: "children",
+        label: "label",
+      },
+      overviewForm: {
+        teamid: "",
+        userid: "",
+        startDate: "",
+        endDate: "",
+        time: "1",
+      },
+      userNameOptions: [],
+      Salesman: "",
+      phoneWxno: "电话号码",
+      phoneWxnoValue: "",
+
+      // 表格筛选
+
+      isArticle: true,
+      checkedAll: false,
+      checkedAllNum: 0,
+      resourceDeployVisable: false,
+      editInfo: {
+        shareuserid: "",
+        otherstore: "",
+        shareusername: "",
+      },
+      select_steps: [],
+      resourceDeployform: {
+        activityid: "",
+        userid: "",
+        followupstep: "",
+      },
+      deleteSourceVisable: false,
+      inteNum: "",
+
+      // 表格
+      tableData: [],
+      pageTotal: 0,
+      pageSize: 20,
+      pageNum: 1,
+      loading: true,
+
+
+
+
+
+
+
+
+
+
       channelSource: [],
       cascaderProps: {
         value: "id", // 使用 id 作为值
@@ -46,7 +118,7 @@ export default {
       audioSrc: "",
 
       ArticleData: [],
-      isArticle: true,
+
       sable: false,
       inputUserform1: [],
       inputUserform2: [], //储存记忆
@@ -60,8 +132,7 @@ export default {
       birthday: "",
       cjgcontent: "保单检视",
       cjgtype: "",
-      phoneWxno: "电话号码",
-      phoneWxnoValue: "",
+
       my_url: my_url,
       currentSuggestion: "zjsuggestion",
       // tableDataOverview: [],
@@ -69,32 +140,26 @@ export default {
       iscall: "N",
       // isrefresh: false,
       callSum: "",
-      selectTime: [],
+
       selectTimeCusdeal: "",
-      Salesman: "",
 
       mobile: "",
       wxno: "",
       username: "",
       followupstep: "",
       steps: [],
-      select_steps: [],
-      add_steps: [],
+
       fileList: [],
-      activeName: "",
-      tableData: [],
-      pageTotal: 0,
-      pageSize: 20,
-      pageNum: 1,
-      loading: true,
+
+
       detai_loading: false,
-      queryflag: true,
+
       queryflagString: "01",
       menutype: "",
       value: [],
       my_list: "",
       my_list2: "",
-      userNameOptions: [],
+
       policyList: [],
       otherstore: "",
       sourcelevel: "",
@@ -106,18 +171,7 @@ export default {
         mobile: "",
         name: "",
       },
-      resourceDeployform: {
-        activityid: "",
-        userid: "",
-        followupstep: "",
-      },
-      overviewForm: {
-        teamid: "",
-        userid: "",
-        startDate: "",
-        endDate: "",
-        time: "1",
-      },
+
       overviewFormTime: "1",
       // 侧拉
       drawer: false,
@@ -139,11 +193,11 @@ export default {
       peerActived: false,
       vacantnumberActived: false,
       dis_save: false,
-      dis_P4_up: false,
+
       dis_Pz_up: false,
       visit: "",
       returnVisit: "",
-      customerNeedList: [],
+
       customer_intention: "",
       sexs: [
         {
@@ -171,38 +225,24 @@ export default {
       cjgList: [],
       remark: "",
       inputUserVisable: false,
-      deleteSourceVisable: false,
-      resourceDeployVisable: false,
+
       multipleSelection: [],
-      ismyUse: true,
+
       isTop: false,
       teamData: [],
-      teamDataList: [],
 
-      defaultProps: {
-        children: "children",
-        label: "label",
-      },
       teamNames: "团队选择",
       teamList: "",
       userNameList: [],
 
-      teamNames2: "团队选择",
-      teamList2: "",
-      userNameList2: [],
       mobileList: [],
       addMoblie: "",
       deleteMobile: "",
       mobileInputShow: false,
-      editInfo: {
-        shareuserid: "",
-        otherstore: "",
-        shareusername: "",
-      },
+
       otherstores: [],
       SalesmanIdBox: [],
-      checkedAll: false,
-      checkedAllNum: 0,
+
       drawerWidth: "",
       docEl: "",
       editPrevistitime: "",
@@ -391,17 +431,19 @@ export default {
     this.overviewForm.startDate = formatDate(new Date(start), "yyyy-MM-dd 00:00:00").substring(0, 10);
     this.overviewForm.endDate = formatDate(new Date(end), "yyyy-MM-dd 00:00:00").substring(0, 10);
     // this.refresh();
-    audio.addEventListener(
-      "ended",
-      function (e) {
-        _this.audioPaused = true;
-        _this.audioShow = false;
-      },
-      false
-    );
+
+    // audio.addEventListener(
+    //   "ended",
+    //   function (e) {
+    //     _this.audioPaused = true;
+    //     _this.audioShow = false;
+    //   },
+    //   false
+    // );
+
     this.checkNumber(),
-    // 每 5 分钟检查一次数字是否变化
-    this.checkNumberChange = setInterval(this.checkNumber, 15 * 60 * 1000);
+      // 每 5 分钟检查一次数字是否变化
+      (this.checkNumberChange = setInterval(this.checkNumber, 15 * 60 * 1000));
   },
   beforeDestroy() {
     // 组件销毁前清除定时器
@@ -427,9 +469,14 @@ export default {
   },
   computed: {},
   methods: {
+
+    updateVisibleId(e) {
+      this.showEditPopupDialogVisible = e;
+    },
+
     checkNumber() {
       // 检查当前数字是否与上一个数字不同
-      console.log(this.inteNum)
+
       if (this.inteNum && this.inteNum > 0) {
         this.$message({
           showClose: true,
@@ -889,8 +936,6 @@ export default {
         appname: "",
       };
 
-      console.log(this.channelSourceValue);
-
       if (this.channelSourceValue.length == 0) {
         params.channel = "";
         params.appname = "";
@@ -1241,7 +1286,7 @@ export default {
               }
 
               const dateString = res.makedate.split(" ")[0];
-              console.log(yesterdayString ,dateString)
+
               if (yesterdayString == dateString) {
                 if (!res.customer_intention || res.customer_intention == "") {
                   inteNum++;
@@ -1251,8 +1296,8 @@ export default {
             });
             var inteName = inte_Name.join("");
             _this.inteNum = inteNum;
-            console.log(_this.queryflag,inteNum )
-            if (  inteNum > 0) {
+
+            if (inteNum > 0) {
               _this.$message({
                 showClose: true,
                 message: "昨天的线索，你有" + inteNum + "个客户没有添加客户需求，请尽快添加！",
@@ -1341,10 +1386,20 @@ export default {
         return dict[arguments[0]];
       });
     },
+
+    handleChildData(data) {
+      console.log(data);
+      this.search();
+    },
     //点击客户姓名 展示详细信息
     handle(row) {
-      console.log(row);
       let _this = this;
+      // this.rowDetail = "";
+      // row["queryflag"] = this.queryflag;
+      // this.rowDetail = Object.assign({}, row);
+      // this.drawer = true;
+      // return;
+
       this.drawer = true;
       this.cjgList = [];
       this.cjgTitle = "";

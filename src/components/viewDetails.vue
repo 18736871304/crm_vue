@@ -5,7 +5,7 @@
     :visible.sync="dialogVisible"
     :close-on-click-modal="false"
     custom-class="view-detail"
-    width="70%"
+    width="70%" append-to-body
   >
     <div class="el-dialog-detail" style="position: relative">
       <div class="header" style="border-bottom: none">

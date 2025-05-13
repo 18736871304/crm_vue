@@ -16,7 +16,7 @@
             <div class="common-select">
               <div class="select-title filtitle">渠道/来源</div>
               <div class="select-content filContent">
-                <el-cascader class="el-select-inners" popper-class="cascaderBox" @change="channelChange"  v-model="channelSourceValue" :options="channelSource" :props="cascaderProps"  :show-all-levels="false" collapse-tags clearable></el-cascader>
+                <el-cascader class="el-select-inners" popper-class="cascaderBox" @change="channelChange" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps" :show-all-levels="false" collapse-tags clearable></el-cascader>
               </div>
             </div>
 
@@ -78,7 +78,7 @@
             <div class="common-select">
               <div class="select-title filtitle">渠道/来源</div>
               <div class="select-content filContent">
-                <el-cascader class="el-select-inners" popper-class="cascaderBox"   @change="channelChange"    v-model="channelSourceValue" :options="channelSource" :props="cascaderProps"  :show-all-levels="false" collapse-tags clearable></el-cascader>
+                <el-cascader class="el-select-inners" popper-class="cascaderBox" @change="channelChange" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps" :show-all-levels="false" collapse-tags clearable></el-cascader>
               </div>
             </div>
 
@@ -271,7 +271,7 @@
               <div class="my-sure" @click="deleteSourceSubmit">确定</div>
             </div>
           </el-popover>
-          <el-popover popper-class="select-check" placement="bottom-start" trigger="click" v-model="sable" style="display: none;">
+          <!-- <el-popover popper-class="select-check" placement="bottom-start" trigger="click" v-model="sable" style="display: none;">
             <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">选择显示列表</div>
             <el-checkbox-group ref="inputUserform1" v-model="inputUserform1" class="main-left" style="width: 1.5rem;">
               <el-checkbox label="menudate" :disabled="activeName == '00000005' || activeName == '00000007'">线索入库时间
@@ -300,7 +300,7 @@
                 <div class="my-sure" @click="checkedSure">确定</div>
               </div>
             </el-checkbox-group>
-          </el-popover>
+          </el-popover> -->
         </div>
       </div>
       <div class="check-all-table publicCustome-table">
@@ -330,28 +330,27 @@
               <span v-else>****</span>
             </template>
           </el-table-column>
-        
-            <el-table-column key="7" prop="followupstepname" align="center" label="跟进步骤" width="110" :show-overflow-tooltip="true">
-              <template slot="header">
-                <p class="source-level">跟进步骤
-                  <el-tooltip popper-class="atooltip" effect="light" placement="top">
-                    <template slot="content">
-                      <div>
-                        <p>跟进步骤为“新资源”的线索：</p>
-                        <p>A类将会在线索产生时间7天后自动回收，</p>
-                        <p>A-/B+/B/B-/C/C-类每日回收</p>
-                      </div>
 
-                    </template>
-                    <span></span>
-                  </el-tooltip>
-                </p>
-              </template>
-            </el-table-column>
+          <el-table-column key="7" prop="followupstepname" align="center" label="跟进步骤" width="110" :show-overflow-tooltip="true">
+            <template slot="header">
+              <p class="source-level">跟进步骤
+                <el-tooltip popper-class="atooltip" effect="light" placement="top">
+                  <template slot="content">
+                    <div>
+                      <p>跟进步骤为“新资源”的线索：</p>
+                      <p>A类将会在线索产生时间7天后自动回收，</p>
+                      <p>A-/B+/B/B-/C/C-类每日回收</p>
+                    </div>
 
+                  </template>
+                  <span></span>
+                </el-tooltip>
+              </p>
+            </template>
+          </el-table-column>
 
-            <el-table-column key="18" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
-              <template slot="header">
+          <el-table-column key="18" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
+            <template slot="header">
               <p class="source-level">客户需求
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
                   <template slot="content">
@@ -362,17 +361,17 @@
                 </el-tooltip>
               </p>
             </template>
-            </el-table-column>
+          </el-table-column>
 
-            <el-table-column key="8" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
-            </el-table-column>
-     
-          <el-table-column key="9" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="8" prop="username" align="center" label="所属业务员" width="100" :show-overflow-tooltip="true">
+          </el-table-column>
+
+          <!-- <el-table-column key="9" v-if="queryflagString === '03'" align="center" label="共享业务员" width="100" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{scope.row.shareusername}}</span>
               <img src="../../static/images/delete-icon.png" alt="" style="cursor: pointer;vertical-align: -0.02rem;margin-left: 0.03rem;" @click="cancelShare(scope.row)">
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column key="10" prop="sex" label="性别" align="center" width="80" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column key="11" prop="sourcelevel" label="" align="center" width="110" :show-overflow-tooltip="true">
@@ -416,7 +415,12 @@
         </el-pagination>
       </div>
     </div>
-    <el-drawer title="我是标题" :size="isDealed ? '75%' : '56%'" custom-class="customer-drawer" :visible.sync="drawer" :with-header="false">
+
+    <el-drawer title="我是标题" size="50%" custom-class="customer-drawer" :visible.sync="drawer" :with-header="false">
+      <cusIndex :datas="rowDetail" @saveEvent="handleChildData"></cusIndex>
+    </el-drawer>
+
+    <!-- <el-drawer title="我是标题" :size="isDealed ? '75%' : '56%'" custom-class="customer-drawer" :visible.sync="drawer" :with-header="false">
       <div class="drawerLeft" :class="isDealed ? 'isDealed' : ''">
         <div class="left_box">
           <div class="header">
@@ -510,12 +514,7 @@
           <div class="condition">
             <div class="clearfix">
 
-              <!-- <div class="common-select">
-                <div class="select-title " style="width: 0.8rem">共享客户</div>
-                <div class="select-content filContentNoborder filContBottom" style="width: calc(100% - 0.8rem); margin-right: 0;">
-                  <el-autocomplete class="el-input-inners" v-model="editInfo.shareusername" :trigger-on-focus="false" :fetch-suggestions="querySearchId" size="mini" placeholder="请输入业务员姓名" clearable></el-autocomplete>
-                </div>
-              </div> -->
+          
 
               <div class="common-select">
                 <div class="select-title" style="width: 0.8rem">跟进步骤</div>
@@ -755,8 +754,8 @@
           <a href="javascript:;" @click="shareCustomer" class="modify">确定</a>
         </div>
       </el-dialog>
-    </el-drawer>
-    <el-dialog :title="CJGselectValue" :visible.sync="cjgdrawer" width="70%" class="cjg-dialog">
+    </el-drawer> -->
+    <!-- <el-dialog :title="CJGselectValue" :visible.sync="cjgdrawer" width="70%" class="cjg-dialog">
       <div class="step-list wei-step-list" v-if="CJGselectValue === '保单检视'">
         <div class="item-section">
           <label>标题</label>
@@ -922,9 +921,9 @@
           </div>
         </div>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <!-- 录音 -->
-    <audio :src="audioSrc" ref="audio2"></audio>
+    <!-- <audio :src="audioSrc" ref="audio2"></audio> -->
   </div>
 </template>
   <script>
@@ -935,18 +934,17 @@
 import $ from 'jquery';
 import moment from "../../static/js/moment.js"
 // import publicCustome from './publicCustome.js'
-import {
-  getData,
-  my_url,
-  crm_url
-} from '../../static/js/ajax.js';
-import {
-  formatDate
-} from '../../static/js/common.js';
+import { getData, my_url, crm_url } from '../../static/js/ajax.js';
+import { formatDate } from '../../static/js/common.js';
+import cusIndex from "./index.vue";
 export default {
-  // mixins: [publicCustome],
+  components: {
+    cusIndex,
+  },
   data() {
     return {
+      // 父传子
+      rowDetail: {},
 
       channelSourceValue: [],
       channelSource: [],
@@ -1278,7 +1276,7 @@ export default {
 
 
 
-    this.refresh();
+    // this.refresh();
 
   },
   watch: {
@@ -1332,7 +1330,7 @@ export default {
         });
       }
     },
-    
+
     channelChange(value) {
       // 如果选中的值是没有子节点的选项，保持当前选中的值
       const selectedOption = this.findOptionById(this.channelSource, value[value.length - 1]);
@@ -1659,7 +1657,7 @@ export default {
             type: 'success'
           });
           _this.search(_this.pageNum);
-          _this.refresh()
+          // _this.refresh()
         } else {
           _this.$message({
             showClose: true,
@@ -1969,9 +1967,42 @@ export default {
         return dict[arguments[0]];
       });
     },
+
+
+
+
+
+
+
+    // 回传部分
+    handleChildData(data) {
+      console.log(data);
+      this.search();
+    },
+
+
+
+
+
+
+
     //点击客户姓名 展示详细信息
     handle(row) {
       let _this = this;
+
+
+
+      this.rowDetail = "";
+      row["queryflag"] = false;
+      this.rowDetail = Object.assign({}, row);
+      this.drawer = true;
+
+
+      return
+
+
+
+
       this.drawer = true;
       this.cjgList = [];
       this.cjgTitle = '';
@@ -2148,166 +2179,166 @@ export default {
         activityserialno: _this.detailsInfo.activityserialno
       });
     },
-    newWangEditor(el1, el2) {
-      var E = window.wangEditor
-      editor = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      // 关闭粘贴内容中的样式
-      editor.customConfig.pasteFilterStyle = false
-      // 隐藏“网络图片”tab
-      editor.customConfig.showLinkImg = false
-      // 忽略粘贴内容中的图片
-      editor.customConfig.pasteIgnoreImg = true
-      // 使用 base64 保存图片
-      //editor.customConfig.uploadImgShowBase64 = true
-      editor.customConfig.menus = [
-        'image',
-      ]
-      // 上传图片到服务器
-      editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    // newWangEditor(el1, el2) {
+    //   var E = window.wangEditor
+    //   editor = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+    //   // 关闭粘贴内容中的样式
+    //   editor.customConfig.pasteFilterStyle = false
+    //   // 隐藏“网络图片”tab
+    //   editor.customConfig.showLinkImg = false
+    //   // 忽略粘贴内容中的图片
+    //   editor.customConfig.pasteIgnoreImg = true
+    //   // 使用 base64 保存图片
+    //   //editor.customConfig.uploadImgShowBase64 = true
+    //   editor.customConfig.menus = [
+    //     'image',
+    //   ]
+    //   // 上传图片到服务器
+    //   editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //   editor.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+    //   editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-      //自定义上传图片事件
-      editor.customConfig.uploadImgHooks = {
-        before: function (xhr, editor, files) {
+    //   //自定义上传图片事件
+    //   editor.customConfig.uploadImgHooks = {
+    //     before: function (xhr, editor, files) {
 
-        },
-        success: function (xhr, editor, result) {
-          console.log("上传成功");
+    //     },
+    //     success: function (xhr, editor, result) {
+    //       console.log("上传成功");
 
-        },
-        fail: function (xhr, editor, result) {
-          console.log("上传失败,原因是" + result);
-        },
-        error: function (xhr, editor) {
-          console.log("上传出错");
-        },
-        timeout: function (xhr, editor) {
-          console.log("上传超时");
-        }
-      }
-      editor.create()
-    },
-    newWangEditor1(el1, el2) {
-      var E = window.wangEditor
-      editor1 = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      // 关闭粘贴内容中的样式
-      editor1.customConfig.pasteFilterStyle = false
-      // 隐藏“网络图片”tab
-      editor1.customConfig.showLinkImg = false
-      // 忽略粘贴内容中的图片
-      editor1.customConfig.pasteIgnoreImg = true
-      // 使用 base64 保存图片
-      //editor.customConfig.uploadImgShowBase64 = true
-      editor1.customConfig.menus = [
-        'image',
-      ]
-      // 上传图片到服务器
-      editor1.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor1.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor1.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    //     },
+    //     fail: function (xhr, editor, result) {
+    //       console.log("上传失败,原因是" + result);
+    //     },
+    //     error: function (xhr, editor) {
+    //       console.log("上传出错");
+    //     },
+    //     timeout: function (xhr, editor) {
+    //       console.log("上传超时");
+    //     }
+    //   }
+    //   editor.create()
+    // },
+    // newWangEditor1(el1, el2) {
+    //   var E = window.wangEditor
+    //   editor1 = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+    //   // 关闭粘贴内容中的样式
+    //   editor1.customConfig.pasteFilterStyle = false
+    //   // 隐藏“网络图片”tab
+    //   editor1.customConfig.showLinkImg = false
+    //   // 忽略粘贴内容中的图片
+    //   editor1.customConfig.pasteIgnoreImg = true
+    //   // 使用 base64 保存图片
+    //   //editor.customConfig.uploadImgShowBase64 = true
+    //   editor1.customConfig.menus = [
+    //     'image',
+    //   ]
+    //   // 上传图片到服务器
+    //   editor1.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //   editor1.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+    //   editor1.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-      //自定义上传图片事件
-      editor1.customConfig.uploadImgHooks = {
-        before: function (xhr, editor, files) {
+    //   //自定义上传图片事件
+    //   editor1.customConfig.uploadImgHooks = {
+    //     before: function (xhr, editor, files) {
 
-        },
-        success: function (xhr, editor, result) {
-          console.log("上传成功");
+    //     },
+    //     success: function (xhr, editor, result) {
+    //       console.log("上传成功");
 
-        },
-        fail: function (xhr, editor, result) {
-          console.log("上传失败,原因是" + result);
-        },
-        error: function (xhr, editor) {
-          console.log("上传出错");
-        },
-        timeout: function (xhr, editor) {
-          console.log("上传超时");
-        }
-      }
-      editor1.create()
-    },
-    newWangEditor2(el1, el2) {
-      var E = window.wangEditor
-      editor2 = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      // 关闭粘贴内容中的样式
-      editor2.customConfig.pasteFilterStyle = false
-      // 隐藏“网络图片”tab
-      editor2.customConfig.showLinkImg = false
-      // 忽略粘贴内容中的图片
-      editor2.customConfig.pasteIgnoreImg = true
-      // 使用 base64 保存图片
-      //editor.customConfig.uploadImgShowBase64 = true
-      editor2.customConfig.menus = [
-        'image',
-      ]
-      // 上传图片到服务器
-      editor2.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor2.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor2.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    //     },
+    //     fail: function (xhr, editor, result) {
+    //       console.log("上传失败,原因是" + result);
+    //     },
+    //     error: function (xhr, editor) {
+    //       console.log("上传出错");
+    //     },
+    //     timeout: function (xhr, editor) {
+    //       console.log("上传超时");
+    //     }
+    //   }
+    //   editor1.create()
+    // },
+    // newWangEditor2(el1, el2) {
+    //   var E = window.wangEditor
+    //   editor2 = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+    //   // 关闭粘贴内容中的样式
+    //   editor2.customConfig.pasteFilterStyle = false
+    //   // 隐藏“网络图片”tab
+    //   editor2.customConfig.showLinkImg = false
+    //   // 忽略粘贴内容中的图片
+    //   editor2.customConfig.pasteIgnoreImg = true
+    //   // 使用 base64 保存图片
+    //   //editor.customConfig.uploadImgShowBase64 = true
+    //   editor2.customConfig.menus = [
+    //     'image',
+    //   ]
+    //   // 上传图片到服务器
+    //   editor2.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //   editor2.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+    //   editor2.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-      //自定义上传图片事件
-      editor2.customConfig.uploadImgHooks = {
-        before: function (xhr, editor, files) {
+    //   //自定义上传图片事件
+    //   editor2.customConfig.uploadImgHooks = {
+    //     before: function (xhr, editor, files) {
 
-        },
-        success: function (xhr, editor, result) {
-          console.log("上传成功");
+    //     },
+    //     success: function (xhr, editor, result) {
+    //       console.log("上传成功");
 
-        },
-        fail: function (xhr, editor, result) {
-          console.log("上传失败,原因是" + result);
-        },
-        error: function (xhr, editor) {
-          console.log("上传出错");
-        },
-        timeout: function (xhr, editor) {
-          console.log("上传超时");
-        }
-      }
-      editor2.create()
-    },
-    newWangEditor3(el1, el2) {
-      var E = window.wangEditor
-      editor3 = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      // 关闭粘贴内容中的样式
-      editor3.customConfig.pasteFilterStyle = false
-      // 隐藏“网络图片”tab
-      editor3.customConfig.showLinkImg = false
-      // 忽略粘贴内容中的图片
-      editor3.customConfig.pasteIgnoreImg = true
-      // 使用 base64 保存图片
-      //editor.customConfig.uploadImgShowBase64 = true
-      editor3.customConfig.menus = [
-        'image',
-      ]
-      // 上传图片到服务器
-      editor3.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor3.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor3.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    //     },
+    //     fail: function (xhr, editor, result) {
+    //       console.log("上传失败,原因是" + result);
+    //     },
+    //     error: function (xhr, editor) {
+    //       console.log("上传出错");
+    //     },
+    //     timeout: function (xhr, editor) {
+    //       console.log("上传超时");
+    //     }
+    //   }
+    //   editor2.create()
+    // },
+    // newWangEditor3(el1, el2) {
+    //   var E = window.wangEditor
+    //   editor3 = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+    //   // 关闭粘贴内容中的样式
+    //   editor3.customConfig.pasteFilterStyle = false
+    //   // 隐藏“网络图片”tab
+    //   editor3.customConfig.showLinkImg = false
+    //   // 忽略粘贴内容中的图片
+    //   editor3.customConfig.pasteIgnoreImg = true
+    //   // 使用 base64 保存图片
+    //   //editor.customConfig.uploadImgShowBase64 = true
+    //   editor3.customConfig.menus = [
+    //     'image',
+    //   ]
+    //   // 上传图片到服务器
+    //   editor3.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //   editor3.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+    //   editor3.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-      //自定义上传图片事件
-      editor3.customConfig.uploadImgHooks = {
-        before: function (xhr, editor, files) {
+    //   //自定义上传图片事件
+    //   editor3.customConfig.uploadImgHooks = {
+    //     before: function (xhr, editor, files) {
 
-        },
-        success: function (xhr, editor, result) {
-          console.log("上传成功");
+    //     },
+    //     success: function (xhr, editor, result) {
+    //       console.log("上传成功");
 
-        },
-        fail: function (xhr, editor, result) {
-          console.log("上传失败,原因是" + result);
-        },
-        error: function (xhr, editor) {
-          console.log("上传出错");
-        },
-        timeout: function (xhr, editor) {
-          console.log("上传超时");
-        }
-      }
-      editor3.create()
-    },
+    //     },
+    //     fail: function (xhr, editor, result) {
+    //       console.log("上传失败,原因是" + result);
+    //     },
+    //     error: function (xhr, editor) {
+    //       console.log("上传出错");
+    //     },
+    //     timeout: function (xhr, editor) {
+    //       console.log("上传超时");
+    //     }
+    //   }
+    //   editor3.create()
+    // },
 
     showEditPopup(item) {
 
@@ -2667,257 +2698,257 @@ export default {
       });
     },
 
-    handleCheckChange(data, checked, indeterminate) {
-      let teamListName = [];
-      checked.checkedNodes.forEach(function (item) {
-        teamListName.push(item.label)
-      })
-      this.my_list = teamListName.join(',');
-      this.teamList = (checked.checkedKeys).join(',');
-    },
-    handleCheckChange2(data, checked, indeterminate) {
-      let teamListName = [];
-      checked.checkedNodes.forEach(function (item) {
-        teamListName.push(item.label)
-      })
-      this.my_list2 = teamListName.join(',');
-      this.teamList2 = (checked.checkedKeys).join(',');
-      this.overviewForm.teamid = this.teamList2;
-    },
-    my_sureOne() {
-      this.$refs.disTeam.hide();
-      this.my_list = '';
-      this.teamList = '';
-      this.teamNames = "团队选择";
-      this.$refs.tree1.setCheckedKeys([])
-    },
-    my_sure() {
-      let _this = this;
-      this.$refs.disTeam.hide();
-      if (this.my_list == null || this.my_list == '' || this.my_list == '1') {
-        // _this.$message({ showClose: true, message: '请选择团队数据', duration: 3000, type: 'error' });
-        // return;
-      }
-      this.teamNames = this.my_list;
-      //获取业务员列表
-      getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
-        _this.userNameList = data.namelist
-      }, {
-        teamid: this.teamList
-      });
-    },
-    my_sureOne2() {
-      this.$refs.disTeam2.hide();
-      this.my_list2 = '';
-      this.teamList2 = '';
-      this.teamNames2 = "团队选择";
-      this.overviewForm.teamid = '';
-      this.$refs.tree2.setCheckedKeys([]);
-      this.queryflag = true;
-      this.search();
-      this.refresh();
-    },
-    my_sure2() {
-      let _this = this;
-      this.$refs.disTeam2.hide();
+    // handleCheckChange(data, checked, indeterminate) {
+    //   let teamListName = [];
+    //   checked.checkedNodes.forEach(function (item) {
+    //     teamListName.push(item.label)
+    //   })
+    //   this.my_list = teamListName.join(',');
+    //   this.teamList = (checked.checkedKeys).join(',');
+    // },
+    // handleCheckChange2(data, checked, indeterminate) {
+    //   let teamListName = [];
+    //   checked.checkedNodes.forEach(function (item) {
+    //     teamListName.push(item.label)
+    //   })
+    //   this.my_list2 = teamListName.join(',');
+    //   this.teamList2 = (checked.checkedKeys).join(',');
+    //   this.overviewForm.teamid = this.teamList2;
+    // },
+    // my_sureOne() {
+    //   this.$refs.disTeam.hide();
+    //   this.my_list = '';
+    //   this.teamList = '';
+    //   this.teamNames = "团队选择";
+    //   this.$refs.tree1.setCheckedKeys([])
+    // },
+    // my_sure() {
+    //   let _this = this;
+    //   this.$refs.disTeam.hide();
+    //   if (this.my_list == null || this.my_list == '' || this.my_list == '1') {
+    //     // _this.$message({ showClose: true, message: '请选择团队数据', duration: 3000, type: 'error' });
+    //     // return;
+    //   }
+    //   this.teamNames = this.my_list;
+    //   //获取业务员列表
+    //   getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
+    //     _this.userNameList = data.namelist
+    //   }, {
+    //     teamid: this.teamList
+    //   });
+    // },
+    // my_sureOne2() {
+    //   this.$refs.disTeam2.hide();
+    //   this.my_list2 = '';
+    //   this.teamList2 = '';
+    //   this.teamNames2 = "团队选择";
+    //   this.overviewForm.teamid = '';
+    //   this.$refs.tree2.setCheckedKeys([]);
+    //   this.queryflag = true;
+    //   this.search();
+    //   this.refresh();
+    // },
+    // my_sure2() {
+    //   let _this = this;
+    //   this.$refs.disTeam2.hide();
 
-      if (this.my_list2 == null || this.my_list2 == '' || this.my_list2 == '1') {
-        this.queryflag = true;
-        this.queryflagString = "01"
-      } else {
-        this.teamNames2 = this.my_list2;
-        this.queryflag = false;
-        this.queryflagString = "02"
-      }
+    //   if (this.my_list2 == null || this.my_list2 == '' || this.my_list2 == '1') {
+    //     this.queryflag = true;
+    //     this.queryflagString = "01"
+    //   } else {
+    //     this.teamNames2 = this.my_list2;
+    //     this.queryflag = false;
+    //     this.queryflagString = "02"
+    //   }
 
-      this.search();
-      this.refresh();
-      //获取业务员列表
-      getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
-        _this.userNameOptions = data.namelist
-      }, {
-        teamid: this.teamList2
-      });
-    },
-    dateChange(val) {
-      var end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-      var start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-      var now = new Date(); // 当前日期
-      var nowDayOfWeek = now.getDay(); // 今天本周的第几天
-      var nowDay = now.getDate(); // 当前日
-      var nowMonth = now.getMonth(); // 当前月
-      var nowYear = now.getYear(); // 当前年
-      if (val == "1") {
-        start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay));
-        end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
-      } else if (val == "2") {
-        start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay - 1));
-        end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay));
-      } else if (val == "3") {
-        start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay - 7));
-        end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
-      } else if (val == "4") {
-        start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay - 30));
-        end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
-      } else if (val == "5") {
-        nowYear += (nowYear < 2000) ? 1900 : 0;
-        var day = nowDayOfWeek || 7;
-        start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1 - day));
-        end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 7 - day));
-      } else if (val == "6") {
-        nowYear += (nowYear < 2000) ? 1900 : 0;
-        var monthStartDate = new Date(nowYear, nowMonth, 1);
-        start = formatDate(monthStartDate);
-        var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
-        end = formatDate(monthEndDate);
+    //   this.search();
+    //   this.refresh();
+    //   //获取业务员列表
+    //   getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
+    //     _this.userNameOptions = data.namelist
+    //   }, {
+    //     teamid: this.teamList2
+    //   });
+    // },
+    // dateChange(val) {
+    //   var end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
+    //   var start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
+    //   var now = new Date(); // 当前日期
+    //   var nowDayOfWeek = now.getDay(); // 今天本周的第几天
+    //   var nowDay = now.getDate(); // 当前日
+    //   var nowMonth = now.getMonth(); // 当前月
+    //   var nowYear = now.getYear(); // 当前年
+    //   if (val == "1") {
+    //     start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay));
+    //     end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
+    //   } else if (val == "2") {
+    //     start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay - 1));
+    //     end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay));
+    //   } else if (val == "3") {
+    //     start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay - 7));
+    //     end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
+    //   } else if (val == "4") {
+    //     start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay - 30));
+    //     end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
+    //   } else if (val == "5") {
+    //     nowYear += (nowYear < 2000) ? 1900 : 0;
+    //     var day = nowDayOfWeek || 7;
+    //     start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1 - day));
+    //     end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 7 - day));
+    //   } else if (val == "6") {
+    //     nowYear += (nowYear < 2000) ? 1900 : 0;
+    //     var monthStartDate = new Date(nowYear, nowMonth, 1);
+    //     start = formatDate(monthStartDate);
+    //     var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
+    //     end = formatDate(monthEndDate);
 
-        function getMonthDays() {
-          var monthStartDate = new Date(nowYear, nowMonth, 1);
-          var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
-          var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
-          return days;
-        }
-      }
-      this.overviewForm.startDate = formatDate(new Date(start), 'yyyy-MM-dd 00:00:00').substring(0, 10);
-      this.overviewForm.endDate = formatDate(new Date(end), 'yyyy-MM-dd 00:00:00').substring(0, 10);
-      this.queryflag = false;
-      this.queryflagString = "02"
-      //this.search();
-      this.refresh();
-    },
-    userNameChange() {
-      this.queryflag = false;
-      this.queryflagString = "02"
-      this.search();
-      this.refresh();
-    },
-    refresh() {
+    //     function getMonthDays() {
+    //       var monthStartDate = new Date(nowYear, nowMonth, 1);
+    //       var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
+    //       var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
+    //       return days;
+    //     }
+    //   }
+    //   this.overviewForm.startDate = formatDate(new Date(start), 'yyyy-MM-dd 00:00:00').substring(0, 10);
+    //   this.overviewForm.endDate = formatDate(new Date(end), 'yyyy-MM-dd 00:00:00').substring(0, 10);
+    //   this.queryflag = false;
+    //   this.queryflagString = "02"
+    //   //this.search();
+    //   this.refresh();
+    // },
+    // userNameChange() {
+    //   this.queryflag = false;
+    //   this.queryflagString = "02"
+    //   this.search();
+    //   this.refresh();
+    // },
+    // refresh() {
 
-    },
-    getOrderData() {
-      let _this = this;
-      getData('post', my_url + '/crm/activity/getPolicyInfoByAppntMobile.do', function (data) {
-        if (data.code == '0') {
-          _this.policyList = data.policyList
-        }
-      }, {
-        mobile: this.detailsInfo.mobilebak
-      });
-    },
+    // },
+    // getOrderData() {
+    //   let _this = this;
+    //   getData('post', my_url + '/crm/activity/getPolicyInfoByAppntMobile.do', function (data) {
+    //     if (data.code == '0') {
+    //       _this.policyList = data.policyList
+    //     }
+    //   }, {
+    //     mobile: this.detailsInfo.mobilebak
+    //   });
+    // },
 
     // 获取电话列表
-    getmobileList(activityid) {
-      let _this = this;
-      getData('post', my_url + '/crm/activity/getActivityMobileList.do', function (data) {
-        if (data.code == 0) {
-          var mobilelist = []
-          data.moibleList.forEach(function (item) {
-            mobilelist.push({
-              phone: item
-            })
-          })
-          _this.mobileList = mobilelist;
-        }
-      }, {
-        activityid: activityid
-      });
-    },
-    mobileToTop(scope) {
-      let _this = this;
-      getData('post', my_url + '/crm/activity/activityUpdateMobile.do', function (data) {
-        if (data.code == '0') {
-          _this.getmobileList(_this.detailsInfo.activityserialno)
-          _this.$message({
-            type: "success",
-            duration: 3000,
-            message: "置顶成功！"
-          })
+    // getmobileList(activityid) {
+    //   let _this = this;
+    //   getData('post', my_url + '/crm/activity/getActivityMobileList.do', function (data) {
+    //     if (data.code == 0) {
+    //       var mobilelist = []
+    //       data.moibleList.forEach(function (item) {
+    //         mobilelist.push({
+    //           phone: item
+    //         })
+    //       })
+    //       _this.mobileList = mobilelist;
+    //     }
+    //   }, {
+    //     activityid: activityid
+    //   });
+    // },
+    // mobileToTop(scope) {
+    //   let _this = this;
+    //   getData('post', my_url + '/crm/activity/activityUpdateMobile.do', function (data) {
+    //     if (data.code == '0') {
+    //       _this.getmobileList(_this.detailsInfo.activityserialno)
+    //       _this.$message({
+    //         type: "success",
+    //         duration: 3000,
+    //         message: "置顶成功！"
+    //       })
 
-          _this.detailsInfo.mobilestr = scope.row.phone;
-        } else {
-          _this.$message({
-            type: "success",
-            duration: 3000,
-            message: data.msg
-          })
-        }
-      }, {
-        activityid: this.detailsInfo.activityserialno,
-        mobile: scope.row.phone
-        // mobile:18611158884
-      });
-    },
+    //       _this.detailsInfo.mobilestr = scope.row.phone;
+    //     } else {
+    //       _this.$message({
+    //         type: "success",
+    //         duration: 3000,
+    //         message: data.msg
+    //       })
+    //     }
+    //   }, {
+    //     activityid: this.detailsInfo.activityserialno,
+    //     mobile: scope.row.phone
+    //     // mobile:18611158884
+    //   });
+    // },
 
-    mobileDelete(scope) {
-      let _this = this;
-      _this.deleteMobile = scope.row.phone
-      getData('post', my_url + '/crm/activity/activityDeleteMobile.do', function (data) {
-        if (data.code == '0') {
-          _this.getmobileList(_this.detailsInfo.activityserialno)
-          _this.$message({
-            type: "success",
-            duration: 3000,
-            message: "删除成功！"
-          })
-        } else {
-          _this.$message({
-            type: "success",
-            duration: 3000,
-            message: data.msg
-          })
-        }
-      }, {
-        activityid: this.detailsInfo.activityserialno,
-        mobile: this.deleteMobile
-      });
-    },
-    addMoblieChange(val) {
-      if (this.checkMobile(val)) {
-        this.mobileInputShow = true
-      } else {
-        this.mobileInputShow = false
-      }
-    },
-    checkMobile(mobile) {
-      var reg = /^1[3456789]\d{9}$/; //正则表达式
+    // mobileDelete(scope) {
+    //   let _this = this;
+    //   _this.deleteMobile = scope.row.phone
+    //   getData('post', my_url + '/crm/activity/activityDeleteMobile.do', function (data) {
+    //     if (data.code == '0') {
+    //       _this.getmobileList(_this.detailsInfo.activityserialno)
+    //       _this.$message({
+    //         type: "success",
+    //         duration: 3000,
+    //         message: "删除成功！"
+    //       })
+    //     } else {
+    //       _this.$message({
+    //         type: "success",
+    //         duration: 3000,
+    //         message: data.msg
+    //       })
+    //     }
+    //   }, {
+    //     activityid: this.detailsInfo.activityserialno,
+    //     mobile: this.deleteMobile
+    //   });
+    // },
+    // addMoblieChange(val) {
+    //   if (this.checkMobile(val)) {
+    //     this.mobileInputShow = true
+    //   } else {
+    //     this.mobileInputShow = false
+    //   }
+    // },
+    // checkMobile(mobile) {
+    //   var reg = /^1[3456789]\d{9}$/; //正则表达式
 
-      if (mobile == null || mobile == "") {
-        return false;
-      } else if (!reg.test(mobile)) {
-        return false;
-      } else {
-        return true;
-      }
-    },
+    //   if (mobile == null || mobile == "") {
+    //     return false;
+    //   } else if (!reg.test(mobile)) {
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // },
 
-    mobileAdd() {
-      var _this = this;
-      var addMoblieStr = _this.addMoblie
-      getData('post', my_url + '/crm/activity/activityAddMobile.do', function (data) {
-        if (data.code == '0') {
-          _this.getmobileList(_this.detailsInfo.activityserialno)
-          _this.$message({
-            type: "success",
-            duration: 3000,
-            message: "添加成功！"
-          })
-          _this.addMoblie = "";
-        } else {
-          _this.$message({
-            type: "success",
-            duration: 3000,
-            message: data.msg
-          })
-        }
-      }, {
-        activityid: this.detailsInfo.activityserialno,
-        mobile: this.addMoblie
-      });
-    },
-    mobileCancle() {
-      this.addMoblie = "";
-      this.mobileInputShow = false
-    },
+    // mobileAdd() {
+    //   var _this = this;
+    //   var addMoblieStr = _this.addMoblie
+    //   getData('post', my_url + '/crm/activity/activityAddMobile.do', function (data) {
+    //     if (data.code == '0') {
+    //       _this.getmobileList(_this.detailsInfo.activityserialno)
+    //       _this.$message({
+    //         type: "success",
+    //         duration: 3000,
+    //         message: "添加成功！"
+    //       })
+    //       _this.addMoblie = "";
+    //     } else {
+    //       _this.$message({
+    //         type: "success",
+    //         duration: 3000,
+    //         message: data.msg
+    //       })
+    //     }
+    //   }, {
+    //     activityid: this.detailsInfo.activityserialno,
+    //     mobile: this.addMoblie
+    //   });
+    // },
+    // mobileCancle() {
+    //   this.addMoblie = "";
+    //   this.mobileInputShow = false
+    // },
 
     querySearchId(queryString, cb) {
       var SalesmanIdBox = this.SalesmanIdBox;
@@ -2945,124 +2976,112 @@ export default {
         }
       });
     },
-    saveRecord() { //保存记录
-      let _this = this;
-      if (this.email != null && this.email != '') {
-        if (!checkEmail(this.email)) {
-          _this.$message({
-            showClose: true,
-            message: '邮箱格式不正确！',
-            duration: 3000,
-            type: 'error'
-          });
-          return;
-        }
-      }
-      const loading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      });
+    // saveRecord() { //保存记录
+    //   let _this = this;
+    //   if (this.email != null && this.email != '') {
+    //     if (!checkEmail(this.email)) {
+    //       _this.$message({
+    //         showClose: true,
+    //         message: '邮箱格式不正确！',
+    //         duration: 3000,
+    //         type: 'error'
+    //       });
+    //       return;
+    //     }
+    //   }
+    //   const loading = this.$loading({
+    //     lock: true,
+    //     text: 'Loading',
+    //     spinner: 'el-icon-loading',
+    //     background: 'rgba(0, 0, 0, 0.7)'
+    //   });
 
-      let save_share_id = '';
+    //   let save_share_id = '';
 
-      if (this.editInfo.shareusername != null && this.editInfo.shareusername != '') {
-        save_share_id = this.SalesmanIdBox.find(item => item.value === this.editInfo.shareusername).id;
-      }
+    //   if (this.editInfo.shareusername != null && this.editInfo.shareusername != '') {
+    //     save_share_id = this.SalesmanIdBox.find(item => item.value === this.editInfo.shareusername).id;
+    //   }
 
-      let params = {
-        activityserialno: this.detailsInfo.activityserialno, //线索流水号
-        activitytag: this.activitytag.join(),
-        name: this.detailsInfo.name, //注册姓名
-        wxno: this.wxno,
-        email: this.email,
-        age: this.age,
-        birthday: this.birthday,
-        sex: this.sex,
-        previstitime: this.formatDate(this.returnVisit, 'yyyy-MM-dd HH:mm:ss'), //预约回访时间
-        followupstep: this.visit, //跟进步骤
-        oldprevistitime: this.formatDate(this.detailsInfo.previstitime, 'yyyy-MM-dd HH:mm:ss'),
-        otherstore: this.editInfo.otherstore,
-        shareuserid: save_share_id,
-        activityuserid: this.detailsInfo.userid,
-        mobileprovince: this.mobileprovince,
-        mobilecity: this.mobilecity,
-        mobilecountry: this.mobilecountry,
-        address: this.address,
-        customer_intention: this.customer_intention.join(","),
-      };
-      getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) {
-        _this.followrecord = '';
-        if (data.code == 0) {
-          setTimeout(() => {
-            _this.$message({
-              showClose: true,
-              message: '保存成功!',
-              duration: 3000,
-              type: 'success'
-            });
-            _this.search();
-          }, 1000);
-        } else {
-          _this.$message({
-            showClose: true,
-            message: data.msg,
-            duration: 3000,
-            type: 'error'
-          });
-        }
-        loading.close();
-        _this.drawer = false;
-      }, params);
-    },
-    cancelShare(row) {
-      let _this = this;
-      getData('post', my_url + '/crm/activity/activityShareDelete.do', function (data) { //渠道类型
-        if (data.code == '0') {
-          _this.search()
-        }
-      }, {
-        shareserialno: row.shareserialno
-      });
-    },
+    //   let params = {
+    //     activityserialno: this.detailsInfo.activityserialno, //线索流水号
+    //     activitytag: this.activitytag.join(),
+    //     name: this.detailsInfo.name, //注册姓名
+    //     wxno: this.wxno,
+    //     email: this.email,
+    //     age: this.age,
+    //     birthday: this.birthday,
+    //     sex: this.sex,
+    //     previstitime: this.formatDate(this.returnVisit, 'yyyy-MM-dd HH:mm:ss'), //预约回访时间
+    //     followupstep: this.visit, //跟进步骤
+    //     oldprevistitime: this.formatDate(this.detailsInfo.previstitime, 'yyyy-MM-dd HH:mm:ss'),
+    //     otherstore: this.editInfo.otherstore,
+    //     shareuserid: save_share_id,
+    //     activityuserid: this.detailsInfo.userid,
+    //     mobileprovince: this.mobileprovince,
+    //     mobilecity: this.mobilecity,
+    //     mobilecountry: this.mobilecountry,
+    //     address: this.address,
+    //     customer_intention: this.customer_intention.join(","),
+    //   };
+    //   getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) {
+    //     _this.followrecord = '';
+    //     if (data.code == 0) {
+    //       setTimeout(() => {
+    //         _this.$message({
+    //           showClose: true,
+    //           message: '保存成功!',
+    //           duration: 3000,
+    //           type: 'success'
+    //         });
+    //         _this.search();
+    //       }, 1000);
+    //     } else {
+    //       _this.$message({
+    //         showClose: true,
+    //         message: data.msg,
+    //         duration: 3000,
+    //         type: 'error'
+    //       });
+    //     }
+    //     loading.close();
+    //     _this.drawer = false;
+    //   }, params);
+    // },
+    // cancelShare(row) {
+    //   let _this = this;
+    //   getData('post', my_url + '/crm/activity/activityShareDelete.do', function (data) { //渠道类型
+    //     if (data.code == '0') {
+    //       _this.search()
+    //     }
+    //   }, {
+    //     shareserialno: row.shareserialno
+    //   });
+    // },
     // 播放录音
-    audioPlay(index) {
-      let _this = this;
-      let audio = this.$refs.audio2;
-      this.currentCallIndex = index
-      this.audioSrc = this.callDataList[index].recordurl
-      this.$nextTick(() => {
-        audio.play()
-        _this.audioPaused = false
-      })
-    },
-    audioPause(index) {
-      let _this = this;
-      let audio = this.$refs.audio2;
-      this.currentCallIndex = index
-      this.$nextTick(() => {
-        audio.pause();
-        _this.audioPaused = true
-      })
-    },
-    test() {
-      alert(123);
-    }
+    // audioPlay(index) {
+    //   let _this = this;
+    //   let audio = this.$refs.audio2;
+    //   this.currentCallIndex = index
+    //   this.audioSrc = this.callDataList[index].recordurl
+    //   this.$nextTick(() => {
+    //     audio.play()
+    //     _this.audioPaused = false
+    //   })
+    // },
+    // audioPause(index) {
+    //   let _this = this;
+    //   let audio = this.$refs.audio2;
+    //   this.currentCallIndex = index
+    //   this.$nextTick(() => {
+    //     audio.pause();
+    //     _this.audioPaused = true
+    //   })
+    // },
+    // test() {
+    //   alert(123);
+    // }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   </script>

@@ -566,7 +566,7 @@ overflow: hidden;
   height: 100%;
 }
 
-.order-list {
+/* .order-list {
   margin-top: 0.2rem;
   position: absolute;
   left: 0.36rem;
@@ -640,7 +640,7 @@ overflow: hidden;
   display: inline-block;
   color: #686868;
   font-size: 0.14rem;
-}
+} */
 
 .top-icon-1,
 .top-icon-0 {
