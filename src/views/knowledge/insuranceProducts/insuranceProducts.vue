@@ -55,7 +55,7 @@
 
           <el-button type="primary" @click="handleBaseInfo(item.riskcode)" icon="el-icon-document">基本资料<i class="el-icon-arrow-right el-icon--right"></i></el-button>
           <el-button type="primary" @click="handleHotQuerstion(item.riskcode)" icon="el-icon-warning-outline">常见问题<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-          <el-button v-if="pageType == '01'" type="primary" @click="handleInsureUrl(item.url)" icon="el-icon-link">
+          <el-button v-if="pageType == '01'" type="primary" @click="handleInsureUrl(item)" icon="el-icon-link">
             投保地址<i class="el-icon-arrow-right el-icon--right"></i></el-button>
         </div>
         <div class="product-item-right">
@@ -117,6 +117,12 @@
     <!-- 投保地址弹窗 -->
     <el-dialog custom-class="cang-jing-ge" title="投保地址" :visible.sync="dialogInsureUrlVisible" width="70%">
       <el-form class="insure-url-form">
+
+        <el-form-item label="投保区域" label-width="1.3rem">
+        <p style="font-size: 0.14rem;">{{ showSalesarea }}</p>
+          <!-- <el-input v-model="showSalesarea" ref="copy" size="mini" autocomplete="off"></el-input> -->
+        </el-form-item>
+
         <el-form-item label="投保地址链接" label-width="1.3rem">
           <el-input v-model="insureUrl" ref="copy" size="mini" autocomplete="off"></el-input>
         </el-form-item>
@@ -175,7 +181,7 @@
           </el-table-column>
 
           <el-table-column label="编辑" width="110" align="center">
-            <template slot-scope="scope" >
+            <template slot-scope="scope">
               <el-button-group class="base-info-botton-group">
                 <el-button size="mini" @click="baseInfoUp(scope.row.fileid)" type="primary" icon="iconfont icon-my-up">
                 </el-button>
@@ -321,6 +327,7 @@ export default {
         pageTotal: 0,
         // totalRecord: ''
       },
+      showSalesarea: '',
       salesArea: "",
       loading: false,
       downloadUrl: "",
@@ -590,8 +597,21 @@ export default {
       );
     },
     // 投保地址按钮
-    handleInsureUrl(url) {
-      this.insureUrl = url;
+    handleInsureUrl(item) {
+      this.insureUrl = item.url;
+      this.showSalesarea = item.salesarea
+
+   
+      const keys = item.salesarea.split(',');
+
+      const result = keys.map(key => {
+        const item = this.regionList.find(d => d.dd_key === key);
+        return item ? item.dd_value : '';
+      }).filter(Boolean).join('，');
+      console.log(result)
+
+      this.showSalesarea = result 
+
       this.dialogInsureUrlVisible = true;
     },
     // 查询

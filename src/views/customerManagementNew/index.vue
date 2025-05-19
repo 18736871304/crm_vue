@@ -47,7 +47,7 @@
                     <span class="mobile_input mobile_input_cancle" @click="mobileCancle">取消</span>
                   </div>
                   <!-- v-show="dis_save" -->
-                  <el-table :data="mobileList" class="mobile_box" >
+                  <el-table :data="mobileList" class="mobile_box">
                     <el-table-column width="130" property="phone" label="电话"></el-table-column>
                     <el-table-column width="70" label="操作" align="right">
                       <template slot-scope="scope">
@@ -230,7 +230,7 @@
         <ul>
           <li v-for="item in records" :key="item.remarkserialno">
             <div class="li_t" style="display: flex; justify-content: space-between;align-items: center;">
-              <div v-html="item.remark"  style="width: 85%;"></div>
+              <div v-html="item.remark" style="width: 85%;"></div>
               <div v-if="delRemark" style="width: 10%;  padding: 0;  text-align: right;" class="gjg_topping mobile-icon el-icon-upload2" @click="remarktop(item.remarkserialno)"></div>
             </div>
             <div class="li_b">
@@ -309,7 +309,7 @@
     <!-- 录音播放器 -->
     <audio :src="audioSrc" ref="audio" controls="controls" id="audio" v-show="audioShow"></audio>
 
-   <view-details :datas="detailObj" :showEditPopupDialogVisible.sync="showEditPopupDialogVisible" @updateVisible="updateVisibleId"></view-details>
+    <view-details :datas="detailObj" :showEditPopupDialogVisible.sync="showEditPopupDialogVisible" @updateVisible="updateVisibleId"></view-details>
 
   </div>
 </template>
@@ -329,7 +329,7 @@ export default {
       // 权限
       isDealed: false,
       dis_save: false,
-  
+
 
       // 输入内容
       detailsInfo: "",
@@ -392,7 +392,7 @@ export default {
 
 
 
- 
+
     };
   },
   props: {
@@ -450,7 +450,7 @@ export default {
     init() {
       var _this = this;
 
-   
+
       // 跟进步骤
       getData(
         "post",
@@ -888,7 +888,7 @@ export default {
         otherstore: this.otherstoreName,
         activityuserid: this.detailsInfo.userid,
       };
-      getData("post", my_url + "/crm/activity/activityUpdate.do", function (data) {
+      getData("get", my_url + "/crm/activity/activityUpdate.do", function (data) {
         _this.followrecord = "";
         if (data.code == 0) {
           setTimeout(() => {
@@ -940,7 +940,7 @@ export default {
     },
 
 
-// 
+    // 
     //点击成交单子，查看详情
     showEdit(item) {
       var arr = [];
@@ -1250,5 +1250,7 @@ export default {
 </script>
 <style src="../../static/css/drawer.css"></style>
 <style>
- 
+.customer-drawer .el-drawer__body {
+  display: flex;
+}
 </style>

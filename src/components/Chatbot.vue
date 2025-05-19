@@ -22,12 +22,16 @@
         <div v-for="(message, index) in currentChat.messages" :key="index" class="message">
           <!-- 根据消息发送者动态添加样式 -->
           <div v-if="message.sender === 'machine'" class="message-bubble machine-response">
-            <div class="c_name">美华</div>
+            <div class="c_name">
+              <img src="../static/images/AIrobot.png" alt="">
+            </div>
             <div class="c_cont">{{ message.text }}</div>
           </div>
           <div v-else-if="message.sender === 'me'" class="message-bubble user-message">
             <div class="c_cont">{{ message.text }}</div>
-            <div class="c_name">我</div>
+            <div class="c_name">
+              <img src="../static/images/user.png" alt="">
+            </div>
           </div>
         </div>
       </div>
@@ -386,8 +390,8 @@ $color_1: #18a058;
         }
 
         .c_name {
-          width: 2.6042vw;
-          height: 2.6042vw;
+          width: 3.25vw;
+          height: 3.25vw;
           display: flex;
           align-items: center;
           justify-content: center;

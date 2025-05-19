@@ -904,7 +904,7 @@ export default {
       //table数据
       let _this = this;
       getData(
-        "post",
+        "get",
         my_url + "/crm/activity/getActivityList.do",
         function (data) {
           let { rows, total } = data;
