@@ -733,6 +733,7 @@
     margin-top: 0.06rem;
     margin-right: 0.08rem;
     font-size: 0.12rem;
+    text-align: right;
 }
 
 .step-list .item-section .right-content {
@@ -746,7 +747,7 @@
 }
 
 .cjg-dialog .el-dialog__body {
-    padding: 0;
+    /* padding: 0; */
 }
 
 .cjg-dialog .el-input__inner {

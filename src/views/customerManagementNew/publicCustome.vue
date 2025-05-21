@@ -396,7 +396,7 @@
           </el-table-column>
           <el-table-column key="12" prop="makedate" align="center" label="线索产生时间" width="160" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="13" prop="callcount" align="center" sortable label="累计拨打次数" width="130" :show-overflow-tooltip="true">
+          <el-table-column key="13" prop="callcount" align="center"   label="累计拨打次数" width="120" :show-overflow-tooltip="true">
           </el-table-column>
 
           <el-table-column key="17" prop="remark" align="left" label="跟进记录" width="200" :show-overflow-tooltip="true">

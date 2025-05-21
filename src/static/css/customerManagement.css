@@ -504,7 +504,7 @@
 }
 
 .cjg-dialog .el-dialog__body {
-  padding: 0;
+  /* padding: 0; */
 }
 
 .cjg-dialog .el-input__inner {

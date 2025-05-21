@@ -122,7 +122,7 @@
             <div class="common-select">
               <div class="select-title" style="width: 0.8rem">转其他库</div>
               <div class="select-content" style="width: calc(100% - 0.8rem); margin-right: 0.2rem; border: none">
-                <el-select class="el-select-inners" v-model="otherstoreName" size="mini" placeholder="" clearable>
+                <el-select class="el-select-inners" v-model="otherstoreName" size="mini" placeholder="" :disabled="isableInput" clearable>
                   <el-option v-for="item in otherstores" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"></el-option>
                 </el-select>
               </div>
@@ -363,6 +363,7 @@ export default {
           return time.getTime() < Date.now() - 24 * 60 * 60 * 1000;
         },
       },
+      isableInput: false,
       otherstores: [],
       otherstoreName: '',
 
@@ -435,6 +436,13 @@ export default {
         this.getmobileList(newVal.activityserialno);
         if (newVal.followupstep == "07") {
           this.getOrderData(newVal.mobilestr);
+        }
+
+        console.log(newVal.isableInput)
+        if (newVal.isableInput) {
+          this.isableInput = newVal.isableInput
+        } else {
+          this.isableInput = false
         }
 
         this.getReleaseData(); //发布的列表

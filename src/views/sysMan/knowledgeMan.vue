@@ -5,7 +5,7 @@
       <div class="search-box clearfix">
 
         <div class="common-select">
-          <div class="select-title filtitle">修改时间</div>
+          <div class="select-title filtitle">新建时间</div>
           <div class="select-content filContent">
             <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="datetimerange" align="right" size="mini" value-format="yyyy-MM-dd" unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
             </el-date-picker>
@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="table-box">
-      <el-table :data="tableData" border style="width: 100%" :header-cell-class-name="headerClassName">
+      <el-table :data="tableData" border style="width: 100%">
         <el-table-column key="1" align="center" type="index" label="序号" width="60">
         </el-table-column>
         <el-table-column key="2" sortable align="center" prop="makedate" label="新建时间" width="160">
@@ -61,7 +61,7 @@
       </el-pagination>
     </div>
     <!-- 藏经阁-->
-    <el-dialog :title="'新建 - ' + CJGselectValue" :visible.sync="addCJGItemVisible" width="70%" :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
+    <el-dialog :title="'新建 - ' + CJGselectValue" :visible.sync="addCJGItemVisible" width="73%" top="5vh"   :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
 
       <div class="step-list wei-step-list">
         <div class="item-section">
@@ -78,11 +78,11 @@
             </el-autocomplete>
           </div>
         </div>
-        <div class="item-section">
-          <label>保险公司</label>
+        <div class="item-section" v-if="addCJGItemVisible">
+          <label>保障详情</label>
           <div class="rich-text-editor right-content" ref="richTextEditorRef">
             <Toolbar :editor="editor" :defaultConfig="toolbarConfig" :mode="mode" />
-            <Editor style="height: 400px; overflow-y: hidden;" v-model="html" :defaultConfig="editorConfig" :mode="mode" @onCreated="onCreated" />
+            <Editor style="height: 441px; overflow-y: hidden;" v-model="html" :defaultConfig="editorConfig" :mode="mode" @onCreated="onCreated" />
           </div>
         </div>
 
@@ -108,184 +108,6 @@
         <div class="search-btn" style="background: #fff; color: #DC220D; border: 1px solid rgba(216, 216, 216, 1);" @click="hideaddCJGFIrstVisible">取消</div>
         <div class="search-btn" @click="updateCJGitem">确定</div>
       </div>
-      <!-- <div class="step-list wei-step-list" v-if="CJGselectValue === '疾病核保'">
-        <div class="item-section">
-          <label>标题</label>
-          <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="jbhbItem.title">
-            </el-input>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>疾病描述</label>
-          <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="jbhbItem.disdescription" resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
-            </el-input>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>核保建议</label>
-          <div class="right-content">
-            <div class="tab-head">
-              <div class="tab" :class="currentSuggestion === 'zjsuggestion' ? 'actived' : ''" @click="changeSuggestion('zjsuggestion')">重疾险</div>
-              <div class="tab" :class="currentSuggestion === 'ylsuggestion' ? 'actived' : ''" @click="changeSuggestion('ylsuggestion')">医疗险</div>
-            </div>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10" placeholder="请输入内容" v-if="currentSuggestion === 'zjsuggestion'" v-model="jbhbItem.zjsuggestion">
-            </el-input>
-            <el-input resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="10" placeholder="请输入内容" v-else v-model="jbhbItem.ylsuggestion">
-            </el-input>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>可投产品</label>
-          <div class="right-content">
-            <div class="add-item-wrap">
-              <div class="btns">
-                <div class="btn" @click="addProduct">
-                  添加 <img src="../../static/images/plue-icon.png" alt="">
-                </div>
-                <div class="btn" @click="deleteProduct">
-                  删除 <img src="../../static/images/delete-icon.png" alt="">
-                </div>
-              </div>
-              <div class="list" v-for="(item,index) in jbhbItem.productJsonStr" :key="index">
-                <div class="item">
-                  <label>保险公司</label>
-                  <div class="right-content">
-                    <el-select v-model="item.insorgancode" size="mini" placeholder="请选择" @change="selectChange(index)">
-                      <el-option v-for="(item,index) in InsOrganList" :key="index" :label="item.dd_value" :value="item.dd_key">
-                      </el-option>
-                    </el-select>
-                  </div>
-                </div>
-                <div class="item">
-                  <label>险种名称</label>
-                  <div class="right-content">
-                    <el-select v-model="item.riskcode" size="mini" placeholder="请选择">
-                      <el-option v-for="(item,index) in item.productList" :key="index" :label="item.dd_value" :value="item.dd_key">
-                      </el-option>
-                    </el-select>
-                  </div>
-                </div>
-                <div class="item">
-                  <label>承保说明</label>
-                  <div class="right-content">
-                    <el-input placeholder="请输入" size="mini" v-model="item.acceptremark" resize="none" type="textarea" :autosize="{ minRows: 5, maxRows: 30}" :rows="7">
-                    </el-input>
-                  </div>
-                </div>
-                <div class="item">
-                  <label>标注</label>
-                  <div class="right-content" style="margin-top: 0.03rem;">
-                    <el-radio v-model="item.labeltype" :label="'01'">标体承保</el-radio>
-                    <el-radio v-model="item.labeltype" :label="'03'" style="margin-left: 0.2rem;">
-                      加费承保
-                    </el-radio>
-                    <el-radio v-model="item.labeltype" :label="'02'" style="margin-left: 0.2rem;">
-                      除外承保
-                    </el-radio>
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="step-list wei-step-list answering-doubts" v-if="CJGselectValue === '解答疑义'">
-        <div class="item-section">
-          <label>疑义问题</label>
-          <div class="right-content">
-            <el-input placeholder="请输入" size="mini" v-model="dkwItem.title">
-            </el-input>
-          </div>
-        </div>
-        <div class="item-section" v-if="false">
-          <div class="common-select">
-            <div class="select-title" style="width: 0.8rem; color: #606266;background: #fff;border: none;padding-left: 0; padding-right: 0.08rem; text-align: right;">跟进步骤</div>
-            <div class="select-content" style="width: 2.5rem;">
-              <el-dropdown trigger="click" placement="top" ref="disTeam1" style="width: 100%">
-                <span class="el-dropdown-inners" clearable style="width: auto">
-                  {{teamNames1}}
-                  <i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-tree @check="handleCheckChange1" :data="askedflowList" ref="tree1" show-checkbox node-key="id" :default-expanded-keys="['01', '02']" :default-checked-keys="selectAskedflow" :props="defaultProps1">
-                  </el-tree>
-                  <div class="sure-footer">
-
-                    <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne1">取消</div>
-                    <div class="my-sure" @click="my_sure1">确定</div>
-                  </div>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </div>
-          </div>
-        </div>
-        <div class="item-section" v-if="false">
-          <div class="common-select">
-            <div class="select-title" style="width: 0.8rem; color: #606266;background: #fff;border: none;padding-left: 0; padding-right: 0.08rem; text-align: right;">所属分类</div>
-            <div class="select-content" style="width: 2.5rem;">
-              <el-dropdown trigger="click" placement="top" ref="disTeam2" style="width: 100%">
-                <span class="el-dropdown-inners" clearable style="width: auto">
-                  {{teamNames2}}
-                  <i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-tree @check="handleCheckChange2" :data="askedtypeList" ref="tree2" show-checkbox node-key="id" :default-expanded-keys="['01','02']" :default-checked-keys="selectAskedtype" :props="defaultProps">
-                  </el-tree>
-                  <div class="sure-footer">
-
-                    <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
-                    <div class="my-sure" @click="my_sure2">确定</div>
-                  </div>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </div>
-          </div>
-        </div>
-
-        <div class="item-section">
-          <label>解答示范</label>
-          <div class="right-content">
-            <div class="editor-box">
-              <div id="div5" class="toolbar"></div>
-              <div id="div6" class="text">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>附件</label>
-          <div class="right-content">
-            <ul class="enclosure-list">
-              <li class="item" v-for="(item,index) in fileList" :key="index">
-               
-                <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
-                <a href="javascript:;" class="delete-btn" @click="deleteFile(item.fileid)">删除</a>
-              </li>
-
-              <a href="javascript:;" class="upload-btn">
-                <img src="../../static/images/file-icon.png" alt="">
-                添加附件
-                <input type="file" v-on:change="tirggerFile($event)" class="file-input">
-              </a>
-            </ul>
-          </div>
-        </div>
-        <div class="item-section">
-          <label>点评</label>
-          <div class="right-content">
-            <div class="editor-box">
-              <div id="div7" class="toolbar"></div>
-              <div id="div8" class="text">
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>   -->
 
     </el-dialog>
   </div>
@@ -297,12 +119,10 @@ import $ from 'jquery';
 // import wangEditor from '@/components/wangEditor/release/wangEditor.min.js';
 import { getData, my_url } from '../../static/js/ajax.js';
 import { formatDate } from '../../static/js/common.js';
-
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
-
 import axios from 'axios'
 import FormData from 'form-data'
-// let editor14, editor15, editor16, editor17;
+
 export default {
   components: { Editor, Toolbar },
   data() {
@@ -314,7 +134,7 @@ export default {
       toolbarConfig: {
         excludeKeys: [
           // 排除菜单组，写菜单组 key 的值即可
-          // "group-video" //去掉视频
+          "group-video",//去掉视频
           "fullScreen"//去掉全屏
         ]
       },
@@ -325,77 +145,40 @@ export default {
 
 
 
+      // 搜索
+      selectTime: '',
+      insorganName: '',
+      title: '',
+      SalesmanBox: [],
+      SalesmanBox1: [],
 
 
 
-
-
-
-
-      askedtypeList: [],
-      askedflowList: [],
-      selectAskedflow: [],
-      selectAskedtype: [],
-      teamNames2: '分类选择',
-      teamNames1: '跟进步骤',
-      my_list2: '',
-      defaultProps: {
-        children: 'children',
-        label: 'label'
-      },
-      defaultProps1: {
-        id: 'children',
-        label: 'label'
-      },
-      currentSuggestion: 'zjsuggestion',
-      fileList: '',
-      //保单检视
+      //弹窗
+      addCJGItemVisible: false, //控制弹窗的显示
+      CJGselectValue: '保单检视',
       bdjsItem: {
         title: '',
         insorgancode: '',
         suggestion: '',
         policydetail: '',
       },
-      //疾病核保
-      jbhbItem: {
-        title: '',
-        disdescription: '',
-        zjsuggestion: '',
-        ylsuggestion: '',
-        productJsonStr: [
-
-        ]
-      },
-      //解答疑义
-      dkwItem: {
-        title: '',
-        content: '',
-        voice: '',
-        askedtype: [],
-        askedflow: [],
-      },
-      CJGselectList: ['保单检视', '疾病核保', '解答疑义'],
-      CJGselectValue: '保单检视',
-      addCJGFIrstVisible: false,
-      addCJGItemVisible: false, //控制弹窗的显示
-      selectTime: '',
-      Salesman: '',
-      team: '',
+      fileList: '',
+      insorganName1: '',
+      // open: true,
+      editorEdit: '',
       cjgType: '',
-      title: '',
-      insorgancode: '',
-      currentReadid: '',
-      currentUwid: '',
-      currentReadid: '',
+
+
+      // 表格
+      tableData: [],
       loading: false,
       pageTotal: 0,
       pageSize: 20,
       pageNum: 1,
-      tableData: [],
-      CJGTypeList: [],
-      noticeTypeList: [],
-      InsOrganList: [],
-      productList: [],
+
+
+
       pickerOptions: {
         shortcuts: [{
           text: '今日',
@@ -468,19 +251,12 @@ export default {
           }
         }]
       },
-      pageTotal: 0,
-      pageSize: 20,
-      pageNum: 1,
-      SalesmanBox: [],
-      SalesmanBox1: [],
-      insorganName: '',
-      insorganName1: '',
-      currentType: '01,02,03'
+
     }
   },
   created() {
     var that = this;
-    this.editorConfig.placeholder = "请输入文章内容...";
+    this.editorConfig.placeholder = "请输入内容...";
     this.editorConfig.MENU_CONF["uploadImage"] = {
       timeout: 5 * 1000, // 5s
 
@@ -534,10 +310,7 @@ export default {
         };
 
         axios(config).then(function (res) {
-          console.log(res)
           let url = res.data.data[0]; //拼接成可浏览的图片地址
-          console.log(url)
-          // let url = "https://www.eonscitech.com/api/content/uploadImg/" + res.data.data.path; //拼接成可浏览的图片地址
           insertFn(url, "图片", url); //插入图片
         }).catch(function (error) {
           console.log(error);
@@ -545,60 +318,28 @@ export default {
       }
     };
   },
-  watch: {
-    cjgType(val) {
-      if (val) {
-        this.currentType = val
-        if (val == '01') {
-          this.CJGselectValue = "保单检视"
-        } else if (val == '02') {
-          this.CJGselectValue = "疾病核保"
-        } else if (val == '03') {
-          this.CJGselectValue = "解答疑义"
-        }
-      } else {
-        this.currentType = '01,02,03'
-      }
-      this.getSearchData()
-    },
-  },
+
+
+
   mounted: function () {
-    this.getAskedType()
-    this.$nextTick(() => {
-      this.cjgType = this.$route.query.type || '01';
-      this.getCJGList()
-      //数据字典
-      let _this = this
-      getData('post', my_url + '/crm/common/getDictList.do', function (data) {
-        if (data.code == 0) {
-          let {
-            dictList
-          } = data;
-          _this.CJGTypeList = dictList;
-        }
-      }, {
-        dict_type: 'konwledge_type'
-      });
-      getData('post', my_url + '/crm/common/getInsOrganList.do', function (data) {
-        if (data.code == 0) {
-          let {
-            dictList
-          } = data;
-          _this.InsOrganList = dictList;
-        }
-      });
-      this.getSearchData()
-      this.insOrganList()
-      this.getRiskList()
-    })
+    this.cjgType = '01';
+    this.getCJGList()//搜索表格 数据
+    this.getSearchData()//获取保险公司列表
+    this.insOrganList()//搜索内容俩表
   },
   methods: {
-
+    // 初始化编辑器
     onCreated(editor) {
       this.editor = Object.seal(editor); // 一定要用 Object.seal() ，否则会报错
     },
+    beforeDestroy() {
+     
+      const editor = this.editor;
+      if (editor == null) return;
+      editor.destroy(); // 组件销毁时，及时销毁编辑器
+    },
 
-
+    // 文件图标
     fileTypeFun(type) {
       if (type) {
         var type = type.toLowerCase()
@@ -613,93 +354,30 @@ export default {
         return 'file-type file-type-file'
       }
     },
-    headerClassName(row) {
-      if (row.column.property == 'askedtypedesc') return 'askedtypedescClass'
-      if (row.column.property == 'title') return 'titleClass'
-    },
-
-    //分类流程
-    getAskedType() {
-      let _this = this
-      getData('post', my_url + '/crm/knowledge/getAskedTypeFlow.do', function (data) {
-        if (data.code == 0) {
-          let askedtype = data.askedtype
-          let askedflow = data.askedflow
-          askedtype.forEach(res => {
-            _this.askedtypeList.push({
-              "label": res.dd_value,
-              "id": res.dd_key
-            });
-          })
-          askedflow.forEach(res => {
-            _this.askedflowList.push({
-              "label": res.dd_value,
-              "id": res.dd_key
-            });
-          })
-        }
-      });
-    },
-
+    // headerClassName(row) {
+    //   if (row.column.property == 'askedtypedesc') return 'askedtypedescClass'
+    //   if (row.column.property == 'title') return 'titleClass'
+    // },
 
 
 
     handleNodeClick(data) {
 
     },
-    getRiskList() {
-      let _this = this
-      getData('post', my_url + '/crm/common/getAllRiskList.do', function (data) {
-        if (data.code == 0) {
-          let {
-            dictList
-          } = data;
-          _this.productList = dictList;
-        }
-      });
-    },
-    setItemProductList() {
-      let productJsonStr = this.jbhbItem.productJsonStr
-      if (productJsonStr.length) {
-        productJsonStr.forEach((item, index) => {
-          this.selectChange1(index)
-        })
-      }
-    },
-    selectChange1(index) {
-      let _this = this
-      getData('post', my_url + '/crm/common/getRiskList.do', function (data) {
-        if (data.code == 0) {
-          let {
-            dictList
-          } = data;
-          _this.$set(_this.jbhbItem.productJsonStr[index], 'productList', [])
-          _this.jbhbItem.productJsonStr[index].productList = dictList;
-        } else {
-          _this.$set(_this.jbhbItem.productJsonStr[index], 'productList', [])
-        }
-      }, {
-        insorgancode: _this.jbhbItem.productJsonStr[index].insorgancode
-      });
-    },
-    selectChange(index) {
-      let _this = this
-      getData('post', my_url + '/crm/common/getRiskList.do', function (data) {
-        if (data.code == 0) {
-          let {
-            dictList
-          } = data;
-          _this.$set(_this.jbhbItem.productJsonStr[index], 'productList', [])
-          _this.jbhbItem.productJsonStr[index].productList = dictList;
-          _this.jbhbItem.productJsonStr[index].riskcode = ''
-        } else {
-          _this.$set(_this.jbhbItem.productJsonStr[index], 'productList', [])
-          _this.jbhbItem.productJsonStr[index].riskcode = ''
-        }
-      }, {
-        insorgancode: _this.jbhbItem.productJsonStr[index].insorgancode
-      });
-    },
+    // getRiskList() {
+    //   let _this = this
+    //   getData('post', my_url + '/crm/common/getAllRiskList.do', function (data) {
+    //     if (data.code == 0) {
+    //       let {
+    //         dictList
+    //       } = data;
+    //       _this.productList = dictList;
+    //     }
+    //   });
+    // },
+
+
+
     createFilter(queryString) {
       return (SalesmanBox) => {
         return (SalesmanBox.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
@@ -711,6 +389,7 @@ export default {
       // 调用 callback 返回建议列表的数据
       cb(results);
     },
+    // 获取保险公司
     getSearchData() {
       let _this = this;
       getData('post', my_url + '/crm/knowledge/getKnowledgeTitle.do', function (data) { //渠道类型
@@ -727,11 +406,15 @@ export default {
         type: this.cjgType
       });
     },
+
+
+
     createFilter1(queryString) {
       return (SalesmanBox) => {
         return (SalesmanBox.value.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
       };
     },
+    // 关键字搜索
     querySearch1(queryString, cb) {
       var SalesmanBox = this.SalesmanBox1;
       var results = queryString ? SalesmanBox.filter(this.createFilter1(queryString)) : SalesmanBox;
@@ -756,27 +439,31 @@ export default {
     },
 
 
+
+
+
+
+    // 删除文件
     deleteFile(id) {
       let body = {
         fileid: id,
       }
       getData('post', my_url + '/crm/fileupload/fileDelete.do', res => {
         if (res.code == 0) {
-          this.getUploadFile(this.bdjsItem.baseid || this.jbhbItem.baseid || this.dkwItem.baseid)
+          this.getUploadFile(this.bdjsItem.baseid)
         }
       }, body);
     },
+
+
+    // 上传附件
     tirggerFile(e) {
-      console.log(e)
+ 
       var _this = this
       this.updateCJGitem('isUpload').then(res => {
         let buztype, buzid
-
-
         buzid = res.readid
         buztype = '0101'
-
-
         let baseid = res.baseid
         let formData = new FormData();
         formData.append('myFile', e.target.files[0]);
@@ -811,18 +498,14 @@ export default {
         console.log(res)
       })
     },
-    getUploadFile(id) {
-      let body = {
-        secondid: id,
-      }
-      getData('post', my_url + '/crm/fileupload/getFileListBySecondId.do', res => {
-        if (res.code == 0) {
-          this.fileList = res.fileList
-        }
-      }, body);
-    },
+
+
+
     itemReset() {
+ 
       //保单检视
+      // this.beforeDestroy()
+      this.editor = null
       this.html = ''
       this.bdjsItem = {
         title: '',
@@ -831,49 +514,11 @@ export default {
         policydetail: '',
       }
       this.fileList = []
-      // //疾病核保
-      // this.jbhbItem = {
-      //   title: '',
-      //   disdescription: '',
-      //   zjsuggestion: '',
-      //   ylsuggestion: '',
-      //   productJsonStr: [
 
-      //   ]
-      // }
-      // //解答疑义
-      // this.dkwItem = {
-      //   title: '',
-      //   content: '',
-      //   voice: '',
-      //   askedtype: [],
-      //   askedflow: []
-      // }
-    
-      // this.selectAskedtype = []
-      // this.selectAskedflow = []
-      // this.teamNames1 = '跟进步骤'
-      // this.teamNames2 = '分类选择'
     },
-    addProduct() {
-      this.jbhbItem.productJsonStr.push({
-        insorgancode: '',
-        riskcode: '',
-        acceptremark: '',
-        labeltype: '01',
-      })
-      this.$set(this.jbhbItem, 'productJsonStr', this.jbhbItem.productJsonStr)
-    },
-    deleteProduct() {
-      this.jbhbItem.productJsonStr.pop()
-    },
-    changeSuggestion(Suggestion) {
-      this.currentSuggestion = Suggestion
-    },
-    back() {
-      this.addCJGFIrstVisible = true
-      this.addCJGItemVisible = false
-    },
+
+
+    // 删除数据
     deleteItem(item) {
       let body = {
         baseid: item.baseid,
@@ -884,171 +529,93 @@ export default {
         }
       }, body);
     },
+    // 编辑
     showEditPopup(item) {
-      this.itemReset()
-      this.getItem(item).then(res => {
-        console.log(res)
-        this.getUploadFile(item.baseid)
-        let body, url
+      var that = this
 
-        this.html = res.policyread.policydetail
-        this.bdjsItem = res.policyread
-        this.bdjsItem.baseid = item.baseid
+   
+      this.getUploadFile(item.baseid)
 
-        // if (item.type === '02') {
-        //   this.jbhbItem = res.diseaseUw
-        //   this.jbhbItem.baseid = item.baseid
-        //   this.$set(this.jbhbItem, 'productJsonStr', res.diseaseUwProductList)
-        //   this.setItemProductList()
-        // }
-        // if (item.type === '03') {
-        //   this.dkwItem = res.anscusque
-        //   this.dkwItem.baseid = item.baseid
-        // }
-        this.CJGselectValue = item.typename
-        // this.showAddCJGDetailDialog()
-        this.addCJGItemVisible = true
-      })
-    },
-    getItem(item) {
       let body = {
         baseid: item.baseid
-      },
-        url
-      if (item.type === '01') {
-        url = '/crm/knowledge/getOnePolicyRead.do'
       }
-      if (item.type === '02') {
-        url = '/crm/knowledge/getOneDiseaseUw.do'
-      }
-      if (item.type === '03') {
-        url = '/crm/knowledge/getOneAnsCusQue.do'
-      }
+      getData('post', my_url + '/crm/knowledge/getOnePolicyRead.do', res => {
+        if (res.code == 0) {
+  
+          that.insorganName1 = res.policyread.insorganname
+          that.bdjsItem = res.policyread
+          that.bdjsItem.baseid = item.baseid
+          that.CJGselectValue = item.typename
+          that.html = res.policyread.policydetail
+   that.addCJGItemVisible = true
+        }
+      }, body);
 
-      return new Promise((resovle, reject) => {
-        getData('post', my_url + url, res => {
-          if (res.code == 0) {
-            // if (this.CJGselectValue === '解答疑义') {
-            //   if (res.anscusque.askedflow == '') {
-            //     this.teamNames1 = '跟进步骤'
-            //     this.teamNames2 = '分类选择'
-            //   } else {
-            //     this.selectAskedflow = res.anscusque.askedflow.split(",")
-            //     this.selectAskedtype = res.anscusque.askedtype.split(",")
-            //     var arr1 = []
-            //     this.askedflowList.forEach(item => {
-            //       this.selectAskedflow.forEach(key => {
-            //         if (item.id == key) {
-            //           arr1.push(item.label)
-            //         }
-            //       })
-            //     })
-            //     this.teamNames1 = arr1.toString()
-            //     var arr2 = []
-            //     this.askedtypeList.forEach(item => {
-            //       this.selectAskedtype.forEach(key => {
-            //         if (item.id == key) {
-            //           arr2.push(item.label)
-            //         }
-            //       })
-            //     })
-            //     this.teamNames2 = arr2.toString()
-            //   }
-            // }
-            if (this.CJGselectValue === '保单检视') {
-              this.insorganName1 = res.policyread.insorganname
-            }
-
-            resovle(res)
-          } else {
-            reject()
-          }
-        }, body);
-      })
     },
+
+
+    // 获取上传的文件列表
+    getUploadFile(id) {
+      let body = {
+        secondid: id,
+      }
+      getData('post', my_url + '/crm/fileupload/getFileListBySecondId.do', res => {
+        if (res.code == 0) {
+          this.fileList = res.fileList
+        }
+      }, body);
+    },
+
+
+    // 更新文件
     updateCJGitem(isUpload) {
       let url, data
-      if (this.CJGselectValue === '保单检视') {
-        url = this.bdjsItem.baseid ? '/crm/knowledge/policyReadUpdate.do' : '/crm/knowledge/policyRead.do'
 
-        this.bdjsItem.policydetail = this.html
-        this.bdjsItem.suggestion = '<p>1</p>'
-        if (this.insorganName1 != '') {
-          var insorgancode = ''
-          var insorganList = this.SalesmanBox1;
-          for (var i = 0; i < insorganList.length; i++) {
-            if (insorganList[i].value == this.insorganName1) {
-              insorgancode = insorganList[i].key
-            }
+      url = this.bdjsItem.baseid ? '/crm/knowledge/policyReadUpdate.do' : '/crm/knowledge/policyRead.do'
+
+      this.bdjsItem.policydetail = this.html
+      this.bdjsItem.suggestion = '<p>1</p>'
+      if (this.insorganName1 != '') {
+        var insorgancode = ''
+        var insorganList = this.SalesmanBox1;
+        for (var i = 0; i < insorganList.length; i++) {
+          if (insorganList[i].value == this.insorganName1) {
+            insorgancode = insorganList[i].key
           }
-          this.bdjsItem.insorgancode = insorgancode
-          this.bdjsItem.insorganname = this.insorganName1
         }
-        data = this.bdjsItem
+        this.bdjsItem.insorgancode = insorgancode
+        this.bdjsItem.insorganname = this.insorganName1
       }
-      // if (this.CJGselectValue === '疾病核保') {
-      //   url = this.jbhbItem.baseid ? '/crm/knowledge/diseaseUwUpdate.do' : '/crm/knowledge/diseaseUw.do'
-      //   data = JSON.parse(JSON.stringify(this.jbhbItem))
-      //   data.productJsonStr = JSON.stringify(data.productJsonStr)
-      // }
-      // if (this.CJGselectValue === '解答疑义') {
-      //   url = this.dkwItem.baseid ? '/crm/knowledge/answerCustomerQuestionUpdate.do' :
-      //     '/crm/knowledge/answerCustomerQuestion.do'
-      //   this.dkwItem.content = editor16.txt.html()
-      //   this.dkwItem.voice = editor17.txt.html()
-      //   data = this.dkwItem
-      // }
+      data = this.bdjsItem
 
-
-      return new Promise((resovle, reject) => {
-        getData('post', my_url + url, res => {
-          if (res.code == 0) {
-            if (isUpload !== 'isUpload') {
-              this.addCJGItemVisible = false
-              this.addCJGFIrstVisible = false
-
-              this.dkwItem.askedtype = ''
-              this.dkwItem.askedflow = ''
-              this.insorganName1 = ''
-              this.bdjsItem.insorgancode = ''
-            }
-
-
-            this.getCJGList()
-            if (res.baseid) {
-              if (this.CJGselectValue === '保单检视') {
-                this.bdjsItem.baseid = res.baseid
-              }
-              // if (this.CJGselectValue === '疾病核保') {
-              //   this.jbhbItem.baseid = res.baseid
-              // }
-              // if (this.CJGselectValue === '解答疑义') {
-              //   this.dkwItem.baseid = res.baseid
-              // }
-              resovle(res)
-            } else {
-              this.bdjsItem.baseid && resovle(this.bdjsItem)
-              this.jbhbItem.baseid && resovle(this.jbhbItem)
-              this.dkwItem.baseid && resovle(this.dkwItem)
-            }
-          } else {
-            this.$message({
-              showClose: true,
-              message: res.msg,
-              duration: 3000,
-              type: 'error'
-            });
-            reject()
-          }
-        }, data);
-      })
-
+ 
+      getData('post', my_url + url, res => {
+        if (res.code == 0) {
+          this.addCJGItemVisible = false
+          this.insorganName1 = ''
+          this.bdjsItem.insorgancode = ''
+          this.bdjsItem.baseid = ''
+          this.itemReset()
+          this.getCJGList()
+       
+        } else {
+          this.$message({
+            showClose: true,
+            message: res.msg,
+            duration: 3000,
+            type: 'error'
+          });
+        }
+      }, data);
     },
+
+    // 搜索
     search() {
       this.pageNum = 1
       this.pageSize = 20
       this.getCJGList()
     },
+    // 搜索表格数据
     getCJGList() {
       var insorgancode = ''
       var insorganList = this.SalesmanBox1;
@@ -1062,8 +629,6 @@ export default {
         type: this.cjgType + '',
         startDate: this.selectTime ? this.selectTime[0] : '',
         endDate: this.selectTime ? this.selectTime[1] : '',
-        askedtype: this.dkwItem.askedtype,
-        askedflow: this.dkwItem.askedflow,
         insorgancode: insorgancode,
         pageNumber: this.pageNum,
         pageSize: this.pageSize,
@@ -1073,42 +638,54 @@ export default {
         this.pageTotal = data.total
       }, body);
     },
-    showaddCJGFIrstVisible() {
-      this.addCJGFIrstVisible = true
-      this.itemReset()
-    },
+
+
+
+
+
+    // 取消添加
     hideaddCJGFIrstVisible() {
-      this.addCJGFIrstVisible = false
       this.addCJGItemVisible = false
       this.insorganName1 = ''
       this.bdjsItem.insorgancode = ''
       this.itemReset()
     },
+    // 打开新建弹窗
     showAddCJGDetailDialog(e) {
       this.addCJGItemVisible = true
     },
-    reset() { //重置
-      this.title = ''
-      this.selectTime = ''
-      this.selectAskedtype = []
-      this.selectAskedflow = []
-      this.teamNames1 = "跟进步骤"
-      this.teamNames2 = "分类选择"
-      this.dkwItem.askedtype = ''
-      this.dkwItem.askedflow = ''
-      // this.cjgType = ''
-      this.getCJGList()
-    },
 
+
+
+    // 分页
     pageClick(page) {
       this.pageNum = page;
       this.getCJGList();
-    }
+    },
+
+
+
+    reset() { //重置
+      this.title = ''
+      this.selectTime = ''
+      // this.dkwItem.askedtype = ''
+      // this.dkwItem.askedflow = ''
+      this.getCJGList()
+    },
+
   }
 }
 </script>
 <style src="../../static/css/knowledgeMan.css"></style>
 <style src="@wangeditor/editor/dist/css/style.css"></style>
+
+<style scoped>
+.step-list {
+  padding: 0rem;
+  overflow: auto;
+}
+</style>
+
 <style>
 .step-list {
   padding: 0rem;

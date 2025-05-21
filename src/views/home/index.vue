@@ -113,7 +113,7 @@
                     <el-tree @check="handleCheckChange3" :data="teamDataList2" ref="tree3" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps2" style="padding-right: 0px;">
                     </el-tree>
                     <div class="sure-footer">
-                    
+
                       <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne3">取消</div>
                       <div class="my-sure" @click="my_sure3">确定</div>
                     </div>
@@ -281,7 +281,7 @@
                     </el-tree>
                     <div class="sure-footer">
                       <!-- <div class="my-sure" @click="my_sure2">确定</div> -->
-                      
+
                       <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne2">取消</div>
                       <div class="my-sure" @click="my_sure2">确定</div>
                     </div>
@@ -560,7 +560,7 @@
                   <el-tree @check="handleCheckChange1" :data="teamDataList1" ref="tree1" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps1" style="padding-right: 0px;">
                   </el-tree>
                   <div class="sure-footer">
-                
+
                     <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne1">取消</div>
                     <div class="my-sure" @click="my_sure1">确定</div>
                   </div>
@@ -776,21 +776,25 @@
         </div>
         <ul class="notice-list">
           <li class="cjg-item" v-for="(item,index) in knowledgeList" :key="index">
-            <div class="section" @click="showEditPopup(item)" style="cursor: pointer;">
-              <div class="name">
-                【{{item.typename}}】
+
+            <div @click="showEditPopup(item)" style="cursor: pointer;">
+              <div class="section">
+                <div class="name">
+                  【{{item.typename}}】
+                </div>
+                <div>{{item.makedate}}</div>
               </div>
-              <div>{{item.makedate}}</div>
-            </div>
-            <div class="section" style="margin-top: 5px">
-              <div style="color: #686868;" class="title-txt">
-                {{item.title}}
+              <div class="section" style="margin-top: 5px">
+                <div style="color: #686868;" class="title-txt">
+                  {{item.title}}
+                </div>
+                <!-- <a href="javascript:;" class="complete" @click="knowledgeComplete(item.baseid)" style="color:#DC220D;width:0.4rem;text-align:right;">完成</a> -->
               </div>
-              <a href="javascript:;" class="complete" @click="knowledgeComplete(item.baseid)" style="color:#DC220D;width:0.4rem;text-align:right;">完成</a>
             </div>
+
           </li>
         </ul>
-        <el-dialog :title="CJGselectValue" :visible.sync="drawer" width="70%" class="cjg-dialog">
+        <el-dialog :title="CJGselectValue" :visible.sync="drawer" width="73%" top="5vh" :close-on-click-modal='false' class="cjg-dialog">
           <div class="step-list wei-step-list" v-if="CJGselectValue === '保单检视'">
             <div class="item-section">
               <label>标题</label>
@@ -808,15 +812,16 @@
             </div>
             <div class="item-section">
               <label>保障详情</label>
-              <div class="right-content">
-                <div class="editor-box">
+              <div class="right-content bdjsDetail">
+                <div v-html="this.bdjsItem.policydetail"></div>
+                <!-- <div class="editor-box">
                   <div id="div1" class="toolbar"></div>
                   <div id="div2" class="text">
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
-            <div class="item-section">
+            <!-- <div class="item-section">
               <label>建议规划</label>
               <div class="right-content">
                 <div class="editor-box">
@@ -825,7 +830,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="item-section">
               <label>附件</label>
               <div class="right-content">
@@ -945,16 +950,16 @@
             <div class="item-section">
               <label>附件</label>
               <div class="right-content">
-                <ul class="enclosure-list" v-if="fileList.length">
+                <ul class="enclosure-list" v-if="fileList.length > 0">
                   <li class="item" v-for="(item,index) in fileList" :key="index">
-                    <!-- <img src=".../../static/images/file-icon.png" alt=""> -->
+
                     <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
                     <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
                   </li>
                 </ul>
-                <ul class="enclosure-list" v-else>
-                  <li class="item"></li>
-                </ul>
+                <div class="enclosure-list" v-else>
+                  暂无附件
+                </div>
               </div>
             </div>
           </div>
@@ -982,8 +987,7 @@
                   <el-tree @check="handleCheckChange5" :data="teamDataList5" ref="tree5" show-checkbox node-key="id" :default-expanded-keys="[1]" :props="defaultProps2" style="padding-right: 0px;">
                   </el-tree>
                   <div class="sure-footer">
-                   
-                    
+
                     <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="my_sureOne5">取消</div>
                     <div class="my-sure" @click="my_sure5">确定</div>
                   </div>
@@ -1061,7 +1065,7 @@
           </el-table-column> -->
           <el-table-column key="2" type="index" label="序号" align="center" width="50">
           </el-table-column>
-          <el-table-column prop="makedate" align="center" label="操作时间" width="150">
+          <el-table-column prop="makedate" align="center" label="操作时间" width="170">
           </el-table-column>
           <el-table-column prop="name" align="center" label="客户姓名" width="80">
           </el-table-column>
@@ -1078,11 +1082,11 @@
           </el-table-column>
           <el-table-column prop="sourcelevel" align="center" label="资源等级" width="90">
           </el-table-column>
-          <el-table-column prop="batchno" align="center" label="批次号" width="140" :show-overflow-tooltip="true">
+          <el-table-column prop="batchno" align="center" label="批次号" width="120" :show-overflow-tooltip="true">
           </el-table-column>
           <el-table-column prop="channelname" align="center" label="渠道类型" width="90">
           </el-table-column>
-          <el-table-column prop="appname" align="center" label="流量来源" width="100">
+          <el-table-column prop="appname" align="center" label="流量来源" width="120">
           </el-table-column>
         </el-table>
         <div style="margin-top: 20px;">
@@ -1099,11 +1103,11 @@ import '../../static/js/viewer-jquery.min.js'
 import '../../static/css/viewer.min.css'
 import moment from "../../static/js/moment.js"
 import echarts from "../../static/js/echart.js"
-import wangEditor from '@/components/wangEditor/release/wangEditor.min.js'
+// import wangEditor from '@/components/wangEditor/release/wangEditor.min.js'
 import { getData, getPhoneData, my_url } from '../../static/js/ajax.js';
 import { getBeforeDate, formatDate } from '../../static/js/common.js';
 import api from '../../utils/api.js';
-let editor, editor1, editor2, editor3;
+// let editor, editor1, editor2, editor3;
 export default {
   name: 'home',
   data() {
@@ -1468,7 +1472,7 @@ export default {
     };
   },
   mounted: function () {
-  
+
     this.selectRepeat()
     this.selectSearch()
     let _this = this;
@@ -1607,7 +1611,7 @@ export default {
     },
 
 
-  
+
 
     importantThing() {
       if (this.impordata != null) {
@@ -2238,7 +2242,7 @@ export default {
     },
 
     my_sure2() {
-     
+
       let _this = this;
       this.$refs.disTeam2.hide();
       if (this.my_list2 == null || this.my_list2 == '' || this.my_list2 == '1') {
@@ -2344,167 +2348,167 @@ export default {
         return 'file-type file-type-file'
       }
     },
-    newWangEditor(el1, el2) {
-      // var E = window.wangEditor
-      editor = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      // 关闭粘贴内容中的样式
-      editor.customConfig.pasteFilterStyle = false
-      // 隐藏“网络图片”tab
-      editor.customConfig.showLinkImg = false
-      // 忽略粘贴内容中的图片
-      editor.customConfig.pasteIgnoreImg = true
-      // 使用 base64 保存图片
-      //editor.customConfig.uploadImgShowBase64 = true
-      editor.customConfig.menus = [
-        'image',
-      ]
-      // 上传图片到服务器
-      editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    // newWangEditor(el1, el2) {
+    //   // var E = window.wangEditor
+    //   editor = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+    //   // 关闭粘贴内容中的样式
+    //   editor.customConfig.pasteFilterStyle = false
+    //   // 隐藏“网络图片”tab
+    //   editor.customConfig.showLinkImg = false
+    //   // 忽略粘贴内容中的图片
+    //   editor.customConfig.pasteIgnoreImg = true
+    //   // 使用 base64 保存图片
+    //   //editor.customConfig.uploadImgShowBase64 = true
+    //   editor.customConfig.menus = [
+    //     'image',
+    //   ]
+    //   // 上传图片到服务器
+    //   editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //   editor.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+    //   editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-      //自定义上传图片事件
-      editor.customConfig.uploadImgHooks = {
-        before: function (xhr, editor, files) {
+    //   //自定义上传图片事件
+    //   editor.customConfig.uploadImgHooks = {
+    //     before: function (xhr, editor, files) {
 
-        },
-        success: function (xhr, editor, result) {
-          console.log("上传成功");
+    //     },
+    //     success: function (xhr, editor, result) {
+    //       console.log("上传成功");
 
-        },
-        fail: function (xhr, editor, result) {
-          console.log("上传失败,原因是" + result);
-        },
-        error: function (xhr, editor) {
-          console.log("上传出错");
-        },
-        timeout: function (xhr, editor) {
-          console.log("上传超时");
-        }
-      }
-      editor.create()
-    },
-    newWangEditor1(el1, el2) {
-      // var E = window.wangEditor
-      editor1 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      // 关闭粘贴内容中的样式
-      editor1.customConfig.pasteFilterStyle = false
-      // 隐藏“网络图片”tab
-      editor1.customConfig.showLinkImg = false
-      // 忽略粘贴内容中的图片
-      editor1.customConfig.pasteIgnoreImg = true
-      // 使用 base64 保存图片
-      //editor.customConfig.uploadImgShowBase64 = true
-      editor1.customConfig.menus = [
-        'image',
-      ]
-      // 上传图片到服务器
-      editor1.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor1.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor1.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    //     },
+    //     fail: function (xhr, editor, result) {
+    //       console.log("上传失败,原因是" + result);
+    //     },
+    //     error: function (xhr, editor) {
+    //       console.log("上传出错");
+    //     },
+    //     timeout: function (xhr, editor) {
+    //       console.log("上传超时");
+    //     }
+    //   }
+    //   editor.create()
+    // },
+    // newWangEditor1(el1, el2) {
+    //   // var E = window.wangEditor
+    //   editor1 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+    //   // 关闭粘贴内容中的样式
+    //   editor1.customConfig.pasteFilterStyle = false
+    //   // 隐藏“网络图片”tab
+    //   editor1.customConfig.showLinkImg = false
+    //   // 忽略粘贴内容中的图片
+    //   editor1.customConfig.pasteIgnoreImg = true
+    //   // 使用 base64 保存图片
+    //   //editor.customConfig.uploadImgShowBase64 = true
+    //   editor1.customConfig.menus = [
+    //     'image',
+    //   ]
+    //   // 上传图片到服务器
+    //   editor1.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //   editor1.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+    //   editor1.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-      //自定义上传图片事件
-      editor1.customConfig.uploadImgHooks = {
-        before: function (xhr, editor, files) {
+    //   //自定义上传图片事件
+    //   editor1.customConfig.uploadImgHooks = {
+    //     before: function (xhr, editor, files) {
 
-        },
-        success: function (xhr, editor, result) {
-          console.log("上传成功");
+    //     },
+    //     success: function (xhr, editor, result) {
+    //       console.log("上传成功");
 
-        },
-        fail: function (xhr, editor, result) {
-          console.log("上传失败,原因是" + result);
-        },
-        error: function (xhr, editor) {
-          console.log("上传出错");
-        },
-        timeout: function (xhr, editor) {
-          console.log("上传超时");
-        }
-      }
-      editor1.create()
-    },
-    newWangEditor2(el1, el2) {
-      // var E = window.wangEditor
-      editor2 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      // 关闭粘贴内容中的样式
-      editor2.customConfig.pasteFilterStyle = false
-      // 隐藏“网络图片”tab
-      editor2.customConfig.showLinkImg = false
-      // 忽略粘贴内容中的图片
-      editor2.customConfig.pasteIgnoreImg = true
-      // 使用 base64 保存图片
-      //editor.customConfig.uploadImgShowBase64 = true
-      editor2.customConfig.menus = [
-        'image',
-      ]
-      // 上传图片到服务器
-      editor2.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor2.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor2.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    //     },
+    //     fail: function (xhr, editor, result) {
+    //       console.log("上传失败,原因是" + result);
+    //     },
+    //     error: function (xhr, editor) {
+    //       console.log("上传出错");
+    //     },
+    //     timeout: function (xhr, editor) {
+    //       console.log("上传超时");
+    //     }
+    //   }
+    //   editor1.create()
+    // },
+    // newWangEditor2(el1, el2) {
+    //   // var E = window.wangEditor
+    //   editor2 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+    //   // 关闭粘贴内容中的样式
+    //   editor2.customConfig.pasteFilterStyle = false
+    //   // 隐藏“网络图片”tab
+    //   editor2.customConfig.showLinkImg = false
+    //   // 忽略粘贴内容中的图片
+    //   editor2.customConfig.pasteIgnoreImg = true
+    //   // 使用 base64 保存图片
+    //   //editor.customConfig.uploadImgShowBase64 = true
+    //   editor2.customConfig.menus = [
+    //     'image',
+    //   ]
+    //   // 上传图片到服务器
+    //   editor2.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //   editor2.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+    //   editor2.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-      //自定义上传图片事件
-      editor2.customConfig.uploadImgHooks = {
-        before: function (xhr, editor, files) {
+    //   //自定义上传图片事件
+    //   editor2.customConfig.uploadImgHooks = {
+    //     before: function (xhr, editor, files) {
 
-        },
-        success: function (xhr, editor, result) {
-          console.log("上传成功");
+    //     },
+    //     success: function (xhr, editor, result) {
+    //       console.log("上传成功");
 
-        },
-        fail: function (xhr, editor, result) {
-          console.log("上传失败,原因是" + result);
-        },
-        error: function (xhr, editor) {
-          console.log("上传出错");
-        },
-        timeout: function (xhr, editor) {
-          console.log("上传超时");
-        }
-      }
-      editor2.create()
-    },
+    //     },
+    //     fail: function (xhr, editor, result) {
+    //       console.log("上传失败,原因是" + result);
+    //     },
+    //     error: function (xhr, editor) {
+    //       console.log("上传出错");
+    //     },
+    //     timeout: function (xhr, editor) {
+    //       console.log("上传超时");
+    //     }
+    //   }
+    //   editor2.create()
+    // },
 
-    newWangEditor3(el1, el2) {
-      // var E = window.wangEditor
-      editor3 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      // 关闭粘贴内容中的样式
-      editor3.customConfig.pasteFilterStyle = false
-      // 隐藏“网络图片”tab
-      editor3.customConfig.showLinkImg = false
-      // 忽略粘贴内容中的图片
-      editor3.customConfig.pasteIgnoreImg = true
-      // 使用 base64 保存图片
-      //editor.customConfig.uploadImgShowBase64 = true
-      editor3.customConfig.menus = [
-        'image',
-      ]
-      // 上传图片到服务器
-      editor3.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor3.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor3.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    // newWangEditor3(el1, el2) {
+    //   // var E = window.wangEditor
+    //   editor3 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+    //   // 关闭粘贴内容中的样式
+    //   editor3.customConfig.pasteFilterStyle = false
+    //   // 隐藏“网络图片”tab
+    //   editor3.customConfig.showLinkImg = false
+    //   // 忽略粘贴内容中的图片
+    //   editor3.customConfig.pasteIgnoreImg = true
+    //   // 使用 base64 保存图片
+    //   //editor.customConfig.uploadImgShowBase64 = true
+    //   editor3.customConfig.menus = [
+    //     'image',
+    //   ]
+    //   // 上传图片到服务器
+    //   editor3.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //   editor3.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+    //   editor3.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-      //自定义上传图片事件
-      editor3.customConfig.uploadImgHooks = {
-        before: function (xhr, editor, files) {
+    //   //自定义上传图片事件
+    //   editor3.customConfig.uploadImgHooks = {
+    //     before: function (xhr, editor, files) {
 
-        },
-        success: function (xhr, editor, result) {
-          console.log("上传成功");
+    //     },
+    //     success: function (xhr, editor, result) {
+    //       console.log("上传成功");
 
-        },
-        fail: function (xhr, editor, result) {
-          console.log("上传失败,原因是" + result);
-        },
-        error: function (xhr, editor) {
-          console.log("上传出错");
-        },
-        timeout: function (xhr, editor) {
-          console.log("上传超时");
-        }
-      }
-      editor3.create()
-    },
+    //     },
+    //     fail: function (xhr, editor, result) {
+    //       console.log("上传失败,原因是" + result);
+    //     },
+    //     error: function (xhr, editor) {
+    //       console.log("上传出错");
+    //     },
+    //     timeout: function (xhr, editor) {
+    //       console.log("上传超时");
+    //     }
+    //   }
+    //   editor3.create()
+    // },
 
 
     changeSuggestion(Suggestion) {
@@ -2538,36 +2542,36 @@ export default {
         }
         this.CJGselectValue = item.typename
         this.drawer = true
-        this.$nextTick(() => {
-          this.newWangEditor('', '#div2')
-          this.newWangEditor1('', '#div4')
-          if (this.bdjsItem.policydetail && item.type === '01') {
-            editor.txt.html(this.bdjsItem.policydetail)
-            editor1.txt.html(this.bdjsItem.suggestion)
-            editor.$textElem.attr('contenteditable', false)
-            editor1.$textElem.attr('contenteditable', false)
-          } else {
-            $('.w-e-text').remove()
-            $('.w-e-menu').remove()
-          }
-        })
-        this.$nextTick(() => {
-          this.newWangEditor1('', '#div4')
-          if (this.bdjsItem.suggestion && item.type === '01') {
-            editor1.txt.html(this.bdjsItem.suggestion)
-            editor1.$textElem.attr('contenteditable', false)
-          }
-        })
-        this.$nextTick(() => {
-          this.newWangEditor2('', '#div6')
-          this.newWangEditor3('', '#div8')
-          if (this.dkwItem.content && item.type === '03') {
-            editor2.txt.html(this.dkwItem.content)
-            editor3.txt.html(this.dkwItem.voice)
-            editor2.$textElem.attr('contenteditable', false)
-            editor3.$textElem.attr('contenteditable', false)
-          }
-        })
+        // this.$nextTick(() => {
+        //   this.newWangEditor('', '#div2')
+        //   this.newWangEditor1('', '#div4')
+        //   if (this.bdjsItem.policydetail && item.type === '01') {
+        //     editor.txt.html(this.bdjsItem.policydetail)
+        //     editor1.txt.html(this.bdjsItem.suggestion)
+        //     editor.$textElem.attr('contenteditable', false)
+        //     editor1.$textElem.attr('contenteditable', false)
+        //   } else {
+        //     $('.w-e-text').remove()
+        //     $('.w-e-menu').remove()
+        //   }
+        // })
+        // this.$nextTick(() => {
+        //   this.newWangEditor1('', '#div4')
+        //   if (this.bdjsItem.suggestion && item.type === '01') {
+        //     editor1.txt.html(this.bdjsItem.suggestion)
+        //     editor1.$textElem.attr('contenteditable', false)
+        //   }
+        // })
+        // this.$nextTick(() => {
+        //   this.newWangEditor2('', '#div6')
+        //   this.newWangEditor3('', '#div8')
+        //   if (this.dkwItem.content && item.type === '03') {
+        //     editor2.txt.html(this.dkwItem.content)
+        //     editor3.txt.html(this.dkwItem.voice)
+        //     editor2.$textElem.attr('contenteditable', false)
+        //     editor3.$textElem.attr('contenteditable', false)
+        //   }
+        // })
       })
     },
     getItem(item) {
@@ -2761,7 +2765,9 @@ export default {
       let _this = this
       api.getHomeKnowledgeList().then((data) => {
         if (data.code == 0) {
-          _this.knowledgeList = data.homeKnowLedgeList;
+          const filteredList = data.homeKnowLedgeList.filter(item => item.type === "01");
+
+          _this.knowledgeList = filteredList;
         }
       })
     },
@@ -2820,7 +2826,7 @@ export default {
         this.logPageNumber = 1
       }
       var data = ''
-      if ( this.logRange==null || this.logRange.length <= 0) {
+      if (this.logRange == null || this.logRange.length <= 0) {
         data = {
           startDate: '',
           endDate: '',
@@ -2840,15 +2846,15 @@ export default {
         }
       }
 
-        api.getOnlineTrace(data).then((res) => {
-          if (res.total > 0 && res.rows == '') {
-            _this.logPageNumber = 1;
-            _this.handleCurrentChange();
-          } else {
-            _this.operationLogData = res.rows,
-              _this.logTotal = res.total
-          }
-        })
+      api.getOnlineTrace(data).then((res) => {
+        if (res.total > 0 && res.rows == '') {
+          _this.logPageNumber = 1;
+          _this.handleCurrentChange();
+        } else {
+          _this.operationLogData = res.rows,
+            _this.logTotal = res.total
+        }
+      })
 
 
     },
@@ -3128,5 +3134,20 @@ export default {
 
 .date_cntent .canyu {
   width: 100%;
+}
+.step-list {
+  padding: 0rem;
+  overflow: auto;
+}
+.bdjsDetail {
+  height: 510px;
+  overflow: auto;
+  border: 1px solid rgba(216, 216, 216, 1);
+  padding: 10px;
+}
+.enclosure-list {
+  min-height: 40px !important;
+  max-height: 100px;
+  overflow: auto;
 }
 </style>

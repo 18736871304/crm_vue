@@ -300,7 +300,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column key="17" prop="previstitime" label="预约回访" min-width="200" width="auto" :show-overflow-tooltip="true" align="center" sortable="custom" class-name="yuyue">
+          <el-table-column key="17" prop="previstitime" label="预约回访" min-width="200" width="auto" :show-overflow-tooltip="true" align="center"  class-name="yuyue">
             <template slot-scope="scope">
               {{ scope.row.previstitime ? formatDate(new Date(scope.row.previstitime), "yyyy-MM-dd HH:mm:ss") : "" }}
               <el-popover popper-class="modify-icon" v-if="scope.row.previstitime" placement="left" width="220" height="50" :class="scope.row.activityserialno">

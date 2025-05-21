@@ -3,6 +3,13 @@
     <div class="search-header">
       <div class="search-box clearfix">
         <div class="common-select">
+          <div class="select-title filtitle">最后修改时间</div>
+          <div class="select-content filContent">
+            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" value-format="yyyy-MM-dd " unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
+            </el-date-picker>
+          </div>
+        </div>
+        <div class="common-select">
           <div class="select-title   filtitle">保险公司</div>
           <div class="select-content   filContent">
             <el-autocomplete class="el-input-inners" v-model="insorganName" :trigger-on-focus="false" :fetch-suggestions="querySearch1" size="mini" placeholder="请输入保险公司" clearable></el-autocomplete>
@@ -12,13 +19,6 @@
           <div class="select-title    filtitle">关键字搜索</div>
           <div class="select-content   filContent">
             <el-autocomplete class="el-input-inners" v-model="title" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入关键字"></el-autocomplete>
-          </div>
-        </div>
-        <div class="common-select">
-          <div class="select-title filtitle">最后修改时间</div>
-          <div class="select-content filContent">
-            <el-date-picker class="el-date-picker-inners" v-model="selectTime" type="daterange" align="right" size="mini" value-format="yyyy-MM-dd " unlink-panels range-separator="-" start-placeholder="开始时间" end-placeholder="结束时间" :picker-options="pickerOptions">
-            </el-date-picker>
           </div>
         </div>
 
@@ -50,7 +50,7 @@
       <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
       </el-pagination>
     </div>
-    <el-dialog title="保单检视" :visible.sync="drawer" width="1100px">
+    <el-dialog title="保单检视" :visible.sync="drawer" width="73%" top="5vh" :close-on-click-modal='false'>
       <div class="step-list wei-step-list">
         <div class="item-section">
           <label>标题</label>
@@ -68,15 +68,17 @@
         </div>
         <div class="item-section">
           <label>保障详情</label>
-          <div class="right-content">
-            <div class="editor-box">
+
+          <div class="right-content bdjsDetail">
+            <div v-html="this.bdjsItem.policydetail"></div>
+            <!-- <div class="editor-box">
               <div id="div1" class="toolbar"></div>
               <div id="div2" class="text">
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
-        <div class="item-section">
+        <!-- <div class="item-section">
           <label>建议规划</label>
           <div class="right-content">
             <div class="editor-box">
@@ -85,20 +87,23 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="item-section">
           <label>附件</label>
           <div class="right-content">
-            <ul class="enclosure-list" v-if="fileList.length">
+            <ul class="enclosure-list" v-if="fileList.length>0">
               <li class="item" v-for="(item,index) in fileList" :key="index">
                 <div class="name"><i :class="fileTypeFun(item.filetype)"></i>&nbsp;&nbsp;{{item.filename}}</div>
                 <a :href="'https://crm.meihualife.com/filedownload.do?fileid=' + item.fileid" class="download-btn" :download="item.filename">下载</a>
               </li>
             </ul>
-            <ul class="enclosure-list" v-else>
-              <li class="item"></li>
-            </ul>
+
+            <div class="enclosure-list" v-else>
+              暂无附件
+            </div>
+
           </div>
+
         </div>
       </div>
     </el-dialog>
@@ -106,10 +111,10 @@
 </template>
 <script>
 import $ from 'jquery';
-import wangEditor from '@/components/wangEditor/release/wangEditor.min.js';
+// import wangEditor from '@/components/wangEditor/release/wangEditor.min.js';
 import { getData, my_url } from '../../static/js/ajax.js';
 import { formatDate } from '../../static/js/common.js';
-let editor9, editor10;
+// let editor9, editor10;
 export default {
   data() {
     return {
@@ -363,6 +368,8 @@ export default {
       getData('post', my_url + '/crm/fileupload/getFileListBySecondId.do', res => {
         if (res.code == 0) {
           this.fileList = res.fileList
+        } else {
+          this.fileList = []
         }
       }, body);
     },
@@ -397,20 +404,20 @@ export default {
         this.bdjsItem = res.policyread
         this.bdjsItem.baseid = item.baseid
         this.drawer = true
-        this.$nextTick(() => {
-          this.newWangEditor('', '#div2')
-          if (this.bdjsItem.policydetail) {
-            editor9.txt.html(this.bdjsItem.policydetail)
-            editor9.$textElem.attr('contenteditable', false)
-          }
-        })
-        this.$nextTick(() => {
-          this.newWangEditor1('', '#div4')
-          if (this.bdjsItem.suggestion) {
-            editor10.txt.html(this.bdjsItem.suggestion)
-            editor10.$textElem.attr('contenteditable', false)
-          }
-        })
+        // this.$nextTick(() => {
+        //   this.newWangEditor('', '#div2')
+        //   if (this.bdjsItem.policydetail) {
+        //     editor9.txt.html(this.bdjsItem.policydetail)
+        //     editor9.$textElem.attr('contenteditable', false)
+        //   }
+        // })
+        // this.$nextTick(() => {
+        //   this.newWangEditor1('', '#div4')
+        //   if (this.bdjsItem.suggestion) {
+        //     editor10.txt.html(this.bdjsItem.suggestion)
+        //     editor10.$textElem.attr('contenteditable', false)
+        //   }
+        // })
       })
     },
     getItem(item) {
@@ -469,84 +476,84 @@ export default {
       this.getCJGList()
       this.cjgType = ''
     },
-    newWangEditor(el1, el2) {
-      editor9 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      // 关闭粘贴内容中的样式
-      editor9.customConfig.pasteFilterStyle = false
-      // 隐藏“网络图片”tab
-      editor9.customConfig.showLinkImg = false
-      // 忽略粘贴内容中的图片
-      editor9.customConfig.pasteIgnoreImg = true
-      // 使用 base64 保存图片
-      //editor9.customConfig.uploadImgShowBase64 = true
-      editor9.customConfig.menus = [
-        'image',
-      ]
-      // 上传图片到服务器
-      editor9.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor9.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor9.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    // newWangEditor(el1, el2) {
+    //   editor9 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+    //   // 关闭粘贴内容中的样式
+    //   editor9.customConfig.pasteFilterStyle = false
+    //   // 隐藏“网络图片”tab
+    //   editor9.customConfig.showLinkImg = false
+    //   // 忽略粘贴内容中的图片
+    //   editor9.customConfig.pasteIgnoreImg = true
+    //   // 使用 base64 保存图片
+    //   //editor9.customConfig.uploadImgShowBase64 = true
+    //   editor9.customConfig.menus = [
+    //     'image',
+    //   ]
+    //   // 上传图片到服务器
+    //   editor9.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //   editor9.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+    //   editor9.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-      //自定义上传图片事件
-      editor9.customConfig.uploadImgHooks = {
-        before: function (xhr, editor, files) {
+    //   //自定义上传图片事件
+    //   editor9.customConfig.uploadImgHooks = {
+    //     before: function (xhr, editor, files) {
 
-        },
-        success: function (xhr, editor, result) {
-          console.log("上传成功");
+    //     },
+    //     success: function (xhr, editor, result) {
+    //       console.log("上传成功");
 
-        },
-        fail: function (xhr, editor, result) {
-          console.log("上传失败,原因是" + result);
-        },
-        error: function (xhr, editor) {
-          console.log("上传出错");
-        },
-        timeout: function (xhr, editor) {
-          console.log("上传超时");
-        }
-      }
-      editor9.create()
-    },
-    newWangEditor1(el1, el2) {
-      editor10 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-      // 关闭粘贴内容中的样式
-      editor10.customConfig.pasteFilterStyle = false
-      // 隐藏“网络图片”tab
-      editor10.customConfig.showLinkImg = false
-      // 忽略粘贴内容中的图片
-      editor10.customConfig.pasteIgnoreImg = true
-      // 使用 base64 保存图片
-      //editor.customConfig.uploadImgShowBase64 = true
-      editor10.customConfig.menus = [
-        'image',
-      ]
-      // 上传图片到服务器
-      editor10.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-      editor10.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-      editor10.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    //     },
+    //     fail: function (xhr, editor, result) {
+    //       console.log("上传失败,原因是" + result);
+    //     },
+    //     error: function (xhr, editor) {
+    //       console.log("上传出错");
+    //     },
+    //     timeout: function (xhr, editor) {
+    //       console.log("上传超时");
+    //     }
+    //   }
+    //   editor9.create()
+    // },
+    // newWangEditor1(el1, el2) {
+    //   editor10 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+    //   // 关闭粘贴内容中的样式
+    //   editor10.customConfig.pasteFilterStyle = false
+    //   // 隐藏“网络图片”tab
+    //   editor10.customConfig.showLinkImg = false
+    //   // 忽略粘贴内容中的图片
+    //   editor10.customConfig.pasteIgnoreImg = true
+    //   // 使用 base64 保存图片
+    //   //editor.customConfig.uploadImgShowBase64 = true
+    //   editor10.customConfig.menus = [
+    //     'image',
+    //   ]
+    //   // 上传图片到服务器
+    //   editor10.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+    //   editor10.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+    //   editor10.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-      //自定义上传图片事件
-      editor10.customConfig.uploadImgHooks = {
-        before: function (xhr, editor, files) {
+    //   //自定义上传图片事件
+    //   editor10.customConfig.uploadImgHooks = {
+    //     before: function (xhr, editor, files) {
 
-        },
-        success: function (xhr, editor, result) {
-          console.log("上传成功");
+    //     },
+    //     success: function (xhr, editor, result) {
+    //       console.log("上传成功");
 
-        },
-        fail: function (xhr, editor, result) {
-          console.log("上传失败,原因是" + result);
-        },
-        error: function (xhr, editor) {
-          console.log("上传出错");
-        },
-        timeout: function (xhr, editor) {
-          console.log("上传超时");
-        }
-      }
-      editor10.create()
-    },
+    //     },
+    //     fail: function (xhr, editor, result) {
+    //       console.log("上传失败,原因是" + result);
+    //     },
+    //     error: function (xhr, editor) {
+    //       console.log("上传出错");
+    //     },
+    //     timeout: function (xhr, editor) {
+    //       console.log("上传超时");
+    //     }
+    //   }
+    //   editor10.create()
+    // },
 
     pageClick(page) {
       this.pageNum = page;
@@ -556,6 +563,24 @@ export default {
 }
 </script>
 <style src="../../static/css/knowledgeMan.css"></style>
+
+<style scoped>
+.enclosure-list {
+  min-height: 40px;
+  max-height: 100px;
+  overflow: auto;
+}
+.bdjsDetail {
+  height: 510px;
+  overflow: auto;
+  border: 1px solid rgba(216, 216, 216, 1);
+  padding: 10px;
+}
+.step-list {
+  padding: 0rem;
+  overflow: auto;
+}
+</style>
 <style>
 .el-table tr {
   height: 0.3rem !important;
@@ -565,4 +590,6 @@ export default {
   padding: 0rem;
   overflow: auto;
 }
+
+
 </style>
