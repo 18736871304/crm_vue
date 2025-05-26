@@ -57,6 +57,8 @@
           <el-button type="primary" @click="handleHotQuerstion(item.riskcode)" icon="el-icon-warning-outline">常见问题<i class="el-icon-arrow-right el-icon--right"></i></el-button>
           <el-button v-if="pageType == '01'" type="primary" @click="handleInsureUrl(item)" icon="el-icon-link">
             投保地址<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+
+            <el-button type="primary" icon="el-icon-chat-dot-square"> {{item.qun_value}}群</el-button>
         </div>
         <div class="product-item-right">
           <div class="product-item-logo">
@@ -119,17 +121,25 @@
       <el-form class="insure-url-form">
 
         <el-form-item label="投保区域" label-width="1.3rem">
-        <p style="font-size: 0.14rem;">{{ showSalesarea }}</p>
+          <p style="font-size: 0.14rem;">{{ showSalesarea }}</p>
           <!-- <el-input v-model="showSalesarea" ref="copy" size="mini" autocomplete="off"></el-input> -->
         </el-form-item>
 
         <el-form-item label="投保地址链接" label-width="1.3rem">
-          <el-input v-model="insureUrl" ref="copy" size="mini" autocomplete="off"></el-input>
+
+          <div v-for="(item, index) in urlRemarkList" :key="index" class="productLinkBox">
+            <div class="urlRemark">备注{{index+1}}：{{ item.remark }}</div>
+            <div style="display: flex;">
+              <div class="urlRemark urlRemarkRed">{{ item.url }}</div>
+              <div class="search-btn" @click.stop="copy(item.url )" style="width: 80px;margin-left: 0;">
+                复制地址
+              </div>
+            </div>
+          </div>
+ 
         </el-form-item>
         <el-form-item label-width="1.3rem">
-          <div class="search-btn" @click.stop="copy" style="width: 80px;margin-left: 0;">
-            复制地址
-          </div>
+
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -231,7 +241,7 @@
     <!-- 设置常见问题弹窗 margin:10px auto 0px-->
     <el-dialog custom-class="cang-jing-ge" title="常见问题" :visible.sync="dialogConfigHotQuestionVisible" width="70%">
       <div class="hot-question-box" v-loading="hotQuestionLoading">
-        <div class="search-btn" @click="handleAddQuertion" style="width: 87px">
+        <div class="search-btn" @click="handleAddQuertion" style="width: 87px;margin-left: 0;">
           添加问题<i class="el-icon-plus el-icon--right"></i>
         </div>
         <input v-show="false" type="file" v-on:change="tirggerQuestionFile($event, scope)" class="question-file-input" />
@@ -242,8 +252,7 @@
             <template slot-scope="scope">
               <div class="step-list">
                 <div class="item-section">
-                  <label class="hot-question-q" style="width: 0.3rem; line-height: 0.14rem"><span style="color: #686868">{{ scope.row.questionIndex }}.</span>
-                    &nbsp;Q &nbsp;</label>
+                  <label class="hot-question-q" style="width: 0.3rem; line-height: 0.14rem"><span style="color: #686868">{{ scope.row.questionIndex }}.</span>&nbsp;Q&nbsp;</label>
                   <div class="right-content">
                     <el-input v-if="scope.row.isEdit" placeholder="请输入问题" :disabled="false" size="mini" v-model="question">
                     </el-input>
@@ -314,10 +323,13 @@
 import $ from "jquery";
 import "../../../static/js/viewer-jquery.min.js";
 import "../../../static/css/viewer.min.css";
-import { getData, getPhoneData, my_url } from "../../../static/js/ajax.js";
+import { getData, getPhoneData, my_url, crm_url } from "../../../static/js/ajax.js";
 export default {
   data() {
     return {
+      urlRemarkList: [],
+
+
       regionList: [],
       queryParams: {
         risktype: "03",
@@ -371,7 +383,31 @@ export default {
       },
       hotQuestionLoading: false,
       productNameOption: [], //产品名称模糊搜索
-
+      // 你给出的数据格式是类似对象的键值对，转换为数组的标准写法如下：
+      channelArr: [
+        { dd_key: "01", dd_value: "自营", qun_value: "保司服务" },
+        { dd_key: "02", dd_value: "悟空保", qun_value: "" },
+        { dd_key: "04", dd_value: "i云保", qun_value: "i云服" },
+        { dd_key: "11", dd_value: "i云服", qun_value: "i云服" },
+        { dd_key: "06", dd_value: "开心保", qun_value: "开心保" },
+        { dd_key: "07", dd_value: "轻松保", qun_value: "" },
+        { dd_key: "08", dd_value: "梧桐树", qun_value: "梧桐树" },
+        { dd_key: "03", dd_value: "慧泽美华", qun_value: "齐欣" },
+        { dd_key: "13", dd_value: "慧择美华2", qun_value: "齐欣" },
+        { dd_key: "09", dd_value: "慧泽晟松", qun_value: "齐欣" },
+        { dd_key: "05", dd_value: "小雨伞橙鹊", qun_value: "创信" },
+        { dd_key: "10", dd_value: "小雨伞美华", qun_value: "创信" },
+        { dd_key: "12", dd_value: "力码科技", qun_value: "力码" },
+        { dd_key: "14", dd_value: "盛世创富", qun_value: "创富" },
+        { dd_key: "15", dd_value: "乐橙云服", qun_value: "乐橙" },
+        { dd_key: "16", dd_value: "南燕科技", qun_value: "南燕" },
+        { dd_key: "17", dd_value: "中兴经纪", qun_value: "" },
+        { dd_key: "18", dd_value: "水滴", qun_value: "水滴" },
+        { dd_key: "19", dd_value: "诚炜", qun_value: "诚炜" },
+        { dd_key: "20", dd_value: "融汇", qun_value: "弘康" },
+        { dd_key: "21", dd_value: "健乐云服", qun_value: "健乐" },
+        { dd_key: "22", dd_value: "小雨伞三眼", qun_value: "创信" }
+      ]
     };
   },
   mounted() {
@@ -381,6 +417,7 @@ export default {
     this.getproductNameOption();
     this.downloadUrl = location.origin;
     this.getSalesArea();
+
   },
   methods: {
     getSalesArea() {
@@ -598,10 +635,25 @@ export default {
     },
     // 投保地址按钮
     handleInsureUrl(item) {
+
+      console.log(item)
+      var urlRemarkList = []
+      if (item.addurl) {
+        urlRemarkList = JSON.parse(item.addurl)
+      }
+      var obj = {
+        url: item.url,
+        remark: item.remark ? item.remark : ""
+      }
+      urlRemarkList.unshift(obj);
+
+      this.urlRemarkList = urlRemarkList
+      console.log(urlRemarkList)
+
       this.insureUrl = item.url;
       this.showSalesarea = item.salesarea
 
-   
+
       const keys = item.salesarea.split(',');
 
       const result = keys.map(key => {
@@ -610,7 +662,7 @@ export default {
       }).filter(Boolean).join('，');
       console.log(result)
 
-      this.showSalesarea = result 
+      this.showSalesarea = result
 
       this.dialogInsureUrlVisible = true;
     },
@@ -624,9 +676,9 @@ export default {
       this.getRiskList();
     },
     // 复制
-    copy() {
+    copy(url) {
       var _this = this;
-      this.$copyText(this.insureUrl).then(
+      this.$copyText(url).then(
         function (e) {
           _this.$message({
             type: "success",
@@ -981,6 +1033,18 @@ export default {
         let { rows, total } = data;
         _this.queryParams.pageTotal = total;
         if (rows) {
+
+          rows.forEach(item => {
+            const match = _this.channelArr.find(ch => ch.dd_key === item.channel);
+            if (match) {
+              item.qun_value = match.qun_value;
+            } else {
+              item.qun_value = ''; // 或者其他默认值
+            }
+          });
+
+           
+
           _this.riskList = rows;
         }
       },
@@ -1229,5 +1293,19 @@ export default {
 <style scoped>
 .search-box .common-select {
   margin-top: 0;
+}
+
+.urlRemark {
+  height: 28px;
+  line-height: 28px;
+  margin-right: 25px;
+}
+
+.urlRemarkRed {
+  color: #dc220d;
+}
+
+.productLinkBox {
+  margin-top: 6px;
 }
 </style>

@@ -794,31 +794,25 @@
 
           </li>
         </ul>
-        <el-dialog :title="CJGselectValue" :visible.sync="drawer" width="73%" top="5vh" :close-on-click-modal='false' class="cjg-dialog">
-          <div class="step-list wei-step-list" v-if="CJGselectValue === '保单检视'">
+        <el-dialog :title="CJGselectValue" :visible.sync="drawer" width="50%" top="5vh" :close-on-click-modal='false' class="cjg-dialog">
+          <div class="actileStyle" v-if="CJGselectValue === '保单检视'">
             <div class="item-section">
-              <label>标题</label>
-              <div class="right-content">
-                <el-input placeholder="请输入" size="mini" v-model="bdjsItem.title" :disabled="true">
-                </el-input>
+
+              <div>
+                <h1 class="textCenter">{{ bdjsItem.title }}</h1>
               </div>
+
             </div>
             <div class="item-section">
-              <label>保险公司</label>
-              <div class="right-content">
-                <el-input placeholder="请输入" size="mini" v-model="bdjsItem.insorganname" :disabled="true">
-                </el-input>
-              </div>
+
+              <div class="textCenter">{{bdjsItem.insorganname}}</div>
+          
             </div>
             <div class="item-section">
-              <label>保障详情</label>
+         
               <div class="right-content bdjsDetail">
-                <div v-html="this.bdjsItem.policydetail"></div>
-                <!-- <div class="editor-box">
-                  <div id="div1" class="toolbar"></div>
-                  <div id="div2" class="text">
-                  </div>
-                </div> -->
+                <div id="editor-content-view" class="editor-content-view" v-html="this.bdjsItem.policydetail"></div>
+            
               </div>
             </div>
             <!-- <div class="item-section">
@@ -958,7 +952,7 @@
                   </li>
                 </ul>
                 <div class="enclosure-list" v-else>
-                  暂无附件
+
                 </div>
               </div>
             </div>
@@ -2766,8 +2760,8 @@ export default {
       api.getHomeKnowledgeList().then((data) => {
         if (data.code == 0) {
           const filteredList = data.homeKnowLedgeList.filter(item => item.type === "01");
-
-          _this.knowledgeList = filteredList;
+          const filteredList10 = filteredList.slice(0, 10);
+          _this.knowledgeList = filteredList10;
         }
       })
     },
@@ -3142,12 +3136,16 @@ export default {
 .bdjsDetail {
   height: 510px;
   overflow: auto;
-  border: 1px solid rgba(216, 216, 216, 1);
+  /* border: 1px solid rgba(216, 216, 216, 1); */
   padding: 10px;
 }
 .enclosure-list {
   min-height: 40px !important;
   max-height: 100px;
   overflow: auto;
+}
+
+.textCenter{
+   text-align: center;
 }
 </style>

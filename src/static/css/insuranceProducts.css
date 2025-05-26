@@ -112,7 +112,7 @@
 .el-icon-share,
 .el-icon-warning-outline,
 .el-icon-document,
-.el-icon-link {
+.el-icon-link ,.el-icon-chat-dot-square{
   color: #DC220D;
   font-size: 0.15rem
 }

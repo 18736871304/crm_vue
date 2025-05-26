@@ -61,22 +61,30 @@
       </el-pagination>
     </div>
     <!-- 藏经阁-->
-    <el-dialog :title="'新建 - ' + CJGselectValue" :visible.sync="addCJGItemVisible" width="73%" top="5vh"   :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
+    <el-dialog :title="'新建 - ' + CJGselectValue" :visible.sync="addCJGItemVisible" width="73%" top="5vh" :close-on-click-modal='false' @close='hideaddCJGFIrstVisible'>
 
       <div class="step-list wei-step-list">
         <div class="item-section">
           <label>标题</label>
-          <div class="right-content">
+          <div class="right-content selectMultiple">
             <el-input placeholder="请输入" size="mini" v-model="bdjsItem.title">
             </el-input>
           </div>
         </div>
         <div class="item-section">
           <label>保险公司</label>
-          <div class="right-content">
-            <el-autocomplete style="position: relative!important;width: 100%;" v-model="insorganName1" :trigger-on-focus="false" :fetch-suggestions="querySearch1" size="mini" placeholder="请输入保险公司" clearable>
+          <!-- <div class="right-content">
+            <el-autocomplete style="position:   relative!important;width: 100%;" v-model="insorganName1" :trigger-on-focus="false" :fetch-suggestions="querySearch1" size="mini" placeholder="请输入保险公司" clearable>
             </el-autocomplete>
+          </div> -->
+
+          <div class="right-content">
+            <el-select v-model="insorganName1" multiple filterable remote reserve-keyword placeholder="请输入关键词" :remote-method="remoteMethod" :loading="loading" class="selectMultiple">
+              <el-option style="height: 34px;" v-for="item in SalesmanBox1" :key="item.key" :label="item.value" :value="item.key">
+              </el-option>
+            </el-select>
           </div>
+
         </div>
         <div class="item-section" v-if="addCJGItemVisible">
           <label>保障详情</label>
@@ -328,12 +336,30 @@ export default {
     this.insOrganList()//搜索内容俩表
   },
   methods: {
+
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.SalesmanBox1 = this.list.filter(item => {
+            return item.label.toLowerCase()
+              .indexOf(query.toLowerCase()) > -1;
+          });
+        }, 200);
+      } else {
+        this.SalesmanBox1 = [];
+      }
+
+    },
+
+
     // 初始化编辑器
     onCreated(editor) {
       this.editor = Object.seal(editor); // 一定要用 Object.seal() ，否则会报错
     },
     beforeDestroy() {
-     
+
       const editor = this.editor;
       if (editor == null) return;
       editor.destroy(); // 组件销毁时，及时销毁编辑器
@@ -417,6 +443,7 @@ export default {
     // 关键字搜索
     querySearch1(queryString, cb) {
       var SalesmanBox = this.SalesmanBox1;
+
       var results = queryString ? SalesmanBox.filter(this.createFilter1(queryString)) : SalesmanBox;
       // 调用 callback 返回建议列表的数据
       cb(results);
@@ -458,7 +485,7 @@ export default {
 
     // 上传附件
     tirggerFile(e) {
- 
+
       var _this = this
       this.updateCJGitem('isUpload').then(res => {
         let buztype, buzid
@@ -502,7 +529,7 @@ export default {
 
 
     itemReset() {
- 
+
       //保单检视
       // this.beforeDestroy()
       this.editor = null
@@ -533,7 +560,7 @@ export default {
     showEditPopup(item) {
       var that = this
 
-   
+
       this.getUploadFile(item.baseid)
 
       let body = {
@@ -541,13 +568,13 @@ export default {
       }
       getData('post', my_url + '/crm/knowledge/getOnePolicyRead.do', res => {
         if (res.code == 0) {
-  
+
           that.insorganName1 = res.policyread.insorganname
           that.bdjsItem = res.policyread
           that.bdjsItem.baseid = item.baseid
           that.CJGselectValue = item.typename
           that.html = res.policyread.policydetail
-   that.addCJGItemVisible = true
+          that.addCJGItemVisible = true
         }
       }, body);
 
@@ -575,6 +602,7 @@ export default {
 
       this.bdjsItem.policydetail = this.html
       this.bdjsItem.suggestion = '<p>1</p>'
+      console.log(this.insorganName1)
       if (this.insorganName1 != '') {
         var insorgancode = ''
         var insorganList = this.SalesmanBox1;
@@ -583,12 +611,17 @@ export default {
             insorgancode = insorganList[i].key
           }
         }
-        this.bdjsItem.insorgancode = insorgancode
-        this.bdjsItem.insorganname = this.insorganName1
+        console.log(insorgancode)
+        // this.bdjsItem.insorgancode = insorgancode
+        this.bdjsItem.insorgancode = this.insorganName1.join("，"); 
+        this.bdjsItem.insorganname = this.insorganName1.join("，"); 
       }
       data = this.bdjsItem
 
- 
+      console.log(data)
+      // return
+
+
       getData('post', my_url + url, res => {
         if (res.code == 0) {
           this.addCJGItemVisible = false
@@ -597,7 +630,7 @@ export default {
           this.bdjsItem.baseid = ''
           this.itemReset()
           this.getCJGList()
-       
+
         } else {
           this.$message({
             showClose: true,
@@ -693,5 +726,11 @@ export default {
 }
 .rich-text-editor {
   border: 1px solid rgba(216, 216, 216, 1);
+}
+
+.selectMultiple .el-input .el-input__inner {
+  height: 34px;
+  padding: 3px 7px !important;
+  margin-left: 0;
 }
 </style>

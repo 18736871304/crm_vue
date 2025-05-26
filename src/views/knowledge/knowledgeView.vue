@@ -50,32 +50,38 @@
       <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
       </el-pagination>
     </div>
-    <el-dialog title="保单检视" :visible.sync="drawer" width="73%" top="5vh" :close-on-click-modal='false'>
-      <div class="step-list wei-step-list">
+    <el-dialog title="保单检视" :visible.sync="drawer" width="50%" top="5vh" :close-on-click-modal='false'>
+      <!-- <div class="step-list wei-step-list"> -->
+      <div class="actileStyle">
         <div class="item-section">
-          <label>标题</label>
+
+          <div>
+            <h1  class="textCenter">{{ bdjsItem.title }}</h1>
+          </div>
+          <!-- <label>标题</label>
           <div class="right-content">
             <el-input placeholder="请输入" size="mini" v-model="bdjsItem.title" :disabled="true">
             </el-input>
-          </div>
+          </div> -->
         </div>
         <div class="item-section">
-          <label>保险公司</label>
+
+          <div class="textCenter">{{bdjsItem.insorganname}}</div>
+          <!-- <label>保险公司</label>
           <div class="right-content">
             <el-input placeholder="请输入" size="mini" v-model="bdjsItem.insorganname" :disabled="true">
             </el-input>
-          </div>
+          </div> -->
         </div>
         <div class="item-section">
-          <label>保障详情</label>
-
+          <!-- <label>保障详情</label> -->
+          <!-- <div class="rich-text-editor right-content bdjsDetail" ref="richTextEditorRef">
+            <Toolbar :editor="editor" :defaultConfig="toolbarConfig" :mode="mode"     style="display: none;"/>
+            <Editor style="height: 441px; overflow-y: hidden;" v-model="html" :defaultConfig="editorConfig" :mode="mode" @onCreated="onCreated" />
+          </div> -->
           <div class="right-content bdjsDetail">
-            <div v-html="this.bdjsItem.policydetail"></div>
-            <!-- <div class="editor-box">
-              <div id="div1" class="toolbar"></div>
-              <div id="div2" class="text">
-              </div>
-            </div> -->
+            <div id="editor-content-view" class="editor-content-view" v-html="this.bdjsItem.policydetail"></div>
+
           </div>
         </div>
         <!-- <div class="item-section">
@@ -99,7 +105,7 @@
             </ul>
 
             <div class="enclosure-list" v-else>
-              暂无附件
+
             </div>
 
           </div>
@@ -114,10 +120,11 @@ import $ from 'jquery';
 // import wangEditor from '@/components/wangEditor/release/wangEditor.min.js';
 import { getData, my_url } from '../../static/js/ajax.js';
 import { formatDate } from '../../static/js/common.js';
-// let editor9, editor10;
+
 export default {
   data() {
     return {
+
       // 筛选
       insorganName: '',
       title: '',
@@ -403,6 +410,7 @@ export default {
 
         this.bdjsItem = res.policyread
         this.bdjsItem.baseid = item.baseid
+        this.html = this.bdjsItem.policydetail
         this.drawer = true
         // this.$nextTick(() => {
         //   this.newWangEditor('', '#div2')
@@ -573,13 +581,18 @@ export default {
 .bdjsDetail {
   height: 510px;
   overflow: auto;
-  border: 1px solid rgba(216, 216, 216, 1);
+  /* border: 1px solid rgba(216, 216, 216, 1); */
   padding: 10px;
 }
 .step-list {
   padding: 0rem;
   overflow: auto;
 }
+
+.textCenter{
+   text-align: center;
+}
+ 
 </style>
 <style>
 .el-table tr {
@@ -591,5 +604,75 @@ export default {
   overflow: auto;
 }
 
+.page-container {
+  margin-top: 15px;
+  display: flex;
+}
 
+.page-left {
+  width: 150px;
+  padding: 0 10px;
+}
+
+.page-right {
+  padding: 0 10px;
+  flex: 1;
+  width: calc(100vw - 170px);
+}
+
+.editor-content-view {
+  /* border: 3px solid #ccc;
+  border-radius: 5px;
+  padding: 0 10px;
+  margin-top: 20px;*/
+  overflow-x: auto;
+}
+
+.editor-content-view p,
+.editor-content-view li {
+  white-space: pre-wrap; /* 保留空格 */
+}
+.editor-content-view p {
+  margin: 15px 0;
+}
+
+.editor-content-view blockquote {
+  border-left: 8px solid #d0e5f2;
+  padding: 10px 10px;
+  margin: 10px 0;
+  background-color: #f1f1f1;
+}
+
+.editor-content-view code {
+  font-family: monospace;
+  background-color: #eee;
+  padding: 3px;
+  border-radius: 3px;
+}
+.editor-content-view pre > code {
+  display: block;
+  padding: 10px;
+}
+
+.editor-content-view table {
+  border-collapse: collapse;
+}
+.editor-content-view td,
+.editor-content-view th {
+  border: 1px solid #ccc;
+  min-width: 50px;
+  height: 20px;
+}
+.editor-content-view th {
+  background-color: #f1f1f1;
+}
+
+.editor-content-view ul,
+.editor-content-view ol {
+  padding-left: 20px;
+}
+
+.editor-content-view input[type="checkbox"] {
+  margin-right: 5px;
+}
 </style>
