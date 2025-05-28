@@ -600,14 +600,14 @@
 }
 
 .customer-drawer .drawerRight .drawercontentBox {
-  height: calc(100vh - 2.3rem);
+  height: calc(90vh - 2.3rem);
   padding: 0 0.16rem;
   color: #282828;
 }
 
 .customer-drawer .drawerRight .drawercontentBox ul {
   width: 100%;
-  height: calc(100% - 5px);
+  height: calc(50% - 5px);
   overflow: auto;
 }
 

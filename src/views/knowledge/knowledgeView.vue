@@ -35,7 +35,7 @@
         </el-table-column>
         <el-table-column key="2" sortable align="center" prop="modifydate" label="最后修改时间" width="170">
         </el-table-column>
-        <el-table-column key="3" align="center" prop="insorganname" label="保险公司" width='140' :show-overflow-tooltip="true">
+        <el-table-column key="3" align="center" prop="insorgannameValues" label="保险公司" width='140' :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column key="4" align="left" prop="title" label="标题" width="auto" :show-overflow-tooltip="true">
         </el-table-column>
@@ -56,7 +56,7 @@
         <div class="item-section">
 
           <div>
-            <h1  class="textCenter">{{ bdjsItem.title }}</h1>
+            <h1 class="textCenter">{{ bdjsItem.title }}</h1>
           </div>
           <!-- <label>标题</label>
           <div class="right-content">
@@ -66,7 +66,7 @@
         </div>
         <div class="item-section">
 
-          <div class="textCenter">{{bdjsItem.insorganname}}</div>
+          <div class="textCenter">{{bdjsItem.insorgannameValues}}</div>
           <!-- <label>保险公司</label>
           <div class="right-content">
             <el-input placeholder="请输入" size="mini" v-model="bdjsItem.insorganname" :disabled="true">
@@ -131,6 +131,7 @@ export default {
       selectTime: '',
       SalesmanBox: [],
       SalesmanBox1: [],
+      SalesmanBoxList: [],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -247,23 +248,25 @@ export default {
     }
   },
   mounted: function () {
-    this.$nextTick(() => {
-      //数据字典
-      let _this = this
-      getData('post', my_url + '/crm/common/getDictList.do', function (data) {
-        if (data.code == 0) {
-          let {
-            dictList
-          } = data;
-          _this.CJGTypeList = dictList;
-        }
-      }, {
-        dict_type: 'konwledge_type'
-      });
-      this.cjgType = '01';
-      this.getCJGList()
-      this.insOrganList()
-    })
+    // this.$nextTick(() => {
+    this.insOrganList()
+    //数据字典
+    let _this = this
+    getData('post', my_url + '/crm/common/getDictList.do', function (data) {
+      if (data.code == 0) {
+        let {
+          dictList
+        } = data;
+        _this.CJGTypeList = dictList;
+      }
+    }, {
+      dict_type: 'konwledge_type'
+    });
+    this.cjgType = '01';
+
+    this.getCJGList()
+
+    // })
   },
   methods: {
     fileTypeFun(type) {
@@ -322,6 +325,11 @@ export default {
           let nameList = data.dictList;
           nameList.forEach(res => {
             _this.SalesmanBox1.push({
+              "value": res.dd_value,
+              "key": res.dd_key
+            });
+
+            _this.SalesmanBoxList.push({
               "value": res.dd_value,
               "key": res.dd_key
             });
@@ -410,22 +418,10 @@ export default {
 
         this.bdjsItem = res.policyread
         this.bdjsItem.baseid = item.baseid
+        this.bdjsItem.insorgannameValues = item.insorgannameValues
         this.html = this.bdjsItem.policydetail
         this.drawer = true
-        // this.$nextTick(() => {
-        //   this.newWangEditor('', '#div2')
-        //   if (this.bdjsItem.policydetail) {
-        //     editor9.txt.html(this.bdjsItem.policydetail)
-        //     editor9.$textElem.attr('contenteditable', false)
-        //   }
-        // })
-        // this.$nextTick(() => {
-        //   this.newWangEditor1('', '#div4')
-        //   if (this.bdjsItem.suggestion) {
-        //     editor10.txt.html(this.bdjsItem.suggestion)
-        //     editor10.$textElem.attr('contenteditable', false)
-        //   }
-        // })
+
       })
     },
     getItem(item) {
@@ -467,8 +463,34 @@ export default {
         insorgancode: insorgancode,
       }
       getData('post', my_url + '/crm/knowledge/getKnowledgeList.do', data => {
-        this.tableData = data.rows
-        this.pageTotal = data.total
+        if (data.rows.length > 0) {
+
+          var rows = data.rows
+          // console.log(  this.SalesmanBoxList)
+          // console.log(typeof this.SalesmanBoxList)
+          rows.forEach(item => {
+
+            const keys = item.insorgancode.replace(/，/g, ',').split(',');
+
+            const values = keys.map(key => {
+
+              const dictItem = this.SalesmanBoxList.find(d => d.key == key.trim());
+              console.log(dictItem)
+              return dictItem ? dictItem.value : '';
+            }).filter(v => v !== '');
+
+
+            // 拼接成字符串，赋值给新字段，比如 insorgannameValues
+            item.insorgannameValues = values.join('，');
+          });
+          console.log(rows)
+
+          this.tableData = rows
+          this.pageTotal = data.total
+        } else {
+          this.tableData = []
+          this.pageTotal = ''
+        }
       }, body);
     },
     showaddCJGFIrstVisible() {
@@ -484,84 +506,7 @@ export default {
       this.getCJGList()
       this.cjgType = ''
     },
-    // newWangEditor(el1, el2) {
-    //   editor9 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-    //   // 关闭粘贴内容中的样式
-    //   editor9.customConfig.pasteFilterStyle = false
-    //   // 隐藏“网络图片”tab
-    //   editor9.customConfig.showLinkImg = false
-    //   // 忽略粘贴内容中的图片
-    //   editor9.customConfig.pasteIgnoreImg = true
-    //   // 使用 base64 保存图片
-    //   //editor9.customConfig.uploadImgShowBase64 = true
-    //   editor9.customConfig.menus = [
-    //     'image',
-    //   ]
-    //   // 上传图片到服务器
-    //   editor9.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-    //   editor9.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-    //   editor9.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
 
-    //   //自定义上传图片事件
-    //   editor9.customConfig.uploadImgHooks = {
-    //     before: function (xhr, editor, files) {
-
-    //     },
-    //     success: function (xhr, editor, result) {
-    //       console.log("上传成功");
-
-    //     },
-    //     fail: function (xhr, editor, result) {
-    //       console.log("上传失败,原因是" + result);
-    //     },
-    //     error: function (xhr, editor) {
-    //       console.log("上传出错");
-    //     },
-    //     timeout: function (xhr, editor) {
-    //       console.log("上传超时");
-    //     }
-    //   }
-    //   editor9.create()
-    // },
-    // newWangEditor1(el1, el2) {
-    //   editor10 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-    //   // 关闭粘贴内容中的样式
-    //   editor10.customConfig.pasteFilterStyle = false
-    //   // 隐藏“网络图片”tab
-    //   editor10.customConfig.showLinkImg = false
-    //   // 忽略粘贴内容中的图片
-    //   editor10.customConfig.pasteIgnoreImg = true
-    //   // 使用 base64 保存图片
-    //   //editor.customConfig.uploadImgShowBase64 = true
-    //   editor10.customConfig.menus = [
-    //     'image',
-    //   ]
-    //   // 上传图片到服务器
-    //   editor10.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-    //   editor10.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-    //   editor10.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
-
-    //   //自定义上传图片事件
-    //   editor10.customConfig.uploadImgHooks = {
-    //     before: function (xhr, editor, files) {
-
-    //     },
-    //     success: function (xhr, editor, result) {
-    //       console.log("上传成功");
-
-    //     },
-    //     fail: function (xhr, editor, result) {
-    //       console.log("上传失败,原因是" + result);
-    //     },
-    //     error: function (xhr, editor) {
-    //       console.log("上传出错");
-    //     },
-    //     timeout: function (xhr, editor) {
-    //       console.log("上传超时");
-    //     }
-    //   }
-    //   editor10.create()
-    // },
 
     pageClick(page) {
       this.pageNum = page;
@@ -589,10 +534,9 @@ export default {
   overflow: auto;
 }
 
-.textCenter{
-   text-align: center;
+.textCenter {
+  text-align: center;
 }
- 
 </style>
 <style>
 .el-table tr {

@@ -206,43 +206,49 @@
       </div>
     </div>
     <div class="drawerRight" :class="detailsInfo.followupstep=='07' ? 'isDealed' : ''">
-      <div class="title">
-        <span></span>
-        <span>跟进记录</span>
-      </div>
-      <!-- <div class="cjg-search-section " style="display: flex; justify-content: center;align-items: center;display: none;">
-        <el-select v-model="cjgTitle" :loading="loading" filterable remote :remote-method="remoteMethod" placeholder="搜索藏经阁内容" @change="cjgChange" @focus="cjgfocus" class="cjgserach" style="width: 100%;">
-          <el-option v-for="item in cjgList" :key="item.value" :label="item.label" :value="item.value">
-          </el-option>
-        </el-select>
-      </div> -->
-      <div class="inputBox">
-        <el-input v-model="followrecord" id="textarea" type="textarea" placeholder="添加跟进记录…"></el-input>
-      </div>
-      <div class="numBox">
-        <div class="num">共{{ releaseNum }}条</div>
-        <div class="button">
-          <span @click="cancel">取消</span>
-          <span @click="release" v-show="dis_save">发布</span>
+      <div class="AIRemake templateAI">
+        <div class="title">
+          <span></span>
+          <span>AI问答</span>
         </div>
+        <Chatbot />
       </div>
-      <div class="drawercontentBox">
-        <ul>
-          <li v-for="item in records" :key="item.remarkserialno">
-            <div class="li_t" style="display: flex; justify-content: space-between;align-items: center;">
-              <div v-html="item.remark" style="width: 85%;"></div>
-              <div v-if="delRemark" style="width: 10%;  padding: 0;  text-align: right;" class="gjg_topping mobile-icon el-icon-upload2" @click="remarktop(item.remarkserialno)"></div>
-            </div>
-            <div class="li_b">
-              <div class="li_b_l" :title="item.name">{{ item.oprname }}</div>
-              <div class="li_b_r">
-                {{ item.makedate }} 创建
-                <span v-show="delRemark" class="mobile-icon el-icon-delete" @click="deleteRemark(item.remarkserialno)" style="color: #979797"></span>
+      <div class="AIRemake">
+
+        <div class="title">
+          <span></span>
+          <span>跟进记录</span>
+        </div>
+        <div class="inputBox">
+          <el-input v-model="followrecord" id="textarea" type="textarea" placeholder="添加跟进记录…"></el-input>
+        </div>
+        <div class="numBox">
+          <div class="num">共{{ releaseNum }}条</div>
+          <div class="button">
+            <span @click="cancel">取消</span>
+            <span @click="release" v-show="dis_save">发布</span>
+          </div>
+        </div>
+        <div class="drawercontentBox">
+          <ul>
+            <li v-for="item in records" :key="item.remarkserialno">
+              <div class="li_t" style="display: flex; justify-content: space-between;align-items: center;">
+                <div v-html="item.remark" style="width: 85%;"></div>
+                <div v-if="delRemark" style="width: 10%;  padding: 0;  text-align: right;" class="gjg_topping mobile-icon el-icon-upload2" @click="remarktop(item.remarkserialno)"></div>
               </div>
-            </div>
-          </li>
-        </ul>
+              <div class="li_b">
+                <div class="li_b_l" :title="item.name">{{ item.oprname }}</div>
+                <div class="li_b_r">
+                  {{ item.makedate }} 创建
+                  <span v-show="delRemark" class="mobile-icon el-icon-delete" @click="deleteRemark(item.remarkserialno)" style="color: #979797"></span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
       </div>
+
     </div>
     <div class="drawerRight isDealed" v-if="detailsInfo.followupstep=='07'">
       <div class="title">
@@ -319,9 +325,12 @@ import $ from "jquery";
 import viewDetails from "../../components/viewDetails.vue";
 import { getData, getPhoneData, my_url, crm_url } from "../../static/js/ajax.js";
 import { formatDate, checkEmail, checkMobile } from "../../static/js/common.js";
+
+
+import Chatbot from '../../components/Chatbot.vue';
 export default {
   components: {
-    viewDetails
+    viewDetails, Chatbot
   },
   data() {
     return {
@@ -1260,5 +1269,23 @@ export default {
 <style>
 .customer-drawer .el-drawer__body {
   display: flex;
+}
+</style>
+
+
+<style scoped>
+.AIRemake {
+  height: 50%;
+  border-bottom: 1px solid  #D8D8D8;
+  overflow: hidden;
+}
+.templateAI {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* text-align: center; */
+  color: #2c3e50;
+}
+
+.chat-gpt .chat-gpt-right .chat-area {
+  margin-bottom: 1.3rem;
 }
 </style>

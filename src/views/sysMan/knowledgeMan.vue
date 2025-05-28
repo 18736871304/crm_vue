@@ -42,7 +42,7 @@
         </el-table-column>
         <el-table-column key="4" align="center" prop="oprname" label="最后修改人员" width="100">
         </el-table-column>
-        <el-table-column key="5" align="center" prop="insorganname" label="保险公司" width='130'>
+        <el-table-column key="5" align="center" prop="insorgannameValues" label="保险公司" width='130' :show-overflow-tooltip="true">
         </el-table-column>
 
         <el-table-column key="6" align="left" prop="title" label="标题" :show-overflow-tooltip="true">
@@ -185,7 +185,7 @@ export default {
       pageSize: 20,
       pageNum: 1,
 
-
+      SalesmanBoxList: [],
 
       pickerOptions: {
         shortcuts: [{
@@ -331,9 +331,10 @@ export default {
 
   mounted: function () {
     this.cjgType = '01';
-    this.getCJGList()//搜索表格 数据
-    this.getSearchData()//获取保险公司列表
     this.insOrganList()//搜索内容俩表
+    this.getSearchData()//获取保险公司列表
+    this.getCJGList()//搜索表格 数据
+
   },
   methods: {
 
@@ -342,8 +343,8 @@ export default {
         this.loading = true;
         setTimeout(() => {
           this.loading = false;
-          this.SalesmanBox1 = this.list.filter(item => {
-            return item.label.toLowerCase()
+          this.SalesmanBox1 = this.SalesmanBoxList.filter(item => {
+            return item.value.toLowerCase()
               .indexOf(query.toLowerCase()) > -1;
           });
         }, 200);
@@ -459,6 +460,10 @@ export default {
               "value": res.dd_value,
               "key": res.dd_key
             });
+            _this.SalesmanBoxList.push({
+              "value": res.dd_value,
+              "key": res.dd_key
+            });
           })
         }
       }, {
@@ -568,8 +573,11 @@ export default {
       }
       getData('post', my_url + '/crm/knowledge/getOnePolicyRead.do', res => {
         if (res.code == 0) {
+          console.log(res.policyread.insorgancode)
 
-          that.insorganName1 = res.policyread.insorganname
+          const arr = res.policyread.insorgancode.replace(/，/g, ',').split(',');
+          console.log(arr)
+          that.insorganName1 = arr
           that.bdjsItem = res.policyread
           that.bdjsItem.baseid = item.baseid
           that.CJGselectValue = item.typename
@@ -606,15 +614,18 @@ export default {
       if (this.insorganName1 != '') {
         var insorgancode = ''
         var insorganList = this.SalesmanBox1;
-        for (var i = 0; i < insorganList.length; i++) {
-          if (insorganList[i].value == this.insorganName1) {
-            insorgancode = insorganList[i].key
-          }
-        }
+        console.log(this.SalesmanBox1)
+
+        // for (var i = 0; i < insorganList.length; i++) {
+        //   if (insorganList[i].value == this.insorganName1) {
+        //     insorgancode = insorganList[i].key
+        //   }
+        // }
+
         console.log(insorgancode)
         // this.bdjsItem.insorgancode = insorgancode
-        this.bdjsItem.insorgancode = this.insorganName1.join("，"); 
-        this.bdjsItem.insorganname = this.insorganName1.join("，"); 
+        this.bdjsItem.insorgancode = this.insorganName1.join("，");
+        this.bdjsItem.insorganname = this.insorganName1.join("，");
       }
       data = this.bdjsItem
 
@@ -667,8 +678,35 @@ export default {
         pageSize: this.pageSize,
       }
       getData('post', my_url + '/crm/knowledge/getKnowledgeList.do', data => {
-        this.tableData = data.rows
-        this.pageTotal = data.total
+
+      
+        if (data.rows.length > 0) {
+
+          var rows=data.rows
+          // console.log( this.SalesmanBoxList)
+          // console.log(typeof  this.SalesmanBoxList)
+
+          rows.forEach(item => {
+        
+            const keys = item.insorgancode.replace(/，/g, ',').split(',');
+        
+            const values = keys.map(key => {
+              const dictItem = this.SalesmanBoxList.find(d => d.key == key.trim());
+              console.log(dictItem)
+              return dictItem ? dictItem.value : '';
+            }).filter(v => v !== '');
+            // 拼接成字符串，赋值给新字段，比如 insorgannameValues
+            item.insorgannameValues = values.join('，');
+          });
+           
+          console.log(rows)
+          this.tableData =  rows
+          this.pageTotal = data.total
+        } else {
+          this.tableData = []
+          this.pageTotal = ''
+        }
+
       }, body);
     },
 

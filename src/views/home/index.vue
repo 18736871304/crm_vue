@@ -805,14 +805,14 @@
             </div>
             <div class="item-section">
 
-              <div class="textCenter">{{bdjsItem.insorganname}}</div>
-          
+              <div class="textCenter">{{bdjsItem.insorgannameValues}}</div>
+
             </div>
             <div class="item-section">
-         
+
               <div class="right-content bdjsDetail">
                 <div id="editor-content-view" class="editor-content-view" v-html="this.bdjsItem.policydetail"></div>
-            
+
               </div>
             </div>
             <!-- <div class="item-section">
@@ -1304,6 +1304,7 @@ export default {
         suggestion: '',
         policydetail: '',
       },
+      SalesmanBoxList: [],
       //疾病核保
       jbhbItem: {
         title: '',
@@ -1571,6 +1572,9 @@ export default {
         _this.durations = data.dictList
       }
     });
+
+
+    this.insOrganList()
   },
   computed: {
     dataTypeValueArr() {
@@ -2342,167 +2346,6 @@ export default {
         return 'file-type file-type-file'
       }
     },
-    // newWangEditor(el1, el2) {
-    //   // var E = window.wangEditor
-    //   editor = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-    //   // 关闭粘贴内容中的样式
-    //   editor.customConfig.pasteFilterStyle = false
-    //   // 隐藏“网络图片”tab
-    //   editor.customConfig.showLinkImg = false
-    //   // 忽略粘贴内容中的图片
-    //   editor.customConfig.pasteIgnoreImg = true
-    //   // 使用 base64 保存图片
-    //   //editor.customConfig.uploadImgShowBase64 = true
-    //   editor.customConfig.menus = [
-    //     'image',
-    //   ]
-    //   // 上传图片到服务器
-    //   editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-    //   editor.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-    //   editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
-
-    //   //自定义上传图片事件
-    //   editor.customConfig.uploadImgHooks = {
-    //     before: function (xhr, editor, files) {
-
-    //     },
-    //     success: function (xhr, editor, result) {
-    //       console.log("上传成功");
-
-    //     },
-    //     fail: function (xhr, editor, result) {
-    //       console.log("上传失败,原因是" + result);
-    //     },
-    //     error: function (xhr, editor) {
-    //       console.log("上传出错");
-    //     },
-    //     timeout: function (xhr, editor) {
-    //       console.log("上传超时");
-    //     }
-    //   }
-    //   editor.create()
-    // },
-    // newWangEditor1(el1, el2) {
-    //   // var E = window.wangEditor
-    //   editor1 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-    //   // 关闭粘贴内容中的样式
-    //   editor1.customConfig.pasteFilterStyle = false
-    //   // 隐藏“网络图片”tab
-    //   editor1.customConfig.showLinkImg = false
-    //   // 忽略粘贴内容中的图片
-    //   editor1.customConfig.pasteIgnoreImg = true
-    //   // 使用 base64 保存图片
-    //   //editor.customConfig.uploadImgShowBase64 = true
-    //   editor1.customConfig.menus = [
-    //     'image',
-    //   ]
-    //   // 上传图片到服务器
-    //   editor1.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-    //   editor1.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-    //   editor1.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
-
-    //   //自定义上传图片事件
-    //   editor1.customConfig.uploadImgHooks = {
-    //     before: function (xhr, editor, files) {
-
-    //     },
-    //     success: function (xhr, editor, result) {
-    //       console.log("上传成功");
-
-    //     },
-    //     fail: function (xhr, editor, result) {
-    //       console.log("上传失败,原因是" + result);
-    //     },
-    //     error: function (xhr, editor) {
-    //       console.log("上传出错");
-    //     },
-    //     timeout: function (xhr, editor) {
-    //       console.log("上传超时");
-    //     }
-    //   }
-    //   editor1.create()
-    // },
-    // newWangEditor2(el1, el2) {
-    //   // var E = window.wangEditor
-    //   editor2 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-    //   // 关闭粘贴内容中的样式
-    //   editor2.customConfig.pasteFilterStyle = false
-    //   // 隐藏“网络图片”tab
-    //   editor2.customConfig.showLinkImg = false
-    //   // 忽略粘贴内容中的图片
-    //   editor2.customConfig.pasteIgnoreImg = true
-    //   // 使用 base64 保存图片
-    //   //editor.customConfig.uploadImgShowBase64 = true
-    //   editor2.customConfig.menus = [
-    //     'image',
-    //   ]
-    //   // 上传图片到服务器
-    //   editor2.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-    //   editor2.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-    //   editor2.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
-
-    //   //自定义上传图片事件
-    //   editor2.customConfig.uploadImgHooks = {
-    //     before: function (xhr, editor, files) {
-
-    //     },
-    //     success: function (xhr, editor, result) {
-    //       console.log("上传成功");
-
-    //     },
-    //     fail: function (xhr, editor, result) {
-    //       console.log("上传失败,原因是" + result);
-    //     },
-    //     error: function (xhr, editor) {
-    //       console.log("上传出错");
-    //     },
-    //     timeout: function (xhr, editor) {
-    //       console.log("上传超时");
-    //     }
-    //   }
-    //   editor2.create()
-    // },
-
-    // newWangEditor3(el1, el2) {
-    //   // var E = window.wangEditor
-    //   editor3 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-    //   // 关闭粘贴内容中的样式
-    //   editor3.customConfig.pasteFilterStyle = false
-    //   // 隐藏“网络图片”tab
-    //   editor3.customConfig.showLinkImg = false
-    //   // 忽略粘贴内容中的图片
-    //   editor3.customConfig.pasteIgnoreImg = true
-    //   // 使用 base64 保存图片
-    //   //editor.customConfig.uploadImgShowBase64 = true
-    //   editor3.customConfig.menus = [
-    //     'image',
-    //   ]
-    //   // 上传图片到服务器
-    //   editor3.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-    //   editor3.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-    //   editor3.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
-
-    //   //自定义上传图片事件
-    //   editor3.customConfig.uploadImgHooks = {
-    //     before: function (xhr, editor, files) {
-
-    //     },
-    //     success: function (xhr, editor, result) {
-    //       console.log("上传成功");
-
-    //     },
-    //     fail: function (xhr, editor, result) {
-    //       console.log("上传失败,原因是" + result);
-    //     },
-    //     error: function (xhr, editor) {
-    //       console.log("上传出错");
-    //     },
-    //     timeout: function (xhr, editor) {
-    //       console.log("上传超时");
-    //     }
-    //   }
-    //   editor3.create()
-    // },
 
 
     changeSuggestion(Suggestion) {
@@ -2522,8 +2365,9 @@ export default {
         this.getUploadFile(item.baseid)
         let body, url
         if (item.type === '01') {
-          this.bdjsItem = res.policyread
+          this.bdjsItem = res
           this.bdjsItem.baseid = item.baseid
+          this.bdjsItem.insorgannameValues = res.insorgannameValues
         }
         if (item.type === '02') {
           this.jbhbItem = res.diseaseUw
@@ -2536,36 +2380,7 @@ export default {
         }
         this.CJGselectValue = item.typename
         this.drawer = true
-        // this.$nextTick(() => {
-        //   this.newWangEditor('', '#div2')
-        //   this.newWangEditor1('', '#div4')
-        //   if (this.bdjsItem.policydetail && item.type === '01') {
-        //     editor.txt.html(this.bdjsItem.policydetail)
-        //     editor1.txt.html(this.bdjsItem.suggestion)
-        //     editor.$textElem.attr('contenteditable', false)
-        //     editor1.$textElem.attr('contenteditable', false)
-        //   } else {
-        //     $('.w-e-text').remove()
-        //     $('.w-e-menu').remove()
-        //   }
-        // })
-        // this.$nextTick(() => {
-        //   this.newWangEditor1('', '#div4')
-        //   if (this.bdjsItem.suggestion && item.type === '01') {
-        //     editor1.txt.html(this.bdjsItem.suggestion)
-        //     editor1.$textElem.attr('contenteditable', false)
-        //   }
-        // })
-        // this.$nextTick(() => {
-        //   this.newWangEditor2('', '#div6')
-        //   this.newWangEditor3('', '#div8')
-        //   if (this.dkwItem.content && item.type === '03') {
-        //     editor2.txt.html(this.dkwItem.content)
-        //     editor3.txt.html(this.dkwItem.voice)
-        //     editor2.$textElem.attr('contenteditable', false)
-        //     editor3.$textElem.attr('contenteditable', false)
-        //   }
-        // })
+
       })
     },
     getItem(item) {
@@ -2586,6 +2401,18 @@ export default {
       return new Promise((resovle, reject) => {
         api.getOnePolicyRead(body, url).then((data) => {
           if (data.code == 0) {
+
+            var data = data.policyread
+            // 替换中文逗号为英文逗号，分割成数组
+            const keys = data.insorgancode.replace(/，/g, ',').split(',');
+            // 查找对应 dd_value，过滤空值
+            const values = keys.map(key => {
+              const dictItem = this.SalesmanBoxList.find(d => d.key === key.trim());
+              return dictItem ? dictItem.value : '';
+            }).filter(v => v !== '');
+            // 转化为字符串，用中文逗号连接
+            data.insorgannameValues = values.length > 0 ? values.join('，') : undefined;
+            // 回调
             resovle(data)
           } else {
             reject()
@@ -2596,6 +2423,33 @@ export default {
     showKnowledgeDialog() {
       this.knowledgeDialog = true
     },
+
+    // 获取保险公司
+    insOrganList() {
+      let _this = this;
+      getData('post', my_url + '/crm/common/getInsOrganList.do', function (data) { //渠道类型
+        if (data.code == 0) {
+          _this.SalesmanBox1 = []
+          let nameList = data.dictList;
+          nameList.forEach(res => {
+
+            _this.SalesmanBoxList.push({
+              "value": res.dd_value,
+              "key": res.dd_key
+            });
+          })
+        }
+      }, {
+        // type: this.cjgType
+      });
+    },
+
+
+
+
+
+
+
     echartInit() {
       var myChart = echarts.init(document.getElementById('main-echart'));
       let dataTemp = [{
@@ -3145,7 +2999,7 @@ export default {
   overflow: auto;
 }
 
-.textCenter{
-   text-align: center;
+.textCenter {
+  text-align: center;
 }
 </style>

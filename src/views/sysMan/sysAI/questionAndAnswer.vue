@@ -16,11 +16,11 @@ export default {
   </script>
   
   <style>
-.templateAI {
+/* .templateAI {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
   padding: 0.15rem 0.3rem;
-}
+} */
 </style>
   
