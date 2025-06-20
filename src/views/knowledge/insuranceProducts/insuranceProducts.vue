@@ -54,11 +54,11 @@
           </el-button>
 
           <el-button type="primary" @click="handleBaseInfo(item.riskcode)" icon="el-icon-document">基本资料<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-          <el-button type="primary" @click="handleHotQuerstion(item.riskcode)" icon="el-icon-warning-outline">常见问题<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+          <el-button type="primary" @click="handleHotQuerstion(item)" icon="el-icon-warning-outline">常见问题<i class="el-icon-arrow-right el-icon--right"></i></el-button>
           <el-button v-if="pageType == '01'" type="primary" @click="handleInsureUrl(item)" icon="el-icon-link">
             投保地址<i class="el-icon-arrow-right el-icon--right"></i></el-button>
 
-            <el-button type="primary" icon="el-icon-chat-dot-square"> {{item.qun_value}}群</el-button>
+          <el-button type="primary" icon="el-icon-chat-dot-square"> {{item.qun_value}}群</el-button>
         </div>
         <div class="product-item-right">
           <div class="product-item-logo">
@@ -136,7 +136,7 @@
               </div>
             </div>
           </div>
- 
+
         </el-form-item>
         <el-form-item label-width="1.3rem">
 
@@ -148,10 +148,10 @@
       <ul class="question-list">
         <li class="question-item" v-for="(item, index) in questionList" :key="item.questionid">
           <p class="question-title">
-            <span class="num">{{ index + 1 }}. Q：</span>{{ item.question }}
+            <span class="num">{{ index + 1 }}.&nbsp;&nbsp;Q：</span>{{ item.question }}
           </p>
           <p class="question-answer">
-            <span class="question-answer-icon">A：</span>
+            <span class="question-answer-icon">&nbsp;A：</span>
             <el-input :disabled="true" type="textarea" autosize v-model="item.answer">
             </el-input>
           </p>
@@ -387,17 +387,17 @@ export default {
       channelArr: [
         { dd_key: "01", dd_value: "自营", qun_value: "保司服务" },
         { dd_key: "02", dd_value: "悟空保", qun_value: "" },
+        { dd_key: "03", dd_value: "慧泽美华", qun_value: "齐欣" },
         { dd_key: "04", dd_value: "i云保", qun_value: "i云服" },
-        { dd_key: "11", dd_value: "i云服", qun_value: "i云服" },
+        { dd_key: "05", dd_value: "小雨伞橙鹊", qun_value: "创信" },
         { dd_key: "06", dd_value: "开心保", qun_value: "开心保" },
         { dd_key: "07", dd_value: "轻松保", qun_value: "" },
         { dd_key: "08", dd_value: "梧桐树", qun_value: "梧桐树" },
-        { dd_key: "03", dd_value: "慧泽美华", qun_value: "齐欣" },
-        { dd_key: "13", dd_value: "慧择美华2", qun_value: "齐欣" },
         { dd_key: "09", dd_value: "慧泽晟松", qun_value: "齐欣" },
-        { dd_key: "05", dd_value: "小雨伞橙鹊", qun_value: "创信" },
         { dd_key: "10", dd_value: "小雨伞美华", qun_value: "创信" },
+        { dd_key: "11", dd_value: "i云服", qun_value: "i云服" },
         { dd_key: "12", dd_value: "力码科技", qun_value: "力码" },
+        { dd_key: "13", dd_value: "慧择美华2", qun_value: "齐欣" },
         { dd_key: "14", dd_value: "盛世创富", qun_value: "创富" },
         { dd_key: "15", dd_value: "乐橙云服", qun_value: "乐橙" },
         { dd_key: "16", dd_value: "南燕科技", qun_value: "南燕" },
@@ -636,7 +636,6 @@ export default {
     // 投保地址按钮
     handleInsureUrl(item) {
 
-      console.log(item)
       var urlRemarkList = []
       if (item.addurl) {
         urlRemarkList = JSON.parse(item.addurl)
@@ -648,7 +647,7 @@ export default {
       urlRemarkList.unshift(obj);
 
       this.urlRemarkList = urlRemarkList
-      console.log(urlRemarkList)
+
 
       this.insureUrl = item.url;
       this.showSalesarea = item.salesarea
@@ -660,7 +659,7 @@ export default {
         const item = this.regionList.find(d => d.dd_key === key);
         return item ? item.dd_value : '';
       }).filter(Boolean).join('，');
-      console.log(result)
+
 
       this.showSalesarea = result
 
@@ -691,20 +690,19 @@ export default {
       );
     },
     // 热门问题按钮
-    handleHotQuerstion(riskcode) {
+    handleHotQuerstion(item) {
       var _this = this;
-      _this.riskcode = riskcode;
+      _this.riskcode = item.riskcode;
       _this.buztype = "0303";
-      _this.getRiskQuestionList(riskcode);
+      _this.getRiskQuestionList(item);
       if (_this.pageType == "01") {
         _this.dialogHotQuestionVisible = true;
       } else {
-        console.log(_this.questionList);
         _this.questionList = _this.questionList;
         _this.dialogConfigHotQuestionVisible = true;
       }
     },
-    getRiskQuestionList(riskcode) {
+    getRiskQuestionList(item) {
       var _this = this;
       _this.hotQuestionLoading = true;
       getData(
@@ -716,13 +714,26 @@ export default {
             questionList.forEach(function (item, index) {
               item.questionIndex = index + 1;
             });
+
+            if (_this.pageType == '01') {
+              var questionFirst = {
+                answer: item.coefficient,
+                fileList: [],
+                orderbyid: "",
+                question: "本产品本月系数",
+                questionid: "",
+              }
+              questionList.unshift(questionFirst)
+            }
+
+
             _this.questionList = questionList;
             _this.hotQuestionLoading = false;
 
           }
         },
         {
-          riskcode: riskcode,
+          riskcode: item.riskcode,
         }
       );
     },
@@ -1043,7 +1054,7 @@ export default {
             }
           });
 
-           
+
 
           _this.riskList = rows;
         }

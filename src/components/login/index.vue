@@ -66,9 +66,11 @@ export default {
       var password = $("#password").val();
 
       password = hex_md5(password).toUpperCase();
+
       // userName="A163"
-      // password='96E79218965EB72C92A549DD5A330112'
-      // password='324EF5CC08079C85DF2B41EA7E07D78E'
+      // password='96E79218965EB72C92A549DD5A330112' 
+
+      
       let params = {
         userCode: userName,
         passWord: password,

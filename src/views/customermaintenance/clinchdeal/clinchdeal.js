@@ -5,6 +5,33 @@ import { formatDate, getBirthdayByIDCard, getSexByIDCard, getIdCardAge } from ".
 export default {
   data() {
     return {
+      // 列表选择项
+      sable: false,
+
+      columnList: [
+        "accepttime",
+        "reusername",
+        "serviceusername",
+        "contno",
+        "statename",
+        "insrevisitstatename",
+        "receiptstatename",
+        "insorganname",
+        "riskname",
+        "appname",
+        "appprovincename",
+        "appcityname",
+        "insname",
+        "payintvvalue",
+        "payendyearvalue",
+        "insuyearvalue",
+        "prem",
+        "fyp20",
+        "coefficientfyp20",
+        "activitychannelname",
+        "activityappname",
+        "policyurl",
+      ],
       editPopupVisible: false,
       disabled: false,
       token: "", //暂时存在
@@ -324,8 +351,62 @@ export default {
       let _this = this;
       this.insOrganList(); //所有保险公司
     });
+
+
+   this.columnList=[
+      "accepttime",
+      "reusername",
+      "serviceusername",
+      "contno",
+      "statename",
+      "insrevisitstatename",
+      "receiptstatename",
+      "insorganname",
+      "riskname",
+      "appname",
+      "appprovincename",
+      "appcityname",
+      "insname",
+      "payintvvalue",
+      "payendyearvalue",
+      "insuyearvalue",
+      "prem",
+      "fyp20",
+      "coefficientfyp20",
+      "activitychannelname",
+      "activityappname",
+      "policyurl",
+    ]
+
+
+
+
   },
   methods: {
+    inputUserCancel() {},
+
+    checkedSure() {
+      var _this = this;
+      var displaycontent = this.columnList;
+
+      console.log(this.columnList);
+      return;
+      var date = {
+        type: "publicCustome",
+        displaycontent: displaycontent.toString(),
+      };
+      getData(
+        "post",
+        my_url + "/crm/tableheard/saveTableHeardInfo.do",
+        function (data) {
+          if (data.code == "0") {
+            _this.sable = false;
+            _this.inputUserform2 = _this.columnList;
+          }
+        },
+        date
+      );
+    },
     // 查询是否有保单
     contnoSearch() {
       this.DialogVisible();
@@ -1827,19 +1908,15 @@ export default {
             if (res.code == "0" && res.policyUrl && res.policyUrl != "") {
               let a = document.createElement("a");
               a.target = "_blank";
-              var policyUrl =res.policyUrl
-          
+              var policyUrl = res.policyUrl;
 
               // 判断字符串是否以 "https:" 开头
               if (policyUrl.startsWith("https:") || policyUrl.startsWith("http:")) {
-                a.href =  policyUrl;
+                a.href = policyUrl;
               } else {
-                a.href = crm_url + "insure.meihualife.com/"+ policyUrl;
+                a.href = crm_url + "insure.meihualife.com/" + policyUrl;
               }
 
-
-
-             
               a.click();
             } else {
               let a = document.createElement("a");

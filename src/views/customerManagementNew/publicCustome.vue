@@ -271,7 +271,7 @@
               <div class="my-sure" @click="deleteSourceSubmit">确定</div>
             </div>
           </el-popover>
-          <!-- <el-popover popper-class="select-check" placement="bottom-start" trigger="click" v-model="sable" style="display: none;">
+          <el-popover popper-class="select-check" placement="bottom-start" trigger="click" v-model="sable" style="display: none;">
             <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">选择显示列表</div>
             <el-checkbox-group ref="inputUserform1" v-model="inputUserform1" class="main-left" style="width: 1.5rem;">
               <el-checkbox label="menudate" :disabled="activeName == '00000005' || activeName == '00000007'">线索入库时间
@@ -300,7 +300,7 @@
                 <div class="my-sure" @click="checkedSure">确定</div>
               </div>
             </el-checkbox-group>
-          </el-popover> -->
+          </el-popover>
         </div>
       </div>
       <div class="check-all-table publicCustome-table">
@@ -396,7 +396,7 @@
           </el-table-column>
           <el-table-column key="12" prop="makedate" align="center" label="线索产生时间" width="160" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="13" prop="callcount" align="center"   label="累计拨打次数" width="120" :show-overflow-tooltip="true">
+          <el-table-column key="13" prop="callcount" align="center" label="累计拨打次数" width="120" :show-overflow-tooltip="true">
           </el-table-column>
 
           <el-table-column key="17" prop="remark" align="left" label="跟进记录" width="200" :show-overflow-tooltip="true">

@@ -14,6 +14,8 @@
       </div>
     </div>
 
+
+    
     <div class="chat-gpt-right" v-if="currentChat !== null">
       <!-- <div class="input-area-tit">我是美华基于人工智能技术的智能客服机器人，可以进行自然语言交互，提供保险智能问答、自动学习、自动聊天等功能。</div> -->
       <div class="chat-area" ref="scrollContainer">
@@ -21,14 +23,14 @@
           <!-- 根据消息发送者动态添加样式 -->
           <div v-if="message.sender === 'machine'" class="message-bubble machine-response">
             <div class="c_name">
-              <img src="../static/images/AIrobot.png" alt="">
+              <img src="../../static/images/AIrobot.png" alt="">
             </div>
             <div class="c_cont" v-html="message.text"> </div>
           </div>
           <div v-else-if="message.sender === 'me'" class="message-bubble user-message">
             <div class="c_cont">{{ message.text }}</div>
             <div class="c_name">
-              <img src="../static/images/user.png" alt="">
+              <img src="../../static/images/user.png" alt="">
             </div>
           </div>
         </div>
@@ -37,7 +39,7 @@
         <!-- :disabled="isRobotReplying" -->
         <el-input type="textarea" v-model="formData.inputMessage" placeholder="你好，我是你的专属保险销售话术助手，你可以把客户的问题发给我，比如“你好，我想咨询一下重疾险”  （按Shift + Enter 换行）" @keyup.enter.native="handleKeyDown"></el-input>
 
-        <div class="common-select">
+        <div class="common-select" style="width:4%">
           <div class="search-box-right">
             <div style="display: flex;">
               <el-button type="primary" class="search-btn searchLeft  sendMsg" @click="sendMessage" :disabled="isRobotReplying">发送</el-button>
@@ -48,6 +50,8 @@
       </div>
     </div>
 
+
+
     <div class="chat-gpt-right" v-else>
       <div>
         <p>请选择一个聊天</p>
@@ -57,9 +61,10 @@
 </template>
 <script src="https://insure.meihualife.com//js/chatRecord/marked.min.js"></script>
 <script>
-import marked from "../static/js/marked.min.js"
-import { getData, my_url, crm_url } from "../static/js/ajax.js";
+import marked from "../../static/js/marked.min.js"
+import { getData, my_url, crm_url } from "../../static/js/ajax.js";
 import { fetchEventSource } from '@microsoft/fetch-event-source';
+ 
 // import chatData from "./chatData.json";
 export default {
   name: "Chatbot",
@@ -99,16 +104,11 @@ export default {
         });
 
 
-
         // this.eventSource = new EventSource(`https://mhnew.meihualife.com/api/test/qatest`);
         this.eventSource = new EventSource(`https://mhnew.meihualife.com/api/knowledge/quetionAndAnswer?${params.toString()}`);
         this.eventSource.onmessage = (event) => {
-
           const data = JSON.parse(event.data) //将字符串转换成json格式
-          console.log(data.content)
           machineResponseObj.text += data.content;
-
-
           this.$nextTick(() => {
             this.scrollToBottom()
           });
@@ -117,7 +117,6 @@ export default {
             machineResponseObj.text = marked(machineResponseObj.text)
             this.sessionid = data.sessionid
             this.eventSource.close();
-
             // 恢复发送按钮和输入数据
             this.isRobotReplying = false;
           } else {
@@ -156,7 +155,6 @@ export default {
       currentChatNow.title = userMessage;
       // 禁用发送按钮和输入数据
       this.isRobotReplying = true;
-      console.log(this.isRobotReplying)
       console.log(this.isRobotReplying)
       // 用户消息
       const userMessageObj = { sender: 'me', text: userMessage };
@@ -259,9 +257,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+$color_1: #18a058;
+
 .chat-gpt {
   width: 100%;
-  height: calc(100% - 0.4rem);
+  height: 100%;
   overflow: hidden;
   display: flex;
   font-size: 0.14rem;
@@ -314,7 +314,7 @@ export default {
     .item_btn {
       width: 100%;
       margin: 0.5208vw 0;
-      background-color: #18a058;
+      background-color: $color_1;
       color: #fff;
       height: 2.9167vw;
       border-radius: 0.4167vw;
@@ -338,7 +338,7 @@ export default {
         border: 1px solid #ccc;
         height: 2.9167vw;
         justify-content: space-between;
-        color: #18a058;
+        color: $color_1;
         border-radius: 0.3125vw;
         margin: 0 0 0.5208vw 0;
         cursor: pointer;
@@ -359,13 +359,13 @@ export default {
         i {
           margin: 0 0.2604vw;
           font-size: 1.25vw;
-          color: #18a058;
+          color: $color_1;
           cursor: pointer;
         }
 
         &.active {
-          border: 1px solid #18a058;
-          background: rgba($color: #18a058, $alpha: 0.1);
+          border: 1px solid $color_1;
+          background: rgba($color: $color_1, $alpha: 0.1);
         }
       }
     }
@@ -390,19 +390,19 @@ export default {
       flex-direction: column;
       overflow-y: scroll;
       height: auto;
-      max-height: 3.5rem;
-      // min-height: 6.5rem;
+     max-height: 6.5rem;
+      min-height:6.5rem;
       // border: 1px solid red;
       overflow: auto;
       .message {
         margin-top: 0.2rem;
         .message-bubble {
-          // margin-bottom:1rem;
+          margin-bottom: 1.0417vw;
         }
 
         .c_name {
-          // width: 3.25vw;
-          // height: 3.25vw;
+          width: 2.25vw;
+          height: 2.25vw;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -415,12 +415,13 @@ export default {
         }
 
         .c_cont {
+          
           // flex: 1;
           border-radius: 0.3125vw;
           background-color: #efefef;
-          // min-height: 4.1667vw;
+          min-height: 1.1667vw;
           padding: 0.1rem;
-          max-width: calc(100% - 3.625vw);
+          max-width: calc(100% - 15.625vw);
           // display: flex;
           // align-items: center;
           // text-align: left;
@@ -430,26 +431,28 @@ export default {
 
     .input-area {
       width: 100%;
-      // display: flex;
-      // align-items: flex-end;
-      // height: 1.8rem;
+      display: flex;
+      align-items: flex-end;
+      height: 1.8rem;
       background: #fff;
-
-      // padding-bottom: 0.5rem;
+      position: fixed;
+      bottom: 0rem;
+      left: 2.4rem;
+      padding-bottom: 0.5rem;
 
       .el-textarea {
         height: 100% !important;
         display: flex;
-        margin-left: 5%;
-        width: 90%;
-        margin-bottom: 5px;
+        margin-left: 0.3rem;
+        width: 80%;
+
         .el-textarea__inner {
           height: 100% !important;
         }
       }
 
       .el-button {
-        // margin: 0 0.5208vw;
+        margin: 0 0.5208vw;
       }
     }
   }
@@ -473,11 +476,11 @@ export default {
 
 .sendMsg {
   display: block;
-  width: 100%;
+  width: 50px;
   border-radius: 3px;
   line-height: 0.3rem;
   text-align: center;
-
+  margin-left: 0.2rem;
   background: #dc220d;
   font-size: 0.14rem;
   color: #fff;
@@ -491,30 +494,9 @@ export default {
   border: 0;
   color: #fff;
 }
-</style>
 
-
-
-<style  scoped>
-.chat-gpt .chat-gpt-right .input-area {
-  width: 100%;
-  position: absolute;
-  bottom: 10px;
-}
-.chat-gpt .chat-gpt-right .input-area .el-textarea {
-  /* margin-left: 0; */
-}
-.c_name img {
-  width: 20px;
-  height: 20px;
-}
-
-.search-box-right {
-  width: 90%;
-  margin-left: 5%;
+.c_name img{
+   width: 100%;
+   height: 100%;
 }
 </style>
-
-
-
- 

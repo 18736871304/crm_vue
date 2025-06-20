@@ -410,6 +410,8 @@ export default {
         this.titleDialog = '编辑'
       }
       this.addCJGItemVisible = true
+
+      console.log(editor16)
       this.$nextTick(() => {
         if (!editor16) {
           this.newWangEditor2('#div5', '#div6')

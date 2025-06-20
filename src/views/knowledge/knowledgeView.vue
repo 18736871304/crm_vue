@@ -242,14 +242,14 @@ export default {
   computed: {
 
   },
-  watch: {
-    cjgType(val) {
-      this.CJGselectValue = '保单检视'
-    }
-  },
+  // watch: {
+  //   cjgType(val) {
+  //     this.CJGselectValue = '保单检视'
+  //   }
+  // },
   mounted: function () {
-    // this.$nextTick(() => {
-    this.insOrganList()
+
+    // this.insOrganList()
     //数据字典
     let _this = this
     getData('post', my_url + '/crm/common/getDictList.do', function (data) {
@@ -264,9 +264,36 @@ export default {
     });
     this.cjgType = '01';
 
-    this.getCJGList()
+ 
+    getData('post', my_url + '/crm/common/getInsOrganList.do', function (data) { //渠道类型
+      if (data.code == 0) {
+        _this.SalesmanBox1 = []
+        let nameList = data.dictList;
+        // _this.SalesmanBoxList = data.dictList;
+        nameList.forEach(res => {
+          _this.SalesmanBox1.push({
+            "value": res.dd_value,
+            "key": res.dd_key
+          });
+          _this.SalesmanBoxList.push({
+            "value": res.dd_value,
+            "key": res.dd_key
+          });
+        })
 
-    // })
+        // _this.getSearchData()//获取标题关键词列表
+        _this.getCJGList()
+      }
+    }, {});
+
+
+
+
+
+
+
+
+
   },
   methods: {
     fileTypeFun(type) {
@@ -317,28 +344,35 @@ export default {
       cb(results);
     },
 
-    insOrganList() {
-      let _this = this;
-      getData('post', my_url + '/crm/common/getInsOrganList.do', function (data) { //渠道类型
-        if (data.code == 0) {
-          _this.SalesmanBox1 = []
-          let nameList = data.dictList;
-          nameList.forEach(res => {
-            _this.SalesmanBox1.push({
-              "value": res.dd_value,
-              "key": res.dd_key
-            });
+    // insOrganList() {
+    //   let _this = this;
+    //   getData('post', my_url + '/crm/common/getInsOrganList.do', function (data) { //渠道类型
+    //     if (data.code == 0) {
+    //       _this.SalesmanBox1 = []
+    //       let nameList = data.dictList;
+    //       _this.SalesmanBoxList = data.dictList;
 
-            _this.SalesmanBoxList.push({
-              "value": res.dd_value,
-              "key": res.dd_key
-            });
-          })
-        }
-      }, {
-        // type: this.cjgType
-      });
-    },
+    //       console.log("这是请求保险公司的"  )
+    //       console.log(  _this.SalesmanBoxList)
+    //       nameList.forEach(res => {
+    //         _this.SalesmanBox1.push({
+    //           "value": res.dd_value,
+    //           "key": res.dd_key
+    //         });
+
+    //         // _this.SalesmanBoxList.push({
+    //         //   "value": res.dd_value,
+    //         //   "key": res.dd_key
+    //         // });
+    //       })
+    //     }
+    //   }, {
+    //     // type: this.cjgType
+    //   });
+    // },
+
+
+
     tirggerFile(e) {
       this.updateCJGitem('isUpload').then(res => {
         let buztype, buzid
@@ -459,31 +493,21 @@ export default {
         modifyEndDate: this.selectTime ? this.selectTime[1] : '',
         pageNumber: this.pageNum,
         pageSize: this.pageSize,
-
         insorgancode: insorgancode,
       }
       getData('post', my_url + '/crm/knowledge/getKnowledgeList.do', data => {
         if (data.rows.length > 0) {
 
           var rows = data.rows
-          // console.log(  this.SalesmanBoxList)
-          // console.log(typeof this.SalesmanBoxList)
           rows.forEach(item => {
-
             const keys = item.insorgancode.replace(/，/g, ',').split(',');
-
             const values = keys.map(key => {
-
               const dictItem = this.SalesmanBoxList.find(d => d.key == key.trim());
-              console.log(dictItem)
               return dictItem ? dictItem.value : '';
             }).filter(v => v !== '');
-
-
             // 拼接成字符串，赋值给新字段，比如 insorgannameValues
             item.insorgannameValues = values.join('，');
           });
-          console.log(rows)
 
           this.tableData = rows
           this.pageTotal = data.total

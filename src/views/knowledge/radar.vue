@@ -12,7 +12,7 @@
 
     <div>
       <div class="newAdd">
-        <div class="addpatter" @click="dialogleida = true">
+        <div class="addpatter" @click="showAddCJGDetailDialog($event)">
           <div> + 新建</div>
         </div>
 
@@ -166,17 +166,23 @@
               <div class="listMainbox">
                 <div class="selectMain mainleft">
                   <p>链接地址</p>
-                  <el-input placeholder="请输入链接" @input="imgTextSelect()" v-model="imgTxt.link" clearable> </el-input>
+                  <el-input placeholder="请输入链接" @input="imgTextSelect()" v-model="imgTxt.link" clearable style="width:7.1rem"> </el-input>
+                  <div class="search-btn" @click="getmain" style="width: 160px;">获取文章链接内容</div>
                 </div>
 
                 <div v-if="imgTxt.link">
                   <div class="selectMain mainleft">
                     <p>链接标题</p>
-                    <el-input v-model="imgTxt.link_title" placeholder="请输入内容"></el-input>
+                    <el-input v-model="imgTxt.link_title" placeholder="请输入内容" style="width:7.1rem"></el-input>
+                  </div>
+                  <div class="selectMain mainleft">
+                    <p>链接详情</p>
+                    <el-input placeholder="请输入链接详情" class="block block_desc" v-model="imgTxt.link_description" style="width:7.1rem">
+                    </el-input>
                   </div>
 
                   <div class="selectMain DescTitle">
-
+                    <p>封面图</p>
                     <div class="imgupload">
                       <el-upload accept="image/*" action="#" ref="imgupload" list-type="picture-card" :auto-upload="false" :limit="1" :file-list="imgTxt.fileList" :on-change="
                       (file) => { return imgSaveToUrl(file); } " :class="imgTxt.fileList.length=='1' ? 'pdfjinyong' : ''">
@@ -199,8 +205,6 @@
                         <img width="100%" v-else :src="imgTxt.link_image_url" alt="" />
                       </el-dialog>
                     </div>
-                    <el-input type="textarea" :rows="2" placeholder="请输入链接详情" class="block block_desc" v-model="imgTxt.link_description">
-                    </el-input>
                   </div>
                   <!-- <div v-if="imgTxt.link" style="margin-top: 0.08rem;">
                     <div class="recordFile">
@@ -211,6 +215,17 @@
                       <img :src="imgTxt.link_image_url" alt="" style="margin-left: 0.1rem;" />
                     </div>
                   </div> -->
+                </div>
+
+                <div class="item-section">
+                  <!-- <label>文章内容</label> -->
+                  <div class="right-content">
+                    <div class="editor-box">
+                      <div id="div5" class="toolbar"></div>
+                      <div id="div6" class="text" style="max-height: 3rem;">
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
               </div>
@@ -323,11 +338,17 @@ import api from "../../utils/api";
 import $ from "jquery";
 import "../../static/js/viewer-jquery.min.js";
 import "../../static/css/viewer.min.css";
+import "../../components/wangEditor/release/wangEditor.css";
+import "../../components/wangEditor/release/fonts/w-e-icon.woff"
+import wangEditor from '@/components/wangEditor/release/wangEditor.min.js';
 import { getData, getPhoneData, my_url } from "../../static/js/ajax.js";
-
+let editor16;
 export default {
   data() {
     return {
+      editor16: null,
+
+
       searchloading: false,
       // 判断是否选组了
       parGroupid: '',
@@ -427,20 +448,55 @@ export default {
   },
 
   mounted() {
+    editor16 = null;
     this.init()
     this.getAllTalkTempleteGroup()
-
-
-    // this.teamLedar()
     this.yewu();
   },
   watch: {
 
   },
   methods: {
+
+    // 获取公众号内容
+    getmain() {
+      var _this = this
+      // this.$nextTick(() => {
+      var params = {
+        url: this.imgTxt.link,
+        key: 'JZL5de6663e10c65e61',
+        verifycode: '',
+      }
+      console.log(params)
+      getPhoneData('get', 'https://www.dajiala.com/fbmain/monitor/v3/article_html', function (data) {
+        if (data.code == '0') {
+          var data = data.data
+          // _this.newWangEditor2('#div5', '#div6')
+          editor16.txt.html(data.html)
+        } else {
+          alert('付费接口错误')
+        }
+      }, params);
+    },
+
+
+    // 打开新建
+    showAddCJGDetailDialog(e) {
+      this.dialogleida = true
+      this.$nextTick(() => {
+        if (!editor16) {
+          this.newWangEditor2('#div5', '#div6')
+        }
+        editor16.txt.clear()
+
+        console.log(editor16.txt.html())
+        // editor16.txt.html("")
+      })
+    },
+
+
     // 权限
     init() {
-
       if (this.activeName == '02') {
         this.options = [
           {
@@ -458,9 +514,6 @@ export default {
         });
       }
 
-
-
-
       var _this = this
       getData('post', my_url + '/crm/auth/getManagePermission.do', function (data) { //查看客户的权限
         if (data.code == 0) {
@@ -474,7 +527,6 @@ export default {
 
 
     reset() {
-
       this.overviewForm = {
         teamid: '',
         userid: '',
@@ -558,19 +610,10 @@ export default {
     },
 
 
-
-
-
-
-
-
     userNameChange() {
       this.queryflag = false;
       this.queryflagString = "02"
-
-
       if (this.overviewForm.userid == '') {
-        // this.options = []
         this.speechList = []
         this.$message({
           type: "info",
@@ -587,7 +630,6 @@ export default {
           groupname: ""
         })
       }
-      // this.refresh();
     },
 
 
@@ -785,10 +827,10 @@ export default {
         api.parseUrl(params).then((data) => {
           if (data.code == '0') {
 
-            _this.imgTxt.link_title = data.title && data.title != '' ? data.title : '链接'
+            _this.imgTxt.link_title = data.title && data.title != '' ? data.title : '链接标题'
             // this.imgTxt.text = this.imgTxt.link
-            _this.imgTxt.link_description = data.description && data.description != '' ? data.description : '详细介绍'
-            _this.imgTxt.link_image_url = data.imageurl && data.imageurl != '' ? data.imageurl : "https://assets.weibanzhushou.com/default-cover.png"
+            _this.imgTxt.link_description = data.description && data.description != '' ? data.description : '链接内容介绍'
+            _this.imgTxt.link_image_url = data.imageurl && data.imageurl != '' ? data.imageurl : "https://crm.meihualife.com/images/imgText.png"
             _this.imgTxt.fileList = []
             if (data.imageurl != '') {
               var gg = {
@@ -799,7 +841,7 @@ export default {
             } else {
               var gg = {
                 name: '1',
-                link_image_url: "https://assets.weibanzhushou.com/default-cover.png"
+                link_image_url: "https://crm.meihualife.com/images/imgText.png"
               }
               _this.imgTxt.fileList.push(gg)
             }
@@ -872,9 +914,8 @@ export default {
       _this.addloading = true
 
 
+      console.log(editor16.txt.html())
 
-
-      // // 
       if (this.imgTxt.link == '' && this.pdf.link == '') {
         this.$message({
           type: "error",
@@ -886,6 +927,12 @@ export default {
       }
       var params = {}
       if (this.imgTxt.link != '') {
+        var link_content
+        if (editor16.txt.html() == "<p><br></p>") {
+          link_content = ''
+        } else {
+          link_content = editor16.txt.html()
+        }
         params = {
           title: this.titleCon,
           link: this.imgTxt.link,
@@ -893,6 +940,7 @@ export default {
           link_description: this.imgTxt.link_description,
           link_image_url: this.imgTxt.link_image_url,
           radartype: this.activeName, //01企业，02个人
+          link_content: link_content
         }
       } else {
         params = {
@@ -920,6 +968,7 @@ export default {
         }
 
       }
+      console.log(params)
 
       if (this.isEdit == true) {
         this.edit_sure(params)
@@ -1079,11 +1128,24 @@ export default {
         this.imgTxt.link_title = item.link_title
         this.imgTxt.link_description = item.link_description
         this.imgTxt.link_image_url = item.link_image_url
-        var gg = {
+
+        this.$nextTick(() => {
+          if (!editor16) {
+            this.newWangEditor2('#div5', '#div6')
+          }
+          if (item.link_content && item.link_content != '') {
+            editor16.txt.html(item.link_content)
+          } else {
+            editor16.txt.clear()
+            console.log(editor16.txt.html())
+            // editor16.txt.html('')
+          }
+        })
+
+        _this.imgTxt.fileList.push({
           name: '1',
           link_image_url: item.link_image_url
-        }
-        _this.imgTxt.fileList.push(gg)
+        })
 
       }
 
@@ -1094,7 +1156,7 @@ export default {
         this.digTitle = '编辑 - 个人雷达'
       }
 
-      // this.imgTextSelect()
+
 
     },
 
@@ -1199,9 +1261,6 @@ export default {
       this.quanxian = this.teamListId;
 
     },
-
-
-
 
     dealTreeOnceChecked(arrMenus) {
       arrMenus === undefined ? arrMenus = [] : ''
@@ -1479,7 +1538,10 @@ export default {
         }
         this.teamNames = item.teampermission_names
       }
+
       this.dialogGroup = true
+
+
     },
 
     // 组上下移动
@@ -1559,6 +1621,109 @@ export default {
       })
     },
 
+    newWangEditor2(el1, el2) {
+      editor16 = new wangEditor(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
+      // 隐藏“网络图片”tab
+      editor16.customConfig.showLinkImg = false
+      // 忽略粘贴内容中的图片
+      editor16.customConfig.pasteIgnoreImg = false
+      // 使用 base64 保存图片
+      //editor.customConfig.uploadImgShowBase64 = true
+      editor16.customConfig.menus = [
+        'image', // 插入图片
+        'head', // 标题
+        'bold', // 粗体
+        'fontSize', // 字号
+        'fontName', // 字体
+        'italic', // 斜体
+        'underline', // 下划线
+        'strikeThrough', // 删除线
+        'foreColor', // 文字颜色
+        'backColor', // 背景颜色
+        'link', // 插入链接
+        'list', // 列表
+        'justify', // 对齐方式
+        'quote', // 引用
+        'emoticon', // 表情
+        // 'table', // 表格
+        // 'video', // 插入视频
+        // 'code', // 插入代码
+        'undo', // 撤销
+        'redo' // 重复
+      ]
+      editor16.customConfig.fontSize = {
+        '10px': { name: '10px', value: '1' },
+        'small': { name: '13px', value: '2' },
+        'normal': { name: '16px', value: '3' },
+        'large': { name: '18px', value: '4' },
+        'x-large': { name: '24px', value: '5' },
+        'xx-large': { name: '32px', value: '6' },
+        'xxx-large': { name: '48px', value: '7' },
+      }
+
+
+
+
+      // 上传图片到服务器
+      editor16.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
+      editor16.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
+      editor16.customConfig.uploadImgMaxSize = 5 * 1024 * 1024; // 将图片大小限制为 3M
+      //自定义上传图片事件
+      editor16.customConfig.uploadImgHooks = {
+        before: function (xhr, editor, files) {
+          console.log("上传之前")
+          console.log(xhr, editor, files)
+
+        },
+        success: function (xhr, editor, result) {
+          console.log(result);
+
+          console.log("上传成功21");
+
+        },
+        fail: function (xhr, editor, result) {
+          console.log("上传失败,原因是" + result);
+        },
+        error: function (xhr, editor) {
+          console.log("上传出错");
+        },
+        timeout: function (xhr, editor) {
+          console.log("上传超时");
+        }
+      }
+      editor16.customConfig.colors = [
+        '#000000',
+        '#eeece0',
+        '#1c487f',
+        '#4d80bf',
+        '#c24f4a',
+        '#8baa4a',
+        '#7b5ba1',
+        '#46acc8',
+        '#f9963b',
+        '#ffffff',
+        '#606266',
+        "#DC220D"
+      ]
+      editor16.customConfig.fontNames = [
+        '黑体',
+        '仿宋',
+        '楷体',
+        '标楷体',
+        '华文仿宋',
+        '华文楷体',
+        '宋体',
+        '微软雅黑',
+        'Arial',
+        'Tahoma',
+        'Verdana',
+        'Times New Roman',
+        'Courier New',
+      ]
+      editor16.create()
+    },
+
+
 
 
   },
@@ -1567,6 +1732,19 @@ export default {
 <style src="../../static/css/insuranceProducts.css"></style>
 <style src="../../static/css/myFonts/iconfont.css"></style>
 <style scoped>
+.img_text img {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.text {
+  min-height: 2rem;
+  height: auto;
+  max-height: 2rem;
+  overflow-y: scroll;
+}
+.w-e-toolbar {
+  border-bottom: 1px solid rgba(216, 216, 216, 1);
+}
 .scriptLibrary {
 }
 .img_text {
@@ -1696,9 +1874,9 @@ export default {
   margin-left: 0.01rem;
 }
 
-::v-deep .el-textarea__inner {
+/* ::v-deep .el-textarea__inner {
   border: 0px solid #dcdfe6;
-}
+} */
 
 ::v-deep .el-input__icon {
   line-height: 35px;
@@ -1726,7 +1904,7 @@ export default {
   line-height: 40px;
   width: 0.75rem;
   font-size: 0.14rem;
-  text-align: right;
+  text-align: left;
 }
 .zhongjiantab {
   width: 93%;
@@ -1970,13 +2148,13 @@ export default {
   line-height: 0.2rem;
 }
 
-.listMainbox .el-textarea .el-textarea__inner {
+/* .listMainbox .el-textarea .el-textarea__inner {
   min-height: 120px !important;
-  /* height: auto!important; */
+ 
 }
 ::v-deep .listMainbox .el-textarea .el-textarea__inner {
   min-height: 120px !important;
-}
+} */
 .addgroup {
   margin-left: 0.2rem;
   cursor: pointer;
@@ -2020,7 +2198,7 @@ export default {
   /* margin-top: 0.06rem; */
   margin-right: 0.08rem;
   font-size: 0.14rem;
-  text-align: right;
+  text-align: left;
 }
 .selectMain .block_desc {
   margin-top: 0rem;
@@ -2069,7 +2247,7 @@ table .declet {
 }
 
 .DescTitle {
-  border: 1px solid #dcdfe6;
+  display: none;
   margin-top: 0.08rem;
 }
 ::v-deep .el-upload {
@@ -2096,6 +2274,16 @@ table .declet {
   border: 1px solid #dcdfe6;
   width: 100%;
   height: 28px;
+}
+.w-e-text-container {
+  position: unset;
+}
+.editor-box {
+  position: relative;
+}
+::v-deep .w-e-text-container .w-e-panel-container {
+  position: absolute;
+  top: 32px !important;
 }
 </style>
 
@@ -2147,3 +2335,7 @@ table .declet {
   margin: 0;
 }
 </style>
+
+
+
+
