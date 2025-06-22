@@ -888,6 +888,8 @@ export default {
         appname: "",
       };
 
+      console.log(this.activeName)
+
       if (this.channelSourceValue.length == 0) {
         params.channel = "";
         params.appname = "";

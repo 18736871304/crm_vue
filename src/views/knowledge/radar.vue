@@ -73,7 +73,7 @@
         </div>
 
         <el-tree style=" padding-top: 0rem;" :data="options" :props="GroupdefaultProps" node-key="id" :default-checked-keys="[1]" :expand-on-click-node="false" ref="tree" @node-click="handleNodeClick" :highlight-current="true" :default-expand-all='false'>
-          <span class="custom-tree-node" slot-scope="{ node, data }">
+          <span class="custom-tree-node" slot-scope="{  data }">
             <span class="tree-lable">{{ data.groupname }} <span v-if="data.children">（{{ data.children.length}}）</span> </span>
             <span class="groupLeft">
               <div type="text" size="mini" class="crty">
@@ -187,7 +187,7 @@
                       <el-upload accept="image/*" action="#" ref="imgupload" list-type="picture-card" :auto-upload="false" :limit="1" :file-list="imgTxt.fileList" :on-change="
                       (file) => { return imgSaveToUrl(file); } " :class="imgTxt.fileList.length=='1' ? 'pdfjinyong' : ''">
                         <i slot="default" class="el-icon-plus"></i>
-                        <div slot="file" slot-scope="{ file }">
+                        <div slot="file"  >
                           <img class="el-upload-list__item-thumbnail" v-if="imgTxt.link_image_url.slice(0, 13) == 'crmfileupload'" :src="'https://crm.meihualife.com/'+imgTxt.link_image_url" alt="" />
                           <img class="el-upload-list__item-thumbnail" v-else :src="imgTxt.link_image_url" alt="" />
                           <span class="el-upload-list__item-actions">
@@ -467,7 +467,7 @@ export default {
         key: 'JZL5de6663e10c65e61',
         verifycode: '',
       }
-      console.log(params)
+      
       getPhoneData('get', 'https://www.dajiala.com/fbmain/monitor/v3/article_html', function (data) {
         if (data.code == '0') {
           var data = data.data
@@ -489,7 +489,7 @@ export default {
         }
         editor16.txt.clear()
 
-        console.log(editor16.txt.html())
+   
         // editor16.txt.html("")
       })
     },
@@ -914,8 +914,6 @@ export default {
       _this.addloading = true
 
 
-      console.log(editor16.txt.html())
-
       if (this.imgTxt.link == '' && this.pdf.link == '') {
         this.$message({
           type: "error",
@@ -968,8 +966,7 @@ export default {
         }
 
       }
-      console.log(params)
-
+ 
       if (this.isEdit == true) {
         this.edit_sure(params)
         return
@@ -1137,7 +1134,6 @@ export default {
             editor16.txt.html(item.link_content)
           } else {
             editor16.txt.clear()
-            console.log(editor16.txt.html())
             // editor16.txt.html('')
           }
         })
@@ -1232,7 +1228,7 @@ export default {
       }
       this.queryflag = true;
       this.quanxian = ''
-      console.log(this.InitteamNames)
+   
       if (this.teamIdCheck[0] != '') {
         this.myList = this.InitteamNames
         this.teamListId = this.teamIdCheck[0]
@@ -2247,7 +2243,7 @@ table .declet {
 }
 
 .DescTitle {
-  display: none;
+  /* display: none; */
   margin-top: 0.08rem;
 }
 ::v-deep .el-upload {

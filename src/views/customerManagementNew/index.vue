@@ -432,8 +432,8 @@ export default {
         this.otherstoreName = newVal.otherstore;
         if (newVal.queryflag) {
           this.detailsInfo.mobilestr = newVal.mobilestr;
-          // this.detailsInfo.wxno = newVal.wxno;
-          this.detailsInfo.wxnostr = newVal.wxnostr;
+          this.detailsInfo.wxno = newVal.wxno;
+          // this.detailsInfo.wxnostr = newVal.wxnostr;
           this.dis_save = true;
           this.delRemark = true;
         } else {
@@ -442,12 +442,15 @@ export default {
           this.dis_save = false;
           this.delRemark = false;
         }
+
+        console.log( this.detailsInfo.wxno,this.detailsInfo.wxnostr)
+
         this.getmobileList(newVal.activityserialno);
         if (newVal.followupstep == "07") {
           this.getOrderData(newVal.mobilestr);
         }
 
-        console.log(newVal.isableInput)
+
         if (newVal.isableInput) {
           this.isableInput = newVal.isableInput
         } else {
@@ -890,11 +893,24 @@ export default {
         loading.close();
         return
       }
+      if (!this.stepsName || this.stepsName.trim() === "") {
+        _this.$message({
+          showClose: true,
+          message: "跟进步骤不能为空，请填写跟进步骤!",
+          duration: 3000,
+          type: "error",
+        });
+        loading.close();
+        return
+      }
+
+      console.log(this.detailsInfo.mobilestr)
 
       let params = {
         activityserialno: this.detailsInfo.activityserialno, //线索流水号
         name: this.detailsInfo.name, //注册姓名
-        mobile: this.addMoblie,
+        mobile:this.detailsInfo.mobilestr,
+        // mobile: this.addMoblie,
         sex: this.detailsInfo.sex,
         birthday: this.detailsInfo.birthday,
         wxno: this.detailsInfo.wxnostr,
@@ -905,6 +921,10 @@ export default {
         otherstore: this.otherstoreName,
         activityuserid: this.detailsInfo.userid,
       };
+
+      // alert(this.stepsName)
+
+
       getData("get", my_url + "/crm/activity/activityUpdate.do", function (data) {
         _this.followrecord = "";
         if (data.code == 0) {
@@ -1276,7 +1296,7 @@ export default {
 <style scoped>
 .AIRemake {
   height: 50%;
-  border-bottom: 1px solid  #D8D8D8;
+  border-bottom: 1px solid #d8d8d8;
   overflow: hidden;
 }
 .templateAI {
