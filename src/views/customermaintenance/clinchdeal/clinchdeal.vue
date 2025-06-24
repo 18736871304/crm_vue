@@ -271,7 +271,7 @@
           <div class="common-select">
             <div class="select-title filtitle">保险公司</div>
             <div class="select-content filContent">
-              <el-autocomplete class="el-input-inners" v-model="insorganNamecode" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入保险公司" @select="insorganNameSelect" :disabled="disabled" clearable>
+              <el-autocomplete class="el-input-inners" v-model="insorganNamecode" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="" @select="insorganNameSelect" :disabled="disabled" clearable>
               </el-autocomplete>
             </div>
           </div>

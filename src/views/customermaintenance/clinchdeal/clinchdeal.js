@@ -526,8 +526,8 @@ export default {
                 _this.channelSelect();
               }
 
-              this.inSelectTime = moment().format("YYYY-MM-DD");
-              this.changeDate();
+              // this.inSelectTime = moment().format("YYYY-MM-DD");
+              // this.changeDate();
             },
             body
           );
@@ -1036,6 +1036,8 @@ export default {
     //打开弹窗
     showAddNoticeDialogVisible() {
       // this.itemReset()
+      this.inSelectTime=''
+      this.ineffectiveDate=''
       this.addNoticeDialogVisible = true;
     },
     //保单生效时间
