@@ -187,7 +187,7 @@
                       <el-upload accept="image/*" action="#" ref="imgupload" list-type="picture-card" :auto-upload="false" :limit="1" :file-list="imgTxt.fileList" :on-change="
                       (file) => { return imgSaveToUrl(file); } " :class="imgTxt.fileList.length=='1' ? 'pdfjinyong' : ''">
                         <i slot="default" class="el-icon-plus"></i>
-                        <div slot="file"  >
+                        <div slot="file">
                           <img class="el-upload-list__item-thumbnail" v-if="imgTxt.link_image_url.slice(0, 13) == 'crmfileupload'" :src="'https://crm.meihualife.com/'+imgTxt.link_image_url" alt="" />
                           <img class="el-upload-list__item-thumbnail" v-else :src="imgTxt.link_image_url" alt="" />
                           <span class="el-upload-list__item-actions">
@@ -467,7 +467,7 @@ export default {
         key: 'JZL5de6663e10c65e61',
         verifycode: '',
       }
-      
+
       getPhoneData('get', 'https://www.dajiala.com/fbmain/monitor/v3/article_html', function (data) {
         if (data.code == '0') {
           var data = data.data
@@ -489,7 +489,7 @@ export default {
         }
         editor16.txt.clear()
 
-   
+
         // editor16.txt.html("")
       })
     },
@@ -951,10 +951,11 @@ export default {
         }
       }
       if (this.activeName == '01') {
-        if (this.isEdit == true) {
-          params['groupid'] = this.groupValue
-        } else {
+  
+        if (typeof this.groupValue == "object") {
           params['groupid'] = this.groupValue[0]
+        } else {
+        params['groupid'] = this.groupValue
         }
 
       }
@@ -966,10 +967,11 @@ export default {
         }
 
       }
- 
+
       if (this.isEdit == true) {
+
         this.edit_sure(params)
-        return
+ 
       } else {
         api.addRadar(params).then((data) => {
           if (data.code == '0') {
@@ -1228,7 +1230,7 @@ export default {
       }
       this.queryflag = true;
       this.quanxian = ''
-   
+
       if (this.teamIdCheck[0] != '') {
         this.myList = this.InitteamNames
         this.teamListId = this.teamIdCheck[0]
