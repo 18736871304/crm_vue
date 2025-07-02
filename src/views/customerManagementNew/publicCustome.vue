@@ -14,11 +14,22 @@
             </div>
 
             <div class="common-select">
+              <div class="select-title filtitle">客户需求</div>
+              <div class="select-content filContent">
+                <el-select class="el-select-inners" v-model="customerIntention" size="mini" placeholder="请选择跟进步骤" clearable>
+                  <el-option v-for="item in customerNeedList" :key="item.dd_key" :label="item.dd_value" :value="item.dd_key"> </el-option>
+                </el-select>
+              </div>
+            </div>
+
+            <div class="common-select">
               <div class="select-title filtitle">渠道/来源</div>
               <div class="select-content filContent">
                 <el-cascader class="el-select-inners" popper-class="cascaderBox" @change="channelChange" v-model="channelSourceValue" :options="channelSource" :props="cascaderProps" :show-all-levels="false" collapse-tags clearable></el-cascader>
               </div>
             </div>
+
+            <div class="common-select"> </div>
 
             <div class="common-select">
               <div class="select-title filtitle">客户姓名</div>
@@ -38,6 +49,9 @@
                 <el-input class="el-input-inners" v-model="phoneWxnoValue" align="right" size="mini" clearable></el-input>
               </div>
             </div>
+
+            <div class="common-select"> </div>
+            <div class="common-select"> </div>
 
             <div class="common-select" style="width: 4%;">
               <div class="search-btn searchLeft" @click="search(1)">搜索</div>
@@ -349,7 +363,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column key="18" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true">
+          <el-table-column key="18" prop="customer_intentionValue" align="center" label="客户需求" width="100" :show-overflow-tooltip="true"    >
             <template slot="header">
               <p class="source-level">客户需求
                 <el-tooltip popper-class="atooltip" effect="light" placement="top">
@@ -396,7 +410,7 @@
           </el-table-column>
           <el-table-column key="12" prop="makedate" align="center" label="线索产生时间" width="160" :show-overflow-tooltip="true">
           </el-table-column>
-          <el-table-column key="13" prop="callcount" align="center" label="累计拨打次数" width="120" :show-overflow-tooltip="true">
+          <el-table-column key="13" prop="callcount" align="center" sortable   :sort-method="customSort" label="累计拨打次数" width="130" :show-overflow-tooltip="true">
           </el-table-column>
 
           <el-table-column key="17" prop="remark" align="left" label="跟进记录" width="200" :show-overflow-tooltip="true">
@@ -946,6 +960,10 @@ export default {
       // 父传子
       rowDetail: {},
 
+
+
+      customerIntention:'',
+      customerNeedList:[],
       channelSourceValue: [],
       channelSource: [],
       cascaderProps: {
@@ -1302,6 +1320,23 @@ export default {
   },
   methods: {
 
+    customSort(a, b) {
+      a= a.callcount
+      b= b.callcount
+      // 先判断是否为有效数字
+      const aValid = typeof a === 'number' && !isNaN(a);
+      const bValid = typeof b === 'number' && !isNaN(b);
+
+      if (!aValid && !bValid) return 0; // 两个都无效，视为相等
+      if (!aValid) return 1;  // a无效，排后面
+      if (!bValid) return -1; // b无效，排后面
+
+      // 两个都有效，正常升序排序
+      return a - b;
+    },
+
+
+ 
     handleChange(selectedKeys) {
       if (selectedKeys.length > 0) {
         // 根据初始化数组对象的顺序对 selectedKeys 进行排序
@@ -1558,6 +1593,8 @@ export default {
         wxno: this.phonewxno,
         channel: '',
         appname: '',
+
+       customer_intention:this.customerIntention
       };
 
       if (this.channelSourceValue.length == 0) {
@@ -1827,6 +1864,8 @@ export default {
       this.search(1)
     },
     getTableData(params) { //table数据
+      // params["customer_intention"]='02'
+
       let _this = this;
       getData('post', my_url + '/crm/activity/getActivityList.do', function (data) {
         let {
@@ -1976,7 +2015,7 @@ export default {
 
     // 回传部分
     handleChildData(data) {
-      console.log(data);
+   
       this.search();
     },
 
@@ -2179,167 +2218,7 @@ export default {
         activityserialno: _this.detailsInfo.activityserialno
       });
     },
-    // newWangEditor(el1, el2) {
-    //   var E = window.wangEditor
-    //   editor = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-    //   // 关闭粘贴内容中的样式
-    //   editor.customConfig.pasteFilterStyle = false
-    //   // 隐藏“网络图片”tab
-    //   editor.customConfig.showLinkImg = false
-    //   // 忽略粘贴内容中的图片
-    //   editor.customConfig.pasteIgnoreImg = true
-    //   // 使用 base64 保存图片
-    //   //editor.customConfig.uploadImgShowBase64 = true
-    //   editor.customConfig.menus = [
-    //     'image',
-    //   ]
-    //   // 上传图片到服务器
-    //   editor.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-    //   editor.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-    //   editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
-
-    //   //自定义上传图片事件
-    //   editor.customConfig.uploadImgHooks = {
-    //     before: function (xhr, editor, files) {
-
-    //     },
-    //     success: function (xhr, editor, result) {
-    //       console.log("上传成功");
-
-    //     },
-    //     fail: function (xhr, editor, result) {
-    //       console.log("上传失败,原因是" + result);
-    //     },
-    //     error: function (xhr, editor) {
-    //       console.log("上传出错");
-    //     },
-    //     timeout: function (xhr, editor) {
-    //       console.log("上传超时");
-    //     }
-    //   }
-    //   editor.create()
-    // },
-    // newWangEditor1(el1, el2) {
-    //   var E = window.wangEditor
-    //   editor1 = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-    //   // 关闭粘贴内容中的样式
-    //   editor1.customConfig.pasteFilterStyle = false
-    //   // 隐藏“网络图片”tab
-    //   editor1.customConfig.showLinkImg = false
-    //   // 忽略粘贴内容中的图片
-    //   editor1.customConfig.pasteIgnoreImg = true
-    //   // 使用 base64 保存图片
-    //   //editor.customConfig.uploadImgShowBase64 = true
-    //   editor1.customConfig.menus = [
-    //     'image',
-    //   ]
-    //   // 上传图片到服务器
-    //   editor1.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-    //   editor1.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-    //   editor1.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
-
-    //   //自定义上传图片事件
-    //   editor1.customConfig.uploadImgHooks = {
-    //     before: function (xhr, editor, files) {
-
-    //     },
-    //     success: function (xhr, editor, result) {
-    //       console.log("上传成功");
-
-    //     },
-    //     fail: function (xhr, editor, result) {
-    //       console.log("上传失败,原因是" + result);
-    //     },
-    //     error: function (xhr, editor) {
-    //       console.log("上传出错");
-    //     },
-    //     timeout: function (xhr, editor) {
-    //       console.log("上传超时");
-    //     }
-    //   }
-    //   editor1.create()
-    // },
-    // newWangEditor2(el1, el2) {
-    //   var E = window.wangEditor
-    //   editor2 = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-    //   // 关闭粘贴内容中的样式
-    //   editor2.customConfig.pasteFilterStyle = false
-    //   // 隐藏“网络图片”tab
-    //   editor2.customConfig.showLinkImg = false
-    //   // 忽略粘贴内容中的图片
-    //   editor2.customConfig.pasteIgnoreImg = true
-    //   // 使用 base64 保存图片
-    //   //editor.customConfig.uploadImgShowBase64 = true
-    //   editor2.customConfig.menus = [
-    //     'image',
-    //   ]
-    //   // 上传图片到服务器
-    //   editor2.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-    //   editor2.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-    //   editor2.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
-
-    //   //自定义上传图片事件
-    //   editor2.customConfig.uploadImgHooks = {
-    //     before: function (xhr, editor, files) {
-
-    //     },
-    //     success: function (xhr, editor, result) {
-    //       console.log("上传成功");
-
-    //     },
-    //     fail: function (xhr, editor, result) {
-    //       console.log("上传失败,原因是" + result);
-    //     },
-    //     error: function (xhr, editor) {
-    //       console.log("上传出错");
-    //     },
-    //     timeout: function (xhr, editor) {
-    //       console.log("上传超时");
-    //     }
-    //   }
-    //   editor2.create()
-    // },
-    // newWangEditor3(el1, el2) {
-    //   var E = window.wangEditor
-    //   editor3 = new E(el1, el2) // 两个参数也可以传入 elem 对象，class 选择器
-    //   // 关闭粘贴内容中的样式
-    //   editor3.customConfig.pasteFilterStyle = false
-    //   // 隐藏“网络图片”tab
-    //   editor3.customConfig.showLinkImg = false
-    //   // 忽略粘贴内容中的图片
-    //   editor3.customConfig.pasteIgnoreImg = true
-    //   // 使用 base64 保存图片
-    //   //editor.customConfig.uploadImgShowBase64 = true
-    //   editor3.customConfig.menus = [
-    //     'image',
-    //   ]
-    //   // 上传图片到服务器
-    //   editor3.customConfig.uploadFileName = 'myFile'; //设置文件上传的参数名称
-    //   editor3.customConfig.uploadImgServer = my_url + '/crm/fileupload/impUpload.do'; //设置上传文件的服务器路径
-    //   editor3.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
-
-    //   //自定义上传图片事件
-    //   editor3.customConfig.uploadImgHooks = {
-    //     before: function (xhr, editor, files) {
-
-    //     },
-    //     success: function (xhr, editor, result) {
-    //       console.log("上传成功");
-
-    //     },
-    //     fail: function (xhr, editor, result) {
-    //       console.log("上传失败,原因是" + result);
-    //     },
-    //     error: function (xhr, editor) {
-    //       console.log("上传出错");
-    //     },
-    //     timeout: function (xhr, editor) {
-    //       console.log("上传超时");
-    //     }
-    //   }
-    //   editor3.create()
-    // },
-
+ 
     showEditPopup(item) {
 
       this.getItem(item).then(res => {
@@ -2529,48 +2408,7 @@ export default {
         }
       }, params);
     },
-    // inputUserSubmit() {
-    //   let _this = this;
-    //   if (!_this.inputUserform.wxno && !_this.inputUserform.mobile) {
-    //     _this.$message({
-    //       type: 'waring',
-    //       duration: 3000,
-    //       message: "电话和微信至少填写一个！"
-    //     })
-    //     return
-    //   }
-    //   if (_this.inputUserform.mobile != null && _this.inputUserform.mobile != '' && !/^1[3456789]\d{9}$/.test(_this.inputUserform.mobile)) {
-    //     _this.$message({
-    //       type: 'waring',
-    //       duration: 3000,
-    //       message: "请填写正确的电话号码！"
-    //     })
-    //     _this.inputUserform.mobile = ""
-    //     return
-    //   }
-    //   getData('post', my_url + '/crm/activity/pageActivityInsert.do', function (data) {
-    //     if (data.code == '0') {
-    //       _this.$message({
-    //         type: 'success',
-    //         duration: 3000,
-    //         message: "录入成功！"
-    //       })
-    //       _this.inputUserform.name = "";
-    //       _this.inputUserform.mobile = "";
-    //       _this.inputUserform.wxno = "";
-    //       _this.inputUserform.batchno = "";
-    //       _this.inputUserform.sourcelevel = "B";
-    //       _this.inputUserVisable = false;
-    //       _this.search();
-    //     } else {
-    //       _this.$message({
-    //         type: 'waring',
-    //         duration: 3000,
-    //         message: data.msg
-    //       })
-    //     }
-    //   }, _this.inputUserform);
-    // },
+ 
     inputUserCancel() {
       this.sable = false;
       this.inputUserform1 = this.inputUserform2
@@ -2698,257 +2536,7 @@ export default {
       });
     },
 
-    // handleCheckChange(data, checked, indeterminate) {
-    //   let teamListName = [];
-    //   checked.checkedNodes.forEach(function (item) {
-    //     teamListName.push(item.label)
-    //   })
-    //   this.my_list = teamListName.join(',');
-    //   this.teamList = (checked.checkedKeys).join(',');
-    // },
-    // handleCheckChange2(data, checked, indeterminate) {
-    //   let teamListName = [];
-    //   checked.checkedNodes.forEach(function (item) {
-    //     teamListName.push(item.label)
-    //   })
-    //   this.my_list2 = teamListName.join(',');
-    //   this.teamList2 = (checked.checkedKeys).join(',');
-    //   this.overviewForm.teamid = this.teamList2;
-    // },
-    // my_sureOne() {
-    //   this.$refs.disTeam.hide();
-    //   this.my_list = '';
-    //   this.teamList = '';
-    //   this.teamNames = "团队选择";
-    //   this.$refs.tree1.setCheckedKeys([])
-    // },
-    // my_sure() {
-    //   let _this = this;
-    //   this.$refs.disTeam.hide();
-    //   if (this.my_list == null || this.my_list == '' || this.my_list == '1') {
-    //     // _this.$message({ showClose: true, message: '请选择团队数据', duration: 3000, type: 'error' });
-    //     // return;
-    //   }
-    //   this.teamNames = this.my_list;
-    //   //获取业务员列表
-    //   getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
-    //     _this.userNameList = data.namelist
-    //   }, {
-    //     teamid: this.teamList
-    //   });
-    // },
-    // my_sureOne2() {
-    //   this.$refs.disTeam2.hide();
-    //   this.my_list2 = '';
-    //   this.teamList2 = '';
-    //   this.teamNames2 = "团队选择";
-    //   this.overviewForm.teamid = '';
-    //   this.$refs.tree2.setCheckedKeys([]);
-    //   this.queryflag = true;
-    //   this.search();
-    //   this.refresh();
-    // },
-    // my_sure2() {
-    //   let _this = this;
-    //   this.$refs.disTeam2.hide();
-
-    //   if (this.my_list2 == null || this.my_list2 == '' || this.my_list2 == '1') {
-    //     this.queryflag = true;
-    //     this.queryflagString = "01"
-    //   } else {
-    //     this.teamNames2 = this.my_list2;
-    //     this.queryflag = false;
-    //     this.queryflagString = "02"
-    //   }
-
-    //   this.search();
-    //   this.refresh();
-    //   //获取业务员列表
-    //   getData('post', my_url + '/crm/auth/getUserIdNameListByTeam.do', function (data) {
-    //     _this.userNameOptions = data.namelist
-    //   }, {
-    //     teamid: this.teamList2
-    //   });
-    // },
-    // dateChange(val) {
-    //   var end = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-    //   var start = new Date(formatDate(new Date(), 'yyyy-MM-dd 00:00:00'));
-    //   var now = new Date(); // 当前日期
-    //   var nowDayOfWeek = now.getDay(); // 今天本周的第几天
-    //   var nowDay = now.getDate(); // 当前日
-    //   var nowMonth = now.getMonth(); // 当前月
-    //   var nowYear = now.getYear(); // 当前年
-    //   if (val == "1") {
-    //     start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay));
-    //     end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
-    //   } else if (val == "2") {
-    //     start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay - 1));
-    //     end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay));
-    //   } else if (val == "3") {
-    //     start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay - 7));
-    //     end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
-    //   } else if (val == "4") {
-    //     start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay - 30));
-    //     end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1));
-    //   } else if (val == "5") {
-    //     nowYear += (nowYear < 2000) ? 1900 : 0;
-    //     var day = nowDayOfWeek || 7;
-    //     start = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 1 - day));
-    //     end = formatDate(new Date(now.getFullYear(), nowMonth, nowDay + 7 - day));
-    //   } else if (val == "6") {
-    //     nowYear += (nowYear < 2000) ? 1900 : 0;
-    //     var monthStartDate = new Date(nowYear, nowMonth, 1);
-    //     start = formatDate(monthStartDate);
-    //     var monthEndDate = new Date(nowYear, nowMonth, getMonthDays());
-    //     end = formatDate(monthEndDate);
-
-    //     function getMonthDays() {
-    //       var monthStartDate = new Date(nowYear, nowMonth, 1);
-    //       var monthEndDate = new Date(nowYear, nowMonth + 1, 1);
-    //       var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
-    //       return days;
-    //     }
-    //   }
-    //   this.overviewForm.startDate = formatDate(new Date(start), 'yyyy-MM-dd 00:00:00').substring(0, 10);
-    //   this.overviewForm.endDate = formatDate(new Date(end), 'yyyy-MM-dd 00:00:00').substring(0, 10);
-    //   this.queryflag = false;
-    //   this.queryflagString = "02"
-    //   //this.search();
-    //   this.refresh();
-    // },
-    // userNameChange() {
-    //   this.queryflag = false;
-    //   this.queryflagString = "02"
-    //   this.search();
-    //   this.refresh();
-    // },
-    // refresh() {
-
-    // },
-    // getOrderData() {
-    //   let _this = this;
-    //   getData('post', my_url + '/crm/activity/getPolicyInfoByAppntMobile.do', function (data) {
-    //     if (data.code == '0') {
-    //       _this.policyList = data.policyList
-    //     }
-    //   }, {
-    //     mobile: this.detailsInfo.mobilebak
-    //   });
-    // },
-
-    // 获取电话列表
-    // getmobileList(activityid) {
-    //   let _this = this;
-    //   getData('post', my_url + '/crm/activity/getActivityMobileList.do', function (data) {
-    //     if (data.code == 0) {
-    //       var mobilelist = []
-    //       data.moibleList.forEach(function (item) {
-    //         mobilelist.push({
-    //           phone: item
-    //         })
-    //       })
-    //       _this.mobileList = mobilelist;
-    //     }
-    //   }, {
-    //     activityid: activityid
-    //   });
-    // },
-    // mobileToTop(scope) {
-    //   let _this = this;
-    //   getData('post', my_url + '/crm/activity/activityUpdateMobile.do', function (data) {
-    //     if (data.code == '0') {
-    //       _this.getmobileList(_this.detailsInfo.activityserialno)
-    //       _this.$message({
-    //         type: "success",
-    //         duration: 3000,
-    //         message: "置顶成功！"
-    //       })
-
-    //       _this.detailsInfo.mobilestr = scope.row.phone;
-    //     } else {
-    //       _this.$message({
-    //         type: "success",
-    //         duration: 3000,
-    //         message: data.msg
-    //       })
-    //     }
-    //   }, {
-    //     activityid: this.detailsInfo.activityserialno,
-    //     mobile: scope.row.phone
-    //     // mobile:18611158884
-    //   });
-    // },
-
-    // mobileDelete(scope) {
-    //   let _this = this;
-    //   _this.deleteMobile = scope.row.phone
-    //   getData('post', my_url + '/crm/activity/activityDeleteMobile.do', function (data) {
-    //     if (data.code == '0') {
-    //       _this.getmobileList(_this.detailsInfo.activityserialno)
-    //       _this.$message({
-    //         type: "success",
-    //         duration: 3000,
-    //         message: "删除成功！"
-    //       })
-    //     } else {
-    //       _this.$message({
-    //         type: "success",
-    //         duration: 3000,
-    //         message: data.msg
-    //       })
-    //     }
-    //   }, {
-    //     activityid: this.detailsInfo.activityserialno,
-    //     mobile: this.deleteMobile
-    //   });
-    // },
-    // addMoblieChange(val) {
-    //   if (this.checkMobile(val)) {
-    //     this.mobileInputShow = true
-    //   } else {
-    //     this.mobileInputShow = false
-    //   }
-    // },
-    // checkMobile(mobile) {
-    //   var reg = /^1[3456789]\d{9}$/; //正则表达式
-
-    //   if (mobile == null || mobile == "") {
-    //     return false;
-    //   } else if (!reg.test(mobile)) {
-    //     return false;
-    //   } else {
-    //     return true;
-    //   }
-    // },
-
-    // mobileAdd() {
-    //   var _this = this;
-    //   var addMoblieStr = _this.addMoblie
-    //   getData('post', my_url + '/crm/activity/activityAddMobile.do', function (data) {
-    //     if (data.code == '0') {
-    //       _this.getmobileList(_this.detailsInfo.activityserialno)
-    //       _this.$message({
-    //         type: "success",
-    //         duration: 3000,
-    //         message: "添加成功！"
-    //       })
-    //       _this.addMoblie = "";
-    //     } else {
-    //       _this.$message({
-    //         type: "success",
-    //         duration: 3000,
-    //         message: data.msg
-    //       })
-    //     }
-    //   }, {
-    //     activityid: this.detailsInfo.activityserialno,
-    //     mobile: this.addMoblie
-    //   });
-    // },
-    // mobileCancle() {
-    //   this.addMoblie = "";
-    //   this.mobileInputShow = false
-    // },
+     
 
     querySearchId(queryString, cb) {
       var SalesmanIdBox = this.SalesmanIdBox;
@@ -2976,110 +2564,7 @@ export default {
         }
       });
     },
-    // saveRecord() { //保存记录
-    //   let _this = this;
-    //   if (this.email != null && this.email != '') {
-    //     if (!checkEmail(this.email)) {
-    //       _this.$message({
-    //         showClose: true,
-    //         message: '邮箱格式不正确！',
-    //         duration: 3000,
-    //         type: 'error'
-    //       });
-    //       return;
-    //     }
-    //   }
-    //   const loading = this.$loading({
-    //     lock: true,
-    //     text: 'Loading',
-    //     spinner: 'el-icon-loading',
-    //     background: 'rgba(0, 0, 0, 0.7)'
-    //   });
-
-    //   let save_share_id = '';
-
-    //   if (this.editInfo.shareusername != null && this.editInfo.shareusername != '') {
-    //     save_share_id = this.SalesmanIdBox.find(item => item.value === this.editInfo.shareusername).id;
-    //   }
-
-    //   let params = {
-    //     activityserialno: this.detailsInfo.activityserialno, //线索流水号
-    //     activitytag: this.activitytag.join(),
-    //     name: this.detailsInfo.name, //注册姓名
-    //     wxno: this.wxno,
-    //     email: this.email,
-    //     age: this.age,
-    //     birthday: this.birthday,
-    //     sex: this.sex,
-    //     previstitime: this.formatDate(this.returnVisit, 'yyyy-MM-dd HH:mm:ss'), //预约回访时间
-    //     followupstep: this.visit, //跟进步骤
-    //     oldprevistitime: this.formatDate(this.detailsInfo.previstitime, 'yyyy-MM-dd HH:mm:ss'),
-    //     otherstore: this.editInfo.otherstore,
-    //     shareuserid: save_share_id,
-    //     activityuserid: this.detailsInfo.userid,
-    //     mobileprovince: this.mobileprovince,
-    //     mobilecity: this.mobilecity,
-    //     mobilecountry: this.mobilecountry,
-    //     address: this.address,
-    //     customer_intention: this.customer_intention.join(","),
-    //   };
-    //   getData('post', my_url + '/crm/activity/activityUpdate.do', function (data) {
-    //     _this.followrecord = '';
-    //     if (data.code == 0) {
-    //       setTimeout(() => {
-    //         _this.$message({
-    //           showClose: true,
-    //           message: '保存成功!',
-    //           duration: 3000,
-    //           type: 'success'
-    //         });
-    //         _this.search();
-    //       }, 1000);
-    //     } else {
-    //       _this.$message({
-    //         showClose: true,
-    //         message: data.msg,
-    //         duration: 3000,
-    //         type: 'error'
-    //       });
-    //     }
-    //     loading.close();
-    //     _this.drawer = false;
-    //   }, params);
-    // },
-    // cancelShare(row) {
-    //   let _this = this;
-    //   getData('post', my_url + '/crm/activity/activityShareDelete.do', function (data) { //渠道类型
-    //     if (data.code == '0') {
-    //       _this.search()
-    //     }
-    //   }, {
-    //     shareserialno: row.shareserialno
-    //   });
-    // },
-    // 播放录音
-    // audioPlay(index) {
-    //   let _this = this;
-    //   let audio = this.$refs.audio2;
-    //   this.currentCallIndex = index
-    //   this.audioSrc = this.callDataList[index].recordurl
-    //   this.$nextTick(() => {
-    //     audio.play()
-    //     _this.audioPaused = false
-    //   })
-    // },
-    // audioPause(index) {
-    //   let _this = this;
-    //   let audio = this.$refs.audio2;
-    //   this.currentCallIndex = index
-    //   this.$nextTick(() => {
-    //     audio.pause();
-    //     _this.audioPaused = true
-    //   })
-    // },
-    // test() {
-    //   alert(123);
-    // }
+     
   }
 }
 

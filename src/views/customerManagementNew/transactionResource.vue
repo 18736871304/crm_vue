@@ -292,7 +292,7 @@
           </el-table-column>
           <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="160" :show-overflow-tooltip="true"> </el-table-column>
           <el-table-column key="19" prop="lastcalltime" align="center" label="最后一次拨打时间" width="160" :show-overflow-tooltip="true"> </el-table-column>
-          <el-table-column key="12" v-if="dis_P4_up" prop="callcount" align="center" label="累计拨打次数" width="100" :show-overflow-tooltip="true"> </el-table-column>
+          <el-table-column key="12" v-if="dis_P4_up" prop="callcount" sortable   :sort-method="customSort" align="center" label="累计拨打次数" width="130" :show-overflow-tooltip="true"> </el-table-column>
 
           <el-table-column key="16" v-if="false" prop="pageurl" label="推广页面" width="150" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
@@ -622,7 +622,22 @@ export default {
   },
   computed: {},
   methods: {
-    // new
+ // 根据拨打次数排序
+ customSort(a, b) {
+      a= a.callcount
+      b= b.callcount
+      // 先判断是否为有效数字
+      const aValid = typeof a === 'number' && !isNaN(a);
+      const bValid = typeof b === 'number' && !isNaN(b);
+
+      if (!aValid && !bValid) return 0; // 两个都无效，视为相等
+      if (!aValid) return 1;  // a无效，排后面
+      if (!bValid) return -1; // b无效，排后面
+
+      // 两个都有效，正常升序排序
+      return a - b;
+    },
+
 
     //获取客户需求
     getCustomerIntenList() {
