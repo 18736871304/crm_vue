@@ -101,7 +101,6 @@
           <el-checkbox label="insrevisitstatename">回访状态</el-checkbox>
           <el-checkbox label="receiptstatename">回执状态</el-checkbox>
 
-
           <el-checkbox label="insorganname">保险公司</el-checkbox>
           <el-checkbox label="riskname">险种名称</el-checkbox>
           <el-checkbox label="appname">投保人姓名</el-checkbox>
@@ -117,12 +116,12 @@
           <el-checkbox label="activitychannelname">渠道类型</el-checkbox>
           <el-checkbox label="activityappname">流量来源</el-checkbox>
           <el-checkbox label="policyurl">电子保单</el-checkbox>
-       
+
           <!-- <div class="sure-footer" style="border-top: 1px solid rgba(221, 221, 221, 1); margin-top: 0.15rem;">
             <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
             <div class="my-sure" @click="checkedSure">确定</div>
           </div> -->
-          
+
         </el-checkbox-group>
       </el-popover>
 
@@ -145,7 +144,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column key="4" align="center" prop="accepttime" label="出单日期" width="160"  v-if="columnList.includes('accepttime')">
+        <el-table-column key="4" align="center" prop="accepttime" label="出单日期" width="160" v-if="columnList.includes('accepttime')">
         </el-table-column>
         <el-table-column key="7" align="center" prop="reusername" label="出单业务员" width="100" v-if="columnList.includes('reusername')">
         </el-table-column>
@@ -678,6 +677,28 @@
           </div>
         </div>
       </div>
+
+      <div class="search-box clearfix"  style="display: none;">
+        <div class="common-select">
+          <div class="select-title filtitle">理财资源来源</div>
+          <div class="select-content filContent">
+            <el-select class="el-select-inners" v-model="resourceTypeValue" size="mini"  placeholder="" clearable>
+              <el-option v-for="(item, index) in resourceTypeList" :key="index" :label="item.dd_value" :value="item.dd_key">
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <!-- <div class="common-select" v-show="isSource">
+          <div class="select-title filtitle">流量来源</div>
+          <div class="select-content filContent">
+            <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="" clearable>
+              <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
+              </el-option>
+            </el-select>
+          </div>
+        </div> -->
+      </div>
+
       <div class="dialog-footer">
 
         <div class="search-btn" style="

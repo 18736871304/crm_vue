@@ -186,6 +186,22 @@ export default {
       incityList: [],
       inRegionList: [],
 
+      resourceTypeValue: "",
+      resourceTypeList: [
+        {
+          dd_value: "理财资源",
+          dd_key: "01",
+        },
+        {
+          dd_value: "重疾资源升级理财",
+          dd_key: "02",
+        },
+        {
+          dd_value: "其他员工移交资源",
+          dd_key: "03",
+        },
+      ],
+
       //修改的唯一字符
       state: "",
       contserialno: "",
@@ -351,9 +367,8 @@ export default {
       let _this = this;
       this.insOrganList(); //所有保险公司
     });
-
-
-   this.columnList=[
+    this.aa();
+    this.columnList = [
       "accepttime",
       "reusername",
       "serviceusername",
@@ -376,36 +391,30 @@ export default {
       "activitychannelname",
       "activityappname",
       "policyurl",
-    ]
-
-
-
-
+    ];
   },
   methods: {
+    // 判断是否是本部
+    aa() {
+      getData("post", my_url + "/crm/auth/getToken.do", (data) => {
+        console.log(data);
+        if (data.code == 0) {
+          getData(  "post",  crm_url + "insure.meihualife.com/rights/getServiceCom.do", (data) => {
+              console.log(data);
+            },
+            { token: data.token }
+          );
+        }
+      });
+
+      // https://insure.meihualife.com/rights/getServiceCom.do
+    },
+
     inputUserCancel() {},
 
     checkedSure() {
       var _this = this;
       var displaycontent = this.columnList;
-
-      console.log(this.columnList);
-      return;
-      var date = {
-        type: "publicCustome",
-        displaycontent: displaycontent.toString(),
-      };
-      getData(
-        "post",
-        my_url + "/crm/tableheard/saveTableHeardInfo.do",
-        function (data) {
-          if (data.code == "0") {
-            _this.sable = false;
-            _this.inputUserform2 = _this.columnList;
-          }
-        },
-        date
-      );
     },
     // 查询是否有保单
     contnoSearch() {
@@ -1036,8 +1045,8 @@ export default {
     //打开弹窗
     showAddNoticeDialogVisible() {
       // this.itemReset()
-      this.inSelectTime=''
-      this.ineffectiveDate=''
+      this.inSelectTime = "";
+      this.ineffectiveDate = "";
       this.addNoticeDialogVisible = true;
     },
     //保单生效时间

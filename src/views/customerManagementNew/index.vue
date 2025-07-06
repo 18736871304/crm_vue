@@ -131,7 +131,7 @@
           <div class="condition-bottom" v-show="dis_save" @click="saveRecord">保存</div>
         </div>
 
-        <div class="adInformation" style="height: 1.5rem">
+        <div class="adInformation" style="height: 1.7rem">
           <div class="title clearfix">
             <span></span>
             <span>广告投放信息</span>
@@ -151,7 +151,7 @@
               <span :title="detailsInfo.area">自动定位城市：{{ detailsInfo.area }}</span>
             </div>
 
-            <div class="cb" style="width: 90%; display: none">
+            <div class="cb" style="width: 90%; display: block">
               <span :title="detailsInfo.pageurl">
                 推广页面：
                 <a style="cursor: pointer; color: #578ee7" href="#" @click="disPageUrl(detailsInfo)">{{
