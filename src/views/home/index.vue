@@ -4,7 +4,8 @@
       <div class="container_left_one mt clearfix">
         <div class="fl">
           <div class="container_left_one_divpic fl">
-            <img :src="PhotoData">
+            <!-- <img :src="PhotoData"> -->
+            <img :src="jieshao.userphoto">
           </div>
           <div class="container_left_one_divonewz fl">
             <p class="p_one">嗨，{{jieshao.username}}，{{jieshao.slogan}}</p>
@@ -1035,7 +1036,7 @@
               </el-date-picker>
             </div>
           </div>
-          <div class="common-select">
+          <div class="common-select" v-show="dis_P4_up">
             <div class="select-title">业务员姓名</div>
             <div class="select-content" style="width:1.68rem">
               <el-autocomplete class="el-input-inners" v-model="username" :trigger-on-focus="false" :fetch-suggestions="querySearch" size="mini" placeholder="请输入" clearable></el-autocomplete>
@@ -1458,7 +1459,7 @@ export default {
       downStartTime: '',
       downEndTime: '',
 
-      PhotoData: '',
+      // PhotoData: '',
       knowledgeList: '',
       newNoticeData: '',
       moreNoticeData: '',
@@ -1486,10 +1487,10 @@ export default {
     })
 
     _this.getTeamList()
-    //获取用户头像
-    api.getUserPhoto().then((data) => {
-      _this.PhotoData = data.userphoto
-    });
+    // //获取用户头像
+    // api.getUserPhoto().then((data) => {
+    //   _this.PhotoData = data.userphoto
+    // });
     //获取预约回访记录
     api.getPreVisitList({ pageSize: 5 }).then((data) => {
       _this.huifang = data.rows;
@@ -1525,9 +1526,9 @@ export default {
       }
     });
     // 业务员列表
-    api.getAllUserIdNameList().then((data) => {
-      _this.list = data.namelist;
-    });
+    // api.getAllUserIdNameList().then((data) => {
+    //   _this.list = data.namelist;
+    // });
     //昨日时长排名
     api.getLastDayCallTimeList().then((res) => {
       res.lastCallTimeList = res.lastCallTimeList.sort((a, b) => {
@@ -2674,7 +2675,7 @@ export default {
         this.logPageNumber = 1
       }
       var data = ''
-      if (this.logRange == null || this.logRange.length <= 0) {
+      if (!this.logRange) {
         data = {
           startDate: '',
           endDate: '',
@@ -2712,17 +2713,25 @@ export default {
       if (typeof val != "number") {
         this.customersPageNumber = 1
       }
-      let data = {
-        // oprDate: this.operationDate,
+
+      if (!this.operationDate) {
+        var  data = {
+        startDate:  '',
+        endDate: '',
+        followupstep: this.followupStep,
+        username: this.username,
+        pageNumber: this.customersPageNumber,
+        pageSize: this.customersPageSize,
+      }
+      }else{
+          var  data = {
         startDate: this.formatDate(this.operationDate[0], 'yyyy-MM-dd HH:mm:ss'),
         endDate: this.formatDate(this.operationDate[1], 'yyyy-MM-dd HH:mm:ss'),
         followupstep: this.followupStep,
         username: this.username,
-        // oprDate:'',
-        // followupstep:'',
-        // username:'',
         pageNumber: this.customersPageNumber,
         pageSize: this.customersPageSize,
+      }
       }
       api.getFollowData(data).then((res) => {
         if (res.total > 0 && res.rows == '') {

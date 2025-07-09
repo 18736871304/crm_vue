@@ -209,6 +209,10 @@ function getLogonUserInfo(params) {
 function getTalkTeamList(params) {
   return POST(params, '/crm/auth/getTalkTeamList.do')
 }
+//获取整个公司所有团队信息
+function getAllTeamList(params) {
+  return POST(params, '/crm/auth/getTeamList.do ')
+}
 //获取企微团队信息
 function getQwTeamTreeList(params) {
   return POST(params, '/crm/qwMan/getQwTeamTreeList.do ')
@@ -441,6 +445,7 @@ export default {
   getActivitySumData,
   getLogonUserInfo,
   getTalkTeamList,
+  getAllTeamList,
   getQwTeamTreeList,
   getQwUser,
   getQwUserList,

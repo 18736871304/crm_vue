@@ -276,7 +276,7 @@
               <div class="my-sure" @click="resourceDeploySubmit">确定</div>
             </div>
           </el-popover>
-          <el-popover popper-class="entry-customer-popper" v-show="activeName!='00000006'" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
+          <el-popover popper-class="entry-customer-popper" v-show="activeName!='00000006' && this.$store.state.userInfo.deleteResource" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
             <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">资源删除</div>
             <div style="text-align:center;">确定删除所选资源？</div>
             <div class="sure-footer" style="padding-bottom: 0;">
@@ -285,36 +285,7 @@
               <div class="my-sure" @click="deleteSourceSubmit">确定</div>
             </div>
           </el-popover>
-          <el-popover popper-class="select-check" placement="bottom-start" trigger="click" v-model="sable" style="display: none;">
-            <div class="search-btn" slot="reference" style="width:auto;padding: 0.01rem 0.18rem;background: #fff;border: 1px solid #DC220D;color: #DC220D;">选择显示列表</div>
-            <el-checkbox-group ref="inputUserform1" v-model="inputUserform1" class="main-left" style="width: 1.5rem;">
-              <el-checkbox label="menudate" :disabled="activeName == '00000005' || activeName == '00000007'">线索入库时间
-              </el-checkbox>
-              <el-checkbox label="makedate">线索产生时间</el-checkbox>
-              <el-checkbox label="firstcalltime" :disabled="activeName == '00000005' || activeName == '00000007'">首次拨打时间
-              </el-checkbox>
-              <el-checkbox label="lastcalltime">最新拨打时间</el-checkbox>
-              <el-checkbox label="callcount" :disabled='!dis_P4_up'>累计拨打次数</el-checkbox>
-              <el-checkbox label="cusdealtime" :disabled="activeName != '00000006'">客户成交时间</el-checkbox>
-              <el-checkbox label="cusdealperiod" :disabled="activeName != '00000006'">客户成交周期</el-checkbox>
-              <el-checkbox label="batchno">批次号</el-checkbox>
-              <el-checkbox label="clueid">线索ID</el-checkbox>
-              <el-checkbox label="accountid">广告主ID</el-checkbox>
-              <el-checkbox label="accountname">广告主名称</el-checkbox>
-              <el-checkbox label="planid">广告计划ID</el-checkbox>
-              <el-checkbox label="module_id">组件ID</el-checkbox>
-              <el-checkbox label="module_name">组件名称</el-checkbox>
-              <el-checkbox label="clue_sourcename">线索来源</el-checkbox>
-              <el-checkbox label="appname">流量来源</el-checkbox>
-              <el-checkbox label="area">自动定位城市</el-checkbox>
-              <el-checkbox label="planname">计划名称</el-checkbox>
-              <div class="sure-footer" style="border-top: 1px solid rgba(221, 221, 221, 1); margin-top: 0.15rem;">
-
-                <div class="my-sure" style="background: #fff; color: #DC240F; border: 0.01rem solid #DC240F;" @click="inputUserCancel">取消</div>
-                <div class="my-sure" @click="checkedSure">确定</div>
-              </div>
-            </el-checkbox-group>
-          </el-popover>
+  
         </div>
       </div>
       <div class="check-all-table publicCustome-table">
@@ -973,7 +944,6 @@ export default {
         // multiple: true,
         checkStrictly: true,
       },
-      dis_Pz_up: false, //资源删除
       channelValue: '', //渠道类型
       sourceValue: '',
       channelList: [],
@@ -1774,7 +1744,7 @@ export default {
       }, {
         dict_type: 'activitytag'
       });
-      getData('post', my_url + '/crm/common/getDictList.do', function (data) { //其他库 
+      getData('post', my_url + '/crm/common/getDictList.do', function (data) {  
         if (data.code == 0) {
           let {
             dictList
@@ -1785,23 +1755,16 @@ export default {
         dict_type: 'otherstore'
       });
 
-      getData('post', my_url + '/crm/auth/getManagePermission.do', function (data) { //其他库 
+      getData('post', my_url + '/crm/auth/getManagePermission.do', function (data) {  
         if (data.code == 0) {
           _this.dis_P4_up = true;
         } else {
           _this.dis_P4_up = false;
         }
       }, null);
-      //资源删除的权限
-      getData('post', my_url + '/crm/auth/getZongPermission.do', function (data) { //其他库 
-        if (data.code == 0) {
-          _this.dis_Pz_up = true;
-        } else {
-          _this.dis_Pz_up = false;
-        }
-      }, null);
+    
       // 审核状态
-      getData('post', my_url + '/crm/common/getDictList.do', function (data) { //其他库 
+      getData('post', my_url + '/crm/common/getDictList.do', function (data) {  
         if (data.code == 0) {
           let {
             dictList

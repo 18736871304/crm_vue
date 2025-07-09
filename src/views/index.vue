@@ -141,7 +141,7 @@ import router, { routes, getRouter, errorHtml } from "../router";
 import axios from "axios";
 import { getData, getPhoneData, my_url } from "../static/js/ajax.js";
 import SidebarItem from "../components/sidebar/index.vue";
-import SidebarChildren from "../components/sidebar1/index.vue";
+import SidebarChildren from "../components/SidebarChildren/index.vue";
 import AgentBar from "../components/tkyCall/index.vue";
 import AssignClues from "../components/assignClues/index.vue";
 import api from "../utils/api.js";

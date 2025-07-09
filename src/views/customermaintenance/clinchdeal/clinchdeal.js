@@ -367,7 +367,7 @@ export default {
       let _this = this;
       this.insOrganList(); //所有保险公司
     });
-    this.aa();
+    // this.aa();
     this.columnList = [
       "accepttime",
       "reusername",
@@ -395,20 +395,20 @@ export default {
   },
   methods: {
     // 判断是否是本部
-    aa() {
-      getData("post", my_url + "/crm/auth/getToken.do", (data) => {
-        console.log(data);
-        if (data.code == 0) {
-          getData(  "post",  crm_url + "insure.meihualife.com/rights/getServiceCom.do", (data) => {
-              console.log(data);
-            },
-            { token: data.token }
-          );
-        }
-      });
+    // aa() {
+    //   getData("post", my_url + "/crm/auth/getToken.do", (data) => {
+    //     console.log(data);
+    //     if (data.code == 0) {
+    //       getData(  "post",  crm_url + "insure.meihualife.com/rights/getServiceCom.do", (data) => {
+    //           console.log(data);
+    //         },
+    //         { token: data.token }
+    //       );
+    //     }
+    //   });
 
-      // https://insure.meihualife.com/rights/getServiceCom.do
-    },
+    //   // https://insure.meihualife.com/rights/getServiceCom.do
+    // },
 
     inputUserCancel() {},
 

@@ -2045,7 +2045,7 @@ export default {
     yewu() {
       let _this = this;
       var idStr = "";
-      api.getTalkTeamList().then((data) => {
+      api.getAllTeamList().then((data) => {
         if (data.code == 0) {
           _this.teamDataList = data.teamList;
           api.getDailiTeamList().then((data) => {

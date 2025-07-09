@@ -187,7 +187,7 @@
             </div>
           </el-popover>
 
-          <el-popover popper-class="entry-customer-popper" v-show="dis_Pz_up" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
+          <el-popover popper-class="entry-customer-popper" v-show="this.$store.state.userInfo.deleteResource" placement="bottom-start" width="3.31rem" trigger="click" v-model="deleteSourceVisable">
             <div class="search-btn resourceDel" slot="reference">资源删除</div>
             <div class="sure-footer" style="padding-bottom: 0">
               <div class="my-sure resourceCancel" @click="deleteSourceCancel">取消</div>
@@ -359,7 +359,6 @@ export default {
       // 权限
       ismyUse: true,
       dis_P4_up: false,
-      dis_Pz_up: false,
       queryflagString: "01",
 
 
@@ -816,7 +815,7 @@ export default {
     getTeamList() {
       let _this = this;
       //设置当前用户的团队列表参数
-      getData("post", my_url + "/crm/auth/getTalkTeamList.do", function (data) {
+      getData("post", my_url + "/crm/auth/getTeamList.do", function (data) {
         let tempData = [];
         if (data.teamList == null || data.teamList == "") {
           _this.disTeamAll = false;
@@ -1309,21 +1308,9 @@ export default {
       );
 
       //资源删除的权限
-      getData(
-        "post",
-        my_url + "/crm/auth/getZongPermission.do",
-        function (data) {
-          //其他库
-          if (data.code == 0) {
-            _this.dis_Pz_up = true;
-          } else {
-            _this.dis_Pz_up = false;
-          }
+ _this.getUserIdData();
 
-          _this.getUserIdData();
-        },
-        null
-      );
+      
     },
 
 
@@ -1421,7 +1408,7 @@ export default {
     },
     getUserIdData() {
       let _this = this;
-      if (this.dis_Pz_up) {
+ 
         getData("post", my_url + "/crm/auth/getUserIdNameList.do", function (data) {
           //渠道类型
           if (data.code == 0) {
@@ -1434,20 +1421,7 @@ export default {
             });
           }
         });
-      } else {
-        getData("post", my_url + "/crm/auth/getAllUserIdNameList.do", function (data) {
-          //渠道类型
-          if (data.code == 0) {
-            let nameList = data.namelist;
-            nameList.forEach((res) => {
-              _this.SalesmanIdBox.push({
-                value: res.username,
-                id: res.userid,
-              });
-            });
-          }
-        });
-      }
+     
     },
 
 
