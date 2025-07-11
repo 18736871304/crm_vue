@@ -200,7 +200,7 @@
       <!-- 表格内容 -->
 
       <div class="check-all-table">
-        <el-table v-if="isArticle" :data="tableData" ref="multipleTable" border v-loading="loading"  style="width: 100%" @selection-change="handleSelectionChange"  @sort-change="sortChange">
+        <el-table v-if="isArticle" :data="tableData" ref="multipleTable" border v-loading="loading" style="width: 100%" @selection-change="handleSelectionChange" @sort-change="sortChange">
           <el-table-column key="1" type="selection" width="40"> </el-table-column>
           <el-table-column key="2" type="index" label="序号" fixed="left" align="center" width="60"> </el-table-column>
           <el-table-column key="7" prop="username" align="center" fixed="left" label="所属业务员" width="100" :show-overflow-tooltip="true"> </el-table-column>
@@ -295,10 +295,8 @@
           </el-table-column>
           <el-table-column key="11" prop="makedate" align="center" label="线索产生时间" width="160" :show-overflow-tooltip="true"> </el-table-column>
           <el-table-column key="19" prop="lastcalltime" align="center" label="最后一次拨打时间" width="160" :show-overflow-tooltip="true"> </el-table-column>
-         
-         
-          <el-table-column key="12" v-if="dis_P4_up" prop="callcount"  sortable   :sort-method="customSort"   align="center" label="累计拨打次数" width="130" :show-overflow-tooltip="true"> </el-table-column>
 
+          <el-table-column key="12" v-if="dis_P4_up" prop="callcount" sortable :sort-method="customSort" align="center" label="累计拨打次数" width="130" :show-overflow-tooltip="true"> </el-table-column>
 
           <el-table-column key="16" v-if="false" prop="pageurl" label="推广页面" width="150" :show-overflow-tooltip="true" align="center">
             <template slot-scope="scope">
@@ -306,7 +304,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column key="17" prop="previstitime" label="预约回访" min-width="200" width="auto" :show-overflow-tooltip="true" align="center"   class-name="yuyue">
+          <el-table-column key="17" prop="previstitime" label="预约回访" min-width="200" width="auto" :show-overflow-tooltip="true" align="center" class-name="yuyue">
             <template slot-scope="scope">
               {{ scope.row.previstitime ? formatDate(new Date(scope.row.previstitime), "yyyy-MM-dd HH:mm:ss") : "" }}
               <el-popover popper-class="modify-icon" v-if="scope.row.previstitime" placement="left" width="220" height="50" :class="scope.row.activityserialno">
@@ -542,9 +540,9 @@ export default {
 
   mounted: function () {
 
-    console.log(  this.$store.state.userInfo.usergrade)
-    console.log( this.$store.state.userInfo.deleteResource)
-    console.log( this.$store.state.userInfo)
+    console.log(this.$store.state.userInfo.usergrade)
+    console.log(this.$store.state.userInfo.deleteResource)
+    console.log(this.$store.state.userInfo)
 
 
     var _this = this;
@@ -644,11 +642,11 @@ export default {
   },
   computed: {},
   methods: {
- 
-// 根据拨打次数排序
+
+    // 根据拨打次数排序
     customSort(a, b) {
-      a= a.callcount
-      b= b.callcount
+      a = a.callcount
+      b = b.callcount
       // 先判断是否为有效数字
       const aValid = typeof a === 'number' && !isNaN(a);
       const bValid = typeof b === 'number' && !isNaN(b);
@@ -662,7 +660,7 @@ export default {
     },
 
 
- 
+
     //获取客户需求
     getCustomerIntenList() {
       let _this = this;
@@ -1390,7 +1388,7 @@ export default {
 
       _this.getUserIdData();
 
-      
+
     },
 
 
@@ -1488,20 +1486,20 @@ export default {
     },
     getUserIdData() {
       let _this = this;
- 
-        getData("post", my_url + "/crm/auth/getUserIdNameList.do", function (data) {
-          //渠道类型
-          if (data.code == 0) {
-            let nameList = data.namelist;
-            nameList.forEach((res) => {
-              _this.SalesmanIdBox.push({
-                value: res.username,
-                id: res.userid,
-              });
+
+      getData("post", my_url + "/crm/auth/getUserIdNameList.do", function (data) {
+        //渠道类型
+        if (data.code == 0) {
+          let nameList = data.namelist;
+          nameList.forEach((res) => {
+            _this.SalesmanIdBox.push({
+              value: res.username,
+              id: res.userid,
             });
-          }
-        });
-   
+          });
+        }
+      });
+
     },
 
 

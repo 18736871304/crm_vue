@@ -443,7 +443,7 @@ export default {
           this.delRemark = false;
         }
 
-        console.log( this.detailsInfo.wxno,this.detailsInfo.wxnostr)
+        console.log(this.detailsInfo.wxno, this.detailsInfo.wxnostr)
 
         this.getmobileList(newVal.activityserialno);
         if (newVal.followupstep == "07") {
@@ -735,6 +735,19 @@ export default {
     // 提交跟进记录
     release() {
       let _this = this;
+
+
+      if (!this.followrecord) {
+        _this.$message({
+          showClose: true,
+          message: "发布的跟进记录不能为空",
+          duration: 3000,
+          type: "error",
+        });
+        return
+      }
+
+
       let arr = [],
         remarkStr = "";
       this.followrecord.split("\n").forEach((item) => arr.push(`<p>${item.trim()}</p>`));
@@ -909,7 +922,7 @@ export default {
       let params = {
         activityserialno: this.detailsInfo.activityserialno, //线索流水号
         name: this.detailsInfo.name, //注册姓名
-        mobile:this.detailsInfo.mobilestr,
+        mobile: this.detailsInfo.mobilestr,
         // mobile: this.addMoblie,
         sex: this.detailsInfo.sex,
         birthday: this.detailsInfo.birthday,

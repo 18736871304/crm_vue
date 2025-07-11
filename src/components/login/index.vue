@@ -67,49 +67,41 @@ export default {
 
       password = hex_md5(password).toUpperCase();
 
-      // userName="A163"
-      // password='96E79218965EB72C92A549DD5A330112' 
 
-      
+
       let params = {
         userCode: userName,
         passWord: password,
       };
 
       if (userName != "" && password != "") {
-        getData(
-          "post",
-          my_url + "/crm/auth/logon.do",
-          function (data) {
-            if (data.code == 0) {
-              var versionData = {
-                dict_type: "crm_url_version",
-              };
-              getData(
-                "post",
-                my_url + "/crm/common/getDictList.do",
-                function (data) {
-                  if (data.code) {
-                    _this.$store.commit('DICT_LIST', data.dictList[0].dd_key)
-                    localStorage.setItem("isLogin", true);
-                    _this.$router.push({
-                      path: "/",
-                      query: { v: data.dictList[0].dd_key },
-                    });
-                    // window.location.href = '../index.html?v=' + data.dictList[0]
-                    //     .dd_key
-                  }
-                },
-                versionData
-              );
-            } else {
-              _this.$message({
-                message: data.msg,
-                duration: 3000,
-                type: "error",
-              });
-            }
-          },
+        getData("post", my_url + "/crm/auth/logon.do", function (data) {
+          if (data.code == 0) {
+            var versionData = {
+              dict_type: "crm_url_version",
+            };
+            getData("post", my_url + "/crm/common/getDictList.do", function (data) {
+              if (data.code) {
+                _this.$store.commit('DICT_LIST', data.dictList[0].dd_key)
+                localStorage.setItem("isLogin", true);
+                _this.$router.push({
+                  path: "/",
+                  query: { v: data.dictList[0].dd_key },
+                });
+                // window.location.href = '../index.html?v=' + data.dictList[0]
+                //     .dd_key
+              }
+            },
+              versionData
+            );
+          } else {
+            _this.$message({
+              message: data.msg,
+              duration: 3000,
+              type: "error",
+            });
+          }
+        },
           params
         );
       } else {

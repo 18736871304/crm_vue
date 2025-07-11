@@ -73,7 +73,7 @@ export default {
 }
 
 .usercustombigBox {
-  width: 100%;
+  width:17.1rem ;
   height: 100%;
   background: #f5f5f5;
 }

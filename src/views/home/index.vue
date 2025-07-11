@@ -760,7 +760,7 @@
                 <span v-else>{{index+1}}</span>
               </div>
               <div class="avatar"><img :src="'https://insure.meihualife.com'+item.photourl" alt=""></div>
-              <div class="name">{{item.username}}<span class="teamname-color">&nbsp-&nbsp{{item.organname}}</span></div>
+              <div class="name">{{item.username}}<span class="teamname-color">&nbsp;-&nbsp;{{item.organname}}</span></div>
               <div class="number">{{item.sumfyp20}}元</div>
             </li>
           </ul>
@@ -841,7 +841,7 @@
               </div>
             </div>
           </div>
-          <div class="step-list wei-step-list" v-if="CJGselectValue === '疾病核保'">
+          <!-- <div class="step-list wei-step-list" v-if="CJGselectValue === '疾病核保'">
             <div class="item-section">
               <label>标题</label>
               <div class="right-content">
@@ -957,7 +957,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </el-dialog>
       </div>
       <el-dialog title="操作日志" :visible.sync="logDialogVisible" width="70%" :before-close="handleLogClose" v-loading="loading">
@@ -1307,19 +1307,19 @@ export default {
       },
       SalesmanBoxList: [],
       //疾病核保
-      jbhbItem: {
-        title: '',
-        disdescription: '',
-        zjsuggestion: '',
-        ylsuggestion: '',
-        productJsonStr: []
-      },
+      // jbhbItem: {
+      //   title: '',
+      //   disdescription: '',
+      //   zjsuggestion: '',
+      //   ylsuggestion: '',
+      //   productJsonStr: []
+      // },
       //解答疑义
-      dkwItem: {
-        title: '',
-        content: '',
-        voice: ''
-      },
+      // dkwItem: {
+      //   title: '',
+      //   content: '',
+      //   voice: ''
+      // },
       drawer: false,
       CJGselectValue: '',
       noticeTotal: 0,
@@ -2370,15 +2370,15 @@ export default {
           this.bdjsItem.baseid = item.baseid
           this.bdjsItem.insorgannameValues = res.insorgannameValues
         }
-        if (item.type === '02') {
-          this.jbhbItem = res.diseaseUw
-          this.jbhbItem.baseid = item.baseid
-          this.$set(this.jbhbItem, 'productJsonStr', res.diseaseUwProductList)
-        }
-        if (item.type === '03') {
-          this.dkwItem = res.anscusque
-          this.dkwItem.baseid = item.baseid
-        }
+        // if (item.type === '02') {
+        //   this.jbhbItem = res.diseaseUw
+        //   this.jbhbItem.baseid = item.baseid
+        //   this.$set(this.jbhbItem, 'productJsonStr', res.diseaseUwProductList)
+        // }
+        // if (item.type === '03') {
+        //   this.dkwItem = res.anscusque
+        //   this.dkwItem.baseid = item.baseid
+        // }
         this.CJGselectValue = item.typename
         this.drawer = true
 
