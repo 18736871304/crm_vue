@@ -26,7 +26,7 @@
             </el-select>
           </div>
         </div>
-        <div class="common-select" style=" width: 4%">
+        <div class="common-select" style=" width: 12%">
           <div class="search-btn searchLeft" @click="handleSearch">搜索</div>
           <div class="search-btn" style="
               background: #fff;
@@ -35,6 +35,9 @@
             " @click="handleReset">
             重置
           </div>
+
+          <div class="search-btn " style="width: 120px;" @click="openMap">理财产品分布图</div>
+
         </div>
 
       </div>
@@ -316,6 +319,28 @@
         </el-table>
       </div>
     </el-dialog>
+
+    <el-dialog custom-class="cang-jing-ge" title="理财产品分布图" :visible.sync="opemMapVisible" @close="destroyMap" width="82%" top="10vh">
+      <div class="map-wrapper">
+        <div class="map-list">
+          <div title="" :hoverable="true" :bordered="false" class="darkBg">
+            <ChinaMap class="chart-map" @productList="productList" v-if="mapVisible" />
+          </div>
+        </div>
+
+        <div class="mapProductList">
+          <p class="mapProductListTitle">{{mapProductList.name}}共{{ mapProductList.productList.length }}个理财产品</p>
+          <ul>
+            <li v-for="(item, index) in mapProductList.productList" :key="index">
+              <div>{{item.title}}</div>
+
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -324,12 +349,12 @@ import $ from "jquery";
 import "../../../static/js/viewer-jquery.min.js";
 import "../../../static/css/viewer.min.css";
 import { getData, getPhoneData, my_url, crm_url } from "../../../static/js/ajax.js";
+import ChinaMap from "../../../components/ChinaMap"
 export default {
+  components: { ChinaMap },
   data() {
     return {
-      urlRemarkList: [],
-
-
+      urlRemarkList: [],//投保地址链接
       regionList: [],
       queryParams: {
         risktype: "03",
@@ -407,7 +432,15 @@ export default {
         { dd_key: "20", dd_value: "融汇", qun_value: "弘康" },
         { dd_key: "21", dd_value: "健乐云服", qun_value: "健乐" },
         { dd_key: "22", dd_value: "小雨伞三眼", qun_value: "创信" }
-      ]
+      ],
+
+      opemMapVisible: false,
+      mapProductList: {
+        productList: [],
+        name: ''
+      },
+      mapVisible: false,
+
     };
   },
   mounted() {
@@ -419,7 +452,49 @@ export default {
     this.getSalesArea();
 
   },
+
+  watch: {
+    opemMapVisible(val) {
+
+      if (val) {
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+
+        // 弹窗打开时，先让 mapVisible=false，触发组件销毁，再重新显示组件实现重新加载
+        this.mapVisible = false;
+        this.$nextTick(() => {
+          this.mapVisible = true;
+        });
+
+
+        this.mapProductList = {
+          productList: [],
+          name: ''
+        }
+
+        
+
+      } else {
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+
+      }
+    }
+  },
   methods: {
+    openMap() {
+      this.opemMapVisible = true
+    },
+    destroyMap() {
+      this.opemMapVisible = false
+    },
+    productList(obj) {
+      this.mapProductList = obj
+    },
+
+
+
+
     getSalesArea() {
       let _this = this;
       getData(
@@ -1300,6 +1375,29 @@ export default {
   border: 1px solid #ffdcd8;
   color: #dc220d;
 }
+
+.map-wrapper {
+  display: flex;
+}
+
+/* 地图 */
+.map-list {
+  width: 76%;
+  margin-bottom: 25px;
+  background: #001a3a;
+}
+.chart-map {
+  width: 100%;
+  height: 70vh;
+}
+.darkBg {
+  background: #001a3a;
+  color: #fff !important;
+}
+.ant-card-head-title {
+  color: #fff !important;
+  font-size: 20px !important;
+}
 </style>
 <style scoped>
 .search-box .common-select {
@@ -1318,5 +1416,25 @@ export default {
 
 .productLinkBox {
   margin-top: 6px;
+}
+
+.mapProductList {
+  width: 24%;
+  border: 1px solid #ebeef5;
+  overflow: auto;
+  height: 70vh;
+}
+.mapProductList ul {
+  padding: 15px;
+}
+.mapProductList ul li {
+  line-height: 30px;
+}
+
+.mapProductListTitle {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
 }
 </style>

@@ -18,6 +18,7 @@
     "jquery": "^3.6.0",
     "js-cookie": "^3.0.1",
     "nprogress": "^0.2.0",
+    "echarts": "^4.8.0",
     "v-viewer": "^1.7.4",
     "viewerjs": "^1.11.6",
     "vue": "^2.6.14",
