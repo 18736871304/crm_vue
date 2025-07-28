@@ -692,40 +692,44 @@
 
         </div>
         <div class="ranking-tab-wrap">
-          <div class="tabs" :class="[currentRankingType === '昨日时长排名' ? 'active-1' : '',currentRankingType === '上周工作小结' ? 'active-2' : '',currentRankingType === '本月业绩排名' ? 'active-3' : '']">
+          <div class="tabs" :class="[currentRankingType === '长期险单数' ? 'active-1' : '',currentRankingType === '长期险标保' ? 'active-2' : '',currentRankingType === '医疗险单数' ? 'active-3' : '',currentRankingType === '医疗险保费' ? 'active-4' : '']">
             <div class="tab" v-for="(item,index) in rankingTabs" :key="index" @click="selectCurrentRanking(item)">
               {{item}}
             </div>
           </div>
-          <ul class="content-list" v-if="currentRankingType === '昨日时长排名'">
-            <li class="item" v-for="(item,index) in LastDayCallTimeList.firstCallTimeList" :key="index+10">
+          <ul class="content-list" v-if="currentRankingType === '长期险单数'">
+            <li class="item" v-for="(item,index) in policycountList" :key="index+10">
               <div class="ranking-icon call-time">
-                <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt="">
+                <!-- <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt=""> -->
+                <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt="" v-if="index < 3">
+                <span v-else>{{index+1}}</span>
               </div>
               <div class="avatar"><img :src="'https://insure.meihualife.com'+item.photourl" alt=""></div>
-              <div class="name">{{item.username}}<span class="teamname-color"> - {{item.teamname}}</span> </div>
-              <div class="number">{{item.sumtime}}m</div>
+              <div class="name">{{item.username}}<span class="teamname-color"> - {{item.organname}}</span> </div>
+              <div class="number">{{item.policycount}}单</div>
             </li>
-            <li class="item" v-for="(item,index) in LastDayCallTimeList.lastCallTimeList" :key="index+100">
+            <!-- <li class="item" v-for="(item,index) in LastDayCallTimeList.lastCallTimeList" :key="index+100">
               <div class="ranking-icon call-time">
                 <span>倒数{{3-index}}</span>
               </div>
               <div class="avatar"><img :src="'https://insure.meihualife.com'+item.photourl" alt=""></div>
               <div class="name">{{item.username}}<span class="teamname-color"> - {{item.teamname}}</span></div>
               <div class="number">{{item.sumtime}}m</div>
-            </li>
+            </li> -->
           </ul>
-          <ul class="content-list" v-if="currentRankingType === '上周工作小结'">
-            <li class="item" v-for="(item,index) in LastWeekData.firstCallTime" :key="index+20">
-              <div class="ranking-icon zongjie">
-                <span>总时长</span>
-                <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt="">
+          <ul class="content-list" v-if="currentRankingType === '长期险标保'">
+            <li class="item" v-for="(item,index) in changxian_sumfyp20List" :key="index+20">
+              <div class="ranking-icon call-time">
+                <!-- <span>长险单标保</span> -->
+                <!-- <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt=""> -->
+                <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt="" v-if="index < 3">
+                <span v-else>{{index+1}}</span>
               </div>
               <div class="avatar"><img :src="'https://insure.meihualife.com'+item.photourl" alt=""></div>
-              <div class="name">{{item.username}}<span class="teamname-color"> - {{item.teamname}}</span></div>
-              <div class="number">{{item.sumtime}}m</div>
+              <div class="name">{{item.username}}<span class="teamname-color"> - {{item.organname}}</span></div>
+              <div class="number">{{item.changxian_sumfyp20}}元</div>
             </li>
-            <li class="item" v-for="(item,index) in LastWeekData.firsttWxCount" :key="index+30">
+            <!-- <li class="item" v-for="(item,index) in LastWeekData.firsttWxCount" :key="index+30">
               <div class="ranking-icon zongjie">
                 <span>微信</span>
                 <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt="">
@@ -733,8 +737,8 @@
               <div class="avatar"><img :src="'https://insure.meihualife.com'+item.photourl" alt=""></div>
               <div class="name">{{item.username}}<span class="teamname-color"> - {{item.teamname}}</span></div>
               <div class="number">{{item.sumwxcount}}个</div>
-            </li>
-            <li class="item" v-for="(item,index) in LastWeekData.firstFristPlanCount" :key="index+50">
+            </li> -->
+            <!-- <li class="item" v-for="(item,index) in LastWeekData.firstFristPlanCount" :key="index+50">
               <div class="ranking-icon zongjie">
                 <span>计划书</span>
                 <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt="">
@@ -751,10 +755,10 @@
               <div class="avatar"><img :src="'https://insure.meihualife.com'+item.photourl" alt=""></div>
               <div class="name">{{item.username}}<span class="teamname-color"> - {{item.teamname}}</span></div>
               <div class="number">{{item.sumsecondplancount}}个</div>
-            </li>
+            </li> -->
           </ul>
-          <ul class="content-list" v-if="currentRankingType === '本月业绩排名'">
-            <li class="item" v-for="(item,index) in FypList.agentFypList" :key="index+60">
+          <ul class="content-list" v-if="currentRankingType === '医疗险单数'">
+            <!-- <li class="item" v-for="(item,index) in FypList.agentFypList" :key="index+60">
               <div class="ranking-icon call-time">
                 <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt="" v-if="index < 3">
                 <span v-else>{{index+1}}</span>
@@ -762,6 +766,30 @@
               <div class="avatar"><img :src="'https://insure.meihualife.com'+item.photourl" alt=""></div>
               <div class="name">{{item.username}}<span class="teamname-color">&nbsp;-&nbsp;{{item.organname}}</span></div>
               <div class="number">{{item.sumfyp20}}元</div>
+            </li> -->
+
+            <li class="item" v-for="(item,index) in ylpolicycountList" :key="index+10">
+              <div class="ranking-icon call-time">
+                <!-- <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt=""> -->
+                <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt="" v-if="index < 3">
+                <span v-else>{{index+1}}</span>
+              </div>
+              <div class="avatar"><img :src="'https://insure.meihualife.com'+item.photourl" alt=""></div>
+              <div class="name">{{item.username}}<span class="teamname-color"> - {{item.organname}}</span> </div>
+              <div class="number">{{item.ylpolicycount}}单</div>
+            </li>
+
+          </ul>
+          <ul class="content-list" v-if="currentRankingType === '医疗险保费'">
+            <li class="item" v-for="(item,index) in ylpremorderList" :key="index+60">
+              <div class="ranking-icon call-time">
+                <img :src="require('../../static/images/rank-'+(index+1)+'.png')" alt="" v-if="index < 3">
+                <span v-else>{{index+1}}</span>
+              </div>
+              <div class="avatar"><img :src="'https://insure.meihualife.com'+item.photourl" alt=""></div>
+              <div class="name">{{item.username}}<span class="teamname-color">&nbsp;-&nbsp;{{item.organname}}</span></div>
+              <div class="number">{{ Number(item.ylpremorder).toFixed(2) }}元</div>
+
             </li>
           </ul>
         </div>
@@ -1328,8 +1356,15 @@ export default {
       noticeTypeList: '',
       noticeType: '',
       noticeTitle: '',
-      currentRankingType: '本月业绩排名',
-      rankingTabs: ['昨日时长排名', '上周工作小结', '本月业绩排名'],
+      currentRankingType: '长期险标保',
+      rankingTabs: ['长期险单数', '长期险标保', '医疗险单数', '医疗险保费'],
+
+      ylpremorderList: '',
+      ylpolicycountList: "",
+      changxian_sumfyp20List: '',
+      policycountList: '',
+
+
       LastDayCallTimeList: '',
       LastWeekData: '',
       FypList: '',
@@ -1528,7 +1563,34 @@ export default {
     // 业务员列表
     // api.getAllUserIdNameList().then((data) => {
     //   _this.list = data.namelist;
-    // });
+    // }); 
+
+    
+
+    api.getAgentOrderList({  orderby: "ylpremorder" }).then((res) => {
+      console.log(res)
+      _this.ylpremorderList = res.agentFypList
+    });
+
+
+    api.getAgentOrderList({ orderby: "ylpolicycountorder" }).then((res) => {
+      console.log(res)
+      _this.ylpolicycountList = res.agentFypList
+    });
+
+
+    api.getAgentOrderList({ orderby: "changxian_sumfyp20_order" }).then((res) => {
+      console.log(res)
+      _this.changxian_sumfyp20List = res.agentFypList
+    });
+
+
+    api.getAgentOrderList({ orderby: "policycountorder" }).then((res) => {
+      console.log(res)
+      _this.policycountList = res.agentFypList
+    });
+    // orderby=ylpremorder
+
     //昨日时长排名
     api.getLastDayCallTimeList().then((res) => {
       res.lastCallTimeList = res.lastCallTimeList.sort((a, b) => {
@@ -1542,6 +1604,14 @@ export default {
     api.getFypList().then((res) => {
       _this.FypList = res
     });
+
+
+
+
+
+
+
+
     this.getHomeKnowledgeList()
     this.getNoticeListNew()
     //this.getNoticeListMore()
@@ -2715,23 +2785,23 @@ export default {
       }
 
       if (!this.operationDate) {
-        var  data = {
-        startDate:  '',
-        endDate: '',
-        followupstep: this.followupStep,
-        username: this.username,
-        pageNumber: this.customersPageNumber,
-        pageSize: this.customersPageSize,
-      }
-      }else{
-          var  data = {
-        startDate: this.formatDate(this.operationDate[0], 'yyyy-MM-dd HH:mm:ss'),
-        endDate: this.formatDate(this.operationDate[1], 'yyyy-MM-dd HH:mm:ss'),
-        followupstep: this.followupStep,
-        username: this.username,
-        pageNumber: this.customersPageNumber,
-        pageSize: this.customersPageSize,
-      }
+        var data = {
+          startDate: '',
+          endDate: '',
+          followupstep: this.followupStep,
+          username: this.username,
+          pageNumber: this.customersPageNumber,
+          pageSize: this.customersPageSize,
+        }
+      } else {
+        var data = {
+          startDate: this.formatDate(this.operationDate[0], 'yyyy-MM-dd HH:mm:ss'),
+          endDate: this.formatDate(this.operationDate[1], 'yyyy-MM-dd HH:mm:ss'),
+          followupstep: this.followupStep,
+          username: this.username,
+          pageNumber: this.customersPageNumber,
+          pageSize: this.customersPageSize,
+        }
       }
       api.getFollowData(data).then((res) => {
         if (res.total > 0 && res.rows == '') {

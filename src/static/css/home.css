@@ -612,7 +612,7 @@
     border-radius: 2px 0px 0px 2px;
 }
 
-.ranking-tab-wrap .tabs .tab:nth-child(3) {
+.ranking-tab-wrap .tabs .tab:nth-child(4) {
     border-radius: 0px 2px 2px 0px;
     border-right: 1px solid rgba(216, 216, 216, 1);
 }
@@ -636,6 +636,14 @@
 }
 
 .ranking-tab-wrap .tabs.active-3 .tab:nth-child(3) {
+    border: 1px solid #E76A5C;
+    color: #E76A5C;
+}
+.ranking-tab-wrap .tabs.active-3 .tab:nth-child(4) {
+    border-left: 0;
+}
+
+.ranking-tab-wrap .tabs.active-4 .tab:nth-child(4) {
     border: 1px solid #E76A5C;
     color: #E76A5C;
 }

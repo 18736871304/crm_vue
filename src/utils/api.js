@@ -94,6 +94,17 @@ function getFypList(params) {
   return POST(params, '/crm/report/getFypList.do')
 }
 
+// 业绩排名
+function getAgentOrderList(params) {
+  return POST(params, '/crm/report/getAgentOrderList.do')
+}
+
+
+
+
+
+
+
 // 搜索内容
 function getCalendarInfo(params) {
   return POST(params, '/crm/calendar/getCalendarInfo.do')
@@ -422,6 +433,7 @@ export default {
   getLastDayCallTimeList,
   getLastWeekData,
   getFypList,
+  getAgentOrderList,
   getCalendarInfo,
   getAllUserIdNameList,
   calendarInsert,

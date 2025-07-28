@@ -210,7 +210,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="total">
+      <!-- <div class="total">
         <div class="agree">
           <p>单数合计：</p>
           <p>{{ policycount }}</p>
@@ -227,7 +227,40 @@
           <p>折算系数后标保：</p>
           <p>{{ coefficientsumfyp20 }}</p>
         </div>
+      </div> -->
+      <div class="total">
+        <div class="agree">
+          <p>医疗险单数合计：</p>
+          <p>{{ sumData.ylpolicycount }}</p>
+        </div>
+        <div class="agree">
+          <p>医疗险保费合计：</p>
+          <p>{{ sumData.ylpremorder }}</p>
+        </div>
+        <div class="agree">
+          <p>长期险单数合计：</p>
+          <p>{{ sumData.policycount  }}</p>
+        </div>
+        <div class="agree">
+          <p>长期险标保合计：</p>
+          <p>{{  sumData.changxian_sumfyp20   }}</p>
+        </div>
+        <div class="agree">
+          <p>长期险折算系数后标保：</p>
+          <p>{{ sumData.coefficient_changxian_sumfyp20 }}</p>
+        </div>
+
+        <div class="agree"   v-show="this.$store.state.userInfo.organcode=='100200101'">
+          <p>升级部分：</p>
+          <p>{{ sumData.coefficientSJsumfyp20 }}</p>
+        </div>
+
+        <div class="agree"  v-show="this.$store.state.userInfo.organcode=='100200101'">
+          <p>被升级部分：</p>
+          <p>{{ sumData.coefficientBSTsumfyp20 ?? 0 }}</p>
+        </div>
       </div>
+
       <div style="margin-top: 20px">
         <el-pagination background layout="total, prev, pager, next" :total="pageTotal" :page-size="pageSize" :current-page="pageNum" @current-change="pageClick">
         </el-pagination>
@@ -532,7 +565,7 @@
         <div class="more" v-if="disabled">
           <div v-for="(item, index) in moreBaodan" :key="index">
             <div class="nav-title" style=" margin-top: .18rem;" v-if="moreBaodan.length>1">被保人信息【{{item.titleNum }}】</div>
-            <div class="nav-title" v-else>被保人信息{{item.titleNum }}</div>
+            <div class="nav-title" style=" margin-top: .18rem;" v-else>被保人信息{{item.titleNum }}</div>
             <div class="search-box clearfix">
               <div class="common-select">
                 <div class="select-title filtitle">
@@ -659,7 +692,8 @@
       <div class="nav-title" style=" margin-top: .18rem;">资源来源</div>
       <div class="search-box clearfix">
         <div class="common-select">
-          <div class="select-title filtitle">渠道类型</div>
+          <div class="select-title filtitle" v-if="this.$store.state.userInfo.organcode=='100200101' ">初始渠道类型</div>
+          <div class="select-title filtitle" v-else >渠道类型</div>
           <div class="select-content filContent">
             <el-select class="el-select-inners" v-model="channelValue" size="mini" @change="channelSelect" placeholder="" clearable>
               <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
@@ -668,7 +702,9 @@
           </div>
         </div>
         <div class="common-select" v-show="isSource">
-          <div class="select-title filtitle">流量来源</div>
+          <div class="select-title filtitle"  v-if="this.$store.state.userInfo.organcode=='100200101' ">初始流量来源</div>
+          <div class="select-title filtitle" v-else >流量来源</div>
+        
           <div class="select-content filContent">
             <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="" clearable>
               <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
@@ -677,26 +713,28 @@
           </div>
         </div>
       </div>
-
-      <div class="search-box clearfix"  style="display: none;">
+      <!-- && risktype=='05' -->
+      <div class="search-box clearfix"     v-show="this.$store.state.userInfo.organcode=='100200101' && risktype=='05' ">
         <div class="common-select">
           <div class="select-title filtitle">理财资源来源</div>
           <div class="select-content filContent">
-            <el-select class="el-select-inners" v-model="resourceTypeValue" size="mini"  placeholder="" clearable>
+            <el-select class="el-select-inners" v-model="resourceTypeValue" size="mini" placeholder=""   clearable>
               <el-option v-for="(item, index) in resourceTypeList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
             </el-select>
           </div>
         </div>
-        <!-- <div class="common-select" v-show="isSource">
-          <div class="select-title filtitle">流量来源</div>
+
+
+
+        <div class="common-select"   v-if="isuserList">
+          <div class="select-title filtitle">业务员姓名</div>
           <div class="select-content filContent">
-            <el-select class="el-select-inners" v-model="sourceValue" size="mini" placeholder="" clearable>
-              <el-option v-for="(item, index) in sourceList" :key="index" :label="item.dd_value" :value="item.dd_value">
-              </el-option>
-            </el-select>
+            <el-autocomplete class="el-input-inners" v-model="fentan_userid" :trigger-on-focus="false"  @select="fentanUserid"    :fetch-suggestions="querySearchAsync" size="mini" placeholder="" clearable></el-autocomplete>
           </div>
-        </div> -->
+        </div>
+
+
       </div>
 
       <div class="dialog-footer">
@@ -755,6 +793,18 @@ export default {
   border: 1px solid #dc220d;
   color: #dc220d;
 }
+
+.nav-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;          /* 竖线宽度 */
+  height: 1em;         /* 竖线高度，1em 与字体大小一致 */
+  background-color: #dc240f;
+  margin-right: 6px;
+  vertical-align: middle;
+  margin-top: -2px;
+}
+
 </style>
 <style>
 .container-other {
@@ -789,7 +839,7 @@ export default {
 }
 
 .agree p:first-child {
-  width: 1.5rem;
+  width: 1.7rem;
   text-align: left;
 }
 
@@ -813,8 +863,8 @@ export default {
 
 .nav-title {
   /* margin-top: 0.2rem; */
-  padding: 0px 5px;
-  border-left: 4px solid #dc240f;
+  /* padding: 0px 5px; */
+  /* border-left: 4px solid #dc240f; */
   font-size: 0.16rem;
 }
 
