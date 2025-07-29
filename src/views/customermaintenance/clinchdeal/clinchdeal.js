@@ -966,14 +966,14 @@ export default {
             pageSize: this.pageSize,
             isxubao: "NOTY",
             has_coefficient: "N",
-             is_shanxilc:'N'
+            //  is_shanxilc:'N'
           };
 
-          if(this.$store.state.userInfo.organcode=='100200101'){
-            tabData.is_shanxilc="Y"
-          }else{
-            delete tabData.is_shanxilc;
-          }
+          // if(this.$store.state.userInfo.organcode=='100200101'){
+          //   tabData.is_shanxilc="Y"
+          // }else{
+          //   delete tabData.is_shanxilc;
+          // }
           var _this = this;
           getData(
             "post",
