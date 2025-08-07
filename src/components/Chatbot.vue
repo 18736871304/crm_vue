@@ -88,8 +88,6 @@ export default {
     connectToSSE(machineResponseObj, userMessage) {
 
       getData("post", my_url + "/crm/auth/getToken.do", (data) => {
-        console.log(data)
-
         // 定义参数
         const params = new URLSearchParams({
           content: userMessage,
@@ -140,7 +138,7 @@ export default {
     async sendMessage() {
       const userMessage = this.formData.inputMessage;
 
-      if (userMessage == '') {
+      if (userMessage.trim() === '') {
         this.$message({
           showClose: true,
           message: "请输入要问的问题",

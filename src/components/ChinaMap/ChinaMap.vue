@@ -4,8 +4,8 @@
   
   <script>
 import echarts from 'echarts';
-import { getGeoJson, getMapChartData } from '../views/knowledge/insuranceProducts/untils/index';
-import { getData, my_url, crm_url } from "../static/js/ajax.js";
+import { getGeoJson, getMapChartData } from './index';
+import { getData, my_url, crm_url } from "../../static/js/ajax.js";
 
 export default {
   name: 'ChinaMap',
@@ -202,7 +202,7 @@ export default {
               params.salesArea = that.adcode
             }
       
-            getData("get", my_url + "/crm/risk/getRiskList.do", (res) => {
+            getData("post", my_url + "/crm/risk/getRiskList.do", (res) => {
               if (res.total > 0) {
                 var mapData = {
                   name: data[index].name,

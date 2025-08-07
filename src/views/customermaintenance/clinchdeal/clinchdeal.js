@@ -48,7 +48,7 @@ export default {
       sumprem: "",
       sumfyp20: "",
       coefficientsumfyp20: "",
-      sumData:'',
+      sumData: "",
       //总数据
       ReportSum: "10",
       //筛选查询
@@ -66,6 +66,29 @@ export default {
       cusname: "", //客户姓名
       cusplanid: "渠道类型", //广告计划ID
       cusplanidBatchno: "", //广告计划ID，渠道类型，批次号的值
+      riskTypeList: [{
+        dd_key:"01",
+        dd_value:"意外险"
+      },{
+        dd_key:"02",
+        dd_value:"医疗险"
+      },{
+        dd_key:"03",
+        dd_value:"重疾险"
+      },{
+        dd_key:"04",
+        dd_value:"人寿险"
+      },{
+        dd_key:"05",
+        dd_value:"理财险"
+      },{
+        dd_key:"06",
+        dd_value:"车险"
+      },{
+        dd_key:"07",
+        dd_value:"其他"
+      }],
+      riskTypeValue:'',
 
       fuName: "业务员姓名",
       yefuName: "",
@@ -131,6 +154,8 @@ export default {
           dd_value: "港、澳、台通行证",
         },
       ],
+
+     
       //投保人
       applicantName: "", //投保人姓名
       applicantPhone: "", //投保人手机号
@@ -204,13 +229,13 @@ export default {
         {
           dd_value: "其他移交资源",
           dd_key: "04",
-        }
+        },
       ],
       risktype: "",
 
-      isuserList:false,
-      fentan_Nameuserid:'',
-      fentan_userid:'',
+      isuserList: false,
+      fentan_Nameuserid: "",
+      fentan_userid: "",
       //修改的唯一字符
       state: "",
       contserialno: "",
@@ -363,16 +388,15 @@ export default {
       }
     },
 
-
     resourceTypeValue(newVal, oldVal) {
-      if(newVal=='03'){
-         this.isuserList=true
-         this.fentan_Nameuserid=''
-      }else{ 
-        this.isuserList=false
-        this.fentan_Nameuserid=''
+      if (newVal == "03") {
+        this.isuserList = true;
+        this.fentan_Nameuserid = "";
+      } else {
+        this.isuserList = false;
+        this.fentan_Nameuserid = "";
       }
-    }
+    },
   },
   mounted: function () {
     this.getTeamList(); //选择团队
@@ -430,7 +454,7 @@ export default {
     //   // https://insure.meihualife.com/rights/getServiceCom.do
     // },
 
-    inputUserCancel() { },
+    inputUserCancel() {},
 
     checkedSure() {
       var _this = this;
@@ -447,7 +471,10 @@ export default {
             token: data.token,
             contno: this.incontno.trim(),
           };
-          getData( "post", crm_url + "insure.meihualife.com/crm_web/getOnePolicy.do", (data) => {
+          getData(
+            "post",
+            crm_url + "insure.meihualife.com/crm_web/getOnePolicy.do",
+            (data) => {
               for (var i = 0; i < data.rows.length; i++) {
                 if (data.rows[i].relatoapp == "00") {
                   this.inpeople = "是";
@@ -550,12 +577,15 @@ export default {
                 this.applicantAddress = item.appaddress; //投保人所在地址
 
                 this.channelValue = item.activitychannel;
-               
-                _this.channelSelect().then(() => {
-                  this.sourceValue = item.activityappname;
-                }).catch(err => {
-                  console.error(err);
-                });
+
+                _this
+                  .channelSelect()
+                  .then(() => {
+                    this.sourceValue = item.activityappname;
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                  });
               }
               // this.inSelectTime = moment().format("YYYY-MM-DD");
               // this.changeDate();
@@ -566,7 +596,7 @@ export default {
       });
     },
 
-    getDataAnalysis() { },
+    getDataAnalysis() {},
     //回访状态
     insrevisitstate() {
       getData(
@@ -896,7 +926,7 @@ export default {
           var params = {
             riskcode: item,
           };
-     
+
           getData(
             "post",
             my_url + "/crm/risk/getRiskType.do",
@@ -908,11 +938,6 @@ export default {
             },
             params
           );
-
-
-
-
-
         }
       });
     },
@@ -967,7 +992,9 @@ export default {
             isxubao: "NOTY",
             has_coefficient: "N",
             //  is_shanxilc:'N'
+            riskTypeStr: (this.riskTypeValue).join(','),
           };
+          console.log((this.riskTypeValue).join(','))
 
           // if(this.$store.state.userInfo.organcode=='100200101'){
           //   tabData.is_shanxilc="Y"
@@ -994,8 +1021,7 @@ export default {
                 _this.sumprem = data.sumData.sumprem != undefined ? data.sumData.sumprem : "0";
                 _this.sumfyp20 = data.sumData.sumfyp20 != undefined ? data.sumData.sumfyp20 : "0";
                 _this.coefficientsumfyp20 = data.sumData.coefficientsumfyp20 != undefined ? data.sumData.coefficientsumfyp20 : "0";
-                _this.sumData=data.sumData
-             
+                _this.sumData = data.sumData;
               }
             },
             tabData
@@ -1017,6 +1043,7 @@ export default {
       this.overviewForm.userid = "";
       this.policyStatus = "";
       this.searchChannel = "";
+      this.riskTypeValue = "";
       this.search(1);
     },
     //选择团队和业务人员
@@ -1170,7 +1197,7 @@ export default {
               resolve(data);
             } else {
               _this.isSource = false;
-              reject(new Error('获取字典列表失败'));
+              reject(new Error("获取字典列表失败"));
             }
           },
           {
@@ -1180,13 +1207,6 @@ export default {
         );
       });
     },
-    
-
-    
-
-
-
-
 
     // 投保人获取录单信息
     aapChangePhone() {
@@ -1587,13 +1607,12 @@ export default {
       return true;
     },
 
-
     fentanUserid(item) {
       // 选中后，将 key 赋给 fentan_Nameuserid
-      console.log(item)
+      console.log(item);
       this.fentan_Nameuserid = item.userid;
 
-      console.log( this.fentan_Nameuserid )
+      console.log(this.fentan_Nameuserid);
     },
 
     //添加数据
@@ -1616,9 +1635,8 @@ export default {
         this.insuredPhone = "";
       }
 
-
-      console.log(this.$store.state.userInfo.organcode=='100200101', this.risktype=='05', this.resourceTypeValue=='')
-      if(this.$store.state.userInfo.organcode=='100200101' && this.risktype=='05' && this.resourceTypeValue==''){
+      console.log(this.$store.state.userInfo.organcode == "100200101", this.risktype == "05", this.resourceTypeValue == "");
+      if (this.$store.state.userInfo.organcode == "100200101" && this.risktype == "05" && this.resourceTypeValue == "") {
         this.$message({
           showClose: true,
           message: "该产品为理财险,请选择理财资源来源后再提交",
@@ -1692,17 +1710,16 @@ export default {
                 delete data.shanxi_licai_type;
               }
 
-              if(this.resourceTypeValue=='03' && this.fentan_Nameuserid==''){
+              if (this.resourceTypeValue == "03" && this.fentan_Nameuserid == "") {
                 this.$message({
                   showClose: true,
-                  message:"请在资源来源中选择业务员姓名",
+                  message: "请在资源来源中选择业务员姓名",
                   duration: 3000,
                   type: "error",
                 });
-              }else{
-                data["fentan_userid"]=this.fentan_Nameuserid
+              } else {
+                data["fentan_userid"] = this.fentan_Nameuserid;
               }
-
 
               getData(
                 "post",
@@ -1817,18 +1834,17 @@ export default {
                   delete data.shanxi_licai_type;
                 }
 
-                if(this.resourceTypeValue=='03' && this.fentan_Nameuserid==''){
+                if (this.resourceTypeValue == "03" && this.fentan_Nameuserid == "") {
                   this.$message({
                     showClose: true,
-                    message:"请在资源来源中选择业务员姓名",
+                    message: "请在资源来源中选择业务员姓名",
                     duration: 3000,
                     type: "error",
                   });
-                }else{
-                  data["fentan_userid"]=this.fentan_Nameuserid
+                } else {
+                  data["fentan_userid"] = this.fentan_Nameuserid;
                 }
-  
-            
+
                 getData(
                   "post",
                   crm_url + "insure.meihualife.com/crm_web/lifePolicyUpdate.do",
@@ -1892,20 +1908,17 @@ export default {
                 delete body.shanxi_licai_type;
               }
 
-              if(this.resourceTypeValue=='03' && this.fentan_Nameuserid==''){
+              if (this.resourceTypeValue == "03" && this.fentan_Nameuserid == "") {
                 this.$message({
                   showClose: true,
-                  message:"请在资源来源中选择业务员姓名",
+                  message: "请在资源来源中选择业务员姓名",
                   duration: 3000,
                   type: "error",
                 });
-              }else{
-                body["fentan_userid"]=this.fentan_Nameuserid
+              } else {
+                body["fentan_userid"] = this.fentan_Nameuserid;
               }
 
-             
-
- 
               getData(
                 "post",
                 crm_url + "insure.meihualife.com/crm_web/policytransfer.do",
@@ -1981,7 +1994,7 @@ export default {
       var params = {
         riskcode: riskcode,
       };
-    
+
       getData(
         "post",
         my_url + "/crm/risk/getRiskType.do",
@@ -2155,8 +2168,8 @@ export default {
       this.birthData = "";
       this.insex = "";
 
-      this.resourceTypeValue=''
-      this.fentan_Nameuserid=''
+      this.resourceTypeValue = "";
+      this.fentan_Nameuserid = "";
     },
     //跳转页数
     pageClick(page) {
@@ -2277,11 +2290,14 @@ export default {
 
                 this.channelValue = item.activitychannel;
 
-                _this.channelSelect().then(() => {
-                  this.sourceValue = item.activityappname;
-                }).catch(err => {
-                  console.error(err);
-                });
+                _this
+                  .channelSelect()
+                  .then(() => {
+                    this.sourceValue = item.activityappname;
+                  })
+                  .catch((err) => {
+                    console.error(err);
+                  });
                 if (item.relatoapp == "00") {
                   this.inpeople = "是";
                   this.relatoapp = "00";

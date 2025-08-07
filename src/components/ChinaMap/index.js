@@ -1,5 +1,5 @@
-// import remoteLoad from './remoteLoad';
-const { AMapCDN, AMapUiCDN } = require('@/plugins/cdn');
+import { AMapCDN, AMapUiCDN } from './cdn.js';
+// const { AMapCDN, AMapUiCDN } = require('@/plugins/cdn');
 
 /**
  * 用于将地址后面的参数转换成对象返回

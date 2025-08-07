@@ -59,7 +59,7 @@
     </div>
   </div>
 </template>
-<script src="https://insure.meihualife.com//js/chatRecord/marked.min.js"></script>
+<script src="https://insure.meihualife.com/js/chatRecord/marked.min.js"></script>
 <script>
 import marked from "../../static/js/marked.min.js"
 import { getData, my_url, crm_url } from "../../static/js/ajax.js";
@@ -139,7 +139,7 @@ export default {
     async sendMessage() {
       const userMessage = this.formData.inputMessage;
 
-      if (userMessage == '') {
+      if (userMessage.trim() === '') {
         this.$message({
           showClose: true,
           message: "请输入要问的问题",

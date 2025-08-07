@@ -526,7 +526,6 @@ export default {
 
     // 选择群
     selectFirstName(item) {
-      console.log(item)
       this.oneitem = item
       if (item.qunid) {
         this.isfirstselect = item.qunid
@@ -654,7 +653,6 @@ export default {
             //   console.log(data[i], i, data.length)
             //   console.log(data[i].msgtype, i, data.length)
             // }
-            console.log(data[i].msgtype && data[i].msgtype == "link")
             if (data[i].msgtype && data[i].msgtype == "link") {
               var fileData = JSON.parse(data[i].text)
               data[i]["link_url"] = fileData.link_url
@@ -703,7 +701,6 @@ export default {
             if (searchmsg && searchmsg != '' && !_this.funhuiValue) {
               _this.requestSearchList.unshift(data[i])
 
-              console.log(_this.requestSearchList)
             } else if (_this.funhuiValue) {
               _this.requestDataList.unshift(data[i])//push 数据到数组中
             } else {

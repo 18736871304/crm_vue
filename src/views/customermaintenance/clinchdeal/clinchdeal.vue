@@ -28,11 +28,21 @@
           </div>
         </div>
 
-        <div class="common-select">
+        <div class="common-select" style="display: none;">
           <div class="select-title filtitle">渠道类型</div>
           <div class="select-content filContent">
             <el-select class="el-select-inners" v-model="searchChannel" size="mini" placeholder="请选择渠道类型" clearable>
               <el-option v-for="(item, index) in channelList" :key="index" :label="item.dd_value" :value="item.dd_key">
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+
+        <div class="common-select">
+          <div class="select-title filtitle">险种类型</div>
+          <div class="select-content filContent">
+            <el-select class="el-select-inners" v-model="riskTypeValue" size="mini" placeholder="请选择险种类型" multiple  collapse-tags  clearable>
+              <el-option v-for="(item, index) in riskTypeList" :key="index" :label="item.dd_value" :value="item.dd_key">
               </el-option>
             </el-select>
           </div>
@@ -144,11 +154,11 @@
           </template>
         </el-table-column>
 
-        <el-table-column key="4" align="center" prop="accepttime" label="出单日期" width="160" v-if="columnList.includes('accepttime')">
+        <el-table-column key="4" align="center" prop="accepttime" label="出单日期" width="160" :show-overflow-tooltip="true" v-if="columnList.includes('accepttime')">
         </el-table-column>
-        <el-table-column key="7" align="center" prop="reusername" label="出单业务员" width="100" v-if="columnList.includes('reusername')">
+        <el-table-column key="7" align="center" prop="reusername" label="出单业务员" width="100" :show-overflow-tooltip="true" v-if="columnList.includes('reusername')">
         </el-table-column>
-        <el-table-column key="8" align="center" prop="serviceusername" label="服务人员" width="100" v-if="columnList.includes('serviceusername')">
+        <el-table-column key="8" align="center" prop="serviceusername" label="服务人员" width="100" :show-overflow-tooltip="true" v-if="columnList.includes('serviceusername')">
         </el-table-column>
         <el-table-column key="9" align="center" prop="contno" label="保单号" width="150" :show-overflow-tooltip="true" v-if="columnList.includes('contno')">
 

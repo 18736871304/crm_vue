@@ -362,7 +362,6 @@ export default {
         setTimeout(() => {
           this.loading = false;
           this.SalesmanBox1 = this.SalesmanBoxList.filter(item => {
-            console.log(item)
             return item.value.toLowerCase()
               .indexOf(query.toLowerCase()) > -1;
           });

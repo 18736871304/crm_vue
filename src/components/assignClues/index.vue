@@ -74,7 +74,7 @@ export default {
       if (that.isSeal == 'Y') {
    
         that.istan = true
-        getData("post", my_url + " /crm/auth/isTimeLimit.do", function (data) {
+        getData("post", my_url + "/crm/auth/isTimeLimit.do", function (data) {
           if (data.code == '0') {
             var tan = data.istimelimit
             if (tan == 'false') {

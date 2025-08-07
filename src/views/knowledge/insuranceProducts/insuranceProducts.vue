@@ -349,7 +349,7 @@ import $ from "jquery";
 import "../../../static/js/viewer-jquery.min.js";
 import "../../../static/css/viewer.min.css";
 import { getData, getPhoneData, my_url, crm_url } from "../../../static/js/ajax.js";
-import ChinaMap from "../../../components/ChinaMap"
+import ChinaMap from "../../../components/ChinaMap/ChinaMap.vue"
 export default {
   components: { ChinaMap },
   data() {
@@ -769,7 +769,7 @@ export default {
       var _this = this;
       _this.riskcode = item.riskcode;
       _this.buztype = "0303";
-      _this.getRiskQuestionList(item);
+      _this.getRiskQuestionList(item.riskcode);
       if (_this.pageType == "01") {
         _this.dialogHotQuestionVisible = true;
       } else {
@@ -808,7 +808,7 @@ export default {
           }
         },
         {
-          riskcode: item.riskcode,
+          riskcode: item,
         }
       );
     },
@@ -881,14 +881,12 @@ export default {
           "post",
           my_url + "/crm/risk/riskCommQusetionAdd.do",
           function (data) {
-
             if (data.code == 0) {
               _this.$message({
                 type: "success",
                 duration: 3000,
                 message: "保存成功!",
               });
-
               _this.getRiskQuestionList(_this.riskcode);
             } else {
               _this.$message.error(data.msg);
@@ -912,6 +910,7 @@ export default {
               duration: 3000,
               message: "删除成功",
             });
+     
             _this.getRiskQuestionList(_this.riskcode);
           }
         },
@@ -934,6 +933,7 @@ export default {
               duration: 3000,
               message: "操作成功!",
             });
+    
             _this.getRiskQuestionList(_this.riskcode);
           }
         },
@@ -956,6 +956,8 @@ export default {
               duration: 3000,
               message: "操作成功!",
             });
+
+ 
             _this.getRiskQuestionList(_this.riskcode);
           }
         },
